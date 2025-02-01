@@ -24,10 +24,6 @@ def hash_value(data):
     sha256.update(str(data).encode('utf-8'))
     return sha256.hexdigest()
 
-def password_hash(password, salt, iterations=100000, dklen=64, hashfunc=hashlib.sha256):
-    key = password.encode('utf-8')
-    salt = salt.encode('utf-8')
-    return hashlib.pbkdf2_hmac(hashfunc().name, key, salt, iterations, dklen)
 
 
 def gen_user_token():
