@@ -1,0 +1,149 @@
+:root{
+    --code_text_red:#EFAB95;
+    --text_primary:#FFFFFF;
+    --text_secondary:#DEDEDE;
+    --background:#0D0E11;
+    --text_theme:#DCD6A4;
+    --background_secondary:#1c202b;
+    --background_tertiary:#242935;
+    --run_button:#495E48;
+    --on_run_button:#C7F0C5;
+    --submit_button:#5E5C48;
+    --on_submit_button:#F0ECC5;
+    --primary_button_background:#CCDFFF;
+    --primary_button_text:#29354B;
+    --secondary_button_background:#1c202b;
+    --secondary_button_text:#FFFFFF;
+    --navbar_select_background:#222e46;
+    --text_navbar_select:#87B5FF;
+}
+
+body,html{
+    background-color: var(--background);
+    color: var(--text_primary);
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+}
+
+.navSideBar{
+    width: 192px;
+    height: 100vh;
+    background-color: var(--background_secondary);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transition: .15s ease-in-out width;
+}
+
+.minimize{
+    width: 64px !important;
+}
+
+.minimize > .navbarTitle > span{
+    display: none;
+}
+
+.minimize > .navbarTitle{
+    justify-content: center;
+}
+
+.navbarTitle{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding:20px 16px;
+    box-sizing: border-box;
+}
+
+.navbarTitle > span{
+    display: flex;
+    align-items: center;
+    gap:8px;
+}
+
+.navbarTitle > span > svg{
+    width: 18px;
+    height: 18px;
+}
+
+.minimizeNavBarButton{
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.minimizeNavBarButton > svg{
+    width: 20px;
+    height: 20px;
+}
+
+.pageMenu{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 17px;
+    box-sizing: border-box;
+}
+
+.pageMenu > a{
+    text-decoration: none;
+    color: var(--text_secondary);
+    display: flex;
+    align-items: center;
+    gap:8px;
+    font-size: 14px;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* .pageMenu > a > span:not(.minimize > .pageMenu > a > span){
+    animation: status_text_load .4s;
+} */
+
+.pageMenu > a > svg{
+    width: 18px;
+    height: 18px;
+}
+
+.pageMenuCurrentPage{
+    background-color: var(--navbar_select_background);
+    color: var(--text_navbar_select) !important;
+}
+
+.pageMenuCurrentPage > svg > path{
+    fill: var(--text_navbar_select);
+}
+
+.minimize > .pageMenu{
+    padding: 16px 17px;
+}
+
+.minimize > .pageMenu > a{
+    padding: 6px;
+}
+
+.minimize > .pageMenu > a > span{
+    display: none;
+}
+
+@keyframes status_text_load{
+    0%{
+        opacity: 0;
+        display: none;
+    }
+    30%{
+        opacity: 0;
+        display: none;
+    }
+    100%{
+        opacity: 1;
+        display: inline-block;
+    }
+    
+}

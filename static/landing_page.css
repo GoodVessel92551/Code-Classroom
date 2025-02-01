@@ -1,0 +1,165 @@
+:root{
+    --code_text_red:#EFAB95;
+    --text_primary:#FFFFFF;
+    --text_secondary:#DEDEDE;
+    --background:#0D0E11;
+    --text_theme:#DCD6A4;
+    --background_secondary:#1c202b;
+    --background_tertiary:#242935;
+    --run_button:#495E48;
+    --on_run_button:#C7F0C5;
+    --submit_button:#5E5C48;
+    --on_submit_button:#F0ECC5;
+    --primary_button_background:#CCDFFF;
+    --primary_button_text:#29354B;
+    --secondary_button_background:#1c202b;
+    --secondary_button_text:#FFFFFF;
+}
+
+body,html{
+    background-color: var(--background);
+    color: var(--text_primary);
+    margin: 0px;
+    padding: 0px;
+}
+
+.loginWithGoogle{
+    background-color: var(--primary_button_background);
+    color: var(--primary_button_text);
+    height: 44px;
+    border-radius: 16px;
+    border:none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    padding:0px 24px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.landingPageNavBarTitle{
+    font-size: 14px;
+    font-weight: 600;
+    margin:0px
+}
+
+.primaryButton{
+    background-color: var(--primary_button_background);
+    color: var(--primary_button_text);
+    height: 32px;
+    border-radius: 16px;
+    border:none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding:0px 12px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+}
+
+.primaryButton > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.primaryButton > svg > path{
+    fill: var(--primary_button_text);
+}
+
+
+.secondaryButton{
+    background-color: var(--secondary_button_background);
+    color: var(--secondary_button_text);
+    height: 32px;
+    border-radius: 16px;
+    border:none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding:0px 12px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+}
+
+.secondaryButton > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.secondaryButton > svg > path{
+    fill: var(--secondary_button_text);
+}
+
+*{
+    font-family: "Lexend", sans-serif;
+}
+
+.landingPageNavBarButtons{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 16px;
+    margin-left:auto;
+}
+
+.landingPageNavBar{
+    position: absolute;
+    background-color: var(--background);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding:24px 24px;
+    box-sizing: border-box;
+}
+
+
+.title_code_text{
+    font-family: "IBM Plex Mono", monospace;
+    color:var(--code_text_red);
+    font-weight: 400;
+}
+
+.landing_page_title{
+    font-size: 40px;
+    margin:0px;
+}
+
+.small_title_top_right{
+    color:var(--text_secondary);
+    font-size: 14px;
+    margin: 32px;
+}
+
+.landing_page_description{
+    color:var(--text_secondary);
+    font-size: 16px;
+    margin: 0px;
+    max-width: 430px;
+}
+
+.landing_page_title_container{
+    display: flex;
+    gap:24px;
+    flex-direction: column;
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    left:64px;
+}
+
+.landing_page_create_account_container{
+    position: absolute;
+    bottom: 64px;
+    left:64px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
