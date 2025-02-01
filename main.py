@@ -4,79 +4,10 @@ import os
 from flask import Flask, render_template, request, jsonify,redirect,session
 import requests ,json
 from oauthlib.oauth2 import WebApplicationClient
+import fun
 from datetime import timedelta 
 
 load_dotenv(override=True, interpolate=False)
-
-import hashlib
-import random
-from flask import session
-from dotenv import load_dotenv
-from pymongo import MongoClient
-import os
-
-client = MongoClient(os.getenv('mongo_url'))
-db = client["Booogle_Revise"]
-global_data_db = db["Code_Global"]
-user_data_db = db["Code_User"]
-
-def hash_value(data):
-    """
-    Calculates the SHA-256 hash value of the given data.
-
-    Args:
-        data: The data to be hashed.
-
-    Returns:
-        The SHA-256 hash value of the data as a hexadecimal string.
-    """
-    sha256 = hashlib.sha256()
-    sha256.update(str(data).encode('utf-8'))
-    return sha256.hexdigest()
-
-def login():
-    if session.get("token"):
-        keys = global_data_db.find_one({"name":"B-KEYS"})
-        if str(hash_value(session.get("token"))) in keys["data"]:
-            return True
-    return False
-
-def gen_user_token():
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    token = ""
-    for i in range(20):
-        token += random.choice(chars)
-    return token
-
-
-def create_account_google(username,id):
-    ids = global_data_db.find_one({"name":"usernames"})["data"]
-    if str(id) in ids:
-        pass
-    else:
-        user_data = {"username":username,"id":id,"type":"google","data":{}}
-        user_data_db.insert_one(user_data)
-        query = {"name":"usernames"}
-        update = {"$push":{"data":id}}
-        global_data_db.update_one(query, update)
-    user_token = gen_user_token()
-    session["token"] = user_token
-    query = {"name":"B-KEYS"}
-    update = {"$set":{f"data.{hash_value(user_token)}":id}}
-    global_data_db.update_one(query, update)
-
-
-def get_id():
-    keys = global_data_db.find_one({"name":"B-KEYS"})
-    id = keys["data"][str(hash_value(session.get("token")))]
-    return id
-
-
-def get_username():
-    print(get_id())
-    username = user_data_db.find_one({"id":str(get_id())})["username"]
-    return username
-    
 
 client = MongoClient(os.getenv('mongo_url'))
 db = client["Booogle_Revise"]
@@ -99,25 +30,27 @@ def get_google_provider_cfg():
 
 @app.route("/")
 def home():
-    return "Test"
-
-# @app.route("/")
-# def home():
-#     if fun.login():
-#         return render_template("index.html",username=fun.get_username(),page="home")
-#     return render_template("landing_page.html")
+    if fun.login():
+        return render_template("index.html",username=fun.get_username(),page="home")
+    return render_template("landing_page.html")
 
 @app.route("/notifications")
 def notifications():
-    if login():
-        return render_template("notifications.html",username=get_username(),page="notifications")
+    if fun.login():
+        return render_template("notifications.html",username=fun.get_username(),page="notifications")
     return render_template("landing_page.html")
 
 @app.route("/code")
 def code():
-    if login():
-        return render_template("index.html",username=get_username(),page="quick code")
+    if fun.login():
+        return render_template("index.html",username=fun.get_username(),page="quick code")
     return render_template("landing_page.html")
+
+
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
 
 @app.route("/call")
 def call():
@@ -129,6 +62,18 @@ def call():
         scope=["openid", "email", "profile"],
     )
     return redirect(request_uri)
+
+@app.route("/signup",methods=["POST","GET"])
+def signup():
+    if request.method == "POST":
+        username = request.form['username']
+        password = fun.password_hash(request.form['password'],os.getenv("salt"))
+        password2 = fun.password_hash(request.form["password2"],os.getenv("salt"))
+        if password == password2:
+            print("password match")
+        else:
+            print("password not match")
+    return render_template("signup.html")
 
 @app.route("/login/callback",methods=["POST","GET"])
 def callback():
@@ -161,14 +106,15 @@ def callback():
         users_name = userinfo_response.json()["given_name"]
     else:
         return "User email not available or not verified by Google.", 400
-    create_account_google(users_name,unique_id)
+    fun.create_account_google(users_name,unique_id)
     return redirect("/")
 
 
 
 
 
-app.run(host="0.0.0.0",port=5000,debug=True) 
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
 
