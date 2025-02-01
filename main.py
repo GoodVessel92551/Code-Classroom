@@ -30,9 +30,13 @@ def get_google_provider_cfg():
 
 @app.route("/")
 def home():
-    if fun.login():
-        return render_template("index.html",username=fun.get_username(),page="home")
-    return render_template("landing_page.html")
+    return "Test"
+
+# @app.route("/")
+# def home():
+#     if fun.login():
+#         return render_template("index.html",username=fun.get_username(),page="home")
+#     return render_template("landing_page.html")
 
 @app.route("/notifications")
 def notifications():
