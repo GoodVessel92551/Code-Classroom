@@ -128,20 +128,30 @@ body{
 
 .navSideBar{
     min-width: 224px;
+    max-width: 224px;
     height: 100vh;
     background-color: var(--background_secondary);
     display: flex;
     flex-direction: column;
     z-index: 100;
-    transition: .15s ease-in-out min-width;
+    transition: .1s ease-in-out min-width,max-width;
+    overflow: hidden;
 }
 
 .minimize{
     min-width: 64px !important;
+    max-width: 64px !important;
+}
+
+.navbarTitle > span{
+    max-width: 100%;
+    overflow: hidden;
+    transition: .15s ease-in-out max-width;
 }
 
 .minimize > .navbarTitle > span{
     display: none;
+    max-width: 0%;
 }
 
 .minimize > .navbarTitle{
@@ -188,6 +198,8 @@ body{
     gap: 8px;
     padding: 16px 17px;
     box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
 }
 
 .pageMenu > a{
@@ -200,6 +212,7 @@ body{
     padding: 6px;
     border-radius: 8px;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .pageMenu > a > span{
