@@ -48,11 +48,19 @@ def code():
 
 @app.route("/call")
 def call():
+    host = request.host  # Example: "code.booogle.app"
+    subdomain = host.split('.')[0]
+    if subdomain == "devcode":
+        redirect_url = "https://devcode.booogle.app/login/callback"
+    elif subdomain == "code-dev":
+        redirect_url = "https://code_dev.booogle.app/login/callback"
+    else:
+        redirect_url = "https://code.booogle.app/login/callback"
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri="https://code.booogle.app/login/callback",
+        redirect_uri=redirect_url,
         scope=["openid", "email", "profile"],
     )
     return redirect(request_uri)
