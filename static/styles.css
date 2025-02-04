@@ -5,7 +5,7 @@
     --background:#0D0E11;
     --text_theme:#DCD6A4;
     --background_secondary:#1c202b;
-    --background_tertiary:#242935;
+    --background_tertiary:#32394b;
     --run_button:#495E48;
     --on_run_button:#C7F0C5;
     --submit_button:#5E5C48;
@@ -16,6 +16,10 @@
     --secondary_button_text:#FFFFFF;
     --navbar_select_background:#222e46;
     --text_navbar_select:#87B5FF;
+    --yellowButtonBackground:#FFF3CC;
+    --yellowButtonText:#4B4729;
+    --redButtonBackground:#FFCCCC;
+    --redButtonText:#4B2929;
 }
 
 body,html{
@@ -23,25 +27,131 @@ body,html{
     color: var(--text_primary);
     margin: 0px;
     padding: 0px;
+}
+
+*{
+    font-family: "Lexend", sans-serif;
+}
+
+body{
     display: flex;
 }
 
+.primaryButton{
+    background-color: var(--primary_button_background);
+    color: var(--primary_button_text);
+    height: 36px;
+    border-radius: 20px;
+    border:none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding:0px 12px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.primaryButton > svg{
+    width: 18px;
+    height: 18px;
+}
+
+.primaryButton > svg > path{
+    fill: var(--primary_button_text);
+}
+
+.yellow{
+    background-color: var(--yellowButtonBackground);
+    color: var(--yellowButtonText);
+}
+
+.red{
+    background-color: var(--redButtonBackground);
+    color: var(--redButtonText);
+}
+
+
+.secondaryButton{
+    background-color: var(--secondary_button_background);
+    color: var(--secondary_button_text);
+    height: 36px;
+    border-radius: 20px;
+    border:none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding:0px 12px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.secondaryButton > svg{
+    width: 18px;
+    height: 18px;
+}
+
+.secondaryButton > svg > path{
+    fill: var(--secondary_button_text);
+}
+
+.tertiaryButton{
+    background-color: var(--background_tertiary);
+    color: var(--text_secondary);
+    height: 36px;
+    border-radius: 20px;
+    border:none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding:0px 12px;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.tertiaryButton > svg{
+    width: 18px;
+    height: 18px;
+}
+
+.tertiaryButton > svg > path{
+    fill: var(--text_secondary);
+}
+
 .navSideBar{
-    width: 192px;
+    min-width: 224px;
+    max-width: 224px;
     height: 100vh;
     background-color: var(--background_secondary);
     display: flex;
     flex-direction: column;
     z-index: 100;
-    transition: .15s ease-in-out width;
+    transition: .1s ease-in-out min-width,max-width;
+    overflow: hidden;
 }
 
 .minimize{
-    width: 64px !important;
+    min-width: 64px !important;
+    max-width: 64px !important;
+}
+
+.navbarTitle > span{
+    max-width: 100%;
+    overflow: hidden;
+    transition: .15s ease-in-out max-width;
 }
 
 .minimize > .navbarTitle > span{
     display: none;
+    max-width: 0%;
 }
 
 .minimize > .navbarTitle{
@@ -88,6 +198,8 @@ body,html{
     gap: 8px;
     padding: 16px 17px;
     box-sizing: border-box;
+    overflow: hidden;
+    width: 100%;
 }
 
 .pageMenu > a{
@@ -97,9 +209,15 @@ body,html{
     align-items: center;
     gap:8px;
     font-size: 14px;
-    padding: 6px 8px;
+    padding: 6px;
     border-radius: 8px;
     cursor: pointer;
+    overflow: hidden;
+}
+
+.pageMenu > a > span{
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 /* .pageMenu > a > span:not(.minimize > .pageMenu > a > span){
@@ -147,3 +265,157 @@ body,html{
     }
     
 }
+
+main{
+    padding:32px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.pageTitleDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+}
+
+.pageTitleDiv > h1{
+    margin: 0px;
+    font-size: 24px;
+    margin:4px 0px
+}
+
+.pageTitleSearchBar{
+    background-color: var(--background_secondary);
+    padding:8px 16px;
+    display: flex;
+    gap: 8px;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.pageTitleSearchBar > input{
+    height: 20px;
+    border:none;
+    padding: 0px;
+    background:none;
+    color:var(--text_primary);
+    width: 400px;
+}
+
+.pageTitleSearchBar > input:focus{
+    outline: none;
+}
+
+.pageTitleSearchBar:has(input:focus){
+    background-color: var(--background_tertiary) !important;
+}
+
+.pageTitleDivButtons{
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.classesContainer{
+    width: 100%;
+    height: 64px;
+    margin-top:32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.classesContainer > a{
+    width: 315px;
+    display: block;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: var(--background_secondary);
+    position: relative;
+}
+
+.classesContainer > a > img{
+    width: 100%;
+    height: 125px;
+    object-fit: cover;
+}
+
+.pills{
+    position: absolute;
+    top:12px;
+    right:12px;
+    height:24px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 8px;
+}
+
+.pills > span{
+    height: 100%;
+    border-radius: 16px;
+    background-color: #0000005d;
+    backdrop-filter: blur(5px);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 12px;
+    gap:8px;
+
+}
+
+.pills > span > svg{
+    width: 14px;
+    height: 14px;
+    fill: var(--text_primary);
+}
+
+.textContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    padding:16px;
+}
+
+.textContainer > span > h3{
+    margin: 0px;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--text_primary);
+}
+
+.textContainer > span > p{
+    margin: 0px;
+    font-size: 12px;
+    color: var(--text_secondary);
+}
+
+.textContainer > svg{
+    width: 20px;
+    height: 20px;
+    margin-bottom: auto;
+    cursor: pointer;
+}
+
+.textContainerbuttons{
+    display: flex;
+    gap: 8px;
+    margin:0px 16px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+}
+
+.textContainerbuttons > .primaryButton{
+    width: 100%;
+}
+
+.textContainerbuttons > button:not(.primaryButton){
+    width: 150px !important;
+}
+

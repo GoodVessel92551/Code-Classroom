@@ -43,37 +43,27 @@ def notifications():
 @app.route("/code")
 def code():
     if fun.login():
-        return render_template("index.html",username=fun.get_username(),page="quick code")
+        return render_template("code.html",username=fun.get_username(),page="quick code")
     return render_template("landing_page.html")
-
-
-
-@app.route("/login")
-def login():
-    return render_template("login.html")
 
 @app.route("/call")
 def call():
+    host = request.host  # Example: "code.booogle.app"
+    subdomain = host.split('.')[0]
+    if subdomain == "devcode":
+        redirect_url = "https://devcode.booogle.app/login/callback"
+    elif subdomain == "code-dev":
+        redirect_url = "https://code_dev.booogle.app/login/callback"
+    else:
+        redirect_url = "https://code.booogle.app/login/callback"
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri="https://code.booogle.app/login/callback",
+        redirect_uri=redirect_url,
         scope=["openid", "email", "profile"],
     )
     return redirect(request_uri)
-
-@app.route("/signup",methods=["POST","GET"])
-def signup():
-    if request.method == "POST":
-        username = request.form['username']
-        password = fun.password_hash(request.form['password'],os.getenv("salt"))
-        password2 = fun.password_hash(request.form["password2"],os.getenv("salt"))
-        if password == password2:
-            print("password match")
-        else:
-            print("password not match")
-    return render_template("signup.html")
 
 @app.route("/login/callback",methods=["POST","GET"])
 def callback():
