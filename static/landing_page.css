@@ -4,12 +4,12 @@
     --text_secondary:#DEDEDE;
     --background:#0D0E11;
     --text_theme:#DCD6A4;
-    --background_secondary:#1c202b;
+    --background_secondary:#1a1d26;
     --background_tertiary:#242935;
     --run_button:#495E48;
     --on_run_button:#C7F0C5;
-    --submit_button:#5E5C48;
-    --on_submit_button:#F0ECC5;
+    --clear_button:#4B2929;
+    --on_clear_button:#F0C5C5;
     --primary_button_background:#CCDFFF;
     --primary_button_text:#29354B;
     --secondary_button_background:#1c202b;
@@ -149,17 +149,178 @@ body,html{
     display: flex;
     gap:24px;
     flex-direction: column;
-    position: absolute;
-    top:50%;
-    transform: translateY(-50%);
-    left:64px;
 }
 
 .landing_page_create_account_container{
-    position: absolute;
-    bottom: 64px;
-    left:64px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.codeEditor{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: auto;
+
+}
+
+.codeEditor > div{
+    background-color: var(--background_secondary);
+    width: 376px;
+    height: 268px;
+    border-radius: 32px 0px 0px 32px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.codeEditorButtons{
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+}
+
+.codeEditorButtons > span{
+    background-color: var(--background_tertiary);
+    padding: 7px 15px;
+    border-radius: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.codeEditorButtons > button{
+    border-radius: 32px;
+    border:none;
+    padding: 7px 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.codeEditorClear{
+    background-color: var(--clear_button);
+    color: var(--on_clear_button);
+}
+
+.codeEditorRunButton{
+    background-color: var(--run_button);
+    color: var(--on_run_button);
+}
+
+.codeEditorInput{
+    width: 100%;
+    height: 100%;
+    border:none;
+    box-sizing: border-box;
+    padding:0px 16px 16px 16px;
+    background-color: var(--background_secondary);
+    color: var(--text_primary);
+    font-family: "IBM Plex Mono", monospace;
+    resize: none;
+}
+
+.codeEditorInput:focus{
+    outline:none;
+}
+
+.landingPageMainContainer{
+    display: flex;
+    width: 100%;
+    height:auto;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    padding: 0px;
+    flex-direction: row;
+    padding-left: 64px;
+    box-sizing: border-box;
+}
+
+.landingPageTitleLoginContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.lowerPageContainer{
+    top:100vh;
+    position: absolute;
+    width: 100%;
+    padding:0px 64px 64px 64px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.whyUseSectionContainer{
+    width: 100%;
+    height:200px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.whyUseSectionContainer > h3{
+    margin:0px;
+}
+
+.whyUseRessonsContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    width: 100%;
+}
+
+.whyuseRessonContainer{
+    background-color: var(--background_secondary);
+    padding:16px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap:12px;
+}
+
+.whyuseRessonContainer > .titleBar{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+.whyuseRessonContainer > .titleBar > strong{
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text_primary);
+}
+
+.whyuseRessonContainer > p{
+    font-size: 14px;
+    color: var(--text_secondary);
+    margin:0px;
+}
+
+.impoveTeachingFlowContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.impoveTeachingFlowContainer > h3{
+    margin: 0px;
+}
+
+.impoveTeachingFlowContainer > p{
+    color: var(--text_secondary);
+    font-size: 14px;
+    margin: 0px;
 }
