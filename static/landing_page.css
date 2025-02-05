@@ -328,3 +328,95 @@ body,html{
     font-size: 14px;
     margin: 0px;
 }
+
+.topPublicClassesContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.topPublicClassesContainer > h3{
+    margin:0px;
+}
+
+.publicClassesContainer{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+}
+
+.publicClassesContainer > a{
+    width: 100%;
+    display: block;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: var(--background_secondary);
+    position: relative;
+}
+
+.publicClassesContainer > a > img{
+    width: 100%;
+    height: 125px;
+    object-fit: cover;
+}
+
+.pills{
+    position: absolute;
+    top:12px;
+    right:12px;
+    height:24px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 8px;
+}
+
+.pills > span{
+    height: 100%;
+    border-radius: 16px;
+    background-color: #0000005d;
+    backdrop-filter: blur(5px);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 12px;
+    gap:8px;
+
+}
+
+.pills > span > svg{
+    width: 14px;
+    height: 14px;
+    fill: var(--text_primary);
+}
+
+.textContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    padding:16px;
+}
+
+.textContainer > span > h3{
+    margin: 0px;
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--text_primary);
+}
+
+.textContainer > span > p{
+    margin: 0px;
+    font-size: 12px;
+    color: var(--text_secondary);
+}
+
+.textContainer > svg{
+    width: 20px;
+    height: 20px;
+    margin-bottom: auto;
+    cursor: pointer;
+}

@@ -25,6 +25,13 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=365)
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
+public_classes_placeholders = [
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green","status":"Verified"}},
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink","status":"Verified"}},
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"blue","status":"Verified"}}
+]
+
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
@@ -32,13 +39,13 @@ def get_google_provider_cfg():
 def home():
     if fun.login():
         return render_template("index.html",username=fun.get_username(),page="home")
-    return render_template("landing_page.html")
+    return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/notifications")
 def notifications():
     if fun.login():
         return render_template("notifications.html",username=fun.get_username(),page="notifications")
-    return render_template("landing_page.html")
+    return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/code")
 def code():
@@ -48,7 +55,7 @@ def code():
 
 @app.route("/call")
 def call():
-    host = request.host  # Example: "code.booogle.app"
+    host = request.host
     subdomain = host.split('.')[0]
     if subdomain == "devcode":
         redirect_url = "https://devcode.booogle.app/login/callback"
