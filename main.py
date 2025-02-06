@@ -38,7 +38,8 @@ def get_google_provider_cfg():
 @app.route("/")
 def home():
     if fun.login():
-        return render_template("index.html",username=fun.get_username(),page="home")
+        return "Hello ",fun.get_username()
+        #return render_template("index.html",username=fun.get_username(),page="home")
     return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/faq")
