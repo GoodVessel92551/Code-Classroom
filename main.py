@@ -25,20 +25,32 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=365)
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
+public_classes_placeholders = [
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green","status":"Verified"}},
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink","status":"Verified"}},
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"blue","status":"Verified"}}
+]
+
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 @app.route("/")
 def home():
     if fun.login():
-        return render_template("index.html",username=fun.get_username(),page="home")
-    return render_template("landing_page.html")
+        return "Hello,"+fun.get_username()
+        #return render_template("index.html",username=fun.get_username(),page="home")
+    return render_template("landing_page.html",publicClasses=public_classes_placeholders)
+
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
 
 @app.route("/notifications")
 def notifications():
     if fun.login():
         return render_template("notifications.html",username=fun.get_username(),page="notifications")
-    return render_template("landing_page.html")
+    return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/code")
 def code():
@@ -48,12 +60,12 @@ def code():
 
 @app.route("/call")
 def call():
-    host = request.host  # Example: "code.booogle.app"
+    host = request.host
     subdomain = host.split('.')[0]
     if subdomain == "devcode":
         redirect_url = "https://devcode.booogle.app/login/callback"
     elif subdomain == "code-dev":
-        redirect_url = "https://code_dev.booogle.app/login/callback"
+        redirect_url = "https://code-dev.booogle.app/login/callback"
     else:
         redirect_url = "https://code.booogle.app/login/callback"
     google_provider_cfg = get_google_provider_cfg()
