@@ -32,13 +32,19 @@ public_classes_placeholders = [
     {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"blue","status":"Verified"}}
 ]
 
+classes_placeholders = [
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red"}},
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green"}},
+    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink"}},
+]
+
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 @app.route("/")
 def home():
     if fun.login():
-        return render_template("index.html",username=fun.get_username(),page="home")
+        return render_template("index.html",username=fun.get_username(),page="home",classes=classes_placeholders)
     return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/faq")
