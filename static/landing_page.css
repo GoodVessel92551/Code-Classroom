@@ -115,7 +115,6 @@ body,html{
 
 .landingPageNavBar{
     position: absolute;
-    background-color: var(--background);
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -419,4 +418,25 @@ body,html{
     height: 20px;
     margin-bottom: auto;
     cursor: pointer;
+}
+
+.landingPageBlueOnBackground{
+    background-color: #2A3B59;
+    filter:blur(80px);
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+.landingPageBlueOnBackground1{
+    position: absolute;
+    top:30vh;
+    left:20vw;
+}
+
+.landingPageBlueOnBackground2{
+    position: absolute;
+    top:10vh;
+    left:80vw;
+    z-index: -1;
 }

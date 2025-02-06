@@ -60,7 +60,7 @@ def call():
     if subdomain == "devcode":
         redirect_url = "https://devcode.booogle.app/login/callback"
     elif subdomain == "code-dev":
-        redirect_url = "https://code_dev.booogle.app/login/callback"
+        redirect_url = "https://code-dev.booogle.app/login/callback"
     else:
         redirect_url = "https://code.booogle.app/login/callback"
     google_provider_cfg = get_google_provider_cfg()
