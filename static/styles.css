@@ -213,11 +213,31 @@ body{
     border-radius: 8px;
     cursor: pointer;
     overflow: hidden;
+    user-select: none;
 }
 
 .pageMenu > a > span{
     white-space: nowrap;
     overflow: hidden;
+}
+
+.pageMenu > a > i{
+    margin-left: auto;
+    transform: rotate(0deg);
+    transition: .15s ease-in-out transform;
+}
+
+.pageMenu > a > i > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.pageMenu > a > i > svg > path{
+    background-color: var(--text_secondary);
+}
+
+.optionContainerNavBarButtonActive  > i{
+    transform: rotate(180deg) !important;
 }
 
 /* .pageMenu > a > span:not(.minimize > .pageMenu > a > span){
@@ -449,6 +469,29 @@ main{
 }
 
 .bottomNavButtons > a > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.optionContainerNavBar{
+    display: flex;
+    padding-left:16px;
+    gap:8px;
+    flex-direction: column;
+}
+
+.optionContainerNavBar > a{
+    height:30px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    width: 100%;   
+    gap:8px;
+    font-size: 14px;
+    color: var(--text_secondary);
+}
+
+.optionContainerNavBar > a > svg{
     width: 16px;
     height: 16px;
 }
