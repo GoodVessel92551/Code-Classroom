@@ -213,11 +213,31 @@ body{
     border-radius: 8px;
     cursor: pointer;
     overflow: hidden;
+    user-select: none;
 }
 
 .pageMenu > a > span{
     white-space: nowrap;
     overflow: hidden;
+}
+
+.pageMenu > a > i{
+    margin-left: auto;
+    transform: rotate(0deg);
+    transition: .15s ease-in-out transform;
+}
+
+.pageMenu > a > i > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.pageMenu > a > i > svg > path{
+    background-color: var(--text_secondary);
+}
+
+.optionContainerNavBarButtonActive  > i{
+    transform: rotate(180deg) !important;
 }
 
 /* .pageMenu > a > span:not(.minimize > .pageMenu > a > span){
@@ -329,6 +349,15 @@ main{
     gap: 16px;
 }
 
+.classesContainer{
+    width: 100%;
+    height: 64px;
+    margin-top:32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
 .classesContainer > a{
     width: 315px;
     display: block;
@@ -419,3 +448,50 @@ main{
     width: 150px !important;
 }
 
+.bottomNavButtons{
+    height:64px;
+    width: 100%;
+    margin-top: auto;
+    padding:16px;
+    display: flex;
+    box-sizing: border-box;
+    gap:8px;
+}
+
+.bottomNavButtons > a{
+    background-color: var(--background_tertiary);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.bottomNavButtons > a > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.optionContainerNavBar{
+    display: flex;
+    padding-left:16px;
+    gap:8px;
+    flex-direction: column;
+}
+
+.optionContainerNavBar > a{
+    height:30px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    width: 100%;   
+    gap:8px;
+    font-size: 14px;
+    color: var(--text_secondary);
+}
+
+.optionContainerNavBar > a > svg{
+    width: 16px;
+    height: 16px;
+}
