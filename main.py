@@ -49,7 +49,7 @@ def home():
 
 @app.route("/faq")
 def faq():
-    return render_template("faq.html")
+    return render_template("FAQ.html")
 
 @app.route("/notifications")
 def notifications():
