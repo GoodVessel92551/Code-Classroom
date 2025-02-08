@@ -54,13 +54,13 @@ def faq():
 @app.route("/notifications")
 def notifications():
     if fun.login():
-        return render_template("notifications.html",username=fun.get_username(),page="notifications")
+        return render_template("notifications.html",username=fun.get_username(),page="notifications",classes=classes_placeholders)
     return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/code")
 def code():
     if fun.login():
-        return render_template("code.html",username=fun.get_username(),page="quick code")
+        return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
     return render_template("landing_page.html")
 
 @app.route("/call")
