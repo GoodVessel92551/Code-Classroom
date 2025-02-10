@@ -9,6 +9,8 @@
     --run_button:#495E48;
     --on_run_button:#C7F0C5;
     --submit_button:#5E5C48;
+    --clear_button:#4B2929;
+    --on_clear_button:#F0C5C5;
     --on_submit_button:#F0ECC5;
     --primary_button_background:#CCDFFF;
     --primary_button_text:#29354B;
@@ -290,6 +292,8 @@ main{
     padding:32px;
     box-sizing: border-box;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .pageTitleDiv{
@@ -494,4 +498,71 @@ main{
 .optionContainerNavBar > a > svg{
     width: 16px;
     height: 16px;
+}
+
+.mainQuickCode{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap:8px;
+    flex-direction: row;
+}
+
+.mainQuickCode > div{
+    height: 100%;
+    width: 100%;
+    background-color: var(--background_secondary);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.codeEditorTopBar{
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+}
+
+.codeEditorTopBar > span{
+    background-color: var(--background_tertiary);
+    padding: 7px 15px;
+    border-radius: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.codeEditorTopBar > button{
+    border-radius: 32px;
+    border:none;
+    padding: 7px 15px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    font-size: 16px;
+}
+
+.codeEditorClear{
+    background-color: var(--clear_button);
+    color: var(--on_clear_button);
+}
+
+.codeEditorRunButton{
+    background-color: var(--run_button);
+    color: var(--on_run_button);
+}
+
+#editor{
+    height:100%;
+    width: 100%;
+}
+
+#editor .monaco-editor {
+    font-family: "IBM Plex Mono", monospace !important;
+    background-color: var(--background_secondary) !important; /* Custom background color */
 }
