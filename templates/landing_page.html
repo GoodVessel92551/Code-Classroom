@@ -74,7 +74,9 @@
                             Run                            
                         </button>
                 </div>
-                <textarea class="codeEditorInput"></textarea>
+                <div id="editor">
+
+                </div>
             </div>
             <div class="codeEditorConsole">
                 <div class="codeEditorButtons">
@@ -172,6 +174,32 @@
             publicClassesContainer.appendChild(classContainer);
         });
     </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script>
+        require.config({ 
+            paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }
+        });
+
+        require(["vs/editor/editor.main"], function () {
+            monaco.editor.defineTheme('myDarkTheme', {
+                base: 'vs-dark', // Use dark mode as a base
+                inherit: true,
+                rules: [], // You can define syntax highlighting rules here
+                colors: {
+                    'editor.background': '#1c202b', // Change to your desired background color
+                    'editor.foreground': '#ffffff'  // Optional: Adjust text color
+                }
+            });
+
+            monaco.editor.setTheme('myDarkTheme'); // Apply the theme
+
+            monaco.editor.create(document.getElementById("editor"), {
+                value: "print('Hello, world!')",
+                language: "python",
+                theme: "myDarkTheme" // Apply custom theme
+            });
+        });
+</script>
 </body>
 
 </html>

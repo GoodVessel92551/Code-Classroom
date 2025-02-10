@@ -474,3 +474,13 @@ body,html{
     left:80vw;
     z-index: -1;
 }
+
+#editor{
+    height:100%;
+    width: 100%;
+}
+
+#editor .monaco-editor {
+    font-family: "IBM Plex Mono", monospace !important;
+    background-color: var(--background_secondary) !important; /* Custom background color */
+}
