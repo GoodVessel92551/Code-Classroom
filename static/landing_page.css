@@ -474,3 +474,33 @@ body,html{
     left:80vw;
     z-index: -1;
 }
+
+#editor{
+    height:100%;
+    width: 100%;
+}
+
+#editor .monaco-editor {
+    font-family: "IBM Plex Mono", monospace !important;
+    background-color: var(--background_secondary) !important; /* Custom background color */
+}
+
+@keyframes fade_in {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+        scale: 0.95;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+        scale: 1;
+    }
+}
+
+.lowerPageContainer > container{
+    animation: fade_in ease-in both;
+    animation-timeline: view();
+    animation-range: entry 10% contain 0%;
+}
+
