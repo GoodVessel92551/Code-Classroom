@@ -192,8 +192,8 @@ body{
 }
 
 .minimizeNavBarButton > svg{
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 .pageMenu{
@@ -518,6 +518,7 @@ main{
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    
 }
 
 .codeEditorTopBar{
@@ -618,4 +619,17 @@ main{
 #consoleInput:focus{
     outline: none;
     filter: brightness(1.1);
+}
+
+.bottomCodeBar{
+    width: 100%;
+    height:32px;
+    background-color: red;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottomCodeBar > span{
+    color: var(--text_secondary);
+    font-size: 12px;
 }

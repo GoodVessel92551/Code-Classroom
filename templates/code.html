@@ -27,6 +27,9 @@
       </button>
     </div>
     <div id="editor"></div>
+    <div class="bottomCodeBar">
+      <span id="saveText">Saved</span>
+    </div>
   </div>
   <div class="consoleWindow">
     <div class="codeEditorTopBar">
@@ -252,16 +255,35 @@
             };
           }
         });
+    
+    var loadedCode = localStorage.getItem("code");
+    if(!loadedCode){
+      loadedCode = "print('Hello, world!')";
+    }
     window.editor = monaco.editor.create(document.getElementById("editor"), {
-      // Example code using input()
-      value: "print('Hello, world!')",
+      value: loadedCode,
       language: "python",
       theme: "myDarkTheme"
     });
   });
 
-  
-  // Bind the run button to execute the code.
+  window.editor.addEventListener("keydown", (event) => {
+    const code = window.editor.getValue();
+    localStorage.setItem("code", code);
+    saveText.innerText = "Saved";
+    if (event.key === "Enter" && event.ctrlKey) {
+      event.preventDefault();
+      const code = window.editor.getValue();
+      runPython(code);
+    }
+  });
+
+  window.editor.addEventListener("change", () => {
+    console.log("Code changed");
+    saveText.innerText = "Unsaved";
+  });
+
+
   document.getElementById("runButton").addEventListener("click", () => {
     const code = window.editor.getValue();
     runPython(code);
@@ -307,6 +329,7 @@
       console.log("Generating result");
       if (available_ai){
         const result = await session.prompt(error);
+        console.log(result);
         fetch("/endpoint/ai/weaktopcs", {
           method: "POST",
           headers: {
