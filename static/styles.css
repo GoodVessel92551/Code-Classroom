@@ -535,6 +535,15 @@ main{
     gap: 8px;
 }
 
+.codeEditorTopBar > span > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.codeEditorTopBar > span > svg > path{
+    fill: var(--text_secondary);
+}
+
 .codeEditorTopBar > button{
     border-radius: 32px;
     border:none;
@@ -547,14 +556,27 @@ main{
     font-size: 16px;
 }
 
+.codeEditorTopBar > button > svg{
+    width: 16px;
+    height: 16px;
+}
+
 .codeEditorClear{
     background-color: var(--clear_button);
     color: var(--on_clear_button);
 }
 
+.codeEditorClear > svg > path{
+    fill: var(--on_clear_button);
+}
+
 .codeEditorRunButton{
     background-color: var(--run_button);
     color: var(--on_run_button);
+}
+
+.codeEditorRunButton > svg > path{
+    fill: var(--on_run_button);
 }
 
 #editor{
@@ -565,4 +587,11 @@ main{
 #editor .monaco-editor {
     font-family: "IBM Plex Mono", monospace !important;
     background-color: var(--background_secondary) !important; /* Custom background color */
+}
+
+.consoleText{
+    white-space: pre-wrap;
+    padding:16px;
+    box-sizing: border-box;
+    margin:0px;
 }
