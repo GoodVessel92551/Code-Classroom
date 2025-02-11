@@ -63,6 +63,24 @@ def code():
         return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
     return render_template("landing_page.html")
 
+@app.route("/endpoint/ai/weaktopcs",methods=["POST"])
+def weak_topics():
+    if fun.login():
+        userid = fun.get_id()
+        print("User ID",userid)
+        data = request.json
+        data = data["result"]
+        print("Error Type:",data)
+    return "complete"
+
+
+
+
+@app.route("/signout")
+def signout():
+    session.clear()
+    return redirect("/")
+
 @app.route("/call")
 def call():
     host = request.host

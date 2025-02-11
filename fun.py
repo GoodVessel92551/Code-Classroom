@@ -51,7 +51,7 @@ def create_account_google(username,id):
     if str(id) in ids:
         pass
     else:
-        user_data = {"username":username,"id":id,"type":"google","data":{}}
+        user_data = {"username":username,"id":id,"type":"google","data":{"aiTools":{"weakTopics":{"topics":[],"tasks":[]}}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":id}}

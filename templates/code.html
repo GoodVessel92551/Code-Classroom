@@ -307,7 +307,15 @@
       console.log("Generating result");
       if (available_ai){
         const result = await session.prompt(error);
-        console.log(result)
+        fetch("/endpoint/ai/weaktopcs", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            result: result,
+          }),
+        });
       }
     }
 </script>
