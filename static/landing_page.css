@@ -504,3 +504,34 @@ body,html{
     animation-range: entry 10% contain 0%;
 }
 
+.consoleText{
+    white-space: pre-wrap;
+    padding:8px 24px;
+    box-sizing: border-box;
+    margin:0px;
+    font-family: "IBM Plex Mono", monospace !important;
+    font-size: 14px;
+}
+
+
+#consoleInput{
+    margin:16px;
+    margin-top:auto;
+    background:var(--background_tertiary);
+    border-radius: 20px;
+    height: 32px;
+    border:none;
+    padding:4px 16px;
+    color:var(--text_primary);
+    font-family: "IBM Plex Mono", monospace !important;
+}
+
+#consoleInput::placeholder{
+    color:var(--text_secondary)
+}
+
+#consoleInput:focus{
+    outline: none;
+    filter: brightness(1.1);
+}
+

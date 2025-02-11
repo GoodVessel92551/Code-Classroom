@@ -67,7 +67,7 @@
                         </defs>
                         </svg>
                         Python</span>
-                        <button class="codeEditorRunButton">
+                        <button class="codeEditorRunButton" id="runButton">
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.91669 3.07649C2.91669 2.08074 3.98185 1.44783 4.85627 1.92324L12.0674 5.84674C12.9809 6.34433 12.9809 7.65566 12.0674 8.15266L4.85627 12.0762C3.98185 12.5522 2.91669 11.9187 2.91669 10.9235V3.07649Z" fill="#C7F0C5"/>
                                 </svg>
@@ -84,13 +84,15 @@
                         <path d="M5.37732 12.6287L9.71065 2.962C9.76251 2.84639 9.85633 2.75478 9.97314 2.7057C10.09 2.65661 10.221 2.6537 10.3399 2.69756C10.4588 2.74142 10.5566 2.82877 10.6135 2.94196C10.6705 3.05516 10.6823 3.18574 10.6467 3.30733L10.6227 3.37133L6.28932 13.038C6.23746 13.1536 6.14364 13.2452 6.02683 13.2943C5.91002 13.3434 5.77892 13.3463 5.66005 13.3024C5.54117 13.2586 5.44339 13.1712 5.38645 13.058C5.32951 12.9448 5.31767 12.8143 5.35332 12.6927L5.37732 12.6287ZM1.47998 7.64667L4.31332 4.81333C4.40265 4.72469 4.52212 4.673 4.64789 4.66857C4.77366 4.66414 4.89647 4.7073 4.99182 4.78944C5.08717 4.87157 5.14803 4.98664 5.16228 5.11168C5.17652 5.23672 5.14309 5.36253 5.06865 5.464L5.01998 5.52066L2.53998 8L5.01998 10.4793C5.10862 10.5687 5.16031 10.6881 5.16474 10.8139C5.16917 10.9397 5.12601 11.0625 5.04388 11.1578C4.96174 11.2532 4.84667 11.314 4.72164 11.3283C4.5966 11.3425 4.47079 11.3091 4.36932 11.2347L4.31332 11.186L1.47998 8.35266C1.39531 8.26801 1.34382 8.15577 1.33489 8.03636C1.32596 7.91696 1.36018 7.79831 1.43132 7.702L1.47998 7.646V7.64667ZM10.98 4.81333C11.0646 4.72865 11.1769 4.67717 11.2963 4.66824C11.4157 4.65931 11.5343 4.69352 11.6307 4.76466L11.6867 4.81333L14.52 7.64667C14.6047 7.73132 14.6561 7.84356 14.6651 7.96297C14.674 8.08237 14.6398 8.20102 14.5687 8.29733L14.52 8.354L11.6867 11.1873C11.5974 11.2768 11.4777 11.3292 11.3514 11.3339C11.2251 11.3387 11.1018 11.2954 11.0061 11.2129C10.9104 11.1304 10.8495 11.0147 10.8356 10.8892C10.8218 10.7636 10.8559 10.6374 10.9313 10.536L10.98 10.48L13.46 8L10.98 5.52C10.8864 5.42625 10.8338 5.29917 10.8338 5.16667C10.8338 5.03416 10.8864 4.90708 10.98 4.81333Z" fill="white"/>
                         </svg>
                         Console</span>
-                        <button class="codeEditorClear">
+                        <button class="codeEditorClear" id="clearConsole">
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12.5416 3.5C12.5416 3.64288 12.4892 3.78078 12.3942 3.88755C12.2993 3.99432 12.1685 4.06253 12.0266 4.07925L11.9583 4.08333H11.4654L10.7473 11.3867C10.7082 11.783 10.5231 12.1505 10.228 12.4179C9.93294 12.6853 9.54894 12.8334 9.15073 12.8333H4.84923C4.45102 12.8334 4.06702 12.6853 3.77193 12.4179C3.47684 12.1505 3.29174 11.783 3.25265 11.3867L2.53456 4.08333H2.04165C1.88694 4.08333 1.73856 4.02187 1.62917 3.91248C1.51977 3.80308 1.45831 3.65471 1.45831 3.5C1.45831 3.34529 1.51977 3.19692 1.62917 3.08752C1.73856 2.97812 1.88694 2.91667 2.04165 2.91667H4.95831C4.95831 2.64855 5.01112 2.38306 5.11373 2.13535C5.21633 1.88765 5.36672 1.66258 5.5563 1.47299C5.74589 1.2834 5.97096 1.13302 6.21867 1.03041C6.46637 0.927809 6.73186 0.875 6.99998 0.875C7.2681 0.875 7.53359 0.927809 7.78129 1.03041C8.029 1.13302 8.25407 1.2834 8.44366 1.47299C8.63324 1.66258 8.78363 1.88765 8.88623 2.13535C8.98884 2.38306 9.04165 2.64855 9.04165 2.91667H11.9583C12.113 2.91667 12.2614 2.97812 12.3708 3.08752C12.4802 3.19692 12.5416 3.34529 12.5416 3.5ZM8.31248 5.39583C8.20676 5.39584 8.10461 5.43412 8.02494 5.50361C7.94526 5.5731 7.89344 5.66909 7.87906 5.77383L7.87498 5.83333V9.91667L7.87906 9.97617C7.89347 10.0809 7.9453 10.1768 8.02498 10.2463C8.10465 10.3158 8.20678 10.354 8.31248 10.354C8.41818 10.354 8.52031 10.3158 8.59998 10.2463C8.67966 10.1768 8.73149 10.0809 8.7459 9.97617L8.74998 9.91667V5.83333L8.7459 5.77383C8.73152 5.66909 8.6797 5.5731 8.60002 5.50361C8.52035 5.43412 8.4182 5.39584 8.31248 5.39583ZM5.68748 5.39583C5.58176 5.39584 5.47961 5.43412 5.39994 5.50361C5.32026 5.5731 5.26844 5.66909 5.25406 5.77383L5.24998 5.83333V9.91667L5.25406 9.97617C5.26847 10.0809 5.3203 10.1768 5.39998 10.2463C5.47965 10.3158 5.58178 10.354 5.68748 10.354C5.79318 10.354 5.89531 10.3158 5.97498 10.2463C6.05466 10.1768 6.10649 10.0809 6.1209 9.97617L6.12498 9.91667V5.83333L6.1209 5.77383C6.10652 5.66909 6.0547 5.5731 5.97502 5.50361C5.89535 5.43412 5.7932 5.39584 5.68748 5.39583ZM6.99998 2.04167C6.76792 2.04167 6.54536 2.13385 6.38126 2.29795C6.21717 2.46204 6.12498 2.6846 6.12498 2.91667H7.87498C7.87498 2.6846 7.78279 2.46204 7.6187 2.29795C7.4546 2.13385 7.23204 2.04167 6.99998 2.04167Z" fill="#F0C5C5"/>
                                 </svg>
                             Clear                            
                         </button>
                 </div>
+                <p id="consoleText" class="consoleText"></p>
+                <input id="consoleInput" type="text" placeholder="Type here and press Enter" />
             </div>
         </div>
     </main>
@@ -180,7 +182,7 @@
 <script>
   function outf(text) {
     const consoleText = document.getElementById("consoleText");
-    consoleText.innerHTML += text;
+    consoleText.innerText += text;
   }
 
   // Skulpt uses builtinRead to load its standard library modules.
@@ -242,29 +244,37 @@
       }
     );
   }
-        require.config({ 
-            paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }
-        });
+  require.config({ 
+    paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }
+  });
+  require(["vs/editor/editor.main"], function () {
+    monaco.editor.defineTheme('myDarkTheme', {
+      base: 'vs-dark',
+      inherit: true,
+      rules: [],
+      colors: {
+        'editor.background': '#1c202b',
+        'editor.foreground': '#ffffff'
+      }
+    });
+    monaco.editor.setTheme('myDarkTheme');
+    window.editor = monaco.editor.create(document.getElementById("editor"), {
+      // Example code using input()
+      value: "print('Hello, world!')\nname = input('Enter your name: ')\nprint('Hello, ' + name)",
+      language: "python",
+      theme: "myDarkTheme"
+    });
+  });
 
-        require(["vs/editor/editor.main"], function () {
-            monaco.editor.defineTheme('myDarkTheme', {
-                base: 'vs-dark', // Use dark mode as a base
-                inherit: true,
-                rules: [], // You can define syntax highlighting rules here
-                colors: {
-                    'editor.background': '#1c202b', // Change to your desired background color
-                    'editor.foreground': '#ffffff'  // Optional: Adjust text color
-                }
-            });
+        document.getElementById("runButton").addEventListener("click", () => {
+    const code = window.editor.getValue();
+    runPython(code);
+  });
 
-            monaco.editor.setTheme('myDarkTheme'); // Apply the theme
-
-            monaco.editor.create(document.getElementById("editor"), {
-                value: "print('Hello, world!')",
-                language: "python",
-                theme: "myDarkTheme" // Apply custom theme
-            });
-        });
+  // (Optional) Bind the clear button to clear the console.
+  document.getElementById("clearConsole").addEventListener("click", () => {
+    document.getElementById("consoleText").innerHTML = "";
+  });
 </script>
 </body>
 
