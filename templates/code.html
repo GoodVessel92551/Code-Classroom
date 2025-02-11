@@ -40,7 +40,7 @@
       </button>
     </div>
     <p id="consoleText" class="consoleText"></p>
-    <input id="consoleInput" type="text" placeholder="Type here and press Enter..." />
+    <input id="consoleInput" type="text" placeholder="Type here and press Enter" />
   </div>
 </main>
 
@@ -66,16 +66,12 @@
     return Sk.builtinFiles["files"][x];
   }
 
-  // This is our asynchronous input callback.
-  // It displays the prompt (if any) in the input element’s placeholder,
-  // then waits for the user to type a response and press Enter.
   function inputFunction(promptText) {
     return new Promise((resolve, reject) => {
       const inputElem = document.getElementById("consoleInput");
       inputElem.placeholder = promptText || "";
       inputElem.focus();
 
-      // Define a one-time event listener for the Enter key.
       function handler(event) {
         if (event.key === "Enter") {
           event.preventDefault();
@@ -83,6 +79,7 @@
           inputElem.value = "";
           inputElem.removeEventListener("keydown", handler);
           resolve(value);
+          inputElem.placeholder = "Type here and press Enter";
         }
       }
       inputElem.addEventListener("keydown", handler);

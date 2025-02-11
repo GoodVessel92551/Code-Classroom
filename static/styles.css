@@ -595,3 +595,19 @@ main{
     box-sizing: border-box;
     margin:0px;
 }
+
+#consoleInput{
+    margin:8px;
+    margin-top:auto;
+    background:var(--background_tertiary);
+    border-radius: 20px;
+    height: 32px;
+    border:none;
+    padding:4px 16px;
+    color:var(--text_primary)
+}
+
+#consoleInput:focus{
+    outline: none;
+    filter: brightness(1.1);
+}
