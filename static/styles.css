@@ -594,6 +594,7 @@ main{
     padding:16px;
     box-sizing: border-box;
     margin:0px;
+    font-family: "IBM Plex Mono", monospace !important;
 }
 
 #consoleInput{
@@ -604,7 +605,12 @@ main{
     height: 32px;
     border:none;
     padding:4px 16px;
-    color:var(--text_primary)
+    color:var(--text_primary);
+    font-family: "IBM Plex Mono", monospace !important;
+}
+
+#consoleInput::placeholder{
+    color:var(--text_secondary)
 }
 
 #consoleInput:focus{
