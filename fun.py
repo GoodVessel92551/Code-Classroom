@@ -115,7 +115,7 @@ def get_id():
     if type == "UNAPW":        
         id = user_data_db.find_one({"username":username})["id"]
     else:
-        id = keys["data"][str(hash_value(session.get("token")))]
+        id = username
     
     print(id)
     return id
