@@ -24,11 +24,49 @@ def hash_value(data):
     sha256.update(str(data).encode('utf-8'))
     return sha256.hexdigest()
 
-def password_hash(password, salt, iterations=100000, dklen=64, hashfunc=hashlib.sha256):
+def password_hash(password, salt=os.getenv("salt"), iterations=100000, dklen=64, hashfunc=hashlib.sha256):
     key = password.encode('utf-8')
     salt = salt.encode('utf-8')
     return hashlib.pbkdf2_hmac(hashfunc().name, key, salt, iterations, dklen)
 
+def signup_user(username,password,confirmPassword):
+    if len(username) < 2:
+        return "Username is too short"
+    elif len(username) > 20:
+        return "Username is too long"
+    elif password != confirmPassword:
+        return "Passwords do not match"
+    
+    id = gen_user_id()
+    ids = global_data_db.find_one({"name":"usernames"})["data"]
+    if str("UNAPW-"+username) in ids:
+        return "Username already exists"
+    else:
+        user_data = {"username":username,"password":password,"id":id,"type":"UNAPW","data":{"aiTools":{"weakTopics":{"topics":[],"tasks":[]}}}}
+        user_data_db.insert_one(user_data)
+        query = {"name":"usernames"}
+        update = {"$push":{"data":"UNAPW-"+username}}
+        global_data_db.update_one(query, update)
+    user_token = gen_user_token()
+    session["token"] = user_token
+    query = {"name":"B-KEYS"}
+    update = {"$set":{f"data.{hash_value(user_token)}":{"type":"UNAPW","username":username}}}
+    global_data_db.update_one(query, update)
+    return "Success"
+
+def login_user(username,password):
+    ids = global_data_db.find_one({"name":"usernames"})["data"]
+    if str("UNAPW-"+username) in ids:
+        user = user_data_db.find_one({"username":username})
+        if user["password"] == password:
+            user_token = gen_user_token()
+            session["token"] = user_token
+            query = {"name":"B-KEYS"}
+            update = {"$set":{f"data.{hash_value(user_token)}":{"type":"UNAPW","username":username}}}
+            global_data_db.update_one(query, update)
+            return "Success"
+        else:
+            return "Incorrect Password"
 
 def gen_user_token():
     chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -37,6 +75,12 @@ def gen_user_token():
         token += random.choice(chars)
     return token
 
+def gen_user_id():
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    id = "G-"
+    for i in range(15):
+        id += random.choice(chars)
+    return id
 
 def login():
     if session.get("token"):
@@ -59,13 +103,21 @@ def create_account_google(username,id):
     user_token = gen_user_token()
     session["token"] = user_token
     query = {"name":"B-KEYS"}
-    update = {"$set":{f"data.{hash_value(user_token)}":id}}
+    update = {"$set":{f"data.{hash_value(user_token)}":{"type":"Google","username":id}}}
     global_data_db.update_one(query, update)
 
 
 def get_id():
     keys = global_data_db.find_one({"name":"B-KEYS"})
-    id = keys["data"][str(hash_value(session.get("token")))]
+    token = hash_value(session.get("token"))
+    type = keys["data"][token]["type"]
+    username = keys["data"][token]["username"]
+    if type == "UNAPW":        
+        id = user_data_db.find_one({"username":username})["id"]
+    else:
+        id = keys["data"][str(hash_value(session.get("token")))]
+    
+    print(id)
     return id
 
 

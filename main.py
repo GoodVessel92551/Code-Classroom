@@ -73,8 +73,39 @@ def weak_topics():
         print("Error Type:",data)
     return "complete"
 
+@app.route("/endpoint/auth/login",methods=["POST"])
+def login_endpoint():
+    form_data = request.form
+    username = form_data["username"]
+    password = fun.password_hash(form_data["password"])
+    error = fun.login_user(username,password)
+    if error != "Success":
+        return error
+    return redirect("/")
+
+@app.route("/endpoint/auth/signup",methods=["POST"])
+def signup_endpoint():
+    form_data = request.form
+    username = form_data["username"]
+    if len(form_data["password"]) < 5:
+        return "Password is too short"
+    elif len(form_data["password"]) > 15:
+        return "Password is too long"
+    password = fun.password_hash(form_data["password"])
+    confirmPassword = fun.password_hash(form_data["confirmPassword"])
+    error = fun.signup_user(username,password,confirmPassword)
+    if error != "Success":
+        return error
+    return redirect("/")
 
 
+@app.route("/login")
+def login_page():
+    return render_template("auth/login.html")
+
+@app.route("/signup")
+def signup_page():
+    return render_template("auth/signup.html")
 
 @app.route("/signout")
 def signout():

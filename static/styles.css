@@ -39,6 +39,13 @@ body{
     display: flex;
 }
 
+.navBarVerText{
+    font-size: 12px;
+    margin-top: auto;
+    color:var(--text_secondary);
+    margin-left:16px;
+}
+
 .primaryButton{
     background-color: var(--primary_button_background);
     color: var(--primary_button_text);
@@ -457,7 +464,6 @@ main{
 .bottomNavButtons{
     height:64px;
     width: 100%;
-    margin-top: auto;
     padding:16px;
     display: flex;
     box-sizing: border-box;
