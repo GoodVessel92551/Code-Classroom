@@ -25,6 +25,7 @@ body,html{
 
 *{
     box-sizing: border-box;
+    font-family: "Lexend", sans-serif;
 }
 
 .loginWithGoogle{
@@ -126,10 +127,6 @@ body,html{
 
 .secondaryButton > svg > path{
     fill: var(--secondary_button_text);
-}
-
-*{
-    font-family: "Lexend", sans-serif;
 }
 
 .landingPageNavBarButtons{

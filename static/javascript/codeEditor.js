@@ -54,7 +54,7 @@ function outf(text) {
       inputfunTakesPrompt: true
     });
 
-    // Run the code asynchronously.
+
     Sk.misceval.asyncToPromise(function() {
       return Sk.importMainWithBody("<stdin>", false, code, true);
     }).then(
@@ -200,6 +200,45 @@ function outf(text) {
                   insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
                   documentation: "Generates a sequence of numbers."
                 },
+                {
+                label: 'try',
+                kind: monaco.languages.CompletionItemKind.Keyword,
+                insertText: "try:\n    ${1:pass}\nexcept ${2:Exception} as e:\n    ${3:print(e)}",
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                documentation: "Creates a try-except block."
+              },
+              {
+                label: 'except',
+                kind: monaco.languages.CompletionItemKind.Keyword,
+                insertText: "except ${1:Exception} as e:\n    ${2:pass}",
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                documentation: "Handles exceptions."
+              },
+              {
+                label: 'finally',
+                kind: monaco.languages.CompletionItemKind.Keyword,
+                insertText: "finally:\n    ${1:pass}",
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                documentation: "Defines a final block after try-except."
+              },
+              {
+                label: 'break',
+                kind: monaco.languages.CompletionItemKind.Keyword,
+                insertText: "break",
+                documentation: "Exits a loop."
+              },
+              {
+                label: 'continue',
+                kind: monaco.languages.CompletionItemKind.Keyword,
+                insertText: "continue",
+                documentation: "Skips the rest of the current iteration of a loop."
+              },
+              {
+                label: 'pass',
+                kind: monaco.languages.CompletionItemKind.Keyword,
+                insertText: "pass",
+                documentation: "Does nothing; used as a placeholder."
+              }
               ]
             };
           }
