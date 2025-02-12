@@ -236,6 +236,10 @@ body{
     margin-left: auto;
     transform: rotate(0deg);
     transition: .15s ease-in-out transform;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .pageMenu > a > i > svg{
@@ -378,6 +382,7 @@ main{
     overflow: hidden;
     background-color: var(--background_secondary);
     position: relative;
+    text-decoration: none;
 }
 
 .classesContainer > a > img{

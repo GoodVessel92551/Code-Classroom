@@ -4,6 +4,7 @@ console.log(classes);
 classes.forEach(usersClass => {
     let classInfo = usersClass.classInfo;
     let classContainer = document.createElement("a");
+    classContainer.href = "/classroom"
     let classImage = document.createElement("img");
     let textContainer = document.createElement("div");
     let textContainerSpan = document.createElement("span");
