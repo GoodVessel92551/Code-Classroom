@@ -12,28 +12,36 @@ function outf(text) {
   }
 
   function inputFunction(promptText) {
-    return new Promise((resolve, reject) => {
-      const inputElem = document.getElementById("consoleInput");
-      inputElem.placeholder = promptText || "";
-      inputElem.focus();
+    return new Promise((resolve) => {
+        const inputElem = document.getElementById("consoleInput");
+        inputElem.placeholder = promptText || "";
+        inputElem.focus();
 
-      function handler(event) {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          const value = inputElem.value;
-          inputElem.value = "";
-          inputElem.removeEventListener("keydown", handler);
-          resolve(value);
-          inputElem.placeholder = "Type here and press Enter";
+        function handler(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                const value = inputElem.value;
+                console.log("Value:", value);
+                if (value !== "") {  
+                  inputElem.value = "";
+                  inputElem.removeEventListener("keydown", handler);
+                  resolve(value);
+                  inputElem.placeholder = "Type here and press Enter";
+              } else {
+                  console.log("Ignored empty input"); 
+              }
+            }
         }
-      }
-      inputElem.addEventListener("keydown", handler);
+
+        // Remove any previous event listeners before adding a new one
+        inputElem.removeEventListener("keydown", handler); // Ensures no duplicates
+        inputElem.addEventListener("keydown", handler);
     });
-  }
+}
 
   // This function runs the Python code using Skulpt.
   function runPython(code) {
-    // Clear any previous output.
+  
 
     const consoleText = document.getElementById("consoleText");
     consoleText.innerHTML = "";
