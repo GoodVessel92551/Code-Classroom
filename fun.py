@@ -126,3 +126,12 @@ def get_username():
     username = user_data_db.find_one({"id":str(get_id())})["username"]
     return username
     
+
+def weak_topics(id,data):
+    user_data = user_data_db.find_one({"id":id})
+    topics = user_data["data"]["aiTools"]["weakTopics"]["topics"]
+    topics.append(data)
+    query = {"id":id}
+    update = {"$set":{"data.aiTools.weakTopics.topics":topics}}
+    user_data_db.update_one(query, update)
+    return "Success"

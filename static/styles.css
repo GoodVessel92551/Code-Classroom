@@ -490,6 +490,15 @@ main{
     height: 16px;
 }
 
+.minimize > .bottomNavButtons{
+    height:auto;
+    flex-direction: column;
+}
+
+.minimize > .bottomNavButtons > a{
+    height: 32px;
+}
+
 .optionContainerNavBar{
     display: flex;
     padding-left:16px;
@@ -505,6 +514,7 @@ main{
     width: 100%;   
     gap:8px;
     font-size: 14px;
+    text-decoration: none;
     color: var(--text_secondary);
 }
 

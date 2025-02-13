@@ -76,7 +76,7 @@ def weak_topics():
         print("User ID",userid)
         data = request.json
         data = data["result"]
-        print("Error Type:",data)
+        fun.weak_topics(userid,data)
     return "complete"
 
 @app.route("/endpoint/auth/login",methods=["POST"])
