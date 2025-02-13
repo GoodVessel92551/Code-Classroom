@@ -67,6 +67,8 @@ def login_user(username,password):
             return "Success"
         else:
             return "Incorrect Password"
+    else:
+        return "Username does not exist"
 
 def gen_user_token():
     chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

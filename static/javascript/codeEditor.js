@@ -275,3 +275,10 @@ function outf(text) {
   document.getElementById("clearConsole").addEventListener("click", () => {
     document.getElementById("consoleText").innerHTML = "";
   });
+
+  window.addEventListener("resize", function () {
+    if (window.editor) {
+      window.editor.layout();
+    }
+  });
+  
