@@ -15,8 +15,8 @@ function outf(text) {
     return new Promise((resolve) => {
         const inputElem = document.getElementById("consoleInput");
         inputElem.placeholder = promptText || "";
-        inputElem.focus();
 
+        Sk.timeoutMsg = function () { return "Execution timed out."; };
         function handler(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
@@ -41,8 +41,11 @@ function outf(text) {
 
   // This function runs the Python code using Skulpt.
   function runPython(code) {
-  
-
+    if(!code.includes("input(")){
+      console.log("Input detected");
+      Sk.execLimit = 5000; 
+      Sk.timeoutMsg = function () { return "Execution timed out."; };
+    }
     const consoleText = document.getElementById("consoleText");
     consoleText.innerHTML = "";
     consoleText.style.color = "white";

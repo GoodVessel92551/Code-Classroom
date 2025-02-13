@@ -86,7 +86,7 @@ def login_endpoint():
     password = fun.password_hash(form_data["password"])
     error = fun.login_user(username,password)
     if error != "Success":
-        return error
+        return render_template("auth/login.html",error=error)
     return redirect("/")
 
 @app.route("/endpoint/auth/signup",methods=["POST"])
@@ -101,17 +101,17 @@ def signup_endpoint():
     confirmPassword = fun.password_hash(form_data["confirmPassword"])
     error = fun.signup_user(username,password,confirmPassword)
     if error != "Success":
-        return error
+        return render_template("auth/signup.html",error=error)
     return redirect("/")
 
 
 @app.route("/login")
 def login_page():
-    return render_template("auth/login.html")
+    return render_template("auth/login.html",error=False)
 
 @app.route("/signup")
 def signup_page():
-    return render_template("auth/signup.html")
+    return render_template("auth/signup.html",error=False)
 
 @app.route("/signout")
 def signout():

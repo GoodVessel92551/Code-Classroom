@@ -16,6 +16,33 @@
     --secondary_button_text:#FFFFFF;
 }
 
+.errorMessage{
+    height:40px;
+    width: 100%;
+    background-color: var(--clear_button);
+    color: var(--on_clear_button);
+    border-radius: 16px;
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    gap:8px;
+    padding: 0px 16px;
+}
+
+.errorMessage > p{
+    color: var(--on_clear_button) !important;
+    font-size: 12px;
+}
+
+.errorMessage > svg{
+    height: 16px;
+    width: 16px;
+}
+
+.errorMessage > svg > path{
+    fill: var(--on_clear_button);
+}
+
 body,html{
     background-color: var(--background);
     color: var(--text_primary);
@@ -570,7 +597,7 @@ body,html{
     gap:24px;
 }
 
-.loginContentsContainer > div{
+.loginContentsContainer > div:not(.errorMessage){
     display: flex;
     flex-direction: column;
     gap: 16px;
