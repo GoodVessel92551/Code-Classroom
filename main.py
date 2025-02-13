@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from pymongo import MongoClient
 import os
-from flask import Flask, render_template, request, jsonify,redirect,session
+from flask import Flask, render_template, request, jsonify,redirect,session,url_for
 import requests ,json
 from oauthlib.oauth2 import WebApplicationClient
 import fun
@@ -62,6 +62,61 @@ def code():
     if fun.login():
         return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
     return render_template("landing_page.html")
+
+@app.route("/classroom")
+def class_page():
+    if fun.login():
+        return render_template("class.html",username=fun.get_username(),page="class",classes=classes_placeholders)
+    return render_template("landing_page.html")
+
+@app.route("/endpoint/ai/weaktopcs",methods=["POST"])
+def weak_topics():
+    if fun.login():
+        userid = fun.get_id()
+        print("User ID",userid)
+        data = request.json
+        data = data["result"]
+        fun.weak_topics(userid,data)
+    return "complete"
+
+@app.route("/endpoint/auth/login",methods=["POST"])
+def login_endpoint():
+    form_data = request.form
+    username = form_data["username"]
+    password = fun.password_hash(form_data["password"])
+    error = fun.login_user(username,password)
+    if error != "Success":
+        return error
+    return redirect("/")
+
+@app.route("/endpoint/auth/signup",methods=["POST"])
+def signup_endpoint():
+    form_data = request.form
+    username = form_data["username"]
+    if len(form_data["password"]) < 5:
+        return "Password is too short"
+    elif len(form_data["password"]) > 15:
+        return "Password is too long"
+    password = fun.password_hash(form_data["password"])
+    confirmPassword = fun.password_hash(form_data["confirmPassword"])
+    error = fun.signup_user(username,password,confirmPassword)
+    if error != "Success":
+        return error
+    return redirect("/")
+
+
+@app.route("/login")
+def login_page():
+    return render_template("auth/login.html")
+
+@app.route("/signup")
+def signup_page():
+    return render_template("auth/signup.html")
+
+@app.route("/signout")
+def signout():
+    session.clear()
+    return redirect("/")
 
 @app.route("/call")
 def call():

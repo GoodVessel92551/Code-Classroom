@@ -39,6 +39,13 @@ body{
     display: flex;
 }
 
+.navBarVerText{
+    font-size: 12px;
+    margin-top: auto;
+    color:var(--text_secondary);
+    margin-left:16px;
+}
+
 .primaryButton{
     background-color: var(--primary_button_background);
     color: var(--primary_button_text);
@@ -54,6 +61,7 @@ body{
     align-items: center;
     justify-content: center;
     font-size: 14px;
+    text-decoration: none;
 }
 
 .primaryButton > svg{
@@ -90,6 +98,7 @@ body{
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
     font-size: 14px;
 }
 
@@ -190,8 +199,8 @@ body{
 }
 
 .minimizeNavBarButton > svg{
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 .pageMenu{
@@ -227,6 +236,10 @@ body{
     margin-left: auto;
     transform: rotate(0deg);
     transition: .15s ease-in-out transform;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .pageMenu > a > i > svg{
@@ -369,6 +382,7 @@ main{
     overflow: hidden;
     background-color: var(--background_secondary);
     position: relative;
+    text-decoration: none;
 }
 
 .classesContainer > a > img{
@@ -455,7 +469,6 @@ main{
 .bottomNavButtons{
     height:64px;
     width: 100%;
-    margin-top: auto;
     padding:16px;
     display: flex;
     box-sizing: border-box;
@@ -477,6 +490,15 @@ main{
     height: 16px;
 }
 
+.minimize > .bottomNavButtons{
+    height:auto;
+    flex-direction: column;
+}
+
+.minimize > .bottomNavButtons > a{
+    height: 32px;
+}
+
 .optionContainerNavBar{
     display: flex;
     padding-left:16px;
@@ -492,6 +514,7 @@ main{
     width: 100%;   
     gap:8px;
     font-size: 14px;
+    text-decoration: none;
     color: var(--text_secondary);
 }
 
@@ -516,6 +539,7 @@ main{
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    
 }
 
 .codeEditorTopBar{
@@ -616,4 +640,17 @@ main{
 #consoleInput:focus{
     outline: none;
     filter: brightness(1.1);
+}
+
+.bottomCodeBar{
+    width: 100%;
+    height:32px;
+    background-color: red;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottomCodeBar > span{
+    color: var(--text_secondary);
+    font-size: 12px;
 }

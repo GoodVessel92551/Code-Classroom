@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Booogle Code | Teach Code The Easy Way{% endblock %}
+{% block title %}Code Classroom  | Teach Code The Easy Way{% endblock %}
 {% block main %}
 
 <div class="pageTitleDiv"><h1>{{page.title()}}</h1>
@@ -8,7 +8,7 @@
             <path d="M7.83334 2C7.95417 2.00001 8.0709 2.04376 8.16196 2.12318C8.25302 2.20259 8.31224 2.3123 8.32868 2.432L8.33334 2.5L8.33401 7.33333H13.1693C13.296 7.33337 13.418 7.3815 13.5105 7.46798C13.6031 7.55447 13.6594 7.67287 13.668 7.79925C13.6767 7.92564 13.637 8.05059 13.5571 8.14887C13.4771 8.24714 13.3628 8.3114 13.2373 8.32867L13.1693 8.33333H8.33401L8.33534 13.1667C8.33514 13.2933 8.28689 13.4151 8.20035 13.5076C8.11382 13.6 7.99543 13.6562 7.86909 13.6647C7.74275 13.6733 7.61788 13.6336 7.51968 13.5536C7.42148 13.4737 7.35727 13.3594 7.34001 13.234L7.33534 13.166L7.33401 8.33333H2.50134C2.37466 8.33329 2.25272 8.28517 2.16015 8.19868C2.06758 8.1122 2.01129 7.9938 2.00266 7.86741C1.99402 7.74103 2.03369 7.61607 2.11363 7.5178C2.19358 7.41953 2.30784 7.35527 2.43334 7.338L2.50134 7.33333H7.33468L7.33334 2.5C7.33334 2.36739 7.38602 2.24021 7.47979 2.14645C7.57356 2.05268 7.70073 2 7.83334 2Z" fill="white"/>
             </svg>Join Class
             </button>
-        <button class="secondaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.754 14a2.249 2.249 0 0 1 2.25 2.249v.575c0 .894-.32 1.76-.902 2.438-1.57 1.834-3.957 2.739-7.102 2.739-3.146 0-5.532-.905-7.098-2.74a3.75 3.75 0 0 1-.898-2.435v-.577a2.249 2.249 0 0 1 2.249-2.25h11.501Zm0 1.5H6.253a.749.749 0 0 0-.75.749v.577c0 .536.192 1.054.54 1.461 1.253 1.468 3.219 2.214 5.957 2.214s4.706-.746 5.962-2.214a2.25 2.25 0 0 0 .541-1.463v-.575a.749.749 0 0 0-.749-.75ZM12 2.004a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" fill="#fff"/></svg>Account</button>
+        <a class="secondaryButton" href="/signout"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.25 2A2.25 2.25 0 0 0 4 4.25v15.5A2.25 2.25 0 0 0 6.25 22h6.56a6.518 6.518 0 0 1-1.078-1.5H6.25a.75.75 0 0 1-.75-.75V4.25a.75.75 0 0 1 .75-.75h11.5a.75.75 0 0 1 .75.75v6.826c.523.081 1.026.224 1.5.422V4.25A2.25 2.25 0 0 0 17.75 2H6.25ZM17.5 23a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Zm3.5-5.5a.5.5 0 0 1-.5.5h-4.793l1.647 1.646a.5.5 0 0 1-.708.708l-2.5-2.5a.5.5 0 0 1 0-.708l2.5-2.5a.5.5 0 0 1 .708.708L15.707 17H20.5a.5.5 0 0 1 .5.5ZM8.5 13.25a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" fill="#ffffff"/></svg>Sign Out</a>
     </div>
 </div>
 
@@ -68,68 +68,10 @@
         </div>
     </a>
 </div>
-<!-- <button style="z-index: 10000; position: relative;" onclick="create_result()">AI Test</button>
-<input style="z-index: 10000; position: relative;" id="error"> -->
 <script>
-
-let classesContainer = document.getElementById("classesContainer");
-        let classes = {{classes|tojson}};
-        console.log(classes);
-        classes.forEach(usersClass => {
-            let classInfo = usersClass.classInfo;
-            let classContainer = document.createElement("a");
-            let classImage = document.createElement("img");
-            let textContainer = document.createElement("div");
-            let textContainerSpan = document.createElement("span");
-            let classTitle = document.createElement("h3");
-            let classDescription = document.createElement("p");
-            classImage.src = "/static/coverImages/classroomCovers/" + classInfo.coverImage + "Gradient.png";
-            classTitle.textContent = classInfo.name
-            classDescription.textContent = classInfo.description
-            textContainer.classList.add("textContainer");
-            textContainerSpan.appendChild(classTitle);
-            textContainerSpan.appendChild(classDescription);
-            textContainer.appendChild(textContainerSpan);
-            classContainer.appendChild(classImage);
-            classContainer.appendChild(textContainer);
-            classesContainer.prepend(classContainer);
-        });
-
-session = null;
-let error_element = document.getElementById("error");
-
-document.addEventListener("DOMContentLoaded", async () => {
-    try{
-        var capabilities = await ai.languageModel.capabilities();
-    }catch{
-        console.error("No AI")
-    }
-    if (capabilities.available == "no" || capabilities.available == "after-download")console.error("No AI")
-      session = await ai.languageModel.create({
-        initialPrompts: [
-          { role: "system", content: "You will be given a python error respond with the area which the error falls under use the falling only ['Syntax','Data Types','Loops','Indentation','Math','Variables','Imports']" },
-          { role: "user", content: "SyntaxError: invalid syntax in line 3" },
-          { role: "assistant", content: "Syntax" },
-          { role: "user", content: "ValueError: invalid literal for int() with base 10: 'abc'" },
-          { role: "assistant", content: "Data Types" },
-          { role: "user", content: "IndexError: list index out of range" },
-          { role: "assistant", content: "Loops" },
-          { role: "user", content: "IndentationError: unexpected indent" },
-          { role: "assistant", content: "Indentation" },
-          { role: "user", content: "NameError: name 'printt' is not defined. Did you mean: 'print'?" },
-          { role: "assistant", content: "Variables" },
-        ]
-        
-        });
-    })
-
-
-    const create_result = async () => {
-      console.log("Generating result");
-      const result = await session.prompt(error_element.value);
-      console.log(result);
-    }
-
+    let classes = {{classes|tojson}};
 </script>
+<script src="{{ url_for('static', filename='javascript/home.js') }}"></script>
+
 
 {% endblock %} 

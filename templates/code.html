@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Booogle Code | Teach Code The Easy Way{% endblock %}
+{% block title %}Code Classroom | Teach Code The Easy Way{% endblock %}
 {% block main %}
 
 <div class="pageTitleDiv">
@@ -39,6 +39,7 @@
         Clear
       </button>
     </div>
+
     <p id="consoleText" class="consoleText"></p>
     <input id="consoleInput" type="text" placeholder="Type here and press Enter" />
   </div>
@@ -51,103 +52,7 @@
 <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
 
-<script>
-  // This function will be called by Skulpt to display output in the console area.
-  function outf(text) {
-    const consoleText = document.getElementById("consoleText");
-    consoleText.innerText += text;
-  }
-
-  // Skulpt uses builtinRead to load its standard library modules.
-  function builtinRead(x) {
-    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined) {
-      throw "File not found: '" + x + "'";
-    }
-    return Sk.builtinFiles["files"][x];
-  }
-
-  function inputFunction(promptText) {
-    return new Promise((resolve, reject) => {
-      const inputElem = document.getElementById("consoleInput");
-      inputElem.placeholder = promptText || "";
-      inputElem.focus();
-
-      function handler(event) {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          const value = inputElem.value;
-          inputElem.value = "";
-          inputElem.removeEventListener("keydown", handler);
-          resolve(value);
-          inputElem.placeholder = "Type here and press Enter";
-        }
-      }
-      inputElem.addEventListener("keydown", handler);
-    });
-  }
-
-  // This function runs the Python code using Skulpt.
-  function runPython(code) {
-    // Clear any previous output.
-
-    const consoleText = document.getElementById("consoleText");
-    consoleText.innerHTML = "";
-    consoleText.style.color = "white";
-    // Configure Skulpt to use our output and input functions.
-    Sk.configure({
-      output: outf,
-      read: builtinRead,
-      inputfun: inputFunction,
-      inputfunTakesPrompt: true
-    });
-
-    // Run the code asynchronously.
-    Sk.misceval.asyncToPromise(function() {
-      return Sk.importMainWithBody("<stdin>", false, code, true);
-    }).then(
-      function(mod) {
-        console.log("Success");
-      },
-      function(err) {
-        consoleText.style.color = "red";
-        outf("\n" + err.toString());
-      }
-    );
-  }
-
-  // Initialize the Monaco editor.
-  require.config({ 
-    paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' }
-  });
-  require(["vs/editor/editor.main"], function () {
-    monaco.editor.defineTheme('myDarkTheme', {
-      base: 'vs-dark',
-      inherit: true,
-      rules: [],
-      colors: {
-        'editor.background': '#1c202b',
-        'editor.foreground': '#ffffff'
-      }
-    });
-    monaco.editor.setTheme('myDarkTheme');
-    window.editor = monaco.editor.create(document.getElementById("editor"), {
-      // Example code using input()
-      value: "print('Hello, world!')\nname = input('Enter your name: ')\nprint('Hello, ' + name)",
-      language: "python",
-      theme: "myDarkTheme"
-    });
-  });
-
-  // Bind the run button to execute the code.
-  document.getElementById("runButton").addEventListener("click", () => {
-    const code = window.editor.getValue();
-    runPython(code);
-  });
-
-  // (Optional) Bind the clear button to clear the console.
-  document.getElementById("clearConsole").addEventListener("click", () => {
-    document.getElementById("consoleText").innerHTML = "";
-  });
-</script>
+<script src="{{ url_for('static', filename='javascript/codeEditor.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/aiTools/weakTopics.js') }}"></script>
 
 {% endblock %}
