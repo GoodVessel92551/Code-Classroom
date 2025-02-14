@@ -30,6 +30,7 @@ def password_hash(password, salt=os.getenv("salt"), iterations=100000, dklen=64,
     return hashlib.pbkdf2_hmac(hashfunc().name, key, salt, iterations, dklen)
 
 def signup_user(username,password,confirmPassword):
+    session.permanent = True
     if len(username) < 2:
         return "Username is too short"
     elif len(username) > 20:
@@ -55,6 +56,7 @@ def signup_user(username,password,confirmPassword):
     return "Success"
 
 def login_user(username,password):
+    session.permanent = True
     ids = global_data_db.find_one({"name":"usernames"})["data"]
     if str("UNAPW-"+username) in ids:
         user = user_data_db.find_one({"username":username})
@@ -93,6 +95,7 @@ def login():
 
 
 def create_account_google(username,id):
+    session.permanent = True
     ids = global_data_db.find_one({"name":"usernames"})["data"]
     if str(id) in ids:
         pass

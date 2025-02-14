@@ -21,7 +21,7 @@ GOOGLE_DISCOVERY_URL = (
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=365)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
@@ -83,6 +83,7 @@ def weak_topics():
 
 @app.route("/endpoint/auth/login",methods=["POST"])
 def login_endpoint():
+    session.permanent = True
     form_data = request.form
     username = form_data["username"]
     password = fun.password_hash(form_data["password"])
@@ -93,6 +94,7 @@ def login_endpoint():
 
 @app.route("/endpoint/auth/signup",methods=["POST"])
 def signup_endpoint():
+    session.permanent = True
     form_data = request.form
     username = form_data["username"]
     if len(form_data["password"]) < 5:
@@ -122,6 +124,7 @@ def signout():
 
 @app.route("/call")
 def call():
+    session.permanent = True
     host = request.host
     subdomain = host.split('.')[0]
     if subdomain == "devcode":
@@ -141,6 +144,7 @@ def call():
 
 @app.route("/login/callback",methods=["POST","GET"])
 def callback():
+    session.permanent = True
     code = request.args.get("code")
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
