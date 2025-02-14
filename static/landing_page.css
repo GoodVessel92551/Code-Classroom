@@ -645,3 +645,12 @@ body,html{
     font-family: "IBM Plex Mono", monospace !important;
     background-color: var(--background_secondary) !important; /* Custom background color */
 }
+
+@media (max-height:700px) {
+    .codeEditor{
+        display: none;
+    }
+    .landingPageMainContainer{
+        height:60%;
+    }
+}
