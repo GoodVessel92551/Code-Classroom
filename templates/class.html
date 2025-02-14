@@ -15,6 +15,49 @@
         <h1 class="classCodeText" id="classCodeText">054h3uc</h1>
         <img src="/static/coverImages/classroomBanners/redGradient.png">
     </div>
+    <div class="classroomContentContainer">
+        <div class="classroomMessagesContainer">
+            <span class="classroomTitleContainer">
+                <strong>Messages</strong>
+                <button><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.75 3a.75.75 0 0 1 .743.648l.007.102.001 7.25h7.253a.75.75 0 0 1 .102 1.493l-.102.007h-7.253l.002 7.25a.75.75 0 0 1-1.493.101l-.007-.102-.002-7.249H3.752a.75.75 0 0 1-.102-1.493L3.752 11h7.25L11 3.75a.75.75 0 0 1 .75-.75Z" fill="#ffffff"/></svg></button>
+            </span>
+            <div class="messageContainer">
+                <span>
+                    <div class="messageTitleContainer">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="#ffffff"/></svg>
+                        <strong>Username</strong>
+                        <p>2 days ago</p>
+                    </div>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur. Arcu eget amet vitae ullamcorper hendrerit amet. Pellentesque suscipit senectus donec pulvinar risus tincidunt scelerisque tincidunt scelerisque. Est et morbi ac gravida. Duis vivamus at amet aliquet risus vivamus a.
+                    </p>
+                </span>
+                <span>
+                    <div class="messageTitleContainer">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="#ffffff"/></svg>
+                        <strong>Username</strong>
+                        <p>2 days ago</p>
+                    </div>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur. Arcu eget amet vitae ullamcorper hendrerit amet. Pellentesque suscipit senectus donec pulvinar risus tincidunt scelerisque tincidunt scelerisque. Est et morbi ac gravida. Duis vivamus at amet aliquet risus vivamus a.
+                    </p>
+                </span>
+            </div>
+        </div>
+        <div class="classroomTasksContainer">
+            <span class="classroomTitleContainer">
+                <strong>Tasks</strong>
+                <button><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.75 3a.75.75 0 0 1 .743.648l.007.102.001 7.25h7.253a.75.75 0 0 1 .102 1.493l-.102.007h-7.253l.002 7.25a.75.75 0 0 1-1.493.101l-.007-.102-.002-7.249H3.752a.75.75 0 0 1-.102-1.493L3.752 11h7.25L11 3.75a.75.75 0 0 1 .75-.75Z" fill="#ffffff"/></svg></button>
+            </span>
+            <div class="taskContainer">
+                <span>
+                    <div class="taskTitle">
+
+                    </div>
+                </span>
+            </div>
+        </div>
+    </div>
 </main>
 <script>
     const classCodeButton = document.getElementById('classCodeButton');
@@ -23,11 +66,10 @@
     let classCodeShown = false;
     classCodeButton.addEventListener('click', () => {
         classCodeShown = !classCodeShown;
+        classBannerText.classList.toggle('classBannerTextExpand');
         if (classCodeShown){
-            classBannerText.style.opacity = '0';
             classCodeText.style.opacity = '1';
         }else{
-            classBannerText.style.opacity = '1';
             classCodeText.style.opacity = '0';
         }
     });
