@@ -26,17 +26,17 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=365)
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 public_classes_placeholders = [
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green","status":"Verified"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink","status":"Verified"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"blue","status":"Verified"}}
+    {"id":"1","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
+    {"id":"2","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green","status":"Verified"}},
+    {"id":"3","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink","status":"Verified"}},
+    {"id":"4","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"blue","status":"Verified"}} 
 ]
 
-classes_placeholders = [
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink"}},
-]
+classes_placeholders = {
+    "huwser89":{"classInfo":{"id":"huwser89","name":"Maths","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Maths Class","coverImage":"red"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"Completed"}]},
+    "y78fsh":{"classInfo":{"id":"y78fsh","name":"Physics","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Physics Class","coverImage":"green"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"Completed"}]},
+    "huy8s9r":{"classInfo":{"id":"huy8s9r","name":"Computer Science","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Computer Science Class","coverImage":"blue"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"Completed"}]},
+}
 
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
@@ -63,10 +63,12 @@ def code():
         return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
     return render_template("landing_page.html")
 
-@app.route("/classroom")
-def class_page():
+@app.route("/classroom/<classid>")
+def class_page(classid):
+    print(classid)
     if fun.login():
-        return render_template("class.html",username=fun.get_username(),page="class",classes=classes_placeholders)
+        user_class = classes_placeholders[classid]
+        return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=classes_placeholders,user_class=user_class)
     return render_template("landing_page.html")
 
 @app.route("/endpoint/ai/weaktopcs",methods=["POST"])
