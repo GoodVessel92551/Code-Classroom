@@ -560,8 +560,9 @@ main{
     width: 100%;
 }
 
+
 .textContainerbuttons > button:not(.primaryButton){
-    width: 150px !important;
+    width: 150px;
 }
 
 .bottomNavButtons{
@@ -640,6 +641,65 @@ main{
     flex-direction: column;
     overflow: hidden;
     
+}
+
+.leftPanelTaskPage{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: none !important;
+}
+
+.leftPanelTaskPage > div{
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: var(--background_secondary);
+    border-radius: 24px;
+    box-sizing: border-box;
+}
+
+.instructionWindow{
+    height:50% !important;
+    background:none !important;
+    min-height: unset !important;
+}
+
+.instructionWindowContent{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: var(--background_secondary);
+    border-radius: 24px;
+}
+
+.instructionWindowTopBar{
+    width: 100%;
+    height: 80px;
+    position: relative;
+}
+
+.instructionWindowTopBar > img{
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 24px;
+}
+
+.instructionWindowTopBar > h2{
+    position: absolute;
+    top:50%;
+    left:32px;
+    transform: translateY(-50%);
+    margin:0px
 }
 
 .codeEditorTopBar{
@@ -1068,4 +1128,12 @@ main{
     gap:8px;
     align-items: center;
     flex-direction: row;
+}
+
+.instructionWindowContent > div{
+    margin-top: auto;
+    flex-direction: row-reverse;
+    gap:8px;
+    display: flex;
+
 }

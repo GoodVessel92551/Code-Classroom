@@ -71,6 +71,21 @@ def class_page(classid):
         return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=classes_placeholders,user_class=user_class)
     return render_template("landing_page.html")
 
+@app.route("/task")
+def task():
+    if fun.login():
+        return render_template("task.html",username=fun.get_username(),page="tasks",classes=classes_placeholders)
+    return render_template("landing_page.html")
+
+@app.route("/endpoint/ai/weaktopics",methods=["GET"])
+def get_weak_topics():
+    if fun.login():
+        userid = fun.get_id()
+        print("User ID",userid)
+        data = fun.get_weak_topics(userid)
+        return jsonify(data)
+    return "Not logged in"
+
 @app.route("/endpoint/ai/weaktopcs",methods=["POST"])
 def weak_topics():
     if fun.login():

@@ -4,6 +4,8 @@ from flask import session
 from dotenv import load_dotenv
 from pymongo import MongoClient
 import os
+from collections import Counter
+
 
 client = MongoClient(os.getenv('mongo_url'))
 db = client["Booogle_Revise"]
@@ -140,3 +142,9 @@ def weak_topics(id,data):
     update = {"$set":{"data.aiTools.weakTopics.topics":topics}}
     user_data_db.update_one(query, update)
     return "Success"
+
+def get_weak_topics(id):
+    user_data = user_data_db.find_one({"id":id})
+    topics = user_data["data"]["aiTools"]["weakTopics"]["topics"]
+    counter = Counter(topics)
+    return counter.most_common(2)
