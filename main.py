@@ -21,22 +21,22 @@ GOOGLE_DISCOVERY_URL = (
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=365)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
 public_classes_placeholders = [
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green","status":"Verified"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink","status":"Verified"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"blue","status":"Verified"}}
+    {"id":"1","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
+    {"id":"2","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green","status":"Verified"}},
+    {"id":"3","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink","status":"Verified"}},
+    {"id":"4","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"blue","status":"Verified"}} 
 ]
 
-classes_placeholders = [
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green"}},
-    {"classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink"}},
-]
+classes_placeholders = {
+    "huwser89":{"classInfo":{"id":"huwser89","name":"Maths","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Maths Class","coverImage":"red"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"Completed"}]},
+    "y78fsh":{"classInfo":{"id":"y78fsh","name":"Physics","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Physics Class","coverImage":"green"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"Completed"}]},
+    "huy8s9r":{"classInfo":{"id":"huy8s9r","name":"Computer Science","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Computer Science Class","coverImage":"blue"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"notcompleted"}]},
+}
 
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
@@ -63,13 +63,30 @@ def code():
         return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
     return render_template("landing_page.html")
 
-@app.route("/classroom")
-def class_page():
+@app.route("/classroom/<classid>")
+def class_page(classid):
+    print(classid)
     if fun.login():
-        return render_template("class.html",username=fun.get_username(),page="class",classes=classes_placeholders)
+        user_class = classes_placeholders[classid]
+        return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=classes_placeholders,user_class=user_class)
     return render_template("landing_page.html")
 
-@app.route("/endpoint/ai/weaktopcs",methods=["POST"])
+@app.route("/task")
+def task():
+    if fun.login():
+        return render_template("task.html",username=fun.get_username(),page="tasks",classes=classes_placeholders)
+    return render_template("landing_page.html")
+
+@app.route("/endpoint/ai/getweaktopics",methods=["GET"])
+def get_weak_topics():
+    if fun.login():
+        userid = fun.get_id()
+        print("User ID",userid)
+        data = fun.get_weak_topics(userid)
+        return jsonify(data)
+    return "Not logged in"
+
+@app.route("/endpoint/ai/weaktopics",methods=["POST"])
 def weak_topics():
     if fun.login():
         userid = fun.get_id()
@@ -81,16 +98,18 @@ def weak_topics():
 
 @app.route("/endpoint/auth/login",methods=["POST"])
 def login_endpoint():
+    session.permanent = True
     form_data = request.form
     username = form_data["username"]
     password = fun.password_hash(form_data["password"])
     error = fun.login_user(username,password)
     if error != "Success":
-        return error
+        return render_template("auth/login.html",error=error)
     return redirect("/")
 
 @app.route("/endpoint/auth/signup",methods=["POST"])
 def signup_endpoint():
+    session.permanent = True
     form_data = request.form
     username = form_data["username"]
     if len(form_data["password"]) < 5:
@@ -101,17 +120,17 @@ def signup_endpoint():
     confirmPassword = fun.password_hash(form_data["confirmPassword"])
     error = fun.signup_user(username,password,confirmPassword)
     if error != "Success":
-        return error
+        return render_template("auth/signup.html",error=error)
     return redirect("/")
 
 
 @app.route("/login")
 def login_page():
-    return render_template("auth/login.html")
+    return render_template("auth/login.html",error=False)
 
 @app.route("/signup")
 def signup_page():
-    return render_template("auth/signup.html")
+    return render_template("auth/signup.html",error=False)
 
 @app.route("/signout")
 def signout():
@@ -120,6 +139,7 @@ def signout():
 
 @app.route("/call")
 def call():
+    session.permanent = True
     host = request.host
     subdomain = host.split('.')[0]
     if subdomain == "devcode":
@@ -139,6 +159,7 @@ def call():
 
 @app.route("/login/callback",methods=["POST","GET"])
 def callback():
+    session.permanent = True
     code = request.args.get("code")
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]

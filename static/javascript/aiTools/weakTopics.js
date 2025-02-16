@@ -1,3 +1,6 @@
+
+
+
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
   try{
@@ -33,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (available_ai){
       const result = await session.prompt(error);
       console.log(result);
-      fetch("/endpoint/ai/weaktopcs", {
+      fetch("/endpoint/ai/weaktopics", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
