@@ -77,7 +77,7 @@ def task():
         return render_template("task.html",username=fun.get_username(),page="tasks",classes=classes_placeholders)
     return render_template("landing_page.html")
 
-@app.route("/endpoint/ai/weaktopics",methods=["GET"])
+@app.route("/endpoint/ai/getweaktopics",methods=["GET"])
 def get_weak_topics():
     if fun.login():
         userid = fun.get_id()
@@ -86,7 +86,7 @@ def get_weak_topics():
         return jsonify(data)
     return "Not logged in"
 
-@app.route("/endpoint/ai/weaktopcs",methods=["POST"])
+@app.route("/endpoint/ai/weaktopics",methods=["POST"])
 def weak_topics():
     if fun.login():
         userid = fun.get_id()
