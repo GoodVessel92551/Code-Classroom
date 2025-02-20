@@ -51,9 +51,6 @@
             </div>
             <a id="optionContainerNavBarTasksButton"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.8333 2C12.408 2 12.9591 2.22827 13.3654 2.6346C13.7717 3.04093 14 3.59203 14 4.16667V11.8333C14 12.408 13.7717 12.9591 13.3654 13.3654C12.9591 13.7717 12.408 14 11.8333 14H4.16667C3.59203 14 3.04093 13.7717 2.6346 13.3654C2.22827 12.9591 2 12.408 2 11.8333V4.16667C2 3.59203 2.22827 3.04093 2.6346 2.6346C3.04093 2.22827 3.59203 2 4.16667 2H11.8333ZM13 5.66667H3V11.8333C3 12.4773 3.52267 13 4.16667 13H11.8333C12.1428 13 12.4395 12.8771 12.6583 12.6583C12.8771 12.4395 13 12.1428 13 11.8333V5.66667ZM5.16667 9.66667C5.38768 9.66667 5.59964 9.75446 5.75592 9.91074C5.9122 10.067 6 10.279 6 10.5C6 10.721 5.9122 10.933 5.75592 11.0893C5.59964 11.2455 5.38768 11.3333 5.16667 11.3333C4.94565 11.3333 4.73369 11.2455 4.57741 11.0893C4.42113 10.933 4.33333 10.721 4.33333 10.5C4.33333 10.279 4.42113 10.067 4.57741 9.91074C4.73369 9.75446 4.94565 9.66667 5.16667 9.66667ZM8 9.66667C8.22101 9.66667 8.43298 9.75446 8.58926 9.91074C8.74554 10.067 8.83333 10.279 8.83333 10.5C8.83333 10.721 8.74554 10.933 8.58926 11.0893C8.43298 11.2455 8.22101 11.3333 8 11.3333C7.77899 11.3333 7.56702 11.2455 7.41074 11.0893C7.25446 10.933 7.16667 10.721 7.16667 10.5C7.16667 10.279 7.25446 10.067 7.41074 9.91074C7.56702 9.75446 7.77899 9.66667 8 9.66667ZM5.16667 7C5.38768 7 5.59964 7.0878 5.75592 7.24408C5.9122 7.40036 6 7.61232 6 7.83333C6 8.05435 5.9122 8.26631 5.75592 8.42259C5.59964 8.57887 5.38768 8.66667 5.16667 8.66667C4.94565 8.66667 4.73369 8.57887 4.57741 8.42259C4.42113 8.26631 4.33333 8.05435 4.33333 7.83333C4.33333 7.61232 4.42113 7.40036 4.57741 7.24408C4.73369 7.0878 4.94565 7 5.16667 7ZM8 7C8.22101 7 8.43298 7.0878 8.58926 7.24408C8.74554 7.40036 8.83333 7.61232 8.83333 7.83333C8.83333 8.05435 8.74554 8.26631 8.58926 8.42259C8.43298 8.57887 8.22101 8.66667 8 8.66667C7.77899 8.66667 7.56702 8.57887 7.41074 8.42259C7.25446 8.26631 7.16667 8.05435 7.16667 7.83333C7.16667 7.61232 7.25446 7.40036 7.41074 7.24408C7.56702 7.0878 7.77899 7 8 7ZM10.8333 7C11.0543 7 11.2663 7.0878 11.4226 7.24408C11.5789 7.40036 11.6667 7.61232 11.6667 7.83333C11.6667 8.05435 11.5789 8.26631 11.4226 8.42259C11.2663 8.57887 11.0543 8.66667 10.8333 8.66667C10.6123 8.66667 10.4004 8.57887 10.2441 8.42259C10.0878 8.26631 10 8.05435 10 7.83333C10 7.61232 10.0878 7.40036 10.2441 7.24408C10.4004 7.0878 10.6123 7 10.8333 7ZM11.8333 3H4.16667C3.85725 3 3.5605 3.12292 3.34171 3.34171C3.12292 3.5605 3 3.85725 3 4.16667V4.66667H13V4.16667C13 3.85725 12.8771 3.5605 12.6583 3.34171C12.4395 3.12292 12.1428 3 11.8333 3Z" fill="#DFDFDF"/></svg><span>Tasks</span><i id="expandButtonNavBarTasks"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.22 15.53a.75.75 0 0 0 1.06 0L12 8.81l6.72 6.72a.75.75 0 1 0 1.06-1.06l-7.25-7.25a.75.75 0 0 0-1.06 0l-7.25 7.25a.75.75 0 0 0 0 1.06Z" fill="#ffffff"/></svg></i></a>
             <div class="optionContainerNavBar" id="optionContainerNavBarTasks">
-                <a></a>
-                <a></a>
-                <a></a>
             </div>
         </div>
         <span class="navBarVerText">V0.0.4-alpha</span>
@@ -71,10 +68,35 @@
         const usersClasses = {{classes|tojson}};
         const expandButtonNavBarClasses = document.getElementById('expandButtonNavBarClasses');
         const expandButtonNavBarTasks = document.getElementById('expandButtonNavBarTasks');
-
+        const optionContainerNavBarTasksButton = document.getElementById('optionContainerNavBarTasksButton');
+        const optionContainerNavBarTasks = document.getElementById('optionContainerNavBarTasks');
         const optionContainerNavBarClassesButton = document.getElementById('class');
         const optionContainerNavBarClasses = document.getElementById('optionContainerNavBarClasses');
-
+        const getColor = (color) => {
+            switch (color) {
+                case "red":
+                    return "#E86C6C";
+                    break;
+                case "orange":
+                return "#E8B86C";
+                    break;
+                case "green":
+                    return "#95E86C";
+                    break;
+                case "blue":
+                    return "#6CA4E8";
+                    break;
+                case "purple":
+                    return "#E86CE8";
+                    break;
+                case "pink":
+                    return "#E86CAA";
+                    break;
+                default:
+                    return "#ffffff";
+                    break;
+            }
+        }
         optionContainerNavBarClassesButton.addEventListener('click', () => {
             optionContainerNavBarClassesButton.classList.toggle('optionContainerNavBarButtonActive');
             if (optionContainerNavBarClasses.style.display === 'none') {
@@ -86,30 +108,7 @@
 
         Object.keys(usersClasses).forEach(key => {
             let classColor = usersClasses[key].classInfo.coverImage;
-            let classColorHex = "#ffffff";
-            switch (classColor) {
-                case "red":
-                    classColorHex = "#E86C6C";
-                    break;
-                case "orange":
-                    classColorHex = "#E8B86C";
-                    break;
-                case "green":
-                    classColorHex = "#95E86C";
-                    break;
-                case "blue":
-                    classColorHex = "#6CA4E8";
-                    break;
-                case "purple":
-                    classColorHex = "#E86CE8";
-                    break;
-                case "pink":
-                    classColorHex = "#E86CAA";
-                    break;
-                default:
-                    classColorHex = "#ffffff";
-                    break;
-            }
+            let classColorHex = getColor(classColor)
             let container = document.createElement('a');
             container.href = "/classroom/"+key
             container.id = "class"+key
@@ -120,10 +119,28 @@
             span.innerHTML = usersClasses[key].classInfo.name;
             container.appendChild(span);
             optionContainerNavBarClasses.appendChild(container);
+            Object.keys(usersClasses[key].tasks).forEach(task => {
+                let taskInfo = usersClasses[key].tasks[task];
+                console.log(taskInfo)
+                if (taskInfo.taskStatus != "completed"){
+                    let classColor = usersClasses[key].classInfo.coverImage;
+                    let classColorHex = getColor(classColor)
+                    let container = document.createElement('a');
+                    container.href = `/task/${key}/${taskInfo.id}`
+                    container.id = "task"+taskInfo.id
+                    container.classList.add(classColor+"pageMenu")
+                    let icon = '<svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 12.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Zm.75 2.25a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5ZM7 18.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Zm3.75-6.75a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5ZM10 15.25a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm8.664-9.086-5.829-5.828a.493.493 0 0 0-.049-.04.626.626 0 0 1-.036-.03 2.072 2.072 0 0 0-.219-.18.652.652 0 0 0-.08-.044l-.048-.024-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9.828a2 2 0 0 0-.586-1.414ZM18.5 20a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5v10Zm-5-15.379L17.378 8.5H14a.5.5 0 0 1-.5-.5V4.621Z" fill="'+classColorHex+'"/></svg>'
+                    let span = document.createElement('span');
+                    container.innerHTML = icon
+                    span.innerHTML = taskInfo.taskName;
+                    container.appendChild(span);
+                    optionContainerNavBarTasks.appendChild(container);
+                }
+            })
+            
         });
 
-        const optionContainerNavBarTasksButton = document.getElementById('optionContainerNavBarTasksButton');
-        const optionContainerNavBarTasks = document.getElementById('optionContainerNavBarTasks');
+
         optionContainerNavBarTasksButton.addEventListener('click', () => {
             optionContainerNavBarTasksButton.classList.toggle('optionContainerNavBarButtonActive');
             if (optionContainerNavBarTasks.style.display === 'none') {

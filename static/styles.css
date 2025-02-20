@@ -1065,13 +1065,18 @@ main{
 }
 
 .taskIndercater.completed{
-    background-color: #2C5033;
-    border:4px solid #64DF59;
+    background-color: #64DF59;
+    border:4px solid #2C5033;
 }
 
 .taskIndercater.notcompleted{
     background-color: #eec677;
     border:4px solid #50432c;
+}
+
+.taskIndercater.missing{
+    background-color: #EE7777;
+    border:4px solid #50302c;
 }
 
 .messageInputContainer{
