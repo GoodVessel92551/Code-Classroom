@@ -33,9 +33,9 @@ public_classes_placeholders = [
 ]
 
 classes_placeholders = {
-    "huwser89":{"classInfo":{"id":"huwser89","name":"Maths","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Maths Class","coverImage":"red"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"Completed"}]},
-    "y78fsh":{"classInfo":{"id":"y78fsh","name":"Physics","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Physics Class","coverImage":"green"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"Completed"}]},
-    "huy8s9r":{"classInfo":{"id":"huy8s9r","name":"Computer Science","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Computer Science Class","coverImage":"blue"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"notcompleted"}]},
+    "huwser89":{"classInfo":{"id":"huwser89","name":"Maths","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Maths Class","coverImage":"red"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"id":"uiohsedrfg","taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"completed"}]},
+    "y78fsh":{"classInfo":{"id":"y78fsh","name":"Physics","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Physics Class","coverImage":"green"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"id":"yuihggf","taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"missing"}]},
+    "huy8s9r":{"classInfo":{"id":"huy8s9r","name":"Computer Science","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Computer Science Class","coverImage":"blue"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"id":"hbjsdfg","taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"notcompleted"}]},
 }
 
 def get_google_provider_cfg():
@@ -76,6 +76,8 @@ def task():
     if fun.login():
         return render_template("task.html",username=fun.get_username(),page="tasks",classes=classes_placeholders)
     return render_template("landing_page.html")
+
+
 
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])
 def get_weak_topics():
@@ -193,7 +195,11 @@ def callback():
     return redirect("/")
 
 
-
+@app.errorhandler(404)
+def page_not_found(error):
+    if fun.login():
+        return render_template('404.html', username=fun.get_username(), classes=classes_placeholders,page="404"), 404
+    return render_template('404.html'), 404
 
 
 if __name__ == "__main__":

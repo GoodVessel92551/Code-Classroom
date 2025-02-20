@@ -23,7 +23,7 @@
             </span>
             <div id="messageInputContainer" class="messageInputContainer">
                 <div>
-                    <textarea placeholder="Enter message"></textarea>
+                    <textarea id="messageInput" placeholder="Enter message"></textarea>
                     <div>
                         <button id="messageCancelButton" class="secondaryButtonSmall">Cancel</button>
                         <button class="primaryButtonSmall">Send</button>
@@ -48,12 +48,14 @@
     const messageInputContainer = document.getElementById('messageInputContainer');
     const messageButton = document.getElementById('messageButton');
     const messageCancelButton = document.getElementById('messageCancelButton');
+    const messageInput = document.getElementById('messageInput');
 
     messageButton.addEventListener('click', () => {
         messageInputContainer.classList.toggle('messageInputContainerExpand');
     });
 
     messageCancelButton.addEventListener('click', () => {
+        messageInput.value = '';
         messageInputContainer.classList.toggle('messageInputContainerExpand');
     });
     

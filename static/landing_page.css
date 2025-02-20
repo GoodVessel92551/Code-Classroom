@@ -370,6 +370,12 @@ body,html{
     display: flex;
     flex-direction: column;
     gap:12px;
+    cursor: pointer;
+    transition: filter 0.2s;
+}
+
+.whyuseRessonContainer:hover{
+    filter: brightness(1.2);
 }
 
 .whyuseRessonContainer > .titleBar{
@@ -646,11 +652,120 @@ body,html{
     background-color: var(--background_secondary) !important; /* Custom background color */
 }
 
+
+.whyUseDialog::backdrop{
+    background-color: #0000005d;
+    backdrop-filter: blur(5px);
+}
+
+.whyUseDialog{
+    background-color: var(--background_secondary);
+    width: 100%;
+    max-width: 800px;
+    border-radius: 24px;
+    border:none;
+    padding:24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.whyUseDialog[open] {
+    opacity: 1;
+    visibility: visible;
+}
+
+.whyUseDialog > .dialogHeader{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.whyUseDialog > .dialogHeader > button{
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:none;
+    border:none;
+    cursor: pointer;
+    border-radius: 16px;
+}
+
+.whyUseDialog > .dialogHeader > button:focus{
+    outline:none;
+}
+
+.whyUseDialog > .dialogHeader > h2{
+    margin:0px;
+    color: var(--text_primary);
+}
+
+.whyUseDialog > p{
+    color: var(--text_secondary);
+    margin:0px;
+    font-size: 14px;
+}
+
+.whyUseDialog > img{
+    width:100%;
+    border:1px solid #353535;
+    border-radius: 16px;
+}
+
+.whyUseDialog:focus{
+    outline:none;
+}
+
 @media (max-height:700px) {
     .codeEditor{
         display: none;
     }
     .landingPageMainContainer{
         height:60%;
+    }
+}
+
+@media (max-width:1000px) {
+    .codeEditor{
+        display: none !important;
+    }
+    .landingPageMainContainer{
+        height:60%;
+    }
+    .whyUseRessonsContainer{
+        flex-direction: column;
+    }
+    .publicClassesContainer{
+        flex-direction: column;
+    }
+    .whyUseSectionContainer{
+        height: auto;
+    }
+    .landingPageBlueOnBackground{
+        display: none;
+    }
+}
+
+@media (max-width:600px) {
+    .landing_page_create_account_container{
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        align-items: center;
+    }
+    .landing_page_create_account_container > a{
+        width: 100%;
+    }
+    .landingPageTitleLoginContainer{
+        width: calc(100% - 64px);
+        align-items: center;
+        text-align: center;
     }
 }
