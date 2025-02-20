@@ -748,6 +748,9 @@ body,html{
     .whyUseSectionContainer{
         height: auto;
     }
+    .landingPageBlueOnBackground{
+        display: none;
+    }
 }
 
 @media (max-width:600px) {

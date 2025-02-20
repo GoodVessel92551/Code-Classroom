@@ -1277,3 +1277,18 @@ main{
         flex-direction: column;
     }
 }
+
+@media (max-width:500px) {
+    main:not(.mainQuickCode){
+        padding: 16px;
+    }
+    .mainQuickCode{
+        padding: 0px;
+    }
+    .classesContainer > a{
+        width: 100%;
+    }
+    .joinClassHomeButton{
+        display: none;
+    }
+}
