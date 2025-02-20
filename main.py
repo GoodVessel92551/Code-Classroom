@@ -195,7 +195,11 @@ def callback():
     return redirect("/")
 
 
-
+@app.errorhandler(404)
+def page_not_found(error):
+    if fun.login():
+        return render_template('404.html', username=fun.get_username(), classes=classes_placeholders,page="404"), 404
+    return render_template('404.html'), 404
 
 
 if __name__ == "__main__":
