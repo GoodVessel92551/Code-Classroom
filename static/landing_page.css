@@ -652,14 +652,6 @@ body,html{
     background-color: var(--background_secondary) !important; /* Custom background color */
 }
 
-@media (max-height:700px) {
-    .codeEditor{
-        display: none;
-    }
-    .landingPageMainContainer{
-        height:60%;
-    }
-}
 
 .whyUseDialog::backdrop{
     background-color: #0000005d;
@@ -729,4 +721,48 @@ body,html{
 
 .whyUseDialog:focus{
     outline:none;
+}
+
+@media (max-height:700px) {
+    .codeEditor{
+        display: none;
+    }
+    .landingPageMainContainer{
+        height:60%;
+    }
+}
+
+@media (max-width:1000px) {
+    .codeEditor{
+        display: none !important;
+    }
+    .landingPageMainContainer{
+        height:60%;
+    }
+    .whyUseRessonsContainer{
+        flex-direction: column;
+    }
+    .publicClassesContainer{
+        flex-direction: column;
+    }
+    .whyUseSectionContainer{
+        height: auto;
+    }
+}
+
+@media (max-width:600px) {
+    .landing_page_create_account_container{
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        align-items: center;
+    }
+    .landing_page_create_account_container > a{
+        width: 100%;
+    }
+    .landingPageTitleLoginContainer{
+        width: calc(100% - 64px);
+        align-items: center;
+        text-align: center;
+    }
 }
