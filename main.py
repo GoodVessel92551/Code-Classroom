@@ -77,6 +77,8 @@ def task():
         return render_template("task.html",username=fun.get_username(),page="tasks",classes=classes_placeholders)
     return render_template("landing_page.html")
 
+
+
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])
 def get_weak_topics():
     if fun.login():
