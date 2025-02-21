@@ -584,6 +584,7 @@ body,html{
     padding:4px 16px;
     color:var(--text_primary);
     font-family: "IBM Plex Mono", monospace !important;
+    display: none;
 }
 
 #consoleInput::placeholder{

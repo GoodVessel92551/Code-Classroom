@@ -23,6 +23,7 @@ function inputFunction(promptText) {
   received_input = false
   return new Promise((resolve) => {
       const inputElem = document.getElementById("consoleInput");
+      inputElem.style.display = "block";
       inputElem.focus();
       inputElem.placeholder = promptText || "";
       inputElem.value = "";
@@ -40,10 +41,11 @@ function inputFunction(promptText) {
               inputElem.removeEventListener("keydown", handler);
               currentHandler = null;
               resolve(value);
+              inputElem.style.display = "none";
               inputElem.placeholder = "Type here and press Enter";
           }
       }
-
+      
       currentHandler = handler;
       inputElem.addEventListener("keydown", handler);
   });
