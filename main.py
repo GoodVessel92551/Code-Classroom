@@ -57,10 +57,16 @@ def notifications():
         return render_template("notifications.html",username=fun.get_username(),page="notifications",classes=classes_placeholders)
     return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
+@app.route("/quickCode")
+def code_project():
+    if fun.login():
+        return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
+    return render_template("landing_page.html")
+
 @app.route("/code")
 def code():
     if fun.login():
-        return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
+        return render_template("quickCode.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
     return render_template("landing_page.html")
 
 @app.route("/classroom/<classid>")
@@ -76,6 +82,10 @@ def task():
     if fun.login():
         return render_template("task.html",username=fun.get_username(),page="tasks",classes=classes_placeholders)
     return render_template("landing_page.html")
+
+
+
+
 
 
 

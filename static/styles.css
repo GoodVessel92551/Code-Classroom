@@ -454,13 +454,16 @@ main{
     margin-left: auto;
 }
 
-.classesContainer{
-    width: 100%;
-    height: 64px;
-    margin-top:32px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+.pageTitleDivButtons > input{
+    background-color: var(--background_secondary);
+    color: var(--text_primary);
+    border:none;
+    padding:8px 16px;
+    border-radius: 20px;
+}
+
+.pageTitleDivButtons > input:focus{
+    outline: 1px solid #ccdfff60;
 }
 
 .classesContainer{
@@ -1291,4 +1294,42 @@ main{
     .joinClassHomeButton{
         display: none;
     }
+}
+
+.codeProjectsContainer{
+    width: 100%;
+    height: 64px;
+    margin-top:32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    height: 200px;
+}
+
+.codeProjectsContainer > a{
+    width: 315px;
+    height:125px;
+    display: block;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: var(--background_secondary);
+    position: relative;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.codeProjectsContainer > a > img{
+    width: 100%;
+    height: 125px;
+    object-fit: cover;
+}
+
+.codeProjectsContainer > a > h3{
+    z-index: 10;
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    margin:0px;
+    font-size: 16px;
+    color: var(--text_primary);
 }
