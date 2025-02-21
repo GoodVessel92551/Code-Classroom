@@ -77,10 +77,16 @@ def class_page(classid):
         return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=classes_placeholders,user_class=user_class)
     return render_template("landing_page.html")
 
-@app.route("/task")
-def task():
+@app.route("/task/<classid>/<taskid>")
+def task(classid,taskid):
     if fun.login():
-        return render_template("task.html",username=fun.get_username(),page="tasks",classes=classes_placeholders)
+        user_class = classes_placeholders[classid]
+        class_color = user_class["classInfo"]["coverImage"]
+        for i in user_class["tasks"]:
+            if i["id"] == taskid:
+                task = i
+                break
+        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=classes_placeholders,class_color=class_color,task=task,classid=classid)
     return render_template("landing_page.html")
 
 

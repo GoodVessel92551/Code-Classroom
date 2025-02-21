@@ -29,7 +29,7 @@
     <div id="editor"></div>
   </div>
 <div class="leftPanelTaskPage">
-    <div class="consoleWindow">
+    <div class="consoleWindow" id="consoleWindow">
         <div class="codeEditorTopBar">
           <span>
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.086 18.611 5.996-14.004a1 1 0 0 1 1.878.677l-.04.11-5.996 14.004a1 1 0 0 1-1.878-.677l.04-.11 5.996-14.004L8.086 18.61Zm-5.793-7.318 4-4a1 1 0 0 1 1.497 1.32l-.083.094L4.414 12l3.293 3.293a1 1 0 0 1-1.32 1.498l-.094-.084-4-4a1 1 0 0 1-.083-1.32l.083-.094 4-4-4 4Zm14-4.001a1 1 0 0 1 1.32-.083l.093.083 4.001 4.001a1 1 0 0 1 .083 1.32l-.083.095-4.001 3.995a1 1 0 0 1-1.497-1.32l.084-.095L19.584 12l-3.293-3.294a1 1 0 0 1 0-1.414Z" fill="#ffffff"/></svg>
@@ -44,21 +44,35 @@
         <p id="consoleText" class="consoleText"></p>
         <input id="consoleInput" type="text" placeholder="Type here and press Enter" />
       </div>
-      <div class="instructionWindow">
+      <div class="instructionWindow" id="instructionWindow">
         <div class="instructionWindowTopBar">
-            <img src="/static/coverImages/classroomBanners/orangeGradient.png">
+            <img id="taskImage" src="/static/coverImages/classroomBanners/{{class_color}}Gradient.png">
             <h2>Task Name</h2>
             <div class="pills">
-                <button><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.25 2A2.75 2.75 0 0 1 20 4.75V19.25a2.75 2.75 0 0 1-2.75 2.75H6.75A2.75 2.75 0 0 1 4 19.249V4.75c0-1.26.846-2.32 2-2.647V3.75c-.304.228-.5.59-.5 1v14.498c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25V4.75c0-.69-.56-1.25-1.25-1.25L15 3.5V2h2.25ZM14 2v8.139c0 .747-.8 1.027-1.29.764l-.082-.052-2.126-1.285-2.078 1.251c-.5.36-1.33.14-1.417-.558L7 10.14V2h7Zm-1.5 1.5h-4v5.523l1.573-.949a.923.923 0 0 1 .818-.024l1.61.974V3.5Z" fill="#ffffff"/></svg>Back to Class</button>
+                <a href="/classroom/{{classid}}"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.25 2A2.75 2.75 0 0 1 20 4.75V19.25a2.75 2.75 0 0 1-2.75 2.75H6.75A2.75 2.75 0 0 1 4 19.249V4.75c0-1.26.846-2.32 2-2.647V3.75c-.304.228-.5.59-.5 1v14.498c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25V4.75c0-.69-.56-1.25-1.25-1.25L15 3.5V2h2.25ZM14 2v8.139c0 .747-.8 1.027-1.29.764l-.082-.052-2.126-1.285-2.078 1.251c-.5.36-1.33.14-1.417-.558L7 10.14V2h7Zm-1.5 1.5h-4v5.523l1.573-.949a.923.923 0 0 1 .818-.024l1.61.974V3.5Z" fill="#ffffff"/></svg>Back to Class</a>
             </div>
         </div>
-        <div class="instructionWindowContent">
+        <div class="instructionWindowContent" id="instructionWindowContent">
             <p>Task Description</p>
 
         </div>
       </div>
 </div>
 </main>
+
+<script>
+  const classColor = {{class_color|tojson}};
+  const task = {{task|tojson}};
+  console.log(task);
+  console.log(classColor);
+  const instructionWindow = document.getElementById('instructionWindow');
+  const instructionWindowContent = document.getElementById('instructionWindowContent');
+  const consoleWindow = document.getElementById('consoleWindow');
+  const taskImage = document.getElementById('taskImage');
+  instructionWindow.style.display = 'flex';
+  consoleWindow.style.minHeight = "50%";
+  instructionWindowContent.innerHTML = task.taskDescription;
+</script>
 
 <!-- Load require.js (for Monaco) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
