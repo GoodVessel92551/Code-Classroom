@@ -296,7 +296,6 @@ window.editor.addEventListener("keydown", (event) => {
     }else{
       localStorage.setItem("code", code);
     }
-  localStorage.setItem("code", code);
   if (event.key === "Enter" && event.ctrlKey) {
     event.preventDefault();
     const code = window.editor.getValue();
