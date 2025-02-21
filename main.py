@@ -92,7 +92,12 @@ def task(classid,taskid):
 
 
 
-
+@app.route("/endpoint/task/save",methods=["POST"])
+def save_task():
+    if fun.login():
+        data = request.json
+        print(data)
+    return "{'status':'complete'}"
 
 
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])

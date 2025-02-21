@@ -308,8 +308,33 @@ window.editor.addEventListener("keydown", (event) => {
 
 document.getElementById("runButton").addEventListener("click", () => {
   const code = window.editor.getValue();
+  if (window.location.href.includes("/task/")) {
+    saveCode(code);
+  }
   runPython(code);
 });
+
+
+const saveCode = (code) => {
+  fetch("/endpoint/task/save", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      code: code,
+    }),
+  })
+    .then((data) => {
+      console.log("Success:", data);
+      const editorBottonBar = document.getElementById("editorBottomBar");
+      editorBottonBar.textContent = "Saved";
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+    return
+  }
 
 // (Optional) Bind the clear button to clear the console.
 document.getElementById("clearConsole").addEventListener("click", () => {
@@ -321,3 +346,10 @@ window.addEventListener("resize", function () {
     window.editor.layout();
   }
 });
+
+if (window.location.href.includes("/task/")) {
+  editor.addEventListener("keydown", (event) => {
+    const editorBottonBar = document.getElementById("editorBottomBar");
+    editorBottonBar.textContent = "Unsaved changes";
+  })
+}
