@@ -1,24 +1,26 @@
 let classesContainer = document.getElementById("classesContainer");
+const template = document.getElementById("classroomTemplate");
 
 console.log(classes);
 
 Object.keys(classes).forEach(key => {
     let classInfo = classes[key].classInfo;
-    let classContainer = document.createElement("a");
-    classContainer.href = "/classroom/" + key;
-    let classImage = document.createElement("img");
-    let textContainer = document.createElement("div");
-    let textContainerSpan = document.createElement("span");
-    let classTitle = document.createElement("h3");
-    let classDescription = document.createElement("p");
-    classImage.src = "/static/coverImages/classroomCovers/" + classInfo.coverImage + "Gradient.png";
-    classTitle.textContent = classInfo.name
-    classDescription.textContent = classInfo.description
-    textContainer.classList.add("textContainer");
-    textContainerSpan.appendChild(classTitle);
-    textContainerSpan.appendChild(classDescription);
-    textContainer.appendChild(textContainerSpan);
-    classContainer.appendChild(classImage);
-    classContainer.appendChild(textContainer);
-    classesContainer.prepend(classContainer);
+    
+
+    const clone = template.content.cloneNode(true);
+    
+
+    const link = clone.querySelector("a");
+    const img = clone.querySelector("img");
+    const title = clone.querySelector("h3");
+    const description = clone.querySelector("p");
+    
+
+    link.href = "/classroom/" + key;
+    img.src = "/static/coverImages/classroomCovers/" + classInfo.coverImage + "Gradient.png";
+    title.textContent = classInfo.name;
+    description.textContent = classInfo.description;
+    
+
+    classesContainer.prepend(clone);
 });
