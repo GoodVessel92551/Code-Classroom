@@ -1,3 +1,8 @@
+const params = new URLSearchParams(window.location.search);
+const topic = params.get("project");
+const projects = JSON.parse(localStorage.getItem("codeProjects"));
+
+
 function outf(text) {
   const consoleText = document.getElementById("consoleText");
   consoleText.innerText += text;
@@ -252,11 +257,25 @@ require(["vs/editor/editor.main"], function () {
           };
         }
       });
-  
-  var loadedCode = localStorage.getItem("code");
-  if(!loadedCode){
-    loadedCode = "print('Hello, world!')";
-  }
+    if (projects){
+      const project = projects[topic];
+      console.log(project);
+        if (project){
+          loadedCode = project.code;
+          pageTitleDivButtons.style.display = "flex";
+          projectName.value = project.name;
+        }else{
+          var loadedCode = localStorage.getItem("code");
+          if(!loadedCode){
+            loadedCode = "print('Hello, world!')";
+          }
+        }
+      }else{
+        var loadedCode = localStorage.getItem("code");
+        if(!loadedCode){
+          loadedCode = "print('Hello, world!')";
+        }
+      }
   window.editor = monaco.editor.create(document.getElementById("editor"), {
     value: loadedCode,
     language: "python",
@@ -266,6 +285,17 @@ require(["vs/editor/editor.main"], function () {
 
 window.editor.addEventListener("keydown", (event) => {
   const code = window.editor.getValue();
+  if (projects){
+    const project = projects[topic];
+      if (project){
+        projects[topic].code = code;
+        localStorage.setItem("codeProjects", JSON.stringify(projects));
+      }else{
+        localStorage.setItem("code", code);
+      }
+    }else{
+      localStorage.setItem("code", code);
+    }
   localStorage.setItem("code", code);
   if (event.key === "Enter" && event.ctrlKey) {
     event.preventDefault();
