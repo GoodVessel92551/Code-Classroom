@@ -74,10 +74,10 @@ const getColor = (color) => {
 }
 optionContainerNavBarClassesButton.addEventListener('click', () => {
     optionContainerNavBarClassesButton.classList.toggle('optionContainerNavBarButtonActive');
-    if (optionContainerNavBarClasses.style.display === 'none') {
-        optionContainerNavBarClasses.style.display = 'flex';
+    if (optionContainerNavBarClasses.style.maxHeight === '0px') {
+        optionContainerNavBarClasses.style.maxHeight = '300px';
     } else {
-        optionContainerNavBarClasses.style.display = 'none';
+        optionContainerNavBarClasses.style.maxHeight = '0px';
     }
 });
 
@@ -118,10 +118,11 @@ Object.keys(usersClasses).forEach(key => {
 
 optionContainerNavBarTasksButton.addEventListener('click', () => {
     optionContainerNavBarTasksButton.classList.toggle('optionContainerNavBarButtonActive');
-    if (optionContainerNavBarTasks.style.display === 'none') {
-        optionContainerNavBarTasks.style.display = 'flex';
+    if (optionContainerNavBarTasks.style.maxHeight === '0px') {
+        optionContainerNavBarTasks.style.maxHeight = '300px';
+
     } else {
-        optionContainerNavBarTasks.style.display = 'none';
+        optionContainerNavBarTasks.style.maxHeight = '0px';
     }
 });
 let page = {{page|tojson}};
