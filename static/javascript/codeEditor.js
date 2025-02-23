@@ -1,3 +1,8 @@
+const params = new URLSearchParams(window.location.search);
+const topic = params.get("project");
+const projects = JSON.parse(localStorage.getItem("codeProjects"));
+
+
 function outf(text) {
   const consoleText = document.getElementById("consoleText");
   consoleText.innerText += text;
@@ -18,6 +23,7 @@ function inputFunction(promptText) {
   received_input = false
   return new Promise((resolve) => {
       const inputElem = document.getElementById("consoleInput");
+      inputElem.style.display = "block";
       inputElem.focus();
       inputElem.placeholder = promptText || "";
       inputElem.value = "";
@@ -35,10 +41,11 @@ function inputFunction(promptText) {
               inputElem.removeEventListener("keydown", handler);
               currentHandler = null;
               resolve(value);
+              inputElem.style.display = "none";
               inputElem.placeholder = "Type here and press Enter";
           }
       }
-
+      
       currentHandler = handler;
       inputElem.addEventListener("keydown", handler);
   });
@@ -252,11 +259,25 @@ require(["vs/editor/editor.main"], function () {
           };
         }
       });
-  
-  var loadedCode = localStorage.getItem("code");
-  if(!loadedCode){
-    loadedCode = "print('Hello, world!')";
-  }
+    if (projects){
+      const project = projects[topic];
+      console.log(project);
+        if (project){
+          loadedCode = project.code;
+          pageTitleDivButtons.style.display = "flex";
+          projectName.value = project.name;
+        }else{
+          var loadedCode = localStorage.getItem("code");
+          if(!loadedCode){
+            loadedCode = "print('Hello, world!')";
+          }
+        }
+      }else{
+        var loadedCode = localStorage.getItem("code");
+        if(!loadedCode){
+          loadedCode = "print('Hello, world!')";
+        }
+      }
   window.editor = monaco.editor.create(document.getElementById("editor"), {
     value: loadedCode,
     language: "python",
@@ -266,7 +287,17 @@ require(["vs/editor/editor.main"], function () {
 
 window.editor.addEventListener("keydown", (event) => {
   const code = window.editor.getValue();
-  localStorage.setItem("code", code);
+  if (projects){
+    const project = projects[topic];
+      if (project){
+        projects[topic].code = code;
+        localStorage.setItem("codeProjects", JSON.stringify(projects));
+      }else{
+        localStorage.setItem("code", code);
+      }
+    }else{
+      localStorage.setItem("code", code);
+    }
   if (event.key === "Enter" && event.ctrlKey) {
     event.preventDefault();
     const code = window.editor.getValue();
@@ -277,8 +308,33 @@ window.editor.addEventListener("keydown", (event) => {
 
 document.getElementById("runButton").addEventListener("click", () => {
   const code = window.editor.getValue();
+  if (window.location.href.includes("/task/")) {
+    saveCode(code);
+  }
   runPython(code);
 });
+
+
+const saveCode = (code) => {
+  fetch("/endpoint/task/save", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      code: code,
+    }),
+  })
+    .then((data) => {
+      console.log("Success:", data);
+      const editorBottonBar = document.getElementById("editorBottomBar");
+      editorBottonBar.textContent = "Saved";
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+    return
+  }
 
 // (Optional) Bind the clear button to clear the console.
 document.getElementById("clearConsole").addEventListener("click", () => {
@@ -290,3 +346,10 @@ window.addEventListener("resize", function () {
     window.editor.layout();
   }
 });
+
+if (window.location.href.includes("/task/")) {
+  editor.addEventListener("keydown", (event) => {
+    const editorBottonBar = document.getElementById("editorBottomBar");
+    editorBottonBar.textContent = "Unsaved changes";
+  })
+}

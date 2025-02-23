@@ -104,7 +104,8 @@
     const tasks = thisClass.tasks;
     const taskContainer = document.querySelector('.taskContainer');
     tasks.forEach(task => {
-        let container = document.createElement('span');
+        let container = document.createElement('a');
+        container.href = '/task/'+classInfo.id+'/'+task.id;
         let taskTitle = document.createElement('strong');
         let taskDate = document.createElement('p');
         let taskIndercater = document.createElement('div');

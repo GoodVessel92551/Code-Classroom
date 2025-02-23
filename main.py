@@ -6,6 +6,9 @@ import requests ,json
 from oauthlib.oauth2 import WebApplicationClient
 import fun
 from datetime import timedelta 
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 load_dotenv(override=True, interpolate=False)
 
@@ -38,6 +41,17 @@ classes_placeholders = {
     "huy8s9r":{"classInfo":{"id":"huy8s9r","name":"Computer Science","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Computer Science Class","coverImage":"blue"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"id":"hbjsdfg","taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"notcompleted"}]},
 }
 
+class signupForm(FlaskForm):
+    username = StringField('Username',validators=[DataRequired(),Length(min=2,max=20)],render_kw={"placeholder": "Username"})
+    password = PasswordField('Password',validators=[DataRequired(),Length(min=5,max=15)],render_kw={"placeholder": "Password"})
+    confirmPassword = PasswordField('Confirm Password',validators=[DataRequired(),EqualTo('password')],render_kw={"placeholder": "Confirm Password"})
+    submit = SubmitField('Sign Up')
+
+class loginForm(FlaskForm):
+    username = StringField('Username',validators=[DataRequired(),Length(min=2,max=20)],render_kw={"placeholder": "Username"})
+    password = PasswordField('Password',validators=[DataRequired(),Length(min=5,max=15)],render_kw={"placeholder": "Password"})
+    submit = SubmitField('Login')
+
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
@@ -57,10 +71,16 @@ def notifications():
         return render_template("notifications.html",username=fun.get_username(),page="notifications",classes=classes_placeholders)
     return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
+@app.route("/quickCode")
+def code_project():
+    if fun.login():
+        return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
+    return render_template("landing_page.html")
+
 @app.route("/code")
 def code():
     if fun.login():
-        return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
+        return render_template("quickCode.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
     return render_template("landing_page.html")
 
 @app.route("/classroom/<classid>")
@@ -71,12 +91,27 @@ def class_page(classid):
         return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=classes_placeholders,user_class=user_class)
     return render_template("landing_page.html")
 
-@app.route("/task")
-def task():
+@app.route("/task/<classid>/<taskid>")
+def task(classid,taskid):
     if fun.login():
-        return render_template("task.html",username=fun.get_username(),page="tasks",classes=classes_placeholders)
+        user_class = classes_placeholders[classid]
+        class_color = user_class["classInfo"]["coverImage"]
+        for i in user_class["tasks"]:
+            if i["id"] == taskid:
+                task = i
+                break
+        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=classes_placeholders,class_color=class_color,task=task,classid=classid)
     return render_template("landing_page.html")
 
+
+
+
+@app.route("/endpoint/task/save",methods=["POST"])
+def save_task():
+    if fun.login():
+        data = request.json
+        print(data)
+    return "{'status':'complete'}"
 
 
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])
@@ -109,30 +144,37 @@ def login_endpoint():
         return render_template("auth/login.html",error=error)
     return redirect("/")
 
-@app.route("/endpoint/auth/signup",methods=["POST"])
-def signup_endpoint():
-    session.permanent = True
-    form_data = request.form
-    username = form_data["username"]
-    if len(form_data["password"]) < 5:
-        return "Password is too short"
-    elif len(form_data["password"]) > 15:
-        return "Password is too long"
-    password = fun.password_hash(form_data["password"])
-    confirmPassword = fun.password_hash(form_data["confirmPassword"])
-    error = fun.signup_user(username,password,confirmPassword)
-    if error != "Success":
-        return render_template("auth/signup.html",error=error)
-    return redirect("/")
+
+    
 
 
 @app.route("/login")
 def login_page():
-    return render_template("auth/login.html",error=False)
+    form = loginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = fun.password_hash(form.password.data)
+        error = fun.login_user(username,password)
+        if error != "Success":
+            return render_template("auth/login.html",error=error,form=form)
+        else:
+            return redirect("/")
+    return render_template("auth/login.html",error=False,form=form)
 
-@app.route("/signup")
+@app.route("/signup", methods=['GET', 'POST'])
 def signup_page():
-    return render_template("auth/signup.html",error=False)
+    form = signupForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        session.permanent = True
+        password = fun.password_hash(form.password.data)
+        confirmPassword = fun.password_hash(form.confirmPassword.data)
+        error = fun.signup_user(username,password,confirmPassword)
+        if error != "Success":
+            return render_template("auth/signup.html",error=error,form=form)
+        else:
+            return redirect("/")
+    return render_template("auth/signup.html",error=False,form=form)
 
 @app.route("/signout")
 def signout():
