@@ -39,7 +39,8 @@
 
     <main class="landingPageMainContainer">
         <div class="loginContainer">
-            <form method="post" action="/endpoint/auth/signup" class="loginContentsContainer">
+            <form method="post" class="loginContentsContainer">
+                {{ form.hidden_tag() }}
                 <div>
                     <h2>Create an account</h2>
                     <p>Teach coding the easy way</p>
@@ -49,13 +50,13 @@
                     <p id="errorMessageText">Invalid Username or Password</p>
                 </div>
                 <div>
-                    <label>Username</label>
-                    <input name="username" required minlength="2" maxlength="20" placeholder="Username" type="text" id="username" />
+                    {{form.username.label}}
+                    {{form.username}}
                 </div>
                 <div>
-                    <label>Password</label>
-                    <input name="password" minlength="5" maxlength="15" required placeholder="Password" type="password" id="password" />
-                    <input name="confirmPassword" minlength="5" maxlength="15" required placeholder="Confirm Password" type="password" id="confirmPassword" />
+                    {{form.password.label}}
+                    {{form.password}}
+                    {{form.confirmPassword}}
                 </div>
                 <button type="submit" class="loginWithGoogle">Signup</button>
                 <a href="/call" class="loginWithGoogleSecondary">                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
