@@ -9,6 +9,9 @@ from datetime import timedelta
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_limiter.errors import RateLimitExceeded
 
 load_dotenv(override=True, interpolate=False)
 
@@ -27,6 +30,13 @@ app.secret_key = os.getenv("SECRET_KEY")
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["1000 per day", "100 per hour"],
+    storage_uri="memory://"
+)
 
 public_classes_placeholders = [
     {"id":"1","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
@@ -149,6 +159,7 @@ def login_endpoint():
 
 
 @app.route("/login")
+@limiter.limit("5 per minute")
 def login_page():
     form = loginForm()
     if form.validate_on_submit():
@@ -243,6 +254,13 @@ def page_not_found(error):
         return render_template('404.html', username=fun.get_username(), classes=classes_placeholders,page="404"), 404
     return render_template('404.html'), 404
 
+@app.errorhandler(RateLimitExceeded)
+def ratelimit_handler(e):
+    form = loginForm()
+    return render_template(
+        "auth/login.html",
+        error="Too many login attempts. Please try again later."
+    ), 429
 
 if __name__ == "__main__":
     app.run(debug=True)
