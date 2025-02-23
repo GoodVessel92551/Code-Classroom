@@ -259,7 +259,8 @@ def ratelimit_handler(e):
     form = loginForm()
     return render_template(
         "auth/login.html",
-        error="Too many login attempts. Please try again later."
+        error="Too many login attempts. Please try again later.",
+        form=form
     ), 429
 
 if __name__ == "__main__":
