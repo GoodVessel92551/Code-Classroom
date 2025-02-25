@@ -81,25 +81,25 @@ def faq():
 def notifications():
     if fun.login():
         return render_template("notifications.html",username=fun.get_username(),page="notifications",classes=classes_placeholders)
-    return render_template("landing_page.html",publicClasses=public_classes_placeholders)
+    return redirect("/")
 
 @app.route("/quickCode")
 def code_project():
     if fun.login():
         return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
-    return render_template("landing_page.html")
+    return redirect("/")
 
 @app.route("/code")
 def code():
     if fun.login():
         return render_template("quickCode.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
-    return render_template("landing_page.html")
+    return redirect("/")
 
 @app.route("/create/classroom")
 def create_classroom():
     if fun.login():
         return render_template("create_class.html",username=fun.get_username(),page="create classroom",classes=classes_placeholders)
-    return render_template("landing_page.html")
+    return redirect("/")
 
 @app.route("/classroom/<classid>")
 def class_page(classid):
@@ -107,7 +107,7 @@ def class_page(classid):
     if fun.login():
         user_class = classes_placeholders[classid]
         return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=classes_placeholders,user_class=user_class)
-    return render_template("landing_page.html")
+    return redirect("/")
 
 @app.route("/task/<classid>/<taskid>")
 def task(classid,taskid):
@@ -119,7 +119,7 @@ def task(classid,taskid):
                 task = i
                 break
         return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=classes_placeholders,class_color=class_color,task=task,classid=classid)
-    return render_template("landing_page.html")
+    return redirect("/")
 
 
 
