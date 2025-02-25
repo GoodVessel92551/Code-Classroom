@@ -157,13 +157,14 @@ def weak_topics():
 
 @app.route("/endpoint/auth/login",methods=["POST"])
 def login_endpoint():
+    form = loginForm()
     session.permanent = True
     form_data = request.form
     username = form_data["username"]
     password = fun.password_hash(form_data["password"])
     error = fun.login_user(username,password)
     if error != "Success":
-        return render_template("auth/login.html",error=error)
+        return render_template("auth/login.html",error=error,form=form)
     return redirect("/")
 
 @app.route("/endpoint/class/create",methods=["POST"])
@@ -196,7 +197,7 @@ def create_task_endpoint():
         return {'status':'complete'}
         
 
-@app.route("/login")
+@app.route("/login", methods=['GET', 'POST'])
 @limiter.limit("5 per minute")
 def login_page():
     form = loginForm()
@@ -223,7 +224,7 @@ def signup_page():
             return render_template("auth/signup.html",error=error,form=form)
         else:
             return redirect("/")
-    return render_template("auth/signup.html",error=False,form=form)
+    return render_template("auth/signup.html",error="Inputs Not Valid",form=form)
 
 @app.route("/signout")
 def signout():
