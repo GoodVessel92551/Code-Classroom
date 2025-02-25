@@ -17,7 +17,7 @@ Object.keys(classes).forEach(key => {
     
 
     link.href = "/classroom/" + key;
-    img.src = "/static/coverImages/classroomCovers/" + classInfo.coverImage + "Gradient.png";
+    img.src = "/static/coverImages/classroomCovers/" + classInfo.coverImage + "Gradient.webp";
     title.textContent = classInfo.name;
     description.textContent = classInfo.description;
     
