@@ -162,8 +162,12 @@ def login_endpoint():
         return render_template("auth/login.html",error=error)
     return redirect("/")
 
-
-    
+@app.route("/endpoint/class/create",methods=["POST"])
+def create_class():
+    if fun.login():
+        data = request.json
+        print(data)
+    return "{'status':'complete'}"
 
 
 @app.route("/login")

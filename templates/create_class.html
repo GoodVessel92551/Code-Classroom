@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <button class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="#ffffff"/></svg>Finish</button>
+            <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="#ffffff"/></svg>Finish</button>
         </div>
 </main>
 <script>
@@ -47,6 +47,7 @@
     const imagesLeft2 = document.getElementById("imagesLeft2");
     const imagesRight1 = document.getElementById("imagesRight1");
     const imagesRight2 = document.getElementById("imagesRight2");
+    const finishButton = document.getElementById("finishButton");
 
     nextImageLeft.addEventListener("click",()=>{
         const lastElement = coverImages[coverImages.length - 1];
@@ -82,6 +83,34 @@
 }
 
     setImages()
+
+    finishButton.addEventListener("click",()=>{
+        const className = document.getElementById("className").value;
+        const classSubTitle = document.getElementById("classSubTitle").value;
+        const classDescription = document.getElementById("classDescription").value;
+        const classColor = coverImages[2];
+        const data = {
+            className,
+            classSubTitle,
+            classDescription,
+            classColor
+        }
+        fetch("/endpoint/class/create",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        }).then(response=>response.json()).then(data=>{
+            if(data.status === "success"){
+                window.location.href = "/class/"+data.classId;
+            }
+            else{
+                alert(data.message);
+            }
+        })
+    })
+
 </script>
 
 
