@@ -16,6 +16,31 @@
     --secondary_button_text:#FFFFFF;
 }
 
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background_secondary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--background_tertiary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text_theme);
+}
+
+
+* {
+    scrollbar-color: var(--background_tertiary) var(--background_secondary);
+}
+
 .errorMessage{
     height:40px;
     width: 100%;
