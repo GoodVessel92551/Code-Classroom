@@ -45,7 +45,7 @@ def signup_user(username,password,confirmPassword):
     if str("UNAPW-"+username) in ids:
         return "Username already exists"
     else:
-        user_data = {"username":username,"password":password,"id":id,"type":"UNAPW","data":{"aiTools":{"weakTopics":{"topics":[],"tasks":[]}}}}
+        user_data = {"username":username,"password":password,"id":id,"type":"UNAPW","data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]}}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":"UNAPW-"+username}}
@@ -88,6 +88,13 @@ def gen_user_id():
         id += random.choice(chars)
     return id
 
+def gen_class_id():
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    id = ""
+    for i in range(random.randint(5,10)):
+        id += random.choice(chars)
+    return id
+
 def login():
     if session.get("token"):
         keys = global_data_db.find_one({"name":"B-KEYS"})
@@ -102,7 +109,7 @@ def create_account_google(username,id):
     if str(id) in ids:
         pass
     else:
-        user_data = {"username":username,"id":id,"type":"google","data":{"aiTools":{"weakTopics":{"topics":[],"tasks":[]}}}}
+        user_data = {"username":username,"id":id,"type":"google","data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]}}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":id}}
@@ -148,3 +155,79 @@ def get_weak_topics(id):
     topics = user_data["data"]["aiTools"]["weakTopics"]["topics"]
     counter = Counter(topics)
     return counter.most_common(2)
+
+def get_user_id():
+    return user_data_db.find_one({"id":get_id()})["id"]
+
+
+def create_class(name, subtitle, description, color):
+    id = gen_class_id()
+    class_data = {
+        "classInfo": {
+            "name": name,
+            "subtitle": subtitle,
+            "description": description,
+            "coverImage": color,
+            "id": id
+        },
+        "messages": [],
+        "tasks": [],
+        "members": [{"id": get_user_id(), "role": "teacher"}]
+    }
+    
+    # Update to store class in dictionary using the id as key
+    query = {"name": "classrooms"}
+    update = {"$set": {f"data.{id}": class_data}}
+    global_data_db.update_one(query, update)
+
+    # Update user data to store class id
+    query = {"id": get_id()}
+    update = {"$push": {"data.classrooms": id}}
+    user_data_db.update_one(query, update)
+
+
+    return id
+
+def check_teacher(class_id):
+    print(class_id)
+    user_id = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    members = class_data["members"]
+    for i in range(len(members)):
+        if members[i]["id"] == user_id and members[i]["role"] == "teacher":
+            return True
+    return False
+
+def create_task(class_id, title, data,date):
+    print("Class ID "+class_id)
+    if not check_teacher(class_id):
+        return "You are not a teacher of this class"
+    else:
+        task_id = gen_class_id()
+        task_data = {
+            "id": task_id,
+            "taskName": title,
+            "taskDescription": data,
+            "taskDue":date,
+            "taskStatus":"notcompleted"
+        }
+
+        query = {"name": "classrooms"}
+        update = {"$push": {f"data.{class_id}.tasks": task_data}}
+        global_data_db.update_one(query, update)
+
+
+def get_user_classes():
+    classes = {}
+    user_id = get_id()
+    user_classes = user_data_db.find_one({"id": user_id})["data"]["classrooms"]
+    print(user_classes)
+    for i in range(len(user_classes)):
+        class_id = user_classes[i]
+        if class_id in global_data_db.find_one({"name": "classrooms"})["data"].keys():
+            print(class_id)
+            class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+            classes[class_id] = class_data
+    print(classes)
+
+    return classes

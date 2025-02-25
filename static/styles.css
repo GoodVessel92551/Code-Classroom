@@ -616,6 +616,11 @@ main{
     max-height: 300px; /* Reduced from 1000px to a value closer to actual content height */
     transition: 0.3s max-height ease-out; /* Reduced from 1s to 0.3s and changed timing function */
     overflow: hidden;
+    margin-bottom: -8px;
+}
+
+.optionContainerNavBar:empty{
+    margin-bottom: -8px;
 }
 
 .optionContainerNavBar > a{
@@ -1369,7 +1374,7 @@ main{
     gap: 24px;
 }
 
-.createClassForm > div{
+.createClassForm > div:not(.errorMessage){
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -1543,4 +1548,32 @@ main{
 
 .slide-animation:not(.imagesRight > span,.imagesLeft > span){
     animation: slideIn 0.3s ease forwards;
+}
+
+.errorMessage{
+    height:40px;
+    width: 100%;
+    background-color: var(--clear_button);
+    color: var(--on_clear_button);
+    border-radius: 16px;
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    gap:8px;
+    padding: 0px 16px;
+    box-sizing: border-box;
+}
+
+.errorMessage > p{
+    color: var(--on_clear_button) !important;
+    font-size: 12px;
+}
+
+.errorMessage > svg{
+    height: 16px;
+    width: 16px;
+}
+
+.errorMessage > svg > path{
+    fill: var(--on_clear_button);
 }

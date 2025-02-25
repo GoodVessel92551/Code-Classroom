@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import os
 from flask import Flask, render_template, request, jsonify,redirect,session,url_for
 import requests ,json
+from datetime import datetime
 from oauthlib.oauth2 import WebApplicationClient
 import fun
 from datetime import timedelta 
@@ -38,18 +39,15 @@ limiter = Limiter(
     storage_uri="memory://"
 )
 
-public_classes_placeholders = [
+public_classes_placeholder = [
     {"id":"1","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
     {"id":"2","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green","status":"Verified"}},
     {"id":"3","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink","status":"Verified"}},
     {"id":"4","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"blue","status":"Verified"}} 
 ]
 
-classes_placeholders = {
-    "huwser89":{"classInfo":{"id":"huwser89","name":"Maths","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Maths Class","coverImage":"red"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"id":"uiohsedrfg","taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"completed"}]},
-    "y78fsh":{"classInfo":{"id":"y78fsh","name":"Physics","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Physics Class","coverImage":"green"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"id":"yuihggf","taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"missing"}]},
-    "huy8s9r":{"classInfo":{"id":"huy8s9r","name":"Computer Science","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","classSubTitle":"Computer Science Class","coverImage":"blue"},"messages":[{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"},{"user":"John Doe","message":"Hello World","time":"12/02/25"}],"tasks":[{"id":"hbjsdfg","taskName":"Task Name","taskDescription":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","taskDue":"15/02/25","taskStatus":"notcompleted"}]},
-}
+
+
 
 class signupForm(FlaskForm):
     username = StringField('Username',validators=[DataRequired(),Length(min=2,max=20)],render_kw={"placeholder": "Username"})
@@ -70,8 +68,8 @@ def get_google_provider_cfg():
 @app.route("/")
 def home():
     if fun.login():
-        return render_template("index.html",username=fun.get_username(),page="home",classes=classes_placeholders)
-    return render_template("landing_page.html",publicClasses=public_classes_placeholders)
+        return render_template("index.html",username=fun.get_username(),page="home",classes=fun.get_user_classes())
+    return render_template("landing_page.html",publicClasses=public_classes_placeholder)
 
 @app.route("/faq")
 def faq():
@@ -80,51 +78,51 @@ def faq():
 @app.route("/notifications")
 def notifications():
     if fun.login():
-        return render_template("notifications.html",username=fun.get_username(),page="notifications",classes=classes_placeholders)
+        return render_template("notifications.html",username=fun.get_username(),page="notifications",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/quickCode")
 def code_project():
     if fun.login():
-        return render_template("code.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
+        return render_template("code.html",username=fun.get_username(),page="quick code",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/code")
 def code():
     if fun.login():
-        return render_template("quickCode.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
+        return render_template("quickCode.html",username=fun.get_username(),page="quick code",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/create/classroom")
 def create_classroom():
     if fun.login():
-        return render_template("create_class.html",username=fun.get_username(),page="create classroom",classes=classes_placeholders)
+        return render_template("create_class.html",username=fun.get_username(),page="create classroom",classes=fun.get_user_classes())
     return redirect("/")
 
-@app.route("/create/task")
-def create_task():
+@app.route("/create/task/<classid>")
+def create_task(classid):
     if fun.login():
-        return render_template("create_task.html",username=fun.get_username(),page="create task",classes=classes_placeholders)
+        return render_template("create_task.html",username=fun.get_username(),page="create task",classes=fun.get_user_classes(),classid=classid)
     return redirect("/")
 
 @app.route("/classroom/<classid>")
 def class_page(classid):
     print(classid)
     if fun.login():
-        user_class = classes_placeholders[classid]
-        return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=classes_placeholders,user_class=user_class)
+        user_class = fun.get_user_classes()[classid]
+        return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/task/<classid>/<taskid>")
 def task(classid,taskid):
     if fun.login():
-        user_class = classes_placeholders[classid]
+        user_class = fun.get_user_classes()[classid]
         class_color = user_class["classInfo"]["coverImage"]
         for i in user_class["tasks"]:
             if i["id"] == taskid:
                 task = i
                 break
-        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=classes_placeholders,class_color=class_color,task=task,classid=classid)
+        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid)
     return redirect("/")
 
 
@@ -172,9 +170,31 @@ def login_endpoint():
 def create_class():
     if fun.login():
         data = request.json
-        print(data)
-    return "{'status':'complete'}"
+        if (data["name"] == "" or data["subtitle"] == "" or data["description"] == "" or data["color"] == ""):
+            return {'status':'Fill out all fields'}
+        elif (len(data["name"]) > 20 or len(data["subtitle"]) > 20 or len(data["description"]) > 100):
+            return {'status':'Inputs are values are too long'}
+        classID = fun.create_class(data["name"],data["subtitle"],data["description"],data["color"])
+        return {'status':'complete','classId':classID}
+    return {'status':'Not logged in'}
 
+@app.route("/endpoint/task/create",methods=["POST"])
+def create_task_endpoint():
+    if fun.login():
+        data = request.json
+        if (data["name"] == "" or data["description"] == "" or data["date"] == ""):
+            return {'status':'Fill out all fields'}
+        elif (len(data["name"]) > 20 or len(data["description"]) > 100):
+            return {'status':'Inputs are values are too long'}
+        try:
+            task_date = datetime.strptime(data["date"], "%Y-%m-%d")
+            if task_date < datetime.now():
+                return {'status':'Date cannot be in the past'}
+        except ValueError:
+            return {'status':'Invalid date format. Use YYYY-MM-DD'}
+        fun.create_task(data["classid"],data["name"],data["description"],data["date"])
+        return {'status':'complete'}
+        
 
 @app.route("/login")
 @limiter.limit("5 per minute")
@@ -269,7 +289,7 @@ def callback():
 @app.errorhandler(404)
 def page_not_found(error):
     if fun.login():
-        return render_template('404.html', username=fun.get_username(), classes=classes_placeholders,page="404"), 404
+        return render_template('404.html', username=fun.get_username(), classes=fun.get_user_classes(),page="404"), 404
     return render_template('404.html'), 404
 
 @app.errorhandler(RateLimitExceeded)

@@ -5,6 +5,10 @@
 <main class="createClassMain">
     <div class="pageTitleDiv"><h1>{{page.title()}}</h1></div>
         <div class="createClassForm">
+            <div class="errorMessage" id="errorMessage">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm0 1.5a8.502 8.502 0 1 0 0 17.003A8.502 8.502 0 0 0 12 3.5Zm-.004 7a.75.75 0 0 1 .744.648l.007.102.003 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.003-5.502a.75.75 0 0 1 .75-.75ZM12 7.003a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z" fill="#ffffff"/></svg>
+                <p id="errorMessageText">Invalid Username or Password</p>
+            </div>
             <div>
                 <label for="className">Class Title</label>
                 <input maxlength="20" type="text" id="className" name="className" placeholder="Class Title">
@@ -48,6 +52,8 @@
     const imagesRight1 = document.getElementById("imagesRight1");
     const imagesRight2 = document.getElementById("imagesRight2");
     const finishButton = document.getElementById("finishButton");
+    const errorMessage = document.getElementById("errorMessage");
+    const errorMessageText = document.getElementById("errorMessageText");
 
     nextImageLeft.addEventListener("click",()=>{
         const lastElement = coverImages[coverImages.length - 1];
@@ -88,17 +94,19 @@
         const classDescription = document.getElementById("classDescription").value;
         const classColor = coverImages[2];
         if (className === "" || classSubTitle === "" || classDescription === "") {
-            alert("Please fill all the fields");
+            errorMessage.style.display = "flex";
+            errorMessageText.innerText = "Fill out all fields";
             return;
         }else if(className.length > 20 || classSubTitle.length > 30 || classDescription.length > 100){
-            alert("Please make sure the fields are not longer than the maximum length");
+            errorMessage.style.display = "flex";
+            errorMessageText.innerText = "Inputs are values are too long";
             return;
         }
         const data = {
-            className,
-            classSubTitle,
-            classDescription,
-            classColor
+            "name":className,
+            "subtitle":classSubTitle,
+            "description":classDescription,
+            "color":classColor
         }
         fetch("/endpoint/class/create",{
             method:"POST",
@@ -107,11 +115,12 @@
             },
             body:JSON.stringify(data)
         }).then(response=>response.json()).then(data=>{
-            if(data.status === "success"){
-                window.location.href = "/class/"+data.classId;
+            if(data.status === "complete"){
+                window.location.href = "/classroom/"+data.classId;
             }
             else{
-                alert(data.message);
+                errorMessage.style.display = "flex";
+                errorMessageText.innerText = data.status;
             }
         })
     })
