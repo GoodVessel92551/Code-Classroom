@@ -62,6 +62,8 @@ class loginForm(FlaskForm):
     password = PasswordField('Password',validators=[DataRequired(),Length(min=5,max=15)],render_kw={"placeholder": "Password"})
     submit = SubmitField('Login')
 
+
+
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
@@ -91,6 +93,12 @@ def code_project():
 def code():
     if fun.login():
         return render_template("quickCode.html",username=fun.get_username(),page="quick code",classes=classes_placeholders)
+    return render_template("landing_page.html")
+
+@app.route("/create/classroom")
+def create_classroom():
+    if fun.login():
+        return render_template("create_class.html",username=fun.get_username(),page="create classroom",classes=classes_placeholders)
     return render_template("landing_page.html")
 
 @app.route("/classroom/<classid>")

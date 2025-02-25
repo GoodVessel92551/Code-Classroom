@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Booogle Code | Teach Code The Easy Way{% endblock %}
+{% block main %}
+
+<main class="createClassMain">
+    <div class="pageTitleDiv"><h1>{{page.title()}}</h1></div>
+        <div class="createClassForm">
+            <div>
+                <label for="className">Class Title</label>
+                <input type="text" id="className" name="className" placeholder="Class Title">
+            </div>
+            <div>
+                <label for="classSubTitle">Class Subtitle</label>
+                <input type="text" id="classSubTitle" name="classSubTitle" placeholder="Class Subtitle">
+            </div>
+            <div>
+                <label for="classDescription">Class Description</label>
+                <textarea id="classDescription" name="classDescription" placeholder="Class Description"></textarea>
+            </div>
+            <div>
+                <label>Class Color</label>
+                <div class="coverImageContainer">
+                    <div class="imagesLeft">
+                        <span><img id="imagesLeft1"></span>
+                        <span><img id="imagesLeft2"></span>
+                    </div>
+                    <div class="mainImage">
+                        <img id="mainImage">
+                        <button class="nextImageLeft" id="nextImageLeft"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.53 4.22a.75.75 0 0 1 0 1.06L8.81 12l6.72 6.72a.75.75 0 1 1-1.06 1.06l-7.25-7.25a.75.75 0 0 1 0-1.06l7.25-7.25a.75.75 0 0 1 1.06 0Z" fill="#ffffff"/></svg></button>
+                        <button class="nextImageRight" id="nextImageRight"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z" fill="#ffffff"/></svg></button>
+                    </div>
+                    <div class="imagesRight">
+                        <span><img id="imagesRight1"></span>
+                        <span><img id="imagesRight2"></span>
+                    </div>
+                </div>
+            </div>
+            <button class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="#ffffff"/></svg>Finish</button>
+        </div>
+</main>
+<script>
+    let coverImages = ["blue","green","orange","pink","purple","red"];
+    const nextImageLeft = document.getElementById("nextImageLeft");
+    const nextImageRight = document.getElementById("nextImageRight");
+    const mainImage = document.getElementById("mainImage");
+    const imagesLeft1 = document.getElementById("imagesLeft1");
+    const imagesLeft2 = document.getElementById("imagesLeft2");
+    const imagesRight1 = document.getElementById("imagesRight1");
+    const imagesRight2 = document.getElementById("imagesRight2");
+
+    nextImageLeft.addEventListener("click",()=>{
+        const lastElement = coverImages[coverImages.length - 1];
+        coverImages.unshift(lastElement);
+        coverImages.pop();
+        console.log(coverImages);
+        setImages()
+    });
+
+    nextImageRight.addEventListener("click",()=>{
+        const firstElement = coverImages[0];
+        coverImages.push(firstElement);
+        coverImages.shift();
+        console.log(coverImages);
+        setImages()
+    });
+
+    const setImages = () => {
+    // Remove animation class if it exists
+    [imagesLeft1, imagesLeft2, mainImage, imagesRight1, imagesRight2].forEach(img => {
+        img.classList.remove('slide-animation');
+        // Trigger reflow to restart animation
+        void img.offsetWidth;
+        img.classList.add('slide-animation');
+    });
+
+    // Set image sources
+    imagesLeft1.src = '/static/coverImages/classroomCovers/' + coverImages[0] + 'Gradient.webp';
+    imagesLeft2.src = '/static/coverImages/classroomCovers/' + coverImages[1] + 'Gradient.webp';
+    mainImage.src = '/static/coverImages/classroomCovers/' + coverImages[2] + 'Gradient.webp';
+    imagesRight1.src = '/static/coverImages/classroomCovers/' + coverImages[3] + 'Gradient.webp';
+    imagesRight2.src = '/static/coverImages/classroomCovers/' + coverImages[4] + 'Gradient.webp';
+}
+
+    setImages()
+</script>
+
+
+
+{% endblock %}
