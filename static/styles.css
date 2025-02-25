@@ -974,7 +974,7 @@ main{
     font-size: 16px;
 }
 
-.classroomTitleContainer > button{
+.classroomTitleContainer > button,.classroomTitleContainer > a{
     display: flex;
     padding:4px;
     border:none;
@@ -1385,7 +1385,7 @@ main{
     background-color: var(--background_secondary);
     color: var(--text_primary);
     border: none;
-    padding: 15px 16px;
+    padding: 0px 16px;
     border-radius: 16px;
     box-sizing: border-box;
     font-size: 14px;

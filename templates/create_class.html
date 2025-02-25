@@ -7,15 +7,15 @@
         <div class="createClassForm">
             <div>
                 <label for="className">Class Title</label>
-                <input type="text" id="className" name="className" placeholder="Class Title">
+                <input maxlength="20" type="text" id="className" name="className" placeholder="Class Title">
             </div>
             <div>
                 <label for="classSubTitle">Class Subtitle</label>
-                <input type="text" id="classSubTitle" name="classSubTitle" placeholder="Class Subtitle">
+                <input maxlength="30" type="text" id="classSubTitle" name="classSubTitle" placeholder="Class Subtitle">
             </div>
             <div>
                 <label for="classDescription">Class Description</label>
-                <textarea id="classDescription" name="classDescription" placeholder="Class Description"></textarea>
+                <textarea maxlength="100" id="classDescription" name="classDescription" placeholder="Class Description"></textarea>
             </div>
             <div>
                 <label>Class Color</label>
@@ -66,10 +66,8 @@
     });
 
     const setImages = () => {
-    // Remove animation class if it exists
     [imagesLeft1, imagesLeft2, mainImage, imagesRight1, imagesRight2].forEach(img => {
         img.classList.remove('slide-animation');
-        // Trigger reflow to restart animation
         void img.offsetWidth;
         img.classList.add('slide-animation');
     });
@@ -89,6 +87,13 @@
         const classSubTitle = document.getElementById("classSubTitle").value;
         const classDescription = document.getElementById("classDescription").value;
         const classColor = coverImages[2];
+        if (className === "" || classSubTitle === "" || classDescription === "") {
+            alert("Please fill all the fields");
+            return;
+        }else if(className.length > 20 || classSubTitle.length > 30 || classDescription.length > 100){
+            alert("Please make sure the fields are not longer than the maximum length");
+            return;
+        }
         const data = {
             className,
             classSubTitle,

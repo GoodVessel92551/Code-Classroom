@@ -101,6 +101,12 @@ def create_classroom():
         return render_template("create_class.html",username=fun.get_username(),page="create classroom",classes=classes_placeholders)
     return redirect("/")
 
+@app.route("/create/task")
+def create_task():
+    if fun.login():
+        return render_template("create_task.html",username=fun.get_username(),page="create task",classes=classes_placeholders)
+    return redirect("/")
+
 @app.route("/classroom/<classid>")
 def class_page(classid):
     print(classid)

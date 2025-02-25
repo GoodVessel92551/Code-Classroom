@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Booogle Code | Teach Code The Easy Way{% endblock %}
+{% block main %}
+
+<main class="createClassMain">
+    <div class="pageTitleDiv"><h1>{{page.title()}}</h1></div>
+        <div class="createClassForm">
+            <div>
+                <label for="taskName">Task Title</label>
+                <input maxlength="20" type="text" id="taskName" name="taskName" placeholder="Task Title">
+            </div>
+            <div>
+                <label for="taskDate">Due Date</label>
+                <input type="date" id="taskDate" name="taskDate" min="" required>
+                <script>
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('taskDate').setAttribute('min', today);
+                </script>
+            </div>
+            <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="#ffffff"/></svg>Finish</button>
+        </div>
+</main>
+<script>
+    const finishButton = document.getElementById("finishButton");
+
+
+    finishButton.addEventListener("click",()=>{
+        const className = document.getElementById("className").value;
+        const classSubTitle = document.getElementById("classSubTitle").value;
+        const classDescription = document.getElementById("classDescription").value;
+        const classColor = coverImages[2];
+        if (className === "" || classSubTitle === "" || classDescription === "") {
+            alert("Please fill all the fields");
+            return;
+        }else if(className.length > 20 || classSubTitle.length > 30 || classDescription.length > 100){
+            alert("Please make sure the fields are not longer than the maximum length");
+            return;
+        }
+        const data = {
+            className,
+            classSubTitle,
+            classDescription,
+            classColor
+        }
+        fetch("/endpoint/class/create",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+        }).then(response=>response.json()).then(data=>{
+            if(data.status === "success"){
+                window.location.href = "/class/"+data.classId;
+            }
+            else{
+                alert(data.message);
+            }
+        })
+    })
+
+</script>
+
+
+
+{% endblock %}
