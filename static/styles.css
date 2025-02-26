@@ -1577,3 +1577,14 @@ main{
 .errorMessage > svg > path{
     fill: var(--on_clear_button);
 }
+
+.deleteMessage{
+    display: flex;
+    align-items: center;
+}
+
+.deleteMessageSVG{
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}

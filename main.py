@@ -195,7 +195,24 @@ def create_task_endpoint():
             return {'status':'Invalid date format. Use YYYY-MM-DD'}
         fun.create_task(data["classid"],data["name"],data["description"],data["date"])
         return {'status':'complete'}
-        
+
+@app.route("/endpoint/class/message",methods=["POST"])
+def send_message():
+    if fun.login():
+        data = request.json
+        if data["message"] == "":
+            return {'status':'Fill out all fields'}
+        elif len(data["message"]) > 100:
+            return {'status':'Message is too long'}
+        message = fun.send_message(data["classid"],data["message"])
+        return {'status':'complete',"userName":message["userName"],"message":message["message"],"messageId":message["messageId"],"date":message["date"]}
+
+@app.route("/endpoint/class/message/delete",methods=["POST"])
+def delete_message():
+    if fun.login():
+        data = request.json
+        message = fun.delete_message(data["classid"],data["messageid"])
+        return {'status':message}
 
 @app.route("/login", methods=['GET', 'POST'])
 @limiter.limit("5 per minute")

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 import os
 from collections import Counter
+import datetime
 
 
 client = MongoClient(os.getenv('mongo_url'))
@@ -215,6 +216,33 @@ def create_task(class_id, title, data,date):
         query = {"name": "classrooms"}
         update = {"$push": {f"data.{class_id}.tasks": task_data}}
         global_data_db.update_one(query, update)
+
+def send_message(class_id, message):
+    print("Class ID "+class_id)
+    print("Message "+message)
+
+    message = {
+        "userName": get_username(),
+        "message": message,
+        "messageId": gen_class_id(),
+        "date": datetime.datetime.now().strftime("%Y-%m-%d"),
+        "userID": get_user_id()
+    }
+
+    query = {"name": "classrooms"}
+    update = {"$push": {f"data.{class_id}.messages": message}}
+    global_data_db.update_one(query, update)
+    return message
+
+def delete_message(class_id, message_id):
+    if check_teacher(class_id) or get_user_id() == global_data_db.find_one({"name": "classrooms"})["data"][class_id]["messages"][message_id]["userID"]:
+        pass
+    else:
+        return "You are not allowed to delete this message"
+    query = {"name": "classrooms"}
+    update = {"$pull": {f"data.{class_id}.messages": {"messageId": message_id}}}
+    global_data_db.update_one(query, update)
+    return "complete"
 
 
 def get_user_classes():
