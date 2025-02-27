@@ -29,6 +29,8 @@ GOOGLE_DISCOVERY_URL = (
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
+app.config['SESSION_COOKIE_HTTPONLY'] = True 
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
@@ -61,7 +63,6 @@ class loginForm(FlaskForm):
     submit = SubmitField('Login')
 
 
-
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
@@ -69,7 +70,6 @@ def get_google_provider_cfg():
 def home():
     if fun.login():
         return render_template("index.html",username=fun.get_username(),page="home",classes=fun.get_user_classes())
-    return render_template("landing_page.html",publicClasses=public_classes_placeholder)
 
 @app.route("/faq")
 def faq():
@@ -126,7 +126,22 @@ def task(classid,taskid):
     return redirect("/")
 
 
+@app.route("/join/classroom")
+def join_classroom():
+    if fun.login():
+        return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
+    return redirect("/")
 
+@app.route("/endpoint/classroom/join",methods=["POST"])
+def join_classroom_endpoint():
+    if fun.login():
+        data = request.json
+        if data["classCode"] == "":
+            return {'status':'Fill out all fields'}
+        elif len(data["classCode"]) > 20:
+            return {'status':'Code is too long'}
+        status = fun.join_classroom(data["classCode"])
+        return {'status':status}
 
 @app.route("/endpoint/task/save",methods=["POST"])
 def save_task():

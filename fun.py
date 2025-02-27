@@ -189,6 +189,22 @@ def create_class(name, subtitle, description, color):
 
     return id
 
+def join_classroom(class_id):
+    classrooms = global_data_db.find_one({"name": "classrooms"})["data"]
+    if class_id in classrooms.keys():
+        query = {"id": get_id()}
+        update = {"$push": {"data.classrooms": class_id}}
+        user_data_db.update_one(query, update)
+        classroom = classrooms[class_id]
+        members = classroom["members"]
+        members.append({"id": get_id(), "role": "student"})
+        query = {"name": "classrooms"}
+        update = {"$set": {f"data.{class_id}.members": members}}
+        global_data_db.update_one(query, update)
+        return "complete"
+    else:
+        return "Class does not exist"
+
 def check_teacher(class_id):
     print(class_id)
     user_id = get_user_id()
@@ -235,7 +251,7 @@ def send_message(class_id, message):
     return message
 
 def delete_message(class_id, message_id):
-    if check_teacher(class_id) or get_user_id() == global_data_db.find_one({"name": "classrooms"})["data"][class_id]["messages"][message_id]["userID"]:
+    if check_teacher(class_id) or check_user_sent_message(class_id, message_id):
         pass
     else:
         return "You are not allowed to delete this message"
@@ -243,6 +259,14 @@ def delete_message(class_id, message_id):
     update = {"$pull": {f"data.{class_id}.messages": {"messageId": message_id}}}
     global_data_db.update_one(query, update)
     return "complete"
+
+
+def check_user_sent_message(class_id, message_id):
+    messages = global_data_db.find_one({"name": "classrooms"})["data"][class_id]["messages"]
+    for i in range(len(messages)):
+        if messages[i]["messageId"] == message_id and messages[i]["userID"] == get_user_id():
+            return True
+    return False
 
 
 def get_user_classes():

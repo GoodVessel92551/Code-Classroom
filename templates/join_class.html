@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Booogle Code | Teach Code The Easy Way{% endblock %}
+{% block main %}
+
+<main class="createClassMain">
+    <div class="pageTitleDiv"><h1>{{page.title()}}</h1></div>
+        <div class="createClassForm">
+            <div class="errorMessage" id="errorMessage">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm0 1.5a8.502 8.502 0 1 0 0 17.003A8.502 8.502 0 0 0 12 3.5Zm-.004 7a.75.75 0 0 1 .744.648l.007.102.003 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.003-5.502a.75.75 0 0 1 .75-.75ZM12 7.003a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z" fill="#ffffff"/></svg>
+                <p id="errorMessageText">Invalid Username or Password</p>
+            </div>
+            <div>
+                <label for="className">Class Code</label>
+                <input maxlength="11" type="text" id="classCode" name="className" placeholder="Class Code">
+            </div>
+
+            <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="#ffffff"/></svg>Finish</button>
+        </div>
+</main>
+<script>
+const finishButton = document.getElementById("finishButton");
+const errorMessage = document.getElementById("errorMessage");
+const errorMessageText = document.getElementById("errorMessageText");
+const classCode = document.getElementById("classCode");
+
+finishButton.addEventListener("click",() => {
+    if(classCode.value.length > 11 || classCode.value.length < 5){
+        errorMessage.style.display = "flex";
+        errorMessageText.innerText = "Invalid Class Code";
+    }else{
+        errorMessage.style.display = "none";
+        fetch("/endpoint/classroom/join",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                classCode: classCode.value
+            })
+        }).then(response => response.json())
+        .then(data => {
+            if(data.status == "complete"){
+                window.location.href = "/classroom/"+classCode.value;
+            }else{
+                errorMessage.style.display = "flex";
+                errorMessageText.innerText = data.status;
+            }
+        })
+    }
+})
+
+</script>
+
+
+
+{% endblock %}
