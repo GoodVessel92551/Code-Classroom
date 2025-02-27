@@ -118,13 +118,15 @@ def class_page(classid):
 @app.route("/task/<classid>/<taskid>")
 def task(classid,taskid):
     if fun.login():
+        fun.create_task_student(classid,taskid)
         user_class = fun.get_user_classes()[classid]
         class_color = user_class["classInfo"]["coverImage"]
         for i in user_class["tasks"]:
             if i["id"] == taskid:
                 task = i
                 break
-        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid)
+        code = fun.get_code(classid,taskid)
+        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code)
     return redirect("/")
 
 
@@ -149,7 +151,7 @@ def join_classroom_endpoint():
 def save_task():
     if fun.login():
         data = request.json
-        print(data)
+        fun.save_code(data["classid"],data["taskid"],data["code"])
     return "{'status':'complete'}"
 
 
