@@ -41,7 +41,7 @@ limiter = Limiter(
     storage_uri="memory://"
 )
 
-public_classes_placeholder = [
+public_classes_placeholders = [
     {"id":"1","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
     {"id":"2","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green","status":"Verified"}},
     {"id":"3","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink","status":"Verified"}},
@@ -70,6 +70,7 @@ def get_google_provider_cfg():
 def home():
     if fun.login():
         return render_template("index.html",username=fun.get_username(),page="home",classes=fun.get_user_classes())
+    return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/faq")
 def faq():
