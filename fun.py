@@ -173,7 +173,7 @@ def create_class(name, subtitle, description, color):
         },
         "messages": [],
         "tasks": [],
-        "members": [{"id": get_user_id(), "role": "teacher"}]
+        "members": [{"id": get_user_id(), "role": "teacher","username":get_username()}]
     }
     
     # Update to store class in dictionary using the id as key
@@ -199,7 +199,7 @@ def join_classroom(class_id):
         user_data_db.update_one(query, update)
         classroom = classrooms[class_id]
         members = classroom["members"]
-        members.append({"id": get_id(), "role": "student"})
+        members.append({"id": get_id(), "role": "student","username":get_username()})
         query = {"name": "classrooms"}
         update = {"$set": {f"data.{class_id}.members": members}}
         global_data_db.update_one(query, update)
@@ -256,7 +256,7 @@ def create_task_student(class_id, task_id):
             student_data = {
                 "id": userid,
                 "status": "notcompleted",
-                "code": ""
+                "code": "print('Hello World')"
             }
             task_data[i]["student_data"][userid] = student_data
             query = {"name": "classrooms"}
@@ -280,8 +280,7 @@ def save_code(class_id, task_id, code):
                 global_data_db.update_one(query, update)
                 return "complete"
 
-def get_code(class_id, task_id):
-    userid = get_user_id()
+def get_code(class_id, task_id,userid):
     if check_user_in_class(class_id):
         class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
         task_data = class_data["tasks"]
