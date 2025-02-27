@@ -139,6 +139,10 @@ def view_task(classid,taskid,userid):
         if fun.check_teacher(classid):
             user_class = fun.get_user_classes()[classid]
             class_color = user_class["classInfo"]["coverImage"]
+            for i in user_class["tasks"]:
+                if i["id"] == taskid:
+                    task = i
+                    break
             code = fun.get_code(classid,taskid,userid)
             return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code)
             
@@ -166,8 +170,8 @@ def join_classroom_endpoint():
 def save_task():
     if fun.login():
         data = request.json
-        fun.save_code(data["classid"],data["taskid"],data["code"])
-    return "{'status':'complete'}"
+        status = fun.save_code(data["classid"],data["taskid"],data["code"])
+    return "{'status':"+status+"}"
 
 
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])

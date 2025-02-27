@@ -279,7 +279,7 @@ require(["vs/editor/editor.main"], function () {
         }
       }
 
-      if(loadedTaskCode && window.location.href.includes("/task/")){
+      if(loadedTaskCode && (window.location.href.includes("/task/") || window.location.href.includes("/view/"))){
         console.log("Loaded task code");
         loadedCode = loadedTaskCode;
       }
@@ -333,9 +333,13 @@ const saveCode = (code) => {
     }),
   })
     .then((data) => {
-      console.log("Success:", data);
-      const editorBottonBar = document.getElementById("editorBottomBar");
-      editorBottonBar.textContent = "Saved";
+      if(data.status == "complete"){
+        const editorBottonBar = document.getElementById("editorBottomBar");
+        editorBottonBar.textContent = "Saved";
+      }else{
+        const editorBottonBar = document.getElementById("editorBottomBar");
+        editorBottonBar.textContent = "Error saving";
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
