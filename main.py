@@ -102,6 +102,8 @@ def create_classroom():
 @app.route("/create/task/<classid>")
 def create_task(classid):
     if fun.login():
+        if not fun.check_teacher(classid):
+            return redirect("/classroom/"+classid)
         return render_template("create_task.html",username=fun.get_username(),page="create task",classes=fun.get_user_classes(),classid=classid)
     return redirect("/")
 
