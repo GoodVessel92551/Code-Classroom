@@ -3,7 +3,7 @@
 {% block main %}
 
 <div class="pageTitleDiv">
-  <h1>{{ page.title() }}</h1>
+  <h1>Task</h1>
 </div>
 <main class="mainQuickCode">
   <div class="codeEditorWindow">
@@ -43,7 +43,7 @@
         </div>
     
         <p id="consoleText" class="consoleText"></p>
-        <input id="consoleInput" type="text" placeholder="Type here and press Enter" />
+        <input style="display: none;" id="consoleInput" type="text" placeholder="Type here and press Enter" />
       </div>
       <div class="instructionWindow" id="instructionWindow">
         <div class="instructionWindowTopBar">
@@ -64,6 +64,9 @@
 <script>
   const classColor = {{class_color|tojson}};
   const task = {{task|tojson}};
+  const classid = {{classid|tojson}};
+  const taskid = {{taskid|tojson}};
+  const loadedTaskCode = {{code|tojson}};
   console.log(task);
   console.log(classColor);
   const instructionWindow = document.getElementById('instructionWindow');

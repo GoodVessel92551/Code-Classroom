@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 import os
 from collections import Counter
+import datetime
 
 
 client = MongoClient(os.getenv('mongo_url'))
@@ -172,7 +173,7 @@ def create_class(name, subtitle, description, color):
         },
         "messages": [],
         "tasks": [],
-        "members": [{"id": get_user_id(), "role": "teacher"}]
+        "members": [{"id": get_user_id(), "role": "teacher","username":get_username()}]
     }
     
     # Update to store class in dictionary using the id as key
@@ -188,6 +189,24 @@ def create_class(name, subtitle, description, color):
 
     return id
 
+def join_classroom(class_id):
+    # ! need to check if the user is already in the class
+
+    classrooms = global_data_db.find_one({"name": "classrooms"})["data"]
+    if class_id in classrooms.keys():
+        query = {"id": get_id()}
+        update = {"$push": {"data.classrooms": class_id}}
+        user_data_db.update_one(query, update)
+        classroom = classrooms[class_id]
+        members = classroom["members"]
+        members.append({"id": get_id(), "role": "student","username":get_username()})
+        query = {"name": "classrooms"}
+        update = {"$set": {f"data.{class_id}.members": members}}
+        global_data_db.update_one(query, update)
+        return "complete"
+    else:
+        return "Class does not exist"
+
 def check_teacher(class_id):
     print(class_id)
     user_id = get_user_id()
@@ -195,6 +214,15 @@ def check_teacher(class_id):
     members = class_data["members"]
     for i in range(len(members)):
         if members[i]["id"] == user_id and members[i]["role"] == "teacher":
+            return True
+    return False
+
+def check_user_in_class(class_id):
+    user_id = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    members = class_data["members"]
+    for i in range(len(members)):
+        if members[i]["id"] == user_id:
             return True
     return False
 
@@ -209,12 +237,92 @@ def create_task(class_id, title, data,date):
             "taskName": title,
             "taskDescription": data,
             "taskDue":date,
-            "taskStatus":"notcompleted"
+            "taskStatus":"notcompleted",
+            "student_data":{}
         }
 
         query = {"name": "classrooms"}
         update = {"$push": {f"data.{class_id}.tasks": task_data}}
         global_data_db.update_one(query, update)
+
+def create_task_student(class_id, task_id):
+    userid = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    task_data = class_data["tasks"]
+    for i in range(len(task_data)):
+        if task_data[i]["id"] == task_id:
+            if userid in task_data[i]["student_data"].keys():
+                return "You have already submitted this task"
+            student_data = {
+                "id": userid,
+                "status": "notcompleted",
+                "code": "print('Hello World')"
+            }
+            task_data[i]["student_data"][userid] = student_data
+            query = {"name": "classrooms"}
+            update = {"$set": {f"data.{class_id}.tasks": task_data}}
+            global_data_db.update_one(query, update)
+            return "complete"
+
+def save_code(class_id, task_id, code):
+    userid = get_user_id()
+    print(check_user_in_class(class_id))
+    if check_user_in_class(class_id):
+        class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+        task_data = class_data["tasks"]
+        print("USER IN CLASS")
+        for i in range(len(task_data)):
+            if task_data[i]["id"] == task_id:
+                student_data = task_data[i]["student_data"]
+                student_data[userid]["code"] = code
+                query = {"name": "classrooms"}
+                update = {"$set": {f"data.{class_id}.tasks": task_data}}
+                global_data_db.update_one(query, update)
+                return "complete"
+
+def get_code(class_id, task_id,userid):
+    if check_user_in_class(class_id):
+        class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+        task_data = class_data["tasks"]
+        for i in range(len(task_data)):
+            if task_data[i]["id"] == task_id:
+                student_data = task_data[i]["student_data"]
+                return student_data[userid]["code"]
+
+def send_message(class_id, message):
+    print("Class ID "+class_id)
+    print("Message "+message)
+
+    message = {
+        "userName": get_username(),
+        "message": message,
+        "messageId": gen_class_id(),
+        "date": datetime.datetime.now().strftime("%Y-%m-%d"),
+        "userID": get_user_id()
+    }
+
+    query = {"name": "classrooms"}
+    update = {"$push": {f"data.{class_id}.messages": message}}
+    global_data_db.update_one(query, update)
+    return message
+
+def delete_message(class_id, message_id):
+    if check_teacher(class_id) or check_user_sent_message(class_id, message_id):
+        pass
+    else:
+        return "You are not allowed to delete this message"
+    query = {"name": "classrooms"}
+    update = {"$pull": {f"data.{class_id}.messages": {"messageId": message_id}}}
+    global_data_db.update_one(query, update)
+    return "complete"
+
+
+def check_user_sent_message(class_id, message_id):
+    messages = global_data_db.find_one({"name": "classrooms"})["data"][class_id]["messages"]
+    for i in range(len(messages)):
+        if messages[i]["messageId"] == message_id and messages[i]["userID"] == get_user_id():
+            return True
+    return False
 
 
 def get_user_classes():

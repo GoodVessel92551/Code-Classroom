@@ -29,6 +29,8 @@ GOOGLE_DISCOVERY_URL = (
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
+app.config['SESSION_COOKIE_HTTPONLY'] = True 
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
@@ -39,7 +41,7 @@ limiter = Limiter(
     storage_uri="memory://"
 )
 
-public_classes_placeholder = [
+public_classes_placeholders = [
     {"id":"1","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"red","status":"Verified"}},
     {"id":"2","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"green","status":"Verified"}},
     {"id":"3","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"pink","status":"Verified"}},
@@ -61,7 +63,6 @@ class loginForm(FlaskForm):
     submit = SubmitField('Login')
 
 
-
 def get_google_provider_cfg():
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
@@ -69,7 +70,7 @@ def get_google_provider_cfg():
 def home():
     if fun.login():
         return render_template("index.html",username=fun.get_username(),page="home",classes=fun.get_user_classes())
-    return render_template("landing_page.html",publicClasses=public_classes_placeholder)
+    return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/faq")
 def faq():
@@ -102,6 +103,8 @@ def create_classroom():
 @app.route("/create/task/<classid>")
 def create_task(classid):
     if fun.login():
+        if not fun.check_teacher(classid):
+            return redirect("/classroom/"+classid)
         return render_template("create_task.html",username=fun.get_username(),page="create task",classes=fun.get_user_classes(),classid=classid)
     return redirect("/")
 
@@ -116,24 +119,59 @@ def class_page(classid):
 @app.route("/task/<classid>/<taskid>")
 def task(classid,taskid):
     if fun.login():
+        if fun.check_teacher(classid):
+            user_class = fun.get_user_classes()[classid]
+            return render_template("viewTask.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
+        fun.create_task_student(classid,taskid)
         user_class = fun.get_user_classes()[classid]
         class_color = user_class["classInfo"]["coverImage"]
         for i in user_class["tasks"]:
             if i["id"] == taskid:
                 task = i
                 break
-        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid)
+        code = fun.get_code(classid,taskid,fun.get_id())
+        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code)
     return redirect("/")
 
+@app.route("/view/<classid>/<taskid>/<userid>")
+def view_task(classid,taskid,userid):
+    if fun.login():
+        if fun.check_teacher(classid):
+            user_class = fun.get_user_classes()[classid]
+            class_color = user_class["classInfo"]["coverImage"]
+            for i in user_class["tasks"]:
+                if i["id"] == taskid:
+                    task = i
+                    break
+            code = fun.get_code(classid,taskid,userid)
+            return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code)
+            
 
 
+
+@app.route("/join/classroom")
+def join_classroom():
+    if fun.login():
+        return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/endpoint/classroom/join",methods=["POST"])
+def join_classroom_endpoint():
+    if fun.login():
+        data = request.json
+        if data["classCode"] == "":
+            return {'status':'Fill out all fields'}
+        elif len(data["classCode"]) > 20:
+            return {'status':'Code is too long'}
+        status = fun.join_classroom(data["classCode"])
+        return {'status':status}
 
 @app.route("/endpoint/task/save",methods=["POST"])
 def save_task():
     if fun.login():
         data = request.json
-        print(data)
-    return "{'status':'complete'}"
+        status = fun.save_code(data["classid"],data["taskid"],data["code"])
+    return "{'status':"+status+"}"
 
 
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])
@@ -157,13 +195,14 @@ def weak_topics():
 
 @app.route("/endpoint/auth/login",methods=["POST"])
 def login_endpoint():
+    form = loginForm()
     session.permanent = True
     form_data = request.form
     username = form_data["username"]
     password = fun.password_hash(form_data["password"])
     error = fun.login_user(username,password)
     if error != "Success":
-        return render_template("auth/login.html",error=error)
+        return render_template("auth/login.html",error=error,form=form)
     return redirect("/")
 
 @app.route("/endpoint/class/create",methods=["POST"])
@@ -194,9 +233,26 @@ def create_task_endpoint():
             return {'status':'Invalid date format. Use YYYY-MM-DD'}
         fun.create_task(data["classid"],data["name"],data["description"],data["date"])
         return {'status':'complete'}
-        
 
-@app.route("/login")
+@app.route("/endpoint/class/message",methods=["POST"])
+def send_message():
+    if fun.login():
+        data = request.json
+        if data["message"] == "":
+            return {'status':'Fill out all fields'}
+        elif len(data["message"]) > 100:
+            return {'status':'Message is too long'}
+        message = fun.send_message(data["classid"],data["message"])
+        return {'status':'complete',"userName":message["userName"],"message":message["message"],"messageId":message["messageId"],"date":message["date"]}
+
+@app.route("/endpoint/class/message/delete",methods=["POST"])
+def delete_message():
+    if fun.login():
+        data = request.json
+        message = fun.delete_message(data["classid"],data["messageid"])
+        return {'status':message}
+
+@app.route("/login", methods=['GET', 'POST'])
 @limiter.limit("5 per minute")
 def login_page():
     form = loginForm()
@@ -223,7 +279,7 @@ def signup_page():
             return render_template("auth/signup.html",error=error,form=form)
         else:
             return redirect("/")
-    return render_template("auth/signup.html",error=False,form=form)
+    return render_template("auth/signup.html",error="Inputs Not Valid",form=form)
 
 @app.route("/signout")
 def signout():

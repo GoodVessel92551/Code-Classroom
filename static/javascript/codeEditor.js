@@ -278,6 +278,11 @@ require(["vs/editor/editor.main"], function () {
           loadedCode = "print('Hello, world!')";
         }
       }
+
+      if(loadedTaskCode && (window.location.href.includes("/task/") || window.location.href.includes("/view/"))){
+        console.log("Loaded task code");
+        loadedCode = loadedTaskCode;
+      }
   window.editor = monaco.editor.create(document.getElementById("editor"), {
     value: loadedCode,
     language: "python",
@@ -322,13 +327,19 @@ const saveCode = (code) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      classid:classid,
+      taskid:taskid,
       code: code,
     }),
   })
     .then((data) => {
-      console.log("Success:", data);
-      const editorBottonBar = document.getElementById("editorBottomBar");
-      editorBottonBar.textContent = "Saved";
+      if(data.status == "complete"){
+        const editorBottonBar = document.getElementById("editorBottomBar");
+        editorBottonBar.textContent = "Saved";
+      }else{
+        const editorBottonBar = document.getElementById("editorBottomBar");
+        editorBottonBar.textContent = "Error saving";
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
