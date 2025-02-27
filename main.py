@@ -137,6 +137,10 @@ def task(classid,taskid):
 def view_task(classid,taskid,userid):
     if fun.login():
         if fun.check_teacher(classid):
+            user_class = fun.get_user_classes()[classid]
+            class_color = user_class["classInfo"]["coverImage"]
+            code = fun.get_code(classid,taskid,userid)
+            return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code)
             
 
 
