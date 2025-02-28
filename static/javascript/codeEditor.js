@@ -1,7 +1,8 @@
 const params = new URLSearchParams(window.location.search);
 const topic = params.get("project");
 const projects = JSON.parse(localStorage.getItem("codeProjects"));
-
+console.log(projects)
+console.log(topic)
 
 function outf(text) {
   const consoleText = document.getElementById("consoleText");

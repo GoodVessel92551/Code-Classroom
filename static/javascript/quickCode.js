@@ -38,6 +38,6 @@ const newProject = () =>{
         }
         projects[randomString] = newProject;
         localStorage.setItem('codeProjects', JSON.stringify(projects));
-        window.location.href = `/quickCode?key=${randomString}`;
+        window.location.href = `/quickCode?project=${randomString}`;
     }
 }
