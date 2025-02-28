@@ -338,7 +338,7 @@ const saveCode = (code) => {
     }),
   })
     .then((data) => {
-      if(data.status == "complete"){
+      if(data.status == 200){
         const editorBottonBar = document.getElementById("editorBottomBar");
         editorBottonBar.textContent = "Saved";
       }else{
