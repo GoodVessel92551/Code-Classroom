@@ -256,30 +256,34 @@ def delete_message():
 @limiter.limit("5 per minute")
 def login_page():
     form = loginForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        password = fun.password_hash(form.password.data)
-        error = fun.login_user(username,password)
-        if error != "Success":
-            return render_template("auth/login.html",error=error,form=form)
-        else:
-            return redirect("/")
+    if request.method == "POST":
+        if form.validate_on_submit():
+            username = form.username.data
+            password = fun.password_hash(form.password.data)
+            error = fun.login_user(username,password)
+            if error != "Success":
+                return render_template("auth/login.html",error=error,form=form)
+            else:
+                return redirect("/")
+        return render_template("auth/login.html",error="Inputs Invalid",form=form)
     return render_template("auth/login.html",error=False,form=form)
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup_page():
     form = signupForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        session.permanent = True
-        password = fun.password_hash(form.password.data)
-        confirmPassword = fun.password_hash(form.confirmPassword.data)
-        error = fun.signup_user(username,password,confirmPassword)
-        if error != "Success":
-            return render_template("auth/signup.html",error=error,form=form)
-        else:
-            return redirect("/")
-    return render_template("auth/signup.html",error="Inputs Not Valid",form=form)
+    if request.method == "POST":
+        if form.validate_on_submit():
+            username = form.username.data
+            session.permanent = True
+            password = fun.password_hash(form.password.data)
+            confirmPassword = fun.password_hash(form.confirmPassword.data)
+            error = fun.signup_user(username,password,confirmPassword)
+            if error != "Success":
+                return render_template("auth/signup.html",error=error,form=form)
+            else:
+                return redirect("/")
+        return render_template("auth/signup.html",error="Inputs Not Valid",form=form)
+    return render_template("auth/signup.html",error=False,form=form)
 
 @app.route("/signout")
 def signout():
