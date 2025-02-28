@@ -363,8 +363,7 @@ def get_user_classes():
         class_id = user_classes[i]
         if class_id in global_data_db.find_one({"name": "classrooms"})["data"].keys():
             print(class_id)
-            class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
-            classes[class_id] = class_data
+            classes[class_id] = get_class_with_users_tasks(class_id)
     print(classes)
 
     return classes
@@ -372,8 +371,11 @@ def get_user_classes():
 def get_class_with_users_tasks(class_id):
     userid = get_user_id()
     class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    if check_teacher(class_id):
+        return class_data
     filtered_class_data = {
         "classInfo": class_data["classInfo"],
+        "messages": class_data["messages"],
         "tasks": []
     }
 
@@ -385,5 +387,5 @@ def get_class_with_users_tasks(class_id):
         else:
             task_copy["student_data"] = {}
         filtered_class_data["tasks"].append(task_copy)
-
+    print("Filtered Classes: ",filtered_class_data)
     return filtered_class_data
