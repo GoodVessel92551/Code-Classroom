@@ -293,17 +293,19 @@ require(["vs/editor/editor.main"], function () {
 
 window.editor.addEventListener("keydown", (event) => {
   const code = window.editor.getValue();
-  if (projects){
-    const project = projects[topic];
-      if (project){
-        projects[topic].code = code;
-        localStorage.setItem("codeProjects", JSON.stringify(projects));
+  if(!window.location.href.includes("/view/")){
+    if (projects){
+      const project = projects[topic];
+        if (project){
+          projects[topic].code = code;
+          localStorage.setItem("codeProjects", JSON.stringify(projects));
+        }else{
+          localStorage.setItem("code", code);
+        }
       }else{
-        localStorage.setItem("code", code);
+          localStorage.setItem("code", code);
       }
-    }else{
-      localStorage.setItem("code", code);
-    }
+  }
   if (event.key === "Enter" && event.ctrlKey) {
     event.preventDefault();
     const code = window.editor.getValue();
