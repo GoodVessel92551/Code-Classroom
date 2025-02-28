@@ -1,8 +1,10 @@
 const params = new URLSearchParams(window.location.search);
 const topic = params.get("project");
 const projects = JSON.parse(localStorage.getItem("codeProjects"));
-console.log(projects)
-console.log(topic)
+
+if (window.location.href.includes("/quickCode") && (topic == null || topic == "" || !(Object.keys(projects).includes(topic)))) {
+  window.location.href = "/code";
+}
 
 function outf(text) {
   const consoleText = document.getElementById("consoleText");
