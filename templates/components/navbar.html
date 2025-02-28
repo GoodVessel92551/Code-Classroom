@@ -130,8 +130,10 @@ optionContainerNavBarTasksButton.addEventListener('click', () => {
     }
 });
 let page = {{page|tojson}};
-let navpage = document.getElementById(page);
-navpage.classList.add('pageMenuCurrentPage');
+if(document.getElementById(page)){
+    let navpage = document.getElementById(page);
+    navpage.classList.add('pageMenuCurrentPage');
+}
 let minimized = false;
 let minimizeNavBar = document.getElementById('minimizeNavBar');
 let navSideBar = document.querySelector('.navSideBar');
