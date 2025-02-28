@@ -112,7 +112,7 @@ def create_task(classid):
 def class_page(classid):
     print(classid)
     if fun.login():
-        user_class = fun.get_user_classes()[classid]
+        user_class = fun.get_class_with_users_tasks(classid)
         return render_template("class.html",teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
@@ -120,7 +120,7 @@ def class_page(classid):
 def task(classid,taskid):
     if fun.login():
         if fun.check_teacher(classid):
-            user_class =fun.get_class_with_users_tasks(classid)
+            user_class = fun.get_class_with_users_tasks(classid)
             return render_template("viewTask.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
         fun.create_task_student(classid,taskid)
         user_class = fun.get_user_classes()[classid]
