@@ -910,14 +910,14 @@ main{
     font-size: 14px;
     font-weight: normal;
     color: var(--text_secondary);
-    transition: .2s all ease-in-out, .15s transform ease-in-out;
+    transition: .25s all ease-in-out, .15s transform ease-in-out;
 }
 
 .classCodeTextExpand{
     margin:0px;
     bottom:50%;
     left:50%;
-    transform: translate(-50%,50%) scale(3.5);
+    transform: translate(-50%,50%) scale(5);
     font-weight: bold;
     color: var(--text_primary);
 }
