@@ -173,6 +173,13 @@ def save_task():
         status = fun.save_code(data["classid"],data["taskid"],data["code"])
     return "{'status':"+status+"}"
 
+@app.route("/endpoint/task/delete",methods=["POST"])
+def delete_task():
+    if fun.login():
+        data = request.json
+        status = fun.delete_task(data["classid"],data["taskid"])
+        print(status)
+    return "{'status':"+status+"}"
 
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])
 def get_weak_topics():

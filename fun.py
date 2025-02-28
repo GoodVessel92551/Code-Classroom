@@ -290,6 +290,20 @@ def get_code(class_id, task_id,userid):
                 student_data = task_data[i]["student_data"]
                 return student_data[userid]["code"]
 
+def delete_task(class_id, task_id):
+    if check_teacher(class_id):
+        class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+        task_data = class_data["tasks"]
+        for i in range(len(task_data)):
+            if task_data[i]["id"] == task_id:
+                task_data.pop(i)
+                query = {"name": "classrooms"}
+                update = {"$set": {f"data.{class_id}.tasks": task_data}}
+                global_data_db.update_one(query, update)
+                return "complete"
+    else:
+        return "You are not a teacher of this class"
+
 def send_message(class_id, message):
     print("Class ID "+class_id)
     print("Message "+message)
