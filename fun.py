@@ -190,7 +190,8 @@ def create_class(name, subtitle, description, color):
     return id
 
 def join_classroom(class_id):
-    # ! need to check if the user is already in the class
+    if check_user_in_class(class_id):
+        return "You are already a member of this class"
 
     classrooms = global_data_db.find_one({"name": "classrooms"})["data"]
     if class_id in classrooms.keys():

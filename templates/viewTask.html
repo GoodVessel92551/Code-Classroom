@@ -49,6 +49,7 @@
     });
     
     classMembers.forEach(member => {
+        console.log(member)
         if(member.role == "teacher") return;
         const classMemberTemplate = document.getElementById('classMemberTemplate');
         const classMember = classMemberTemplate.content.cloneNode(true);
