@@ -1131,6 +1131,11 @@ main{
     border:4px solid #50432c;
 }
 
+.taskIndercater.notstarted{
+    background-color: #77a5ee;
+    border:4px solid #2c3750;
+}
+
 .taskIndercater.missing{
     background-color: #EE7777;
     border:4px solid #50302c;

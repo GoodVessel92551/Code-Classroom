@@ -265,6 +265,20 @@ def create_task_student(class_id, task_id):
             global_data_db.update_one(query, update)
             return "complete"
 
+def complete_task_student(class_id, task_id):
+    userid = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    task_data = class_data["tasks"]
+    for i in range(len(task_data)):
+        if task_data[i]["id"] == task_id:
+            if userid in task_data[i]["student_data"].keys():
+                task_data[i]["student_data"][userid]["status"] = "completed"
+                query = {"name": "classrooms"}
+                update = {"$set": {f"data.{class_id}.tasks": task_data}}
+                global_data_db.update_one(query, update)
+                return "complete"
+    
+
 def save_code(class_id, task_id, code):
     userid = get_user_id()
     print(check_user_in_class(class_id))
