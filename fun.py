@@ -368,3 +368,22 @@ def get_user_classes():
     print(classes)
 
     return classes
+
+def get_class_with_users_tasks(class_id):
+    userid = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    filtered_class_data = {
+        "classInfo": class_data["classInfo"],
+        "tasks": []
+    }
+
+    # Include all tasks, but filter student_data to only include current user
+    for task in class_data["tasks"]:
+        task_copy = task.copy()
+        if userid in task_copy["student_data"]:
+            task_copy["student_data"] = {userid: task_copy["student_data"][userid]}
+        else:
+            task_copy["student_data"] = {}
+        filtered_class_data["tasks"].append(task_copy)
+
+    return filtered_class_data
