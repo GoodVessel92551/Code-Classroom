@@ -319,13 +319,14 @@ window.editor.addEventListener("keydown", (event) => {
 document.getElementById("runButton").addEventListener("click", () => {
   const code = window.editor.getValue();
   if (window.location.href.includes("/task/")) {
-    saveCode(code);
+    saveCode();
   }
   runPython(code);
 });
 
 
-const saveCode = (code) => {
+const saveCode = () => {
+  const code = window.editor.getValue();
   fetch("/endpoint/task/save", {
     method: "POST",
     headers: {

@@ -113,7 +113,7 @@ def class_page(classid):
     print(classid)
     if fun.login():
         user_class = fun.get_user_classes()[classid]
-        return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+        return render_template("class.html",teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/task/<classid>/<taskid>")
@@ -154,6 +154,12 @@ def join_classroom():
     if fun.login():
         return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
+
+@app.route("/endpoint/task/complete/<classid>/<taskid>")
+def complete_task(classid,taskid):
+    if fun.login():
+        fun.complete_task_student(classid,taskid)
+        return redirect("/classroom/"+classid)
 
 @app.route("/endpoint/classroom/join",methods=["POST"])
 def join_classroom_endpoint():

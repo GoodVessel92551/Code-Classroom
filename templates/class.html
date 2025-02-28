@@ -50,7 +50,7 @@
     const messageButton = document.getElementById('messageButton');
     const messageCancelButton = document.getElementById('messageCancelButton');
     const messageInput = document.getElementById('messageInput');
-
+    const userID = {{userID|tojson}};
     messageButton.addEventListener('click', () => {
         messageInputContainer.classList.toggle('messageInputContainerExpand');
     });
@@ -174,10 +174,27 @@
         container.innerHTML = svg;
         container.appendChild(taskTitle);
         container.appendChild(taskDate);
+
+        const dueDate = new Date(task.taskDue);
+        const currentDate = new Date();
+
+        currentDate.setHours(0, 0, 0, 0);
+        dueDate.setHours(0, 0, 0, 0);
+        if ({{teacher|tojson}}) {
+            taskIndercater.classList.add('taskIndercater', 'complete');
+        }else{
+            if (dueDate < currentDate) {
+                taskIndercater.classList.add('taskIndercater', 'missing');
+            }else if (!Object.keys(task.student_data).includes(userID))
+            taskIndercater.classList.add('taskIndercater', 'notstarted');
+            else{
+                taskIndercater.classList.add('taskIndercater', task.student_data[userID].status);
+            }
+        }
+
         container.appendChild(taskIndercater);
         taskTitle.innerText = task.taskName;
         taskDate.innerText = task.taskDue;
-        taskIndercater.classList.add('taskIndercater', task.taskStatus);
         taskContainer.insertBefore(container, taskContainer.firstChild);
     });
 
