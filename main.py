@@ -116,6 +116,15 @@ def class_page(classid):
         return render_template("class.html",teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
+@app.route("/classroom/<classid>/settings")
+def class_settings(classid):
+    if fun.login():
+        if not fun.check_teacher(classid):
+            return redirect("/classroom/"+classid)
+        user_class = fun.get_class_without_users_tasks(classid)
+        return render_template("class_settings.html",username=fun.get_username(),userID=fun.get_user_id(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+    return redirect("/")
+
 @app.route("/task/<classid>/<taskid>")
 def task(classid,taskid):
     if fun.login():
@@ -170,6 +179,17 @@ def join_classroom_endpoint():
         elif len(data["classCode"]) > 20:
             return {'status':'Code is too long'}
         status = fun.join_classroom(data["classCode"])
+        return {'status':status}
+
+@app.route("/endpoint/classroom/save",methods=["POST"])
+def save_classroom_settings():
+    if fun.login():
+        data = request.json
+        if (data["name"] == "" or data["subtitle"] == "" or data["description"] == ""):
+            return {'status':'Fill out all fields'}
+        elif (len(data["name"]) > 20 or len(data["subtitle"]) > 20 or len(data["description"]) > 100):
+            return {'status':'Inputs are values are too long'}
+        status = fun.save_classroom_settings(data["classid"],data["name"],data["subtitle"],data["description"],data["messageLock"],data["hideCode"])
         return {'status':status}
 
 @app.route("/endpoint/task/save",methods=["POST"])
