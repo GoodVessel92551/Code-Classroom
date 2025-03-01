@@ -189,7 +189,7 @@ def save_classroom_settings():
             return {'status':'Fill out all fields'}
         elif (len(data["name"]) > 20 or len(data["subtitle"]) > 20 or len(data["description"]) > 100):
             return {'status':'Inputs are values are too long'}
-        status = fun.save_classroom_settings(data["classid"],data["name"],data["subtitle"],data["description"],data["messageLock"],data["hideCode"])
+        status = fun.save_classroom_settings(data["classid"],data["name"],data["subtitle"],data["description"],data["messageLock"])
         return {'status':status}
 
 @app.route("/endpoint/task/save",methods=["POST"])

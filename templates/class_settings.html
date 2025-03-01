@@ -23,13 +23,6 @@
             </div>
             <input type="checkbox" id="messageLock" class="switch">
         </div>
-        <div>
-            <div class="classroomSettingText">
-                <h4>Hide Class Code</h4>
-                <p>Hide the class code for students</p>
-            </div>
-            <input type="checkbox" id="hideCode" class="switch">
-        </div>
         <div class="classroomSettingsTitleSubtitle">
             <div>
                 <div>
@@ -65,7 +58,6 @@
 </main>
 <script>
     const messageLock = document.getElementById('messageLock');
-    const hideCode = document.getElementById('hideCode');
     const saveClassSettings = document.getElementById('saveClassSettings');
 
     const className = document.getElementById('className');
@@ -102,7 +94,6 @@
             "subtitle":classSubtitle,
             "description":classDescription,
             "messageLock":messageLock,
-            "hideCode":hideCode,
             "classid":classid
         }
         fetch('/endpoint/classroom/save', {

@@ -170,7 +170,6 @@ def create_class(name, subtitle, description, color):
             "id": id,
             "settings":{
                 "messageLock":False,
-                "hideCode":False
             }
         },
         "messages": [],
@@ -191,7 +190,7 @@ def create_class(name, subtitle, description, color):
 
     return id
 
-def save_classroom_settings(class_id,name,subtitle,description,lockMessages,hideCode):
+def save_classroom_settings(class_id,name,subtitle,description,lockMessages):
     if check_teacher(class_id):
         new_data = {
             "name": name,
@@ -201,7 +200,6 @@ def save_classroom_settings(class_id,name,subtitle,description,lockMessages,hide
             "id": class_id,
             "settings":{
                 "messageLock":lockMessages,
-                "hideCode":hideCode
             }
         }
         query = {"name": "classrooms"}
