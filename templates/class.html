@@ -37,7 +37,7 @@
         <div class="classroomTasksContainer">
             <span class="classroomTitleContainer">
                 <strong>Tasks</strong>
-                <a href="/create/task/{{classid}}"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.75 3a.75.75 0 0 1 .743.648l.007.102.001 7.25h7.253a.75.75 0 0 1 .102 1.493l-.102.007h-7.253l.002 7.25a.75.75 0 0 1-1.493.101l-.007-.102-.002-7.249H3.752a.75.75 0 0 1-.102-1.493L3.752 11h7.25L11 3.75a.75.75 0 0 1 .75-.75Z" fill="#ffffff"/></svg></a>
+                <a id="createTaskButton" href="/create/task/{{classid}}"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.75 3a.75.75 0 0 1 .743.648l.007.102.001 7.25h7.253a.75.75 0 0 1 .102 1.493l-.102.007h-7.253l.002 7.25a.75.75 0 0 1-1.493.101l-.007-.102-.002-7.249H3.752a.75.75 0 0 1-.102-1.493L3.752 11h7.25L11 3.75a.75.75 0 0 1 .75-.75Z" fill="#ffffff"/></svg></a>
             </span>
             <div class="taskContainer">
             </div>
@@ -45,12 +45,15 @@
     </div>
 </main>
 <script>
+    const createTaskButton = document.getElementById('createTaskButton');
     const sendMessageButton = document.getElementById('sendMessageButton');
     const messageInputContainer = document.getElementById('messageInputContainer');
     const messageButton = document.getElementById('messageButton');
     const messageCancelButton = document.getElementById('messageCancelButton');
     const messageInput = document.getElementById('messageInput');
     const userID = {{userID|tojson}};
+
+
     messageButton.addEventListener('click', () => {
         messageInputContainer.classList.toggle('messageInputContainerExpand');
     });
@@ -64,6 +67,15 @@
     const className = document.getElementById('className');
     const classSubTitle = document.getElementById('classSubTitle');
     const thisClass = {{user_class|tojson}};
+
+    messageLock = thisClass.classInfo.settings.messageLock;
+    if (messageLock && !{{teacher|tojson}}) {
+        messageButton.style.display = 'none';
+    }
+
+    if (!{{teacher|tojson}}) {
+        createTaskButton.style.display = 'none';
+    }
     classInfo = thisClass.classInfo;
     className.innerText = classInfo.name;
     classSubTitle.innerText = classInfo.subtitle;

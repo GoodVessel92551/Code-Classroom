@@ -1811,7 +1811,7 @@ main{
     resize: none;
 }
 
-.classroomSettingsTitleSubtitle > div > input:focus,.classroomSettingsDescription > div > textarea:focus{
+.classroomSettingsTitleSubtitle > div > input:focus,.classroomSettingsDescription > textarea:focus{
     outline: none;
 }
 

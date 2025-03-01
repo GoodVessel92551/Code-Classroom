@@ -334,20 +334,26 @@ def delete_task(class_id, task_id):
     else:
         return "You are not a teacher of this class"
 
+def check_message_lock(class_id):
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    return class_data["classInfo"]["settings"]["messageLock"]
+
 def send_message(class_id, message):
+    if not check_teacher(class_id) and check_message_lock(class_id):
+        return "You are not allowed to send messages in this class"
+    else:
+        message = {
+            "userName": get_username(),
+            "message": message,
+            "messageId": gen_class_id(),
+            "date": datetime.datetime.now().strftime("%Y-%m-%d"),
+            "userID": get_user_id()
+        }
 
-    message = {
-        "userName": get_username(),
-        "message": message,
-        "messageId": gen_class_id(),
-        "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-        "userID": get_user_id()
-    }
-
-    query = {"name": "classrooms"}
-    update = {"$push": {f"data.{class_id}.messages": message}}
-    global_data_db.update_one(query, update)
-    return message
+        query = {"name": "classrooms"}
+        update = {"$push": {f"data.{class_id}.messages": message}}
+        global_data_db.update_one(query, update)
+        return message
 
 def delete_message(class_id, message_id):
     if check_teacher(class_id) or check_user_sent_message(class_id, message_id):
