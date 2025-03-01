@@ -37,11 +37,17 @@
         const taskName = document.getElementById("taskName").value;
         const taskDescription = document.getElementById("taskDescription").value;
         const taskDate = document.getElementById("taskDate").value;
-        if (taskName === "" || taskDescription === "" || taskDate === "") {
+        console.log(taskDate)
+        if (taskName === "" || taskDescription === "") {
             errorMessage.style.display = "flex";
             errorMessageText.innerText = "Fill out all fields";
             return;
-        }else if(taskName.length > 20 || taskDescription.length > 1000){
+        }if(taskDate === ""){
+            errorMessage.style.display = "flex";
+            errorMessageText.innerText = "Invalid Date";
+            return;
+        }
+        else if(taskName.length > 20 || taskDescription.length > 1000){
             errorMessage.style.display = "flex";
             errorMessageText.innerText = "Inputs are values are too long";
             return;

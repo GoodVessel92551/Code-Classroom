@@ -112,15 +112,15 @@ def create_task(classid):
 def class_page(classid):
     print(classid)
     if fun.login():
-        user_class = fun.get_user_classes()[classid]
-        return render_template("class.html",username=fun.get_username(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+        user_class = fun.get_class_with_users_tasks(classid)
+        return render_template("class.html",teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/task/<classid>/<taskid>")
 def task(classid,taskid):
     if fun.login():
         if fun.check_teacher(classid):
-            user_class = fun.get_user_classes()[classid]
+            user_class = fun.get_class_with_users_tasks(classid)
             return render_template("viewTask.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
         fun.create_task_student(classid,taskid)
         user_class = fun.get_user_classes()[classid]
@@ -155,6 +155,12 @@ def join_classroom():
         return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
 
+@app.route("/endpoint/task/complete/<classid>/<taskid>")
+def complete_task(classid,taskid):
+    if fun.login():
+        fun.complete_task_student(classid,taskid)
+        return redirect("/classroom/"+classid)
+
 @app.route("/endpoint/classroom/join",methods=["POST"])
 def join_classroom_endpoint():
     if fun.login():
@@ -173,6 +179,13 @@ def save_task():
         status = fun.save_code(data["classid"],data["taskid"],data["code"])
     return "{'status':"+status+"}"
 
+@app.route("/endpoint/task/delete",methods=["POST"])
+def delete_task():
+    if fun.login():
+        data = request.json
+        status = fun.delete_task(data["classid"],data["taskid"])
+        print(status)
+    return "{'status':"+status+"}"
 
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])
 def get_weak_topics():
@@ -256,30 +269,34 @@ def delete_message():
 @limiter.limit("5 per minute")
 def login_page():
     form = loginForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        password = fun.password_hash(form.password.data)
-        error = fun.login_user(username,password)
-        if error != "Success":
-            return render_template("auth/login.html",error=error,form=form)
-        else:
-            return redirect("/")
+    if request.method == "POST":
+        if form.validate_on_submit():
+            username = form.username.data
+            password = fun.password_hash(form.password.data)
+            error = fun.login_user(username,password)
+            if error != "Success":
+                return render_template("auth/login.html",error=error,form=form)
+            else:
+                return redirect("/")
+        return render_template("auth/login.html",error="Inputs Invalid",form=form)
     return render_template("auth/login.html",error=False,form=form)
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup_page():
     form = signupForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        session.permanent = True
-        password = fun.password_hash(form.password.data)
-        confirmPassword = fun.password_hash(form.confirmPassword.data)
-        error = fun.signup_user(username,password,confirmPassword)
-        if error != "Success":
-            return render_template("auth/signup.html",error=error,form=form)
-        else:
-            return redirect("/")
-    return render_template("auth/signup.html",error="Inputs Not Valid",form=form)
+    if request.method == "POST":
+        if form.validate_on_submit():
+            username = form.username.data
+            session.permanent = True
+            password = fun.password_hash(form.password.data)
+            confirmPassword = fun.password_hash(form.confirmPassword.data)
+            error = fun.signup_user(username,password,confirmPassword)
+            if error != "Success":
+                return render_template("auth/signup.html",error=error,form=form)
+            else:
+                return redirect("/")
+        return render_template("auth/signup.html",error="Inputs Not Valid",form=form)
+    return render_template("auth/signup.html",error=False,form=form)
 
 @app.route("/signout")
 def signout():

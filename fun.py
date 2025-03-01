@@ -190,7 +190,8 @@ def create_class(name, subtitle, description, color):
     return id
 
 def join_classroom(class_id):
-    # ! need to check if the user is already in the class
+    if check_user_in_class(class_id):
+        return "You are already a member of this class"
 
     classrooms = global_data_db.find_one({"name": "classrooms"})["data"]
     if class_id in classrooms.keys():
@@ -264,6 +265,20 @@ def create_task_student(class_id, task_id):
             global_data_db.update_one(query, update)
             return "complete"
 
+def complete_task_student(class_id, task_id):
+    userid = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    task_data = class_data["tasks"]
+    for i in range(len(task_data)):
+        if task_data[i]["id"] == task_id:
+            if userid in task_data[i]["student_data"].keys():
+                task_data[i]["student_data"][userid]["status"] = "completed"
+                query = {"name": "classrooms"}
+                update = {"$set": {f"data.{class_id}.tasks": task_data}}
+                global_data_db.update_one(query, update)
+                return "complete"
+    
+
 def save_code(class_id, task_id, code):
     userid = get_user_id()
     print(check_user_in_class(class_id))
@@ -288,6 +303,20 @@ def get_code(class_id, task_id,userid):
             if task_data[i]["id"] == task_id:
                 student_data = task_data[i]["student_data"]
                 return student_data[userid]["code"]
+
+def delete_task(class_id, task_id):
+    if check_teacher(class_id):
+        class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+        task_data = class_data["tasks"]
+        for i in range(len(task_data)):
+            if task_data[i]["id"] == task_id:
+                task_data.pop(i)
+                query = {"name": "classrooms"}
+                update = {"$set": {f"data.{class_id}.tasks": task_data}}
+                global_data_db.update_one(query, update)
+                return "complete"
+    else:
+        return "You are not a teacher of this class"
 
 def send_message(class_id, message):
     print("Class ID "+class_id)
@@ -334,8 +363,29 @@ def get_user_classes():
         class_id = user_classes[i]
         if class_id in global_data_db.find_one({"name": "classrooms"})["data"].keys():
             print(class_id)
-            class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
-            classes[class_id] = class_data
+            classes[class_id] = get_class_with_users_tasks(class_id)
     print(classes)
 
     return classes
+
+def get_class_with_users_tasks(class_id):
+    userid = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    if check_teacher(class_id):
+        return class_data
+    filtered_class_data = {
+        "classInfo": class_data["classInfo"],
+        "messages": class_data["messages"],
+        "tasks": []
+    }
+
+    # Include all tasks, but filter student_data to only include current user
+    for task in class_data["tasks"]:
+        task_copy = task.copy()
+        if userid in task_copy["student_data"]:
+            task_copy["student_data"] = {userid: task_copy["student_data"][userid]}
+        else:
+            task_copy["student_data"] = {}
+        filtered_class_data["tasks"].append(task_copy)
+    print("Filtered Classes: ",filtered_class_data)
+    return filtered_class_data

@@ -2,6 +2,9 @@ const params = new URLSearchParams(window.location.search);
 const topic = params.get("project");
 const projects = JSON.parse(localStorage.getItem("codeProjects"));
 
+if (window.location.href.includes("/quickCode") && (topic == null || topic == "" || !(Object.keys(projects).includes(topic)))) {
+  window.location.href = "/code";
+}
 
 function outf(text) {
   const consoleText = document.getElementById("consoleText");
@@ -292,17 +295,19 @@ require(["vs/editor/editor.main"], function () {
 
 window.editor.addEventListener("keydown", (event) => {
   const code = window.editor.getValue();
-  if (projects){
-    const project = projects[topic];
-      if (project){
-        projects[topic].code = code;
-        localStorage.setItem("codeProjects", JSON.stringify(projects));
+  if(!window.location.href.includes("/view/")){
+    if (projects){
+      const project = projects[topic];
+        if (project){
+          projects[topic].code = code;
+          localStorage.setItem("codeProjects", JSON.stringify(projects));
+        }else{
+          localStorage.setItem("code", code);
+        }
       }else{
-        localStorage.setItem("code", code);
+          localStorage.setItem("code", code);
       }
-    }else{
-      localStorage.setItem("code", code);
-    }
+  }
   if (event.key === "Enter" && event.ctrlKey) {
     event.preventDefault();
     const code = window.editor.getValue();
@@ -314,13 +319,14 @@ window.editor.addEventListener("keydown", (event) => {
 document.getElementById("runButton").addEventListener("click", () => {
   const code = window.editor.getValue();
   if (window.location.href.includes("/task/")) {
-    saveCode(code);
+    saveCode();
   }
   runPython(code);
 });
 
 
-const saveCode = (code) => {
+const saveCode = () => {
+  const code = window.editor.getValue();
   fetch("/endpoint/task/save", {
     method: "POST",
     headers: {
@@ -333,7 +339,7 @@ const saveCode = (code) => {
     }),
   })
     .then((data) => {
-      if(data.status == "complete"){
+      if(data.status == 200){
         const editorBottonBar = document.getElementById("editorBottomBar");
         editorBottonBar.textContent = "Saved";
       }else{
