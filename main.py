@@ -100,7 +100,7 @@ def create_classroom():
         return render_template("create_class.html",username=fun.get_username(),page="create classroom",classes=fun.get_user_classes())
     return redirect("/")
 
-@app.route("/create/task/<classid>")
+@app.route("/create/task/<classid>") 
 def create_task(classid):
     if fun.login():
         if not fun.check_teacher(classid):
@@ -155,14 +155,26 @@ def view_task(classid,taskid,userid):
             code = fun.get_code(classid,taskid,userid)
             return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code)
             
-
-
-
 @app.route("/join/classroom")
 def join_classroom():
     if fun.login():
         return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
+
+@app.route("/endpoint/class/leave",methods=["POST"])
+def leave_class():
+    if fun.login():
+        data = request.json
+        status = fun.leave_classroom(data["classid"])
+        return {'status':status}
+
+@app.route("/endpoint/classroom/delete",methods=["POST"])
+def delete_classroom():
+    if fun.login():
+        data = request.json
+        status = fun.delete_classroom(data["classid"])
+        return {'status':status}
+
 
 @app.route("/endpoint/task/complete/<classid>/<taskid>")
 def complete_task(classid,taskid):

@@ -190,6 +190,28 @@ def create_class(name, subtitle, description, color):
 
     return id
 
+def leave_classroom(class_id):
+    if check_teacher(class_id):
+        return "You are a teacher of this class"
+    else:
+        query = {"id": get_id()}
+        update = {"$pull": {"data.classrooms": class_id}}
+        user_data_db.update_one(query, update)
+        query = {"name": "classrooms"}
+        update = {"$pull": {f"data.{class_id}.members": {"id": get_user_id()}}}
+        global_data_db.update_one(query, update)
+        return "complete"
+
+def delete_classroom(class_id):
+    if check_teacher(class_id):
+        query = {"name": "classrooms"}
+        update = {"$unset": {f"data.{class_id}": ""}}
+        global_data_db.update_one(query, update)
+        query = {"id": get_id()}
+        update = {"$pull": {"data.classrooms": class_id}}
+        user_data_db.update_one(query, update)
+        return "complete"
+
 def save_classroom_settings(class_id,name,subtitle,description,lockMessages):
     if check_teacher(class_id):
         new_data = {

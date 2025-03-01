@@ -1662,7 +1662,7 @@ main{
     color: var(--text_primary);
 }
 
-.deleteCover > .deleteButtonContainer > button{
+.deleteCover > .deleteButtonContainer > button,.deleteButton,.whiteButton{
     background-color: #fff;
     color: var(--background);
     height: 28px;
@@ -1680,7 +1680,7 @@ main{
     text-decoration: none;
 }
 
-.deleteCover > .deleteButtonContainer > .deleteButton{
+.deleteCover > .deleteButtonContainer > .deleteButton,.deleteButton{
     background-color: var(--redButtonBackground);
     color: var(--redButtonText);
 }
@@ -1692,6 +1692,10 @@ main{
     display: flex;
     gap:8px;
     flex-direction: column;
+}
+
+.classroomSettingContainer > .primaryButton{
+    margin-top:8px;
 }
 
 .classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription){
@@ -1769,6 +1773,13 @@ main{
     gap:8px;
 }
 
+@media (max-width:1052px) {
+    .classroomSettingsTitleSubtitle{
+        flex-direction: column;
+    }
+    
+}
+
 .classroomSettingsTitleSubtitle > div,.classroomSettingsDescription{
     width: 100%;
     display: flex;
@@ -1815,3 +1826,9 @@ main{
     outline: none;
 }
 
+.classroomSettingsButtons{
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    flex-direction: reverse;
+}
