@@ -145,6 +145,10 @@
         document.querySelector('.classMembers').appendChild(classMember);
     });
 
+    if (thisClass.members.length === 1) {
+        document.querySelector('.classMembers').innerText = "No Students in this class";
+    }
+
     const saveButton = document.getElementById('saveClassSettings');
 
     saveButton.addEventListener('click', () => {
