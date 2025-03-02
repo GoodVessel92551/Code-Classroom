@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Code Classroom | Teach Code The Easy Way{% endblock %}
+{% block title %}Code Classroom | Task{% endblock %}
 {% block main %}
 
 <div class="pageTitleDiv">
@@ -63,14 +63,17 @@
 </main>
 
 <script>
+  const teacher = {{teacher|tojson}};
+  if (teacher) {
+    document.getElementById('completeButton').style.display = 'none';
+  }
   const completeButton = document.getElementById('completeButton');
   const classColor = {{class_color|tojson}};
   const task = {{task|tojson}};
   const classid = {{classid|tojson}};
   const taskid = {{taskid|tojson}};
   const loadedTaskCode = {{code|tojson}};
-  console.log(task);
-  console.log(classColor);
+
   const instructionWindow = document.getElementById('instructionWindow');
   const instructionWindowContent = document.getElementById('instructionWindowContent');
   const consoleWindow = document.getElementById('consoleWindow');

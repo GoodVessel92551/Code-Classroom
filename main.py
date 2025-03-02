@@ -100,7 +100,7 @@ def create_classroom():
         return render_template("create_class.html",username=fun.get_username(),page="create classroom",classes=fun.get_user_classes())
     return redirect("/")
 
-@app.route("/create/task/<classid>")
+@app.route("/create/task/<classid>") 
 def create_task(classid):
     if fun.login():
         if not fun.check_teacher(classid):
@@ -116,12 +116,25 @@ def class_page(classid):
         return render_template("class.html",teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
+@app.route("/classroom/<classid>/settings")
+def class_settings(classid):
+    if fun.login():
+        if not fun.check_teacher(classid):
+            return redirect("/classroom/"+classid)
+        user_class = fun.get_class_without_users_tasks(classid)
+        return render_template("class_settings.html",username=fun.get_username(),userID=fun.get_user_id(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+    return redirect("/")
+
 @app.route("/task/<classid>/<taskid>")
 def task(classid,taskid):
     if fun.login():
         if fun.check_teacher(classid):
-            user_class = fun.get_class_with_users_tasks(classid)
-            return render_template("viewTask.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
+            user_class =fun.get_user_classes()[classid]
+            for i in user_class["tasks"]:
+                if i["id"] == taskid:
+                    task = i
+                    break
+            return render_template("viewTask.html",task=task,username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
         fun.create_task_student(classid,taskid)
         user_class = fun.get_user_classes()[classid]
         class_color = user_class["classInfo"]["coverImage"]
@@ -130,7 +143,7 @@ def task(classid,taskid):
                 task = i
                 break
         code = fun.get_code(classid,taskid,fun.get_id())
-        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code)
+        return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
     return redirect("/")
 
 @app.route("/view/<classid>/<taskid>/<userid>")
@@ -144,16 +157,45 @@ def view_task(classid,taskid,userid):
                     task = i
                     break
             code = fun.get_code(classid,taskid,userid)
-            return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code)
+            return render_template("task.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=True)
             
-
-
-
 @app.route("/join/classroom")
 def join_classroom():
     if fun.login():
         return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
+
+@app.route("/endpoint/task/edit",methods=["POST"])
+def edit_task():
+    if fun.login():
+        data = request.json
+        if (data["name"] == "" or data["instructions"] == "" or data["date"] == ""):
+            return {'status':'Fill out all fields'}
+        elif (len(data["name"]) > 20 or len(data["instructions"]) > 1000):
+            return {'status':'Inputs are values are too long'}
+        try:
+            task_date = datetime.strptime(data["date"], "%Y-%m-%d")
+            if task_date < datetime.now():
+                return {'status':'Date cannot be in the past'}
+        except ValueError:
+            return {'status':'Invalid date format. Use YYYY-MM-DD'}
+        status = fun.edit_task(data["classid"],data["taskid"],data["name"],data["instructions"],data["date"])
+        return {'status':status}
+
+@app.route("/endpoint/class/leave",methods=["POST"])
+def leave_class():
+    if fun.login():
+        data = request.json
+        status = fun.leave_classroom(data["classid"])
+        return {'status':status}
+
+@app.route("/endpoint/classroom/delete",methods=["POST"])
+def delete_classroom():
+    if fun.login():
+        data = request.json
+        status = fun.delete_classroom(data["classid"])
+        return {'status':status}
+
 
 @app.route("/endpoint/task/complete/<classid>/<taskid>")
 def complete_task(classid,taskid):
@@ -170,6 +212,17 @@ def join_classroom_endpoint():
         elif len(data["classCode"]) > 20:
             return {'status':'Code is too long'}
         status = fun.join_classroom(data["classCode"])
+        return {'status':status}
+
+@app.route("/endpoint/classroom/save",methods=["POST"])
+def save_classroom_settings():
+    if fun.login():
+        data = request.json
+        if (data["name"] == "" or data["subtitle"] == "" or data["description"] == ""):
+            return {'status':'Fill out all fields'}
+        elif (len(data["name"]) > 20 or len(data["subtitle"]) > 20 or len(data["description"]) > 100):
+            return {'status':'Inputs are values are too long'}
+        status = fun.save_classroom_settings(data["classid"],data["name"],data["subtitle"],data["description"],data["messageLock"])
         return {'status':status}
 
 @app.route("/endpoint/task/save",methods=["POST"])
