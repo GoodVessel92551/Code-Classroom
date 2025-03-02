@@ -129,8 +129,12 @@ def class_settings(classid):
 def task(classid,taskid):
     if fun.login():
         if fun.check_teacher(classid):
-            user_class = fun.get_class_with_users_tasks(classid)
-            return render_template("viewTask.html",username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
+            user_class =fun.get_user_classes()[classid]
+            for i in user_class["tasks"]:
+                if i["id"] == taskid:
+                    task = i
+                    break
+            return render_template("viewTask.html",task=task,username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
         fun.create_task_student(classid,taskid)
         user_class = fun.get_user_classes()[classid]
         class_color = user_class["classInfo"]["coverImage"]
@@ -160,6 +164,23 @@ def join_classroom():
     if fun.login():
         return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
+
+@app.route("/endpoint/task/edit",methods=["POST"])
+def edit_task():
+    if fun.login():
+        data = request.json
+        if (data["name"] == "" or data["instructions"] == "" or data["date"] == ""):
+            return {'status':'Fill out all fields'}
+        elif (len(data["name"]) > 20 or len(data["instructions"]) > 1000):
+            return {'status':'Inputs are values are too long'}
+        try:
+            task_date = datetime.strptime(data["date"], "%Y-%m-%d")
+            if task_date < datetime.now():
+                return {'status':'Date cannot be in the past'}
+        except ValueError:
+            return {'status':'Invalid date format. Use YYYY-MM-DD'}
+        status = fun.edit_task(data["classid"],data["taskid"],data["name"],data["instructions"],data["date"])
+        return {'status':status}
 
 @app.route("/endpoint/class/leave",methods=["POST"])
 def leave_class():

@@ -286,6 +286,22 @@ def create_task(class_id, title, data,date):
         update = {"$push": {f"data.{class_id}.tasks": task_data}}
         global_data_db.update_one(query, update)
 
+def edit_task(class_id, task_id, title, data,date):
+    if not check_teacher(class_id):
+        return "You are not a teacher of this class"
+    else:
+        class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+        task_data = class_data["tasks"]
+        for i in range(len(task_data)):
+            if task_data[i]["id"] == task_id:
+                task_data[i]["taskName"] = title
+                task_data[i]["taskDescription"] = data
+                task_data[i]["taskDue"] = date
+                query = {"name": "classrooms"}
+                update = {"$set": {f"data.{class_id}.tasks": task_data}}
+                global_data_db.update_one(query, update)
+                return "complete"
+
 def create_task_student(class_id, task_id):
     userid = get_user_id()
     class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
