@@ -805,3 +805,9 @@ body,html{
         text-align: center;
     }
 }
+
+.bottomBar{
+    text-align: center;
+    font-size: 14px;
+    color: var(--text_secondary);
+}
