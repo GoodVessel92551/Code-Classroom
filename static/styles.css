@@ -1374,6 +1374,9 @@ main{
     .classroomContentContainer > div{
         width: 100% !important;
     }
+    .createClassForm{
+        width: 100% !important;
+    }
 }
 
 @media (max-width:500px) {
@@ -1396,7 +1399,7 @@ main{
     .pageTitleDiv{
         gap:16px;
     }
-    .classroomSettingText > p,.classMember > p{
+    .classroomSettingText > p,.classMember > p,.messageTitleContainer > strong{
         max-width: 150px;
         overflow: hidden;
         text-overflow: ellipsis;
