@@ -124,7 +124,7 @@
         const progressTag = classMember.querySelector('#progressTag');
         const anchorElement = classMember.querySelector('#classMember');
         if(studentsDataList.includes(member.id)){
-            if({{task|tojson}}.student_data[member.id].status == "complete"){
+            if({{task|tojson}}.student_data[member.id].status == "completed"){
                 progressTag.innerText = "Completed";
                 progressTag.classList.add('complete');
                 anchorElement.href = "/view/{{classid}}/{{taskid}}/"+member.id;
