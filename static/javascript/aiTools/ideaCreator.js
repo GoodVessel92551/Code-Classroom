@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }catch{
       console.error("No AI")
   }
+  
   if (capabilities.available == "no" || capabilities.available == "after-download")console.error("No AI")
   available_ai = true;
   create_session();
