@@ -286,7 +286,10 @@ require(["vs/editor/editor.main"], function () {
   window.editor = monaco.editor.create(document.getElementById("editor"), {
     value: loadedCode,
     language: "python",
-    theme: "myDarkTheme"
+    theme: "myDarkTheme",
+    tabSize: 8,
+    indentSize: 8,
+    detectIndentation: false
   });
 });
 
