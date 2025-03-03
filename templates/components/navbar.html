@@ -100,7 +100,6 @@ Object.keys(usersClasses).forEach(key => {
     optionContainerNavBarClasses.appendChild(container);
     Object.keys(usersClasses[key].tasks).forEach(task => {
         let taskInfo = usersClasses[key].tasks[task];
-        console.log(taskInfo)
         if (taskInfo.taskStatus != "completed"){
             let classColor = usersClasses[key].classInfo.coverImage;
             let classColorHex = getColor(classColor)
@@ -158,7 +157,6 @@ minimizeNavBar.addEventListener('click', () => {
 });
 
 function checkWidth() {
-    console.log(navBarExpand)
     const element = document.querySelector(".your-element");
     if (window.innerWidth < 700 || navBarExpand == "true") {
         minimized = true;

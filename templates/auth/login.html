@@ -118,7 +118,6 @@
         const errorMessage = document.getElementById('errorMessage');
         const errorMessageText = document.getElementById('errorMessageText');
         const errorMessageContent = {{error|tojson }};
-        console.log("Error:", errorMessageContent);
         if (errorMessageContent) {
             errorMessage.style.display = 'flex';
             errorMessageText.innerText = errorMessageContent;
