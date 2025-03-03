@@ -126,14 +126,14 @@ def class_settings(classid):
 def task(classid,taskid):
     if fun.login():
         if fun.check_teacher(classid):
-            user_class =fun.get_user_classes()[classid]
+            user_class = fun.get_user_classes_one_class(classid)
             for i in user_class["tasks"]:
                 if i["id"] == taskid:
                     task = i
                     break
             return render_template("viewTask.html",task=task,username=fun.get_username(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
         fun.create_task_student(classid,taskid)
-        user_class = fun.get_user_classes()[classid]
+        user_class = fun.get_user_classes_one_class(classid)
         class_color = user_class["classInfo"]["coverImage"]
         for i in user_class["tasks"]:
             if i["id"] == taskid:
@@ -147,7 +147,7 @@ def task(classid,taskid):
 def view_task(classid,taskid,userid):
     if fun.login():
         if fun.check_teacher(classid):
-            user_class = fun.get_user_classes()[classid]
+            user_class = fun.get_user_classes_one_class(classid)
             class_color = user_class["classInfo"]["coverImage"]
             for i in user_class["tasks"]:
                 if i["id"] == taskid:

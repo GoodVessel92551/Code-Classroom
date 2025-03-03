@@ -438,21 +438,55 @@ def check_user_sent_message(class_id, message_id):
 
 
 def get_user_classes():
-    classes = {}
     user_id = get_id()
-    user_classes = user_data_db.find_one({"id": user_id})["data"]["classrooms"]
-    for i in range(len(user_classes)):
-        class_id = user_classes[i]
-        if class_id in global_data_db.find_one({"name": "classrooms"})["data"].keys():
+    
+    # Get user class IDs in a single query
+    user_data = user_data_db.find_one({"id": user_id}, {"data.classrooms": 1})
+    user_classes = user_data["data"]["classrooms"]
+    
+    if not user_classes:
+        return {}
+    
+    # Get all classrooms data in a single query with projection
+    class_ids_filter = {f"data.{class_id}": 1 for class_id in user_classes}
+    all_classes = global_data_db.find_one({"name": "classrooms"}, class_ids_filter)
+    
+    if not all_classes or "data" not in all_classes:
+        return {}
+    
+    # Build result dictionary
+    classes = {}
+    for class_id in user_classes:
+        if class_id in all_classes["data"]:
             classes[class_id] = get_class_with_users_tasks(class_id)
-
+    
     return classes
+
+def get_user_classes_one_class(class_id):
+    query = {"name": "classrooms"}
+    projection = {"data." + class_id: 1, "_id": 0}
+    result = global_data_db.find_one(query, projection)
+    if not result or class_id not in result.get("data", {}):
+        return None
+    class_data = result["data"][class_id]
+    return class_data
 
 def get_class_with_users_tasks(class_id):
     userid = get_user_id()
-    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    
+    # Use projection to only fetch the specific class we need
+    query = {"name": "classrooms"}
+    projection = {"data." + class_id: 1, "_id": 0}
+    result = global_data_db.find_one(query, projection)
+    
+    if not result or class_id not in result.get("data", {}):
+        return None
+    
+    class_data = result["data"][class_id]
+    
     if check_teacher(class_id):
         return class_data
+        
     filtered_class_data = {
         "classInfo": class_data["classInfo"],
         "messages": class_data["messages"],
@@ -467,6 +501,7 @@ def get_class_with_users_tasks(class_id):
         else:
             task_copy["student_data"] = {}
         filtered_class_data["tasks"].append(task_copy)
+        
     return filtered_class_data
 
 def get_class_without_users_tasks(class_id):
