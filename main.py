@@ -48,9 +48,6 @@ public_classes_placeholders = [
     {"id":"4","classInfo":{"name":"Classname","description":"Lorem ipsum dolor sit amet consectetur. Auctor metus dui ullamcorper sed nunc id venenatis.","coverImage":"blue","status":"Verified"}} 
 ]
 
-
-
-
 class signupForm(FlaskForm):
     username = StringField('Username',validators=[DataRequired(),Length(min=2,max=20)],render_kw={"placeholder": "Username"})
     password = PasswordField('Password',validators=[DataRequired(),Length(min=5,max=15)],render_kw={"placeholder": "Password"})

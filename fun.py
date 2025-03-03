@@ -69,6 +69,7 @@ def login_user(username,password):
             query = {"name":"B-KEYS"}
             update = {"$set":{f"data.{hash_value(user_token)}":{"type":"UNAPW","username":username}}}
             global_data_db.update_one(query, update)
+            limit_user_tokens(username, "UNAPW", user_token)
             return "Success"
         else:
             return "Incorrect Password"
@@ -103,6 +104,28 @@ def login():
             return True
     return False
 
+def limit_user_tokens(username, user_type, new_token):
+    keys = global_data_db.find_one({"name":"B-KEYS"})
+    user_tokens = []
+    
+    # Find all tokens belonging to this user
+    for token_hash, token_data in keys["data"].items():
+        if token_data.get("type") == user_type and token_data.get("username") == username:
+            user_tokens.append(token_hash)
+    
+    # Remove the new token from the list
+    new_token_hash = hash_value(new_token)
+    if new_token_hash in user_tokens:
+        user_tokens.remove(new_token_hash)
+    
+    # If there are too many tokens, remove the oldest ones
+    if len(user_tokens) >= 2:
+        tokens_to_remove = user_tokens[:-1]  # Keep the most recent token
+        for token in tokens_to_remove:
+            query = {"name": "B-KEYS"}
+            update = {"$unset": {f"data.{token}": ""}}
+            global_data_db.update_one(query, update)
+
 
 def create_account_google(username,id):
     session.permanent = True
@@ -120,6 +143,7 @@ def create_account_google(username,id):
     query = {"name":"B-KEYS"}
     update = {"$set":{f"data.{hash_value(user_token)}":{"type":"Google","username":id}}}
     global_data_db.update_one(query, update)
+    limit_user_tokens(id, "Google", user_token)
 
 
 def get_id():
