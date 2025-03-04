@@ -1904,3 +1904,7 @@ main{
     margin-left: auto;
     flex-direction: reverse;
 }
+
+.classroomSettingContainer > h3{
+    margin:24px 0px 16px 0px;
+}

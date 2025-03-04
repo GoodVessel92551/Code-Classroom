@@ -171,20 +171,33 @@ def settings():
 @app.route("/settings/ai")
 def ai_settings():
     if fun.login():
-        return render_template("settings/ai.html",username=fun.get_username(),page="AI settings",classes=fun.get_user_classes())
+        return render_template("settings/ai.html",settings=fun.get_users_settings(),username=fun.get_username(),page="AI settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/accessibility")
 def accessibility_settings():
     if fun.login():
-        return render_template("settings/accessibility.html",username=fun.get_username(),page="Accessibility settings",classes=fun.get_user_classes())
+        return render_template("settings/accessibility.html",settings=fun.get_users_settings(),username=fun.get_username(),page="Accessibility settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/account")
 def account_settings():
     if fun.login():
-        return render_template("settings/account.html",username=fun.get_username(),page="Account settings",classes=fun.get_user_classes())
+        return render_template("settings/account.html",settings=fun.get_users_settings(),username=fun.get_username(),page="Account settings",classes=fun.get_user_classes())
     return redirect("/")
+
+@app.route("/endpoint/settings/ai",methods=["POST"])
+def save_ai_settings():
+    if fun.login():
+        data = request.json
+        status = fun.save_ai_settings(data["WeakTopics"],data["TaskSummary"],data["IdeaCreator"])
+        return {'status':status}
+
+@app.route("/endpoint/account/delete",methods=["POST"])
+def delete_account():
+    if fun.login():
+        status = fun.delete_account_info()
+        return {'status':status}
 
 @app.route("/endpoint/task/edit", methods=["POST"])
 def edit_task():

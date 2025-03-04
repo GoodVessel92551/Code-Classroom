@@ -145,6 +145,61 @@ def create_account_google(username,id):
     global_data_db.update_one(query, update)
     limit_user_tokens(id, "Google", user_token)
 
+def get_users_settings():
+    id = get_id()
+    user_data = user_data_db.find_one({"id":id})
+    return user_data["settings"]
+
+def save_ai_settings(taskSummary,weakTopics,ideaCreator):
+    id = get_id()
+    query = {"id":id}
+    update = {"$set":{"settings.taskSummary":taskSummary,"settings.WeakTopics":weakTopics,"settings.IdeaCreator":ideaCreator}}
+    user_data_db.update_one(query, update)
+    return "Success"
+
+def delete_account_info():
+    # Get the current user's ID
+    user_id = get_id()
+    
+    # Get the token hash
+    token_hash = hash_value(session.get("token"))
+    
+    # Get the user data to check type and username
+    keys = global_data_db.find_one({"name":"B-KEYS"})
+    if token_hash not in keys["data"]:
+        return "Error: User not logged in"
+    
+    user_type = keys["data"][token_hash]["type"]
+    username = keys["data"][token_hash]["username"]
+    
+    # Remove the user's token from B-KEYS
+    query = {"name": "B-KEYS"}
+    update = {"$unset": {f"data.{token_hash}": ""}}
+    global_data_db.update_one(query, update)
+    
+    # Remove the username from the usernames list
+    query = {"name": "usernames"}
+    if user_type == "UNAPW":
+        update = {"$pull": {"data": f"UNAPW-{username}"}}
+    else:
+        update = {"$pull": {"data": username}}
+    global_data_db.update_one(query, update)
+    
+    # Remove the user from any classrooms they're in
+    user_data = user_data_db.find_one({"id": user_id})
+    if user_data and "data" in user_data and "classrooms" in user_data["data"]:
+        for class_id in user_data["data"]["classrooms"]:
+            query = {"name": "classrooms"}
+            update = {"$pull": {f"data.{class_id}.members": {"id": user_id}}}
+            global_data_db.update_one(query, update)
+    
+    # Delete the user document
+    user_data_db.delete_one({"id": user_id})
+    
+    # Clear the session
+    session.clear()
+    
+    return "complete"
 
 def get_id():
     keys = global_data_db.find_one({"name":"B-KEYS"})
