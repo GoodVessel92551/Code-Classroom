@@ -236,13 +236,13 @@ def delete_classroom(class_id):
         user_data_db.update_one(query, update)
         return "complete"
 
-def save_classroom_settings(class_id,name,subtitle,description,lockMessages):
+def save_classroom_settings(class_id,name,subtitle,description,lockMessages,color):
     if check_teacher(class_id):
         new_data = {
             "name": name,
             "subtitle": subtitle,
             "description": description,
-            "coverImage": "blue",
+            "coverImage": color,
             "id": class_id,
             "settings":{
                 "messageLock":lockMessages,
