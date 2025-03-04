@@ -83,7 +83,7 @@ body,html{
 .loginWithGoogle{
     background-color: var(--primary_button_background);
     color: var(--primary_button_text);
-    height: 44px;
+    min-height: 44px;
     border-radius: 16px;
     border:none;
     cursor: pointer;
@@ -100,7 +100,7 @@ body,html{
 .loginWithGoogleSecondary{
     color: var(--primary_button_background);
     background-color: var(--background_secondary);
-    height: 44px;
+    min-height: 44px;
     border-radius: 16px;
     border:none;
     cursor: pointer;

@@ -162,26 +162,22 @@ def join_classroom():
         return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
 
-@app.route("/endpoint/task/edit", methods=["POST"])
+@app.route("/endpoint/task/edit",methods=["POST"])
 def edit_task():
-    if not request.host.endswith('booogle.app'):
-        return {'status': 'Unauthorized'}, 403
-        
     if fun.login():
         data = request.json
         if (data["name"] == "" or data["instructions"] == "" or data["date"] == ""):
-            return {'status': 'Fill out all fields'}
+            return {'status':'Fill out all fields'}
         elif (len(data["name"]) > 20 or len(data["instructions"]) > 1000):
-            return {'status': 'Inputs are values are too long'}
+            return {'status':'Inputs are values are too long'}
         try:
             task_date = datetime.strptime(data["date"], "%Y-%m-%d")
             if task_date < datetime.now():
-                return {'status': 'Date cannot be in the past'}
+                return {'status':'Date cannot be in the past'}
         except ValueError:
-            return {'status': 'Invalid date format. Use YYYY-MM-DD'}
-        status = fun.edit_task(data["classid"], data["taskid"], data["name"], data["instructions"], data["date"])
-        return {'status': status}
-    return {'status': 'Not logged in'}, 401
+            return {'status':'Invalid date format. Use YYYY-MM-DD'}
+        status = fun.edit_task(data["classid"],data["taskid"],data["name"],data["instructions"],data["date"])
+        return {'status':status}
 
 @app.route("/endpoint/class/leave",methods=["POST"])
 def leave_class():
