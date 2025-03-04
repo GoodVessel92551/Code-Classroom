@@ -162,6 +162,30 @@ def join_classroom():
         return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
 
+@app.route("/settings")
+def settings():
+    if fun.login():
+        return render_template("settings/main.html",username=fun.get_username(),page="settings",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/settings/ai")
+def ai_settings():
+    if fun.login():
+        return render_template("settings/ai.html",username=fun.get_username(),page="AI settings",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/settings/accessibility")
+def accessibility_settings():
+    if fun.login():
+        return render_template("settings/accessibility.html",username=fun.get_username(),page="Accessibility settings",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/settings/account")
+def account_settings():
+    if fun.login():
+        return render_template("settings/account.html",username=fun.get_username(),page="Account settings",classes=fun.get_user_classes())
+    return redirect("/")
+
 @app.route("/endpoint/task/edit", methods=["POST"])
 def edit_task():
     if not request.host.endswith('booogle.app'):
