@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Booogle Code | Create Task{% endblock %}
+{% block title %}Code Classroom | Create Task{% endblock %}
 {% block main %}
 
 <main class="createClassMain">
@@ -37,7 +37,6 @@
         const taskName = document.getElementById("taskName").value;
         const taskDescription = document.getElementById("taskDescription").value;
         const taskDate = document.getElementById("taskDate").value;
-        console.log(taskDate)
         if (taskName === "" || taskDescription === "") {
             errorMessage.style.display = "flex";
             errorMessageText.innerText = "Fill out all fields";
@@ -74,8 +73,6 @@
             },
             body:JSON.stringify(data)
         }).then(response=>response.json()).then(data=>{
-            console.log(data)
-            console.log(data.status)
             if(data.status === "complete"){
                 window.location.href = "/classroom/{{classid}}";
             }

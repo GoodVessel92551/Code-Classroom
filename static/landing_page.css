@@ -83,7 +83,7 @@ body,html{
 .loginWithGoogle{
     background-color: var(--primary_button_background);
     color: var(--primary_button_text);
-    height: 44px;
+    min-height: 44px;
     border-radius: 16px;
     border:none;
     cursor: pointer;
@@ -100,7 +100,7 @@ body,html{
 .loginWithGoogleSecondary{
     color: var(--primary_button_background);
     background-color: var(--background_secondary);
-    height: 44px;
+    min-height: 44px;
     border-radius: 16px;
     border:none;
     cursor: pointer;
@@ -787,9 +787,18 @@ body,html{
     .landingPageBlueOnBackground{
         display: none;
     }
+    .loginContainer{
+        width: 100%;
+    }
+    .landingPageMainContainer{
+        padding:0px 32px;
+    }
+
+
 }
 
 @media (max-width:600px) {
+    
     .landing_page_create_account_container{
         flex-direction: column;
         gap: 8px;
@@ -800,8 +809,14 @@ body,html{
         width: 100%;
     }
     .landingPageTitleLoginContainer{
-        width: calc(100% - 64px);
+        width: 100%
         align-items: center;
         text-align: center;
     }
+}
+
+.bottomBar{
+    text-align: center;
+    font-size: 14px;
+    color: var(--text_secondary);
 }

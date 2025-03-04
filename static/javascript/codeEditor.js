@@ -22,7 +22,6 @@ var received_input = false
 let currentHandler = null;
 
 function inputFunction(promptText) {
-  console.log("Input function called")
   received_input = false
   return new Promise((resolve) => {
       const inputElem = document.getElementById("consoleInput");
@@ -64,7 +63,6 @@ inputfunTakesPrompt: true
 
 function runPython(code) {
   if(!code.includes("input(")){
-    console.log("Input detected");
     Sk.execLimit = 5000; 
     Sk.timeoutMsg = function () { return "Execution timed out."; };
   }
@@ -78,7 +76,6 @@ function runPython(code) {
     return Sk.importMainWithBody("<stdin>", false, code, true);
   }).then(
     function(mod) {
-      console.log("Success");
     },
     function(err) {
       consoleText.style.color = "#ff8f8f";
@@ -289,7 +286,10 @@ require(["vs/editor/editor.main"], function () {
   window.editor = monaco.editor.create(document.getElementById("editor"), {
     value: loadedCode,
     language: "python",
-    theme: "myDarkTheme"
+    theme: "myDarkTheme",
+    tabSize: 8,
+    indentSize: 8,
+    detectIndentation: false
   });
 });
 

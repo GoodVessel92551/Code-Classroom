@@ -4,7 +4,6 @@ const container = document.getElementById('codeProjectsContainer');
 const loadProjects = () => {
     if (projects) {
         projects = JSON.parse(projects);
-        console.log(projects);
         let projectKeys = Object.keys(projects);
         projectKeys.forEach(key => {
             const project = projects[key];

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Booogle Code | Create Class{% endblock %}
+{% block title %}Code Classroom | Create Class{% endblock %}
 {% block main %}
 
 <main class="createClassMain">
@@ -59,7 +59,6 @@
         const lastElement = coverImages[coverImages.length - 1];
         coverImages.unshift(lastElement);
         coverImages.pop();
-        console.log(coverImages);
         setImages()
     });
 
@@ -67,7 +66,6 @@
         const firstElement = coverImages[0];
         coverImages.push(firstElement);
         coverImages.shift();
-        console.log(coverImages);
         setImages()
     });
 

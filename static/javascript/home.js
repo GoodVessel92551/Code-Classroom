@@ -1,7 +1,6 @@
 let classesContainer = document.getElementById("classesContainer");
 const template = document.getElementById("classroomTemplate");
 
-console.log(classes);
 
 Object.keys(classes).forEach(key => {
     let classInfo = classes[key].classInfo;
