@@ -1751,7 +1751,25 @@ main{
     margin-top:8px;
 }
 
-.classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription){
+.websiteSettings > a{
+    cursor: pointer;
+}
+
+.classroomSettingContainer > a:hover svg{
+    transform: translateX(8px);
+}
+
+.classroomSettingContainer > a:active svg{
+    transform: translateX(12px);
+}
+.classroomSettingContainer > a > svg{
+    width: 20px;
+    height: 20px;
+    margin-right:8px;
+    transition: .2s transform ease;
+}
+
+.classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription),.classroomSettingContainer > a{
     width:100%;
     background-color: var(--background_secondary);
     border-radius: 16px;
@@ -1761,6 +1779,7 @@ main{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-decoration: none;
 }
 
 .classroomSettingText{
@@ -1884,4 +1903,8 @@ main{
     gap: 8px;
     margin-left: auto;
     flex-direction: reverse;
+}
+
+.classroomSettingContainer > h3{
+    margin:24px 0px 16px 0px;
 }

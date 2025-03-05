@@ -162,6 +162,43 @@ def join_classroom():
         return render_template("join_class.html",username=fun.get_username(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
 
+@app.route("/settings")
+def settings():
+    if fun.login():
+        return render_template("settings/main.html",username=fun.get_username(),page="settings",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/settings/ai")
+def ai_settings():
+    if fun.login():
+        return render_template("settings/ai.html",settings=fun.get_users_settings(),username=fun.get_username(),page="AI settings",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/settings/accessibility")
+def accessibility_settings():
+    if fun.login():
+        return render_template("settings/accessibility.html",settings=fun.get_users_settings(),username=fun.get_username(),page="Accessibility settings",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/settings/account")
+def account_settings():
+    if fun.login():
+        return render_template("settings/account.html",settings=fun.get_users_settings(),username=fun.get_username(),page="Account settings",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/endpoint/settings/ai",methods=["POST"])
+def save_ai_settings():
+    if fun.login():
+        data = request.json
+        status = fun.save_ai_settings(data["WeakTopics"],data["TaskSummary"],data["IdeaCreator"])
+        return {'status':status}
+
+@app.route("/endpoint/account/delete",methods=["POST"])
+def delete_account():
+    if fun.login():
+        status = fun.delete_account_info()
+        return {'status':status}
+
 @app.route("/endpoint/task/edit", methods=["POST"])
 def edit_task():
     if not request.host.endswith('booogle.app'):
@@ -223,7 +260,7 @@ def save_classroom_settings():
             return {'status':'Fill out all fields'}
         elif (len(data["name"]) > 20 or len(data["subtitle"]) > 20 or len(data["description"]) > 100):
             return {'status':'Inputs are values are too long'}
-        status = fun.save_classroom_settings(data["classid"],data["name"],data["subtitle"],data["description"],data["messageLock"])
+        status = fun.save_classroom_settings(data["classid"],data["name"],data["subtitle"],data["description"],data["messageLock"],data["classColor"])
         return {'status':status}
 
 @app.route("/endpoint/task/save",methods=["POST"])

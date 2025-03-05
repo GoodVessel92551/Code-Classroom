@@ -62,7 +62,7 @@ inputfunTakesPrompt: true
 
 
 function runPython(code) {
-  if(!code.includes("input(")){
+  if(!code.includes("input")){
     Sk.execLimit = 5000; 
     Sk.timeoutMsg = function () { return "Execution timed out."; };
   }
