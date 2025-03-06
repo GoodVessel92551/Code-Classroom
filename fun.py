@@ -529,10 +529,12 @@ def get_user_classes_one_class(class_id):
 def get_class_with_users_tasks(class_id):
     userid = get_user_id()
     
-    # Use projection to only fetch the specific class we need
-    query = {"name": "classrooms"}
-    projection = {"data." + class_id: 1, "_id": 0}
-    result = global_data_db.find_one(query, projection)
+    try:
+        query = {"name": "classrooms"}
+        projection = {"data." + class_id: 1, "_id": 0}
+        result = global_data_db.find_one(query, projection)
+    except:
+        return None
     
     if not result or class_id not in result.get("data", {}):
         return None
