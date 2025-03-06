@@ -116,6 +116,7 @@
     <script src="{{ url_for('static', filename='javascript/codeEditor.js') }}"></script>
     <script src="{{ url_for('static', filename='javascript/aiTools/weakTopics.js') }}"></script>
     <script>
+        let loadedTaskCode = "";
         const errorMessage = document.getElementById('errorMessage');
         const errorMessageText = document.getElementById('errorMessageText');
         const errorMessageContent = {{error|tojson }};
