@@ -58,6 +58,11 @@ def signup_user(username,password,confirmPassword):
     global_data_db.update_one(query, update)
     return "Success"
 
+def get_users_settings():
+    id = get_id()
+    user_data = user_data_db.find_one({"id":id})
+    return user_data["settings"]
+
 def login_user(username,password):
     session.permanent = True
     ids = global_data_db.find_one({"name":"usernames"})["data"]
