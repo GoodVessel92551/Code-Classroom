@@ -110,6 +110,8 @@ def class_page(classid):
     print(classid)
     if fun.login():
         user_class = fun.get_class_with_users_tasks(classid)
+        if user_class == None:
+            return redirect("/")
         return render_template("class.html",teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
