@@ -358,12 +358,22 @@ body{
     height: 18px;
 }
 
-.pageMenuCurrentPage{
+.pageMenuCurrentPage.weakTopicsPageMenu{
+    background-color: #4B3E2C;
+    border-color: #c38835;
+}
+
+.pageMenuCurrentPage.taskSummaryPageMenu{
+    background-color: #2c2d4b;
+    border-color: #633bc7;
+}
+
+.pageMenuCurrentPage:not(.pageMenuAITools > div > a){
     background-color: var(--navbar_select_background);
     color: var(--text_navbar_select) !important;
 }
 
-.pageMenuCurrentPage:not(.redpageMenu,.orangepageMenu,.greenpageMenu,.bluepageMenu,.purplepageMenu,.pinkpageMenu) > svg > path{
+.pageMenuCurrentPage:not(.pageMenuAITools > div > a,.redpageMenu,.orangepageMenu,.greenpageMenu,.bluepageMenu,.purplepageMenu,.pinkpageMenu) > svg > path{
     fill: var(--text_navbar_select);
 }
 

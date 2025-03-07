@@ -170,6 +170,18 @@ def settings():
         return render_template("settings/main.html",username=fun.get_username(),page="settings",classes=fun.get_user_classes())
     return redirect("/")
 
+@app.route("/weakTopics")
+def weak_topics_page():
+    if fun.login():
+        return render_template("weakTopics.html",username=fun.get_username(),page="weak topics",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/taskSummary")
+def task_summary():
+    if fun.login():
+        return render_template("taskSummary.html",username=fun.get_username(),page="task summary",classes=fun.get_user_classes())
+    return redirect("/")
+
 @app.route("/settings/ai")
 def ai_settings():
     if fun.login():
