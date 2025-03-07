@@ -448,6 +448,20 @@ body{
     display: none;
 }
 
+.minimize > .pageMenu > span{
+    display: none;
+}
+
+.minimize > .pageMenuAITools > div > a{
+    height:30px !important;
+    box-sizing: border-box;
+}
+
+.minimize > .navBarVerText{
+    display: none;
+}
+
+
 @keyframes status_text_load{
     0%{
         opacity: 0;
@@ -670,6 +684,7 @@ main{
 .minimize > .bottomNavButtons{
     height:auto;
     flex-direction: column;
+    margin-top: auto;
 }
 
 .minimize > .bottomNavButtons > a{
@@ -1975,4 +1990,142 @@ main{
 
 .classroomSettingContainer > h3{
     margin:24px 0px 16px 0px;
+}
+
+.searchContainer{
+    position: absolute;
+    top:30%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width:70%;
+    max-width: 480px;
+    background-color: var(--background_secondary);
+    display: none;
+    z-index: 10;
+    box-shadow: 2px 2px 20px 10px rgba(0,0,0,0.50);
+    border: 1px solid #46526d;
+    border-radius: 16px;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.searchBarContainer{
+    height:40px;
+    width: 100%;
+    background-color: none;
+    display: flex;
+    align-items: center;
+    padding: 0px 16px;
+    gap:16px;
+}
+
+.searchBarContainer > svg{
+    width: 20px;
+    height: 20px;
+}
+
+.searchBarContainer > input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    box-sizing: border-box;
+    font-size: 15px;
+    background:none;
+    color: var(--text_primary);
+}
+
+
+.searchBarContainer > input:focus{
+    outline: none;
+}
+
+.searchOptions{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.searchOptions > a{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    align-items: center;
+    padding: 0px 16px;
+    gap:8px;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--text_primary);
+    background-color: var(--background_secondary);
+}
+
+.searchOptions > a > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.taskListContainer{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.taskListTitleContainer{
+    width: 100%;
+    display: flex;
+    gap:8px;
+    align-items: center;
+    height: 48px;
+    background-color: red;
+    padding:0px 16px;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+
+.taskListTitleContainer > svg{
+    width: 20px;
+    height: 20px;
+}
+
+.taskListTitleContainerRed{
+    background-color: #3d2626;
+    color:#FFDBDB;
+}
+
+.taskListTitleContainerRed svg > path{
+    fill: #FFDBDB;
+}
+
+.taskListTitleContainerOrange{
+    background-color: #3d3226;
+    color:#FFDCC8;
+}
+
+.taskListTitleContainerOrange svg > path{
+    fill: #FFDCC8;
+}
+
+.taskListTitleContainerGreen{
+    background-color: #263d26;
+    color:#DBFFDB;
+}
+
+.taskListTitleContainerGreen svg > path{
+    fill: #DBFFDB;
+}
+
+.taskListTitleContainer > button{
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border:none;
+}
+
+.taskListTitleContainer > button > svg{
+    width: 20px;
+    height: 20px;
 }

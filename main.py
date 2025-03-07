@@ -176,6 +176,12 @@ def weak_topics_page():
         return render_template("weakTopics.html",username=fun.get_username(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
     return redirect("/")
 
+@app.route("/tasklist")
+def task_list():
+    if fun.login():
+        return render_template("taskList.html",userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),page="task list",classes=fun.get_user_classes())
+    return redirect("/")
+
 @app.route("/taskSummary")
 def task_summary():
     if fun.login():
