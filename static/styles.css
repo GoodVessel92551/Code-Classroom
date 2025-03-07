@@ -252,6 +252,59 @@ body{
     box-sizing: border-box;
     overflow: hidden;
     width: 100%;
+    padding-top: 0px !important;
+}
+
+.pageMenuAITools > div{
+    display: flex;
+    flex-direction: row !important;
+    gap: 8px;
+
+}
+
+.pageMenuAITools > div > a{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:32px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .15s border-color ease-in-out;
+}
+
+.weakTopicsPageMenu:hover{
+    border-color: #87683D;
+}
+
+.ideaCreatorPageMenu:hover{
+    border-color: #3d875c;
+}
+
+.taskSummaryPageMenu:hover{
+    border-color: #523d87;
+}
+
+.weakTopicsPageMenu{
+    background-color: #382D23;
+    border:2px solid #4c3e2d;
+}
+
+.ideaCreatorPageMenu{
+    background-color: #233838;
+    border:2px solid #2D4C4C;
+}
+
+.taskSummaryPageMenu{
+    background-color: #232838;
+    border:2px solid #2D2F4C;
+}
+
+.pageMenu > span{
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: var(--text_secondary);
+    font-weight: bold;
 }
 
 .pageMenu > a{
@@ -366,6 +419,11 @@ body{
 
 .svg_pink> path{
     fill:#E86CAA !important;
+}
+
+.minimize > .pageMenu  > div{
+    flex-direction: column !important;
+    gap: 8px;
 }
 
 .minimize > .pageMenu{
