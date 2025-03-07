@@ -19,7 +19,7 @@
                 </svg>
         </button>
     </div>
-    <div class="pageMenu pageMenuAITools">
+    <div id="pageMenuAITools" class="pageMenu pageMenuAITools">
         <span>AI Tools</span>
         <div>
             <a href="/weakTopics" id="weak topics" class="weakTopicsPageMenu" title="Weak Topics"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,6 +85,13 @@ const ideaCreatorContainer = document.getElementById("idea creator");
 taskSummaryContainer.style.display = settings.taskSummary ? "flex" : "none";
 weakTopicsContainer.style.display = settings.WeakTopics ? "flex" : "none";
 ideaCreatorContainer.style.display = settings.IdeaCreator ? "flex" : "none";
+const pageMenuAITools = document.getElementById("pageMenuAITools");
+if (settings.taskSummary || settings.WeakTopics || settings.IdeaCreator){
+    pageMenuAITools.style.display = "flex";
+}else{
+    pageMenuAITools.style.display = "none";
+}
+
 const usersClasses = {{classes|tojson}};
 const expandButtonNavBarClasses = document.getElementById('expandButtonNavBarClasses');
 const expandButtonNavBarTasks = document.getElementById('expandButtonNavBarTasks');

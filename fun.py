@@ -155,7 +155,7 @@ def get_users_settings():
     user_data = user_data_db.find_one({"id":id})
     return user_data["settings"]
 
-def save_ai_settings(taskSummary,weakTopics,ideaCreator):
+def save_ai_settings(weakTopics,taskSummary,ideaCreator):
     id = get_id()
     query = {"id":id}
     update = {"$set":{"settings.taskSummary":taskSummary,"settings.WeakTopics":weakTopics,"settings.IdeaCreator":ideaCreator}}
