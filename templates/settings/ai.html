@@ -50,10 +50,6 @@
     const taskSummary = document.getElementById('taskSummary');
     const ideaCreator = document.getElementById('ideaCreator');
     const saveButton = document.getElementById('saveButton');
-
-
-    var settings = {{settings|tojson}};
-    console.log(settings)
     
     if (!settings.WeakTopics && !settings.IdeaCreator && !settings.taskSummary) {
         generalSettings.checked = true;

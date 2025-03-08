@@ -252,6 +252,59 @@ body{
     box-sizing: border-box;
     overflow: hidden;
     width: 100%;
+    padding-top: 0px !important;
+}
+
+.pageMenuAITools > div{
+    display: flex;
+    flex-direction: row !important;
+    gap: 8px;
+
+}
+
+.pageMenuAITools > div > a{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:32px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .15s border-color ease-in-out;
+}
+
+.weakTopicsPageMenu:hover{
+    border-color: #87683D;
+}
+
+.ideaCreatorPageMenu:hover{
+    border-color: #3d875c;
+}
+
+.taskSummaryPageMenu:hover{
+    border-color: #523d87;
+}
+
+.weakTopicsPageMenu{
+    background-color: #382D23;
+    border:2px solid #4c3e2d;
+}
+
+.ideaCreatorPageMenu{
+    background-color: #233838;
+    border:2px solid #2D4C4C;
+}
+
+.taskSummaryPageMenu{
+    background-color: #232838;
+    border:2px solid #2D2F4C;
+}
+
+.pageMenu > span{
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: var(--text_secondary);
+    font-weight: bold;
 }
 
 .pageMenu > a{
@@ -305,12 +358,22 @@ body{
     height: 18px;
 }
 
-.pageMenuCurrentPage{
+.pageMenuCurrentPage.weakTopicsPageMenu{
+    background-color: #4B3E2C;
+    border-color: #c38835;
+}
+
+.pageMenuCurrentPage.taskSummaryPageMenu{
+    background-color: #2c2d4b;
+    border-color: #633bc7;
+}
+
+.pageMenuCurrentPage:not(.pageMenuAITools > div > a,.redpageMenu,.orangepageMenu,.greenpageMenu,.bluepageMenu,.purplepageMenu,.pinkpageMenu){
     background-color: var(--navbar_select_background);
     color: var(--text_navbar_select) !important;
 }
 
-.pageMenuCurrentPage:not(.redpageMenu,.orangepageMenu,.greenpageMenu,.bluepageMenu,.purplepageMenu,.pinkpageMenu) > svg > path{
+.pageMenuCurrentPage:not(.pageMenuAITools > div > a,.redpageMenu,.orangepageMenu,.greenpageMenu,.bluepageMenu,.purplepageMenu,.pinkpageMenu) > svg > path{
     fill: var(--text_navbar_select);
 }
 
@@ -368,6 +431,11 @@ body{
     fill:#E86CAA !important;
 }
 
+.minimize > .pageMenu  > div{
+    flex-direction: column !important;
+    gap: 8px;
+}
+
 .minimize > .pageMenu{
     padding: 16px 17px;
 }
@@ -379,6 +447,20 @@ body{
 .minimize > .pageMenu > a > span{
     display: none;
 }
+
+.minimize > .pageMenu > span{
+    display: none;
+}
+
+.minimize > .pageMenuAITools > div > a{
+    height:30px !important;
+    box-sizing: border-box;
+}
+
+.minimize > .navBarVerText{
+    display: none;
+}
+
 
 @keyframes status_text_load{
     0%{
@@ -602,6 +684,7 @@ main{
 .minimize > .bottomNavButtons{
     height:auto;
     flex-direction: column;
+    margin-top: auto;
 }
 
 .minimize > .bottomNavButtons > a{
@@ -1907,4 +1990,260 @@ main{
 
 .classroomSettingContainer > h3{
     margin:24px 0px 16px 0px;
+}
+
+.searchContainer{
+    position: absolute;
+    top:30%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    width:70%;
+    max-width: 480px;
+    background-color: var(--background_secondary);
+    display: none;
+    z-index: 10;
+    box-shadow: 2px 2px 20px 10px rgba(0,0,0,0.50);
+    border: 1px solid #46526d;
+    border-radius: 16px;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.searchBarContainer{
+    height:40px;
+    width: 100%;
+    background-color: none;
+    display: flex;
+    align-items: center;
+    padding: 0px 16px;
+    gap:16px;
+}
+
+.searchBarContainer > svg{
+    width: 20px;
+    height: 20px;
+}
+
+.searchBarContainer > input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    box-sizing: border-box;
+    font-size: 15px;
+    background:none;
+    color: var(--text_primary);
+}
+
+
+.searchBarContainer > input:focus{
+    outline: none;
+}
+
+.searchOptions{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.searchOptions > a{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    align-items: center;
+    padding: 0px 16px;
+    gap:8px;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--text_primary);
+    background-color: var(--background_secondary);
+}
+
+.searchOptions > a > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.taskListContainer{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.taskListTitleContainer{
+    width: 100%;
+    display: flex;
+    gap:8px;
+    align-items: center;
+    height: 48px;
+    background-color: red;
+    padding:0px 16px;
+    box-sizing: border-box;
+    border-radius: 16px;
+}
+
+.taskListTitleContainer > svg{
+    width: 20px;
+    height: 20px;
+}
+
+.taskListTitleContainerRed{
+    background-color: #3d2626;
+    color:#FFDBDB;
+}
+
+.taskListTitleContainerRed svg > path{
+    fill: #FFDBDB;
+}
+
+.taskListTitleContainerOrange{
+    background-color: #3d3226;
+    color:#FFDCC8;
+}
+
+.taskListTitleContainerOrange svg > path{
+    fill: #FFDCC8;
+}
+
+.taskListTitleContainerGreen{
+    background-color: #263d26;
+    color:#DBFFDB;
+}
+
+.taskListTitleContainerGreen svg > path{
+    fill: #DBFFDB;
+}
+
+.taskListTitleContainer > button{
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border:none;
+    cursor: pointer;
+}
+
+.taskListTitleContainer > button > svg{
+    width: 20px;
+    height: 20px;
+    transition: .1s transform ease;
+}
+
+.taskListContainerTasks{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+}
+
+.taskListContainerTasks{
+    padding:8px;
+    box-sizing: border-box;
+    background-color: var(--background_secondary);
+    box-sizing: border-box;
+    border-radius: 20px;
+    max-height: 300px;
+    transition: 0.3s max-height ease-out;
+    overflow: hidden;
+}
+
+
+.taskListContainerTasks > div{
+    width: 100%;
+    display: flex;
+    gap:8px;
+    align-items: center;
+    box-sizing: border-box;
+    
+}
+
+.taskDueDate{
+    margin-left:auto;
+    font-size: 14px;
+    color: var(--text_secondary);
+    margin-right: 10px;
+}
+
+.taskStatus{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #FFDCC8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.taskStatus > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.taskColorred{
+    background-color: #502C2C;
+}
+
+.taskColorred > svg > path{
+    fill: #FCBDBD;
+}
+
+.taskColororange{
+    background-color: #503E2C;
+}
+
+.taskColororange > svg > path{
+    fill: #FCD7BD;
+}
+
+.taskColorgreen{
+    background-color: #2C5037;
+}
+
+.taskColorgreen > svg > path{
+    fill: #BDFCC1;
+}
+
+.taskColorblue{
+    background-color: #2C3750;
+}
+
+.taskColorblue > svg > path{
+    fill: #BDEBFC;
+}
+
+.taskColorpurple{
+    background-color: #3B2C50;
+}
+
+.taskColorpurple > svg > path{
+    fill: #C1BDFC;
+}
+
+.taskColorpink{
+    background-color: #4F2C50;
+}
+
+.taskColorpink > svg > path{
+    fill: #FBBDFC;
+}
+
+.taskListContainer > div{
+    width: 100%;
+    display: flex;
+    gap:8px;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 16px;
+    flex-direction: column;
+}
+
+.taskListHidden{
+    display: none;
+}
+
+.taskListContainer > div:has(.taskListHidden) button > svg{
+    transform: rotate(180deg);
 }

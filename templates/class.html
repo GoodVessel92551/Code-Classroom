@@ -48,8 +48,8 @@
 <script>
     const leavePill = document.getElementById('leavePill');
     const settingPill = document.getElementById('settingPill');
-
-    if ({{teacher|tojson}}) {
+    const teacher = {{teacher|tojson}};
+    if (teacher) {
         settingPill.style.display = 'flex';
     }else{
         leavePill.style.display = 'flex';
@@ -78,13 +78,16 @@
     const classSubTitle = document.getElementById('classSubTitle');
 
     const thisClass = {{user_class|tojson}};
-
+    console.log(thisClass)
+    if (thisClass.classInfo.settings.messageLock && !teacher) {
+        messageButton.style.display = 'none';
+    }
     messageLock = thisClass.classInfo.settings.messageLock;
-    if (messageLock && !{{teacher|tojson}}) {
+    if (messageLock && !teacher) {
         messageButton.style.display = 'none';
     }
 
-    if (!{{teacher|tojson}}) {
+    if (!teacher) {
         createTaskButton.style.display = 'none';
     }
     classInfo = thisClass.classInfo;
@@ -164,7 +167,9 @@
         messageTitleContainer.appendChild(messageBubbleSvg);
         messageTitleContainer.appendChild(messageTitle);
         messageTitleContainer.appendChild(messageDate);
-        messageTitleContainer.appendChild(deleteIcon);
+        if (teacher || message.userName === {{username|tojson}}) {
+            messageTitleContainer.appendChild(deleteIcon);
+        }
         container.appendChild(messageText);
         
         // Set text content for message elements

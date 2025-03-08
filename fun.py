@@ -58,6 +58,11 @@ def signup_user(username,password,confirmPassword):
     global_data_db.update_one(query, update)
     return "Success"
 
+def get_users_settings():
+    id = get_id()
+    user_data = user_data_db.find_one({"id":id})
+    return user_data["settings"]
+
 def login_user(username,password):
     session.permanent = True
     ids = global_data_db.find_one({"name":"usernames"})["data"]
@@ -150,7 +155,7 @@ def get_users_settings():
     user_data = user_data_db.find_one({"id":id})
     return user_data["settings"]
 
-def save_ai_settings(taskSummary,weakTopics,ideaCreator):
+def save_ai_settings(weakTopics,taskSummary,ideaCreator):
     id = get_id()
     query = {"id":id}
     update = {"$set":{"settings.taskSummary":taskSummary,"settings.WeakTopics":weakTopics,"settings.IdeaCreator":ideaCreator}}
@@ -529,10 +534,12 @@ def get_user_classes_one_class(class_id):
 def get_class_with_users_tasks(class_id):
     userid = get_user_id()
     
-    # Use projection to only fetch the specific class we need
-    query = {"name": "classrooms"}
-    projection = {"data." + class_id: 1, "_id": 0}
-    result = global_data_db.find_one(query, projection)
+    try:
+        query = {"name": "classrooms"}
+        projection = {"data." + class_id: 1, "_id": 0}
+        result = global_data_db.find_one(query, projection)
+    except:
+        return None
     
     if not result or class_id not in result.get("data", {}):
         return None
