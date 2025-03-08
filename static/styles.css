@@ -1996,7 +1996,7 @@ main{
     position: absolute;
     top:30%;
     left:50%;
-    transform: translate(-50%,-50%);
+    transform: translateX(-50%);
     width:70%;
     max-width: 480px;
     background-color: var(--background_secondary);
@@ -2010,13 +2010,14 @@ main{
 }
 
 .searchBarContainer{
-    height:40px;
+    height:48px;
     width: 100%;
     background-color: none;
     display: flex;
     align-items: center;
     padding: 0px 16px;
     gap:16px;
+    border-bottom: 1px solid #46526d;
 }
 
 .searchBarContainer > svg{
@@ -2044,9 +2045,12 @@ main{
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    max-height:200px;
+    overflow: hidden;
 }
 
 .searchOptions > a{
+    flex-shrink: 0;
     width: 100%;
     height: 40px;
     display: flex;
@@ -2054,10 +2058,19 @@ main{
     align-items: center;
     padding: 0px 16px;
     gap:8px;
-    font-size: 14px;
+    font-size: 13px;
     text-decoration: none;
-    color: var(--text_primary);
+    color: var(--text_secondary);
     background-color: var(--background_secondary);
+    transition: .2s background-color ease;
+}
+
+.searchOptions > a:hover{
+    background-color: #2b313f;
+}
+
+.selected{
+    background-color: #2b313f !important;
 }
 
 .searchOptions > a > svg{
@@ -2066,10 +2079,11 @@ main{
 }
 
 .taskListContainer{
-    width: 50%;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 600px;
+    margin-top: 32px;
 }
 
 .taskListTitleContainer{
@@ -2078,7 +2092,6 @@ main{
     gap:8px;
     align-items: center;
     height: 48px;
-    background-color: red;
     padding:0px 16px;
     box-sizing: border-box;
     border-radius: 16px;
@@ -2129,15 +2142,9 @@ main{
 .taskListTitleContainer > button > svg{
     width: 20px;
     height: 20px;
-    transition: .1s transform ease;
+    transition: .3s transform ease;
 }
 
-.taskListContainerTasks{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap:8px;
-}
 
 .taskListContainerTasks{
     padding:8px;
@@ -2146,17 +2153,23 @@ main{
     box-sizing: border-box;
     border-radius: 20px;
     max-height: 300px;
-    transition: 0.3s max-height ease-out;
-    overflow: hidden;
+    transition: 0.3s max-height ease-out, 0.3s padding ease-out;
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap:12px;
 }
 
 
-.taskListContainerTasks > div{
+.taskListContainerTasks > a{
     width: 100%;
     display: flex;
     gap:8px;
     align-items: center;
     box-sizing: border-box;
+    color: var(--text_primary);
+    text-decoration: none;
     
 }
 
@@ -2240,10 +2253,35 @@ main{
     flex-direction: column;
 }
 
-.taskListHidden{
-    display: none;
-}
 
 .taskListContainer > div:has(.taskListHidden) button > svg{
     transform: rotate(180deg);
+}
+
+.searchButtonNavBar{
+    display: flex;
+    background-color: var(--background_tertiary);
+    border-radius: 8px;
+    padding: 8px;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    color: var(--text_secondary);
+    cursor: pointer;
+    transition: .2s filter ease;
+    margin-bottom: 8px;
+}
+
+.searchButtonNavBar:hover{
+    filter: brightness(1.1);
+}
+.searchButtonNavBar > svg{
+    width: 18px;
+    height: 18px;
+}
+
+.searchButtonNavBar > svg > path{
+    fill: var(--text_secondary);
 }
