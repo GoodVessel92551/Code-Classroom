@@ -368,7 +368,7 @@ body{
     border-color: #633bc7;
 }
 
-.pageMenuCurrentPage:not(.pageMenuAITools > div > a){
+.pageMenuCurrentPage:not(.pageMenuAITools > div > a,.redpageMenu,.orangepageMenu,.greenpageMenu,.bluepageMenu,.purplepageMenu,.pinkpageMenu){
     background-color: var(--navbar_select_background);
     color: var(--text_navbar_select) !important;
 }
@@ -2123,9 +2123,127 @@ main{
     align-items: center;
     background: none;
     border:none;
+    cursor: pointer;
 }
 
 .taskListTitleContainer > button > svg{
     width: 20px;
     height: 20px;
+    transition: .1s transform ease;
+}
+
+.taskListContainerTasks{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+}
+
+.taskListContainerTasks{
+    padding:8px;
+    box-sizing: border-box;
+    background-color: var(--background_secondary);
+    box-sizing: border-box;
+    border-radius: 20px;
+    max-height: 300px;
+    transition: 0.3s max-height ease-out;
+    overflow: hidden;
+}
+
+
+.taskListContainerTasks > div{
+    width: 100%;
+    display: flex;
+    gap:8px;
+    align-items: center;
+    box-sizing: border-box;
+    
+}
+
+.taskDueDate{
+    margin-left:auto;
+    font-size: 14px;
+    color: var(--text_secondary);
+    margin-right: 10px;
+}
+
+.taskStatus{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #FFDCC8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.taskStatus > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.taskColorred{
+    background-color: #502C2C;
+}
+
+.taskColorred > svg > path{
+    fill: #FCBDBD;
+}
+
+.taskColororange{
+    background-color: #503E2C;
+}
+
+.taskColororange > svg > path{
+    fill: #FCD7BD;
+}
+
+.taskColorgreen{
+    background-color: #2C5037;
+}
+
+.taskColorgreen > svg > path{
+    fill: #BDFCC1;
+}
+
+.taskColorblue{
+    background-color: #2C3750;
+}
+
+.taskColorblue > svg > path{
+    fill: #BDEBFC;
+}
+
+.taskColorpurple{
+    background-color: #3B2C50;
+}
+
+.taskColorpurple > svg > path{
+    fill: #C1BDFC;
+}
+
+.taskColorpink{
+    background-color: #4F2C50;
+}
+
+.taskColorpink > svg > path{
+    fill: #FBBDFC;
+}
+
+.taskListContainer > div{
+    width: 100%;
+    display: flex;
+    gap:8px;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 16px;
+    flex-direction: column;
+}
+
+.taskListHidden{
+    display: none;
+}
+
+.taskListContainer > div:has(.taskListHidden) button > svg{
+    transform: rotate(180deg);
 }

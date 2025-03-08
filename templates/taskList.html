@@ -8,9 +8,9 @@
         <div class="taskListTitleContainer taskListTitleContainerRed">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.478 10 10s-4.477 10-10 10S2 17.522 2 12 6.477 2 12 2Zm0 1.667c-4.595 0-8.333 3.738-8.333 8.333 0 4.595 3.738 8.333 8.333 8.333 4.595 0 8.333-3.738 8.333-8.333 0-4.595-3.738-8.333-8.333-8.333Zm-.001 10.835a.999.999 0 1 1 0 1.998.999.999 0 0 1 0-1.998ZM11.994 7a.75.75 0 0 1 .744.648l.007.101.004 4.502a.75.75 0 0 1-1.493.103l-.007-.102-.004-4.501a.75.75 0 0 1 .75-.751Z" fill="#ffffff"/></svg>
             <p>Missing</p>
-            <button><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.22 8.47a.75.75 0 0 1 1.06 0L12 15.19l6.72-6.72a.75.75 0 1 1 1.06 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L4.22 9.53a.75.75 0 0 1 0-1.06Z" fill="#ffffff"/></svg></button>
+            <button id="missingHideButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.22 15.53a.75.75 0 0 0 1.06 0L12 8.81l6.72 6.72a.75.75 0 1 0 1.06-1.06l-7.25-7.25a.75.75 0 0 0-1.06 0l-7.25 7.25a.75.75 0 0 0 0 1.06Z" fill="#ffffff"/></svg></button>
         </div>
-        <div id="missingTasks">
+        <div id="missingTasks" class="taskListContainerTasks">
 
         </div>
     </div>
@@ -18,9 +18,9 @@
         <div class="taskListTitleContainer taskListTitleContainerOrange">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2.028 11.25C2.41 6.077 6.729 2 12 2c5.27 0 9.589 4.077 9.972 9.25H22V12c0 5.523-4.477 10-10 10S2 17.523 2 12v-.75h.028ZM12 3.5a8.5 8.5 0 0 0-8.467 7.75h16.934A8.5 8.5 0 0 0 12 3.5Z" fill="#ffffff"/></svg>
             <p>This Week</p>
-            <button><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.22 8.47a.75.75 0 0 1 1.06 0L12 15.19l6.72-6.72a.75.75 0 1 1 1.06 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L4.22 9.53a.75.75 0 0 1 0-1.06Z" fill="#ffffff"/></svg></button>
+            <button id="thisWeekHideButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.22 15.53a.75.75 0 0 0 1.06 0L12 8.81l6.72 6.72a.75.75 0 1 0 1.06-1.06l-7.25-7.25a.75.75 0 0 0-1.06 0l-7.25 7.25a.75.75 0 0 0 0 1.06Z" fill="#ffffff"/></svg></button>
         </div>
-        <div id="thisWeekTasks">
+        <div id="thisWeekTasks" class="taskListContainerTasks">
 
         </div>
     </div>
@@ -28,9 +28,9 @@
         <div class="taskListTitleContainer taskListTitleContainerOrange">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Z" fill="#ffffff"/></svg>
             <p>Later</p>
-            <button><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.22 8.47a.75.75 0 0 1 1.06 0L12 15.19l6.72-6.72a.75.75 0 1 1 1.06 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L4.22 9.53a.75.75 0 0 1 0-1.06Z" fill="#ffffff"/></svg></button>
+            <button id="laterHideButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.22 15.53a.75.75 0 0 0 1.06 0L12 8.81l6.72 6.72a.75.75 0 1 0 1.06-1.06l-7.25-7.25a.75.75 0 0 0-1.06 0l-7.25 7.25a.75.75 0 0 0 0 1.06Z" fill="#ffffff"/></svg></button>
         </div>
-        <div id="laterTasks">
+        <div id="laterTasks" class="taskListContainerTasks">
 
         </div>
     </div>
@@ -38,9 +38,9 @@
         <div class="taskListTitleContainer taskListTitleContainerGreen">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2Zm0 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm-1.25 9.94 4.47-4.47a.75.75 0 0 1 1.133.976l-.073.084-5 5a.75.75 0 0 1-.976.073l-.084-.073-2.5-2.5a.75.75 0 0 1 .976-1.133l.084.073 1.97 1.97 4.47-4.47-4.47 4.47Z" fill="#ffffff"/></svg>
             <p>Completed</p>
-            <button><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.22 8.47a.75.75 0 0 1 1.06 0L12 15.19l6.72-6.72a.75.75 0 1 1 1.06 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L4.22 9.53a.75.75 0 0 1 0-1.06Z" fill="#ffffff"/></svg></button>
+            <button id="completedHideButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.22 15.53a.75.75 0 0 0 1.06 0L12 8.81l6.72 6.72a.75.75 0 1 0 1.06-1.06l-7.25-7.25a.75.75 0 0 0-1.06 0l-7.25 7.25a.75.75 0 0 0 0 1.06Z" fill="#ffffff"/></svg></button>
         </div>
-        <div id="completedTasks">
+        <div id="completedTasks" class="taskListContainerTasks">
 
         </div>
     </div>
@@ -64,6 +64,24 @@
     const thisWeekTasks = document.getElementById('thisWeekTasks');
     const laterTasks = document.getElementById('laterTasks');
     const completedTasks = document.getElementById('completedTasks');
+
+    const missingHideButton = document.getElementById('missingHideButton');
+    const thisWeekHideButton = document.getElementById('thisWeekHideButton');
+    const laterHideButton = document.getElementById('laterHideButton');
+    const completedHideButton = document.getElementById('completedHideButton');
+    missingHideButton.addEventListener('click', () => {
+        missingTasks.classList.toggle('taskListHidden');
+    });
+    thisWeekHideButton.addEventListener('click', () => {
+        thisWeekTasks.classList.toggle('taskListHidden');
+    });
+    laterHideButton.addEventListener('click', () => {
+        laterTasks.classList.toggle('taskListHidden');
+    });
+    completedHideButton.addEventListener('click', () => {
+        completedTasks.classList.toggle('taskListHidden');
+    });
+
     function isWithinNext7Days(date) {
         const now = new Date();
         const sevenDaysLater = new Date();
@@ -72,46 +90,47 @@
         return date >= now && date <= sevenDaysLater;
     }
     Object.keys(usersClasses).forEach(key => {
+        console.log(usersClasses[key]);
+        const classColor = usersClasses[key].classInfo.coverImage;
+        console.log(classColor);
 
-    
+        Object.keys(usersClasses[key].tasks).forEach(task => {
+            let taskInfo = usersClasses[key].tasks[task];
+            const dueDate = new Date(taskInfo.taskDue);
+            const currentDate = new Date();
 
-    Object.keys(usersClasses[key].tasks).forEach(task => {
-        let taskInfo = usersClasses[key].tasks[task];
-        console.log(taskInfo);
-        const dueDate = new Date(taskInfo.taskDue);
-        const currentDate = new Date();
-
-        currentDate.setHours(0, 0, 0, 0);
-        dueDate.setHours(0, 0, 0, 0);
-        
-        var missing = currentDate > dueDate;
-        var thisWeek = isWithinNext7Days(dueDate);
-        console.log(thisWeek)
-        var later = currentDate < dueDate;
-        status = "notComplete";
-        var studentData = taskInfo.student_data;
-        console.log(studentData)
-        if (Object.keys(studentData).includes("{{userID}}")){
-            status = studentData["{{userID}}"].status;
-        }else{
+            currentDate.setHours(0, 0, 0, 0);
+            dueDate.setHours(0, 0, 0, 0);
+            
+            var missing = currentDate > dueDate;
+            var thisWeek = isWithinNext7Days(dueDate);
+            console.log(thisWeek)
+            var later = currentDate < dueDate;
             status = "notComplete";
-        }
+            var studentData = taskInfo.student_data;
+            console.log(studentData)
+            if (Object.keys(studentData).includes("{{userID}}")){
+                status = studentData["{{userID}}"].status;
+            }else{
+                status = "notComplete";
+            }
 
-        console.log(status)
-        console.log(thisWeek)
-        let taskElement = taskTemplate.content.cloneNode(true);
-        taskElement.querySelector('.taskTitle').innerText = taskInfo.taskName;
-        taskElement.querySelector('.taskDueDate').innerText = taskInfo.taskDue;
-        if(status == "completed"){
-            completedTasks.appendChild(taskElement);
-        }else if(missing){
-            missingTasks.appendChild(taskElement);
-        }else if(thisWeek){
-            thisWeekTasks.appendChild(taskElement);
-        }else if(later){
-            laterTasks.appendChild(taskElement);
-        }
-    })
+            console.log(status)
+            console.log(thisWeek)
+            let taskElement = taskTemplate.content.cloneNode(true);
+            taskElement.querySelector('.taskTitle').innerText = taskInfo.taskName;
+            taskElement.querySelector('.taskDueDate').innerText = taskInfo.taskDue;
+            taskElement.querySelector('.taskStatus').classList.add("taskColor" + classColor);
+            if(status == "completed"){
+                completedTasks.appendChild(taskElement);
+            }else if(missing){
+                missingTasks.appendChild(taskElement);
+            }else if(thisWeek){
+                thisWeekTasks.appendChild(taskElement);
+            }else if(later){
+                laterTasks.appendChild(taskElement);
+            }
+        })
 
 
     
