@@ -2262,7 +2262,7 @@ main{
     display: flex;
     background-color: var(--background_tertiary);
     border-radius: 8px;
-    padding: 8px;
+    padding: 7px;
     gap: 8px;
     align-items: center;
     cursor: pointer;
@@ -2271,7 +2271,8 @@ main{
     color: var(--text_secondary);
     cursor: pointer;
     transition: .2s filter ease;
-    margin-bottom: 8px;
+    box-sizing: border-box;
+    border: 2px solid #3c455c;
 }
 
 .searchButtonNavBar:hover{
