@@ -2016,6 +2016,7 @@ main{
 }
 
 .searchBarContainer{
+    box-sizing: border-box;
     height:48px;
     width: 100%;
     background-color: none;
