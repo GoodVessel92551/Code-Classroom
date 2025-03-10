@@ -46,7 +46,7 @@
     </div>
 </div>
 <template id="taskTemplate">
-    <div>
+    <a href="#" class="taskContainerLink">
         <span class="taskStatus">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 12.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Zm.75 2.25a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5ZM7 18.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Zm3.75-6.75a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5ZM10 15.25a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm8.664-9.086-5.829-5.828a.493.493 0 0 0-.049-.04.626.626 0 0 1-.036-.03 2.072 2.072 0 0 0-.219-.18.652.652 0 0 0-.08-.044l-.048-.024-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9.828a2 2 0 0 0-.586-1.414ZM18.5 20a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5v10Zm-5-15.379L17.378 8.5H14a.5.5 0 0 1-.5-.5V4.621Z" fill="#ffffff"/></svg>
         </span>
@@ -56,7 +56,7 @@
         <span class="taskDueDate">
             Due Date
         </span>
-    </div>
+    </a>
 </template>
 <script>
     const taskTemplate = document.getElementById('taskTemplate');
@@ -69,17 +69,53 @@
     const thisWeekHideButton = document.getElementById('thisWeekHideButton');
     const laterHideButton = document.getElementById('laterHideButton');
     const completedHideButton = document.getElementById('completedHideButton');
-    missingHideButton.addEventListener('click', () => {
-        missingTasks.classList.toggle('taskListHidden');
-    });
+
     thisWeekHideButton.addEventListener('click', () => {
         thisWeekTasks.classList.toggle('taskListHidden');
+        if (thisWeekTasks.style.maxHeight === '0px') {
+            thisWeekTasks.style.padding = "8px";
+            thisWeekTasks.style.maxHeight = '300px';
+
+        } else {
+            thisWeekTasks.style.maxHeight = '0px';
+            thisWeekTasks.style.padding = "0px 8px";
+        }
     });
+
+    missingHideButton.addEventListener('click', () => {
+        missingHideButton.classList.toggle('taskListHidden');
+        if (missingTasks.style.maxHeight === '0px') {
+            missingTasks.style.padding = "8px";
+            missingTasks.style.maxHeight = '300px';
+
+        } else {
+            missingTasks.style.maxHeight = '0px';
+            missingTasks.style.padding = "0px 8px";
+        }
+    });
+
     laterHideButton.addEventListener('click', () => {
-        laterTasks.classList.toggle('taskListHidden');
+        laterHideButton.classList.toggle('taskListHidden');
+        if (laterTasks.style.maxHeight === '0px') {
+            laterTasks.style.padding = "8px";
+            laterTasks.style.maxHeight = '300px';
+
+        } else {
+            laterTasks.style.maxHeight = '0px';
+            laterTasks.style.padding = "0px 8px";
+        }
     });
+
     completedHideButton.addEventListener('click', () => {
-        completedTasks.classList.toggle('taskListHidden');
+        completedHideButton.classList.toggle('taskListHidden');
+        if (completedTasks.style.maxHeight === '0px') {
+            completedTasks.style.padding = "8px";
+            completedTasks.style.maxHeight = '300px';
+
+        } else {
+            completedTasks.style.maxHeight = '0px';
+            completedTasks.style.padding = "0px 8px";
+        }
     });
 
     function isWithinNext7Days(date) {
@@ -89,10 +125,14 @@
 
         return date >= now && date <= sevenDaysLater;
     }
+
+    let missingTasksNum = 0
+    let thisWeekTasksNum = 0
+    let laterTasksNum = 0
+    let completedTasksNum = 0
     Object.keys(usersClasses).forEach(key => {
         console.log(usersClasses[key]);
         const classColor = usersClasses[key].classInfo.coverImage;
-        console.log(classColor);
 
         Object.keys(usersClasses[key].tasks).forEach(task => {
             let taskInfo = usersClasses[key].tasks[task];
@@ -118,23 +158,47 @@
             console.log(status)
             console.log(thisWeek)
             let taskElement = taskTemplate.content.cloneNode(true);
+            taskElement.querySelector('.taskContainerLink').href = "/task/"+key+ "/" + taskInfo.id;
             taskElement.querySelector('.taskTitle').innerText = taskInfo.taskName;
             taskElement.querySelector('.taskDueDate').innerText = taskInfo.taskDue;
             taskElement.querySelector('.taskStatus').classList.add("taskColor" + classColor);
             if(status == "completed"){
+                completedTasksNum += 1;
                 completedTasks.appendChild(taskElement);
             }else if(missing){
+                missingTasksNum += 1;
                 missingTasks.appendChild(taskElement);
             }else if(thisWeek){
+                thisWeekTasksNum += 1;
                 thisWeekTasks.appendChild(taskElement);
             }else if(later){
+                laterTasksNum += 1;
                 laterTasks.appendChild(taskElement);
             }
         })
 
-
-    
 });
+
+if(missingTasksNum == 0){
+    console.log("Hide Missing")
+    missingTasks.style.display = "none";
+    missingHideButton.style.display = "none";
+}
+if(thisWeekTasksNum === 0){
+    console.log("Hide This Week")
+    thisWeekTasks.style.display = "none";
+    thisWeekHideButton.style.display = "none";
+}
+if(laterTasksNum === 0){
+    console.log("Hide Later")
+    laterTasks.style.display = "none";
+    laterHideButton.style.display = "none";
+}
+if(completedTasksNum === 0){
+    console.log("Hide Completed")
+    completedTasks.style.display = "none";
+    completedHideButton.style.display = "none";
+}
 </script>
 
 {% endblock %}

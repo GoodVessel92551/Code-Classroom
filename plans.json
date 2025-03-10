@@ -1,0 +1,21 @@
+{
+    "base":{
+        "name":"Base",
+        "price":0,
+        "limits":{
+            "maxTasks":2,
+            "maxClasses":1,
+            "maxStudents":10,
+            "quickCodeCloud":false,
+            "quickCodeCloudProjects":0,
+            "aiCodingTips":false,
+            "createPublicClasses":false,
+            "joinPublicClassesMax":2,
+            "taskCodeMaxLength":1000,
+            "maxTeacherPerClass":1,
+            "giveFeedback":false,
+            "advancedInsights":false
+        }
+
+    }
+}
