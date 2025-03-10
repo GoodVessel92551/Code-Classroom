@@ -729,6 +729,7 @@ main{
 }
 
 .optionContainerNavBar > a{
+    min-height: 30px;
     height:30px;
     display: flex;
     align-items: center;
@@ -740,6 +741,10 @@ main{
     text-decoration: none;
     color: var(--text_secondary);
     box-sizing: border-box;
+}
+
+.optionContainerNavBar > :last-child{
+    margin-bottom: 8px !important;
 }
 
 .optionContainerNavBar > a > span{
