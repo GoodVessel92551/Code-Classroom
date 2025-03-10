@@ -2323,3 +2323,11 @@ main{
 .markdown{
     overflow-y: scroll;
 }
+
+.markdownTask{
+    height: 150px;
+    padding: 16px;
+    box-sizing: border-box;
+    border-radius: 16px;
+    background-color: var(--background_secondary);
+}

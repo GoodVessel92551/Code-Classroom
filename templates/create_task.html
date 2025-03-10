@@ -14,8 +14,41 @@
                 <input maxlength="20" type="text" id="taskName" name="taskName" placeholder="Task Title">
             </div>
             <div>
-                <label for="taskDescription">Task Description</label>
+                <label for="taskDescription">Task Instructions</label>
                 <textarea maxlength="1000" id="taskDescription" name="taskDescription" placeholder="Task Description"></textarea>
+            </div>
+            <div>
+                <label for="taskDesciptionMD">Instructions Markdown Preview</label>
+                <zero-md class="markdown markdownTask">
+                    <template data-append>
+                      <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+                      <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+                      <style>
+                          .markdown-body {
+                              padding: 0px !important;
+                              box-sizing: border-box !important;
+                              border-radius: 16px !important;
+                              height: auto !important;
+                              width: auto !important;
+                              background-color: transparent  !important;
+                              border: 1px solid transparent  !important;
+                              font-family: "Lexend", sans-serif !important;
+                              background-color: #1c202b !important;
+                          }
+                          .markdown-body > pre {
+                              background-color: #32394b;
+                              border-radius: 16px;
+                          }
+                          .markdown-body code:not(pre > code) {
+                              background-color: #32394b;
+                              border-radius: 16px;
+                              color:#e7b9a2;
+                          }
+                      </style>
+                    </template>
+                    <script type="text/markdown" id="taskDescriptionMD">
+                    </script>
+                  </zero-md>
             </div>
             <div>
                 <label for="taskDate">Due Date</label>
@@ -32,7 +65,11 @@
     const finishButton = document.getElementById("finishButton");
     const errorMessage = document.getElementById("errorMessage");
     const errorMessageText = document.getElementById("errorMessageText");
-
+    const taskDescriptionMD = document.getElementById("taskDescriptionMD");
+    const taskDescriptionInput = document.getElementById("taskDescription");
+    taskDescriptionInput.addEventListener("input",()=>{
+        taskDescriptionMD.textContent = taskDescriptionInput.value;
+    })
     finishButton.addEventListener("click",()=>{
         const taskName = document.getElementById("taskName").value;
         const taskDescription = document.getElementById("taskDescription").value;
