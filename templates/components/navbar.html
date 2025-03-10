@@ -250,7 +250,14 @@ Object.keys(usersClasses).forEach(key => {
 
     Object.keys(usersClasses[key].tasks).forEach(task => {
         let taskInfo = usersClasses[key].tasks[task];
-        if (taskInfo.taskStatus != "completed"){
+        status = "notComplete";
+        var studentData = taskInfo.student_data;
+        if (Object.keys(studentData).includes("{{userID}}")){
+            status = studentData["{{userID}}"].status;
+        }else{
+            status = "notComplete";
+        }
+        if (status != "completed"){
             let classColor = usersClasses[key].classInfo.coverImage;
             let classColorHex = getColor(classColor)
             let container = document.createElement('a');
