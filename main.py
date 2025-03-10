@@ -347,7 +347,7 @@ def create_task_endpoint():
         data = request.json
         if (data["name"] == "" or data["description"] == "" or data["date"] == ""):
             return {'status':'Fill out all fields'}
-        elif (len(data["name"]) > 20 or len(data["description"]) > 100):
+        elif (len(data["name"]) > 20 or len(data["description"]) > 1000):
             return {'status':'Inputs are values are too long'}
         try:
             task_date = datetime.strptime(data["date"], "%Y-%m-%d")

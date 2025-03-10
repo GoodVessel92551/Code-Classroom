@@ -71,6 +71,15 @@
                       font-family: "Lexend", sans-serif !important;
                       background-color: #1c202b !important;
                   }
+                  .markdown-body > pre {
+                      background-color: #32394b;
+                      border-radius: 16px;
+                  }
+                  .markdown-body code:not(pre > code) {
+                      background-color: #32394b;
+                      border-radius: 16px;
+                      color:#e7b9a2;
+                  }
               </style>
             </template>
             <script type="text/markdown" id="taskDescription">
@@ -100,7 +109,7 @@
   const taskImage = document.getElementById('taskImage');
   instructionWindow.style.display = 'flex';
   consoleWindow.style.minHeight = "50%";
-  taskDescription.innerText = task.taskDescription;
+  taskDescription.textContent = task.taskDescription;
 
   completeButton.addEventListener('click', () => {
     saveCode()
