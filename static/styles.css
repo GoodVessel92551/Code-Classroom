@@ -2180,7 +2180,6 @@ main{
 
 
 .taskListContainerTasks{
-    padding:8px;
     box-sizing: border-box;
     background-color: var(--background_secondary);
     box-sizing: border-box;
@@ -2194,16 +2193,26 @@ main{
     gap:12px;
 }
 
+.taskListContainerTasks > :first-child{
+    margin-top:8px !important;
+}
+
+.taskListContainerTasks > :last-child{
+    margin-bottom:8px !important;
+}
+
 
 .taskListContainerTasks > a{
-    width: 100%;
+    width: calc(100% - 16px);
     display: flex;
     gap:8px;
+    box-sizing: border-box;
     align-items: center;
     box-sizing: border-box;
     color: var(--text_primary);
     text-decoration: none;
-    
+    margin-left: 8px;
+    margin-right:8px;
 }
 
 .taskDueDate{
@@ -2284,6 +2293,10 @@ main{
     box-sizing: border-box;
     border-radius: 16px;
     flex-direction: column;
+}
+
+.taskListHidden{
+    overflow-y: hidden !important;
 }
 
 
