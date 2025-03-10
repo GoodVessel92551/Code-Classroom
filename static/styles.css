@@ -2016,6 +2016,7 @@ main{
 }
 
 .searchBarContainer{
+    box-sizing: border-box;
     height:48px;
     width: 100%;
     background-color: none;
@@ -2292,4 +2293,9 @@ main{
 
 .searchButtonNavBar > svg > path{
     fill: var(--text_secondary);
+}
+
+.markdown{
+    width: 100%;
+    height:100%;
 }
