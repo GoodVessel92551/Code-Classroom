@@ -1207,6 +1207,7 @@ main{
 }
 
 .messageContainer > span > p{
+    overflow-wrap: break-word;
     margin:0px;
     font-size: 12px;
     color: var(--text_secondary);
