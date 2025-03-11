@@ -552,7 +552,8 @@ def get_class_with_users_tasks(class_id):
     filtered_class_data = {
         "classInfo": class_data["classInfo"],
         "messages": class_data["messages"],
-        "tasks": []
+        "tasks": [],
+        "members": class_data["members"]
     }
 
     # Include all tasks, but filter student_data to only include current user
