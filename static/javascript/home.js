@@ -1,8 +1,10 @@
 let classesContainer = document.getElementById("classesContainer");
 const template = document.getElementById("classroomTemplate");
-
+const noClasses = document.getElementById("noClasses");
+let classesNum = 0;
 
 Object.keys(classes).forEach(key => {
+    classesNum++;
     let classInfo = classes[key].classInfo;
     
 
@@ -23,3 +25,9 @@ Object.keys(classes).forEach(key => {
 
     classesContainer.prepend(clone);
 });
+
+console.log(classesNum);
+
+if (classesNum == 0){
+    noClasses.style.display = "flex";
+}

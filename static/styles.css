@@ -81,8 +81,8 @@ body{
     justify-content: center;
     font-size: 14px;
     text-decoration: none;
+    transition: .2s ease-in-out scale, .2s ease-in-out filter;
 }
-
 .primaryButtonSmall{
     background-color: #fff;
     color: var(--background);
@@ -137,6 +137,7 @@ body{
     justify-content: center;
     text-decoration: none;
     font-size: 14px;
+    transition: .2s ease-in-out scale, .2s ease-in-out filter;
 }
 
 .secondaryButtonSmall{
@@ -508,6 +509,7 @@ main{
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    position: relative;
 }
 
 .pageTitleDiv{
@@ -1513,6 +1515,9 @@ main{
 }
 
 @media (max-width:500px) {
+    .noClasses{
+        width: 300px !important;
+    }
     main:not(.mainQuickCode){
         padding: 16px;
     }
@@ -2418,4 +2423,37 @@ main{
 .personRoleTeacher{
     background-color: #442626;
     color: #FCBDBD;
+}
+
+.noClasses{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    max-width: 400px;
+    gap:16px;
+    display: none;
+    flex-direction: column;
+    width:400px;
+}
+
+.noClasses > h2{
+    margin:0px;
+    font-size: 32px;
+}
+
+.noClasses > p{
+    margin:0px;
+    font-size: 16px;
+    color: var(--text_secondary);
+}
+
+.noClasses > div{
+    display: flex;
+    gap:8px;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    margin-top:16px
 }
