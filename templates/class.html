@@ -27,6 +27,7 @@
                 <div>
                     <textarea id="messageInput" placeholder="Enter message"></textarea>
                     <div>
+                        <span class="errorMessageForMessage"></span>
                         <button id="messageCancelButton" class="secondaryButtonSmall">Cancel</button>
                         <button id="sendMessageButton" class="primaryButtonSmall">Send</button>
                     </div>
@@ -370,6 +371,14 @@
             // Reset and close the input container
             messageInput.value = '';
             messageInputContainer.classList.remove('messageInputContainerExpand');
+            const errorContainer =  document.querySelector('.errorMessageForMessage')
+            errorContainer.style.display = 'none';
+            }
+            else{
+                const errorContainer =  document.querySelector('.errorMessageForMessage')
+                errorContainer.style.display = 'flex';
+                errorContainer.innerText = data.status;
+                
             }
 })}
 

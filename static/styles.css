@@ -1330,10 +1330,24 @@ main{
 }
 
 .messageInputContainer > div > div{
+    width: 100%;
     display: flex;
     gap:8px;
     align-items: center;
     flex-direction: row;
+}
+
+.errorMessageForMessage{
+    background-color: var(--clear_button);
+    color: var(--on_clear_button);
+    border-radius: 20px;
+    width: 100%;
+    height: 32px;
+    padding:16px;
+    font-size: 14px;
+    box-sizing: border-box;
+    align-items: center;
+    display: none;
 }
 
 .instructionWindowContent > div{
