@@ -220,8 +220,10 @@ optionContainerNavBarClassesButton.addEventListener('click', () => {
         optionContainerNavBarClasses.marginBottom = "0px"
     }
 });
-
+var classNum = 0
+var taskNum = 0
 Object.keys(usersClasses).forEach(key => {
+    classNum++
     let classColor = usersClasses[key].classInfo.coverImage;
     let classColorHex = getColor(classColor)
     let container = document.createElement('a');
@@ -258,6 +260,7 @@ Object.keys(usersClasses).forEach(key => {
             status = "notComplete";
         }
         if (status != "completed"){
+            taskNum++
             let classColor = usersClasses[key].classInfo.coverImage;
             let classColorHex = getColor(classColor)
             let container = document.createElement('a');
@@ -288,6 +291,15 @@ Object.keys(usersClasses).forEach(key => {
 
     
 });
+
+if(classNum == 0){
+    optionContainerNavBarClassesButton.style.display = 'none';
+
+}
+
+if(taskNum == 0){
+    optionContainerNavBarTasksButton.style.display = 'none';
+}
 
 
 optionContainerNavBarTasksButton.addEventListener('click', () => {
