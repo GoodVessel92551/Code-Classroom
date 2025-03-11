@@ -55,8 +55,36 @@
               </div>
         </div>
         <div class="instructionWindowContent" id="instructionWindowContent">
-            <p>Task Description</p>
-
+          <zero-md class="markdown">
+            <template data-append>
+              <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+              <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+              <style>
+                  .markdown-body {
+                      padding: 0px !important;
+                      box-sizing: border-box !important;
+                      border-radius: 16px !important;
+                      height: auto !important;
+                      width: auto !important;
+                      background-color: transparent  !important;
+                      border: 1px solid transparent  !important;
+                      font-family: "Lexend", sans-serif !important;
+                      background-color: #1c202b !important;
+                  }
+                  .markdown-body > pre {
+                      background-color: #32394b;
+                      border-radius: 16px;
+                  }
+                  .markdown-body code:not(pre > code) {
+                      background-color: #32394b;
+                      border-radius: 16px;
+                      color:#e7b9a2;
+                  }
+              </style>
+            </template>
+            <script type="text/markdown" id="taskDescription">
+            </script>
+          </zero-md>
         </div>
       </div>
 </div>
@@ -76,11 +104,12 @@
 
   const instructionWindow = document.getElementById('instructionWindow');
   const instructionWindowContent = document.getElementById('instructionWindowContent');
+  const taskDescription = document.getElementById('taskDescription');
   const consoleWindow = document.getElementById('consoleWindow');
   const taskImage = document.getElementById('taskImage');
   instructionWindow.style.display = 'flex';
   consoleWindow.style.minHeight = "50%";
-  instructionWindowContent.innerHTML = task.taskDescription;
+  taskDescription.textContent = task.taskDescription;
 
   completeButton.addEventListener('click', () => {
     saveCode()

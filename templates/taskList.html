@@ -73,48 +73,40 @@
     thisWeekHideButton.addEventListener('click', () => {
         thisWeekTasks.classList.toggle('taskListHidden');
         if (thisWeekTasks.style.maxHeight === '0px') {
-            thisWeekTasks.style.padding = "8px";
             thisWeekTasks.style.maxHeight = '300px';
 
         } else {
             thisWeekTasks.style.maxHeight = '0px';
-            thisWeekTasks.style.padding = "0px 8px";
         }
     });
 
     missingHideButton.addEventListener('click', () => {
-        missingHideButton.classList.toggle('taskListHidden');
+        missingTasks.classList.toggle('taskListHidden');
         if (missingTasks.style.maxHeight === '0px') {
-            missingTasks.style.padding = "8px";
             missingTasks.style.maxHeight = '300px';
 
         } else {
             missingTasks.style.maxHeight = '0px';
-            missingTasks.style.padding = "0px 8px";
         }
     });
 
     laterHideButton.addEventListener('click', () => {
-        laterHideButton.classList.toggle('taskListHidden');
+        laterTasks.classList.toggle('taskListHidden');
         if (laterTasks.style.maxHeight === '0px') {
-            laterTasks.style.padding = "8px";
             laterTasks.style.maxHeight = '300px';
 
         } else {
             laterTasks.style.maxHeight = '0px';
-            laterTasks.style.padding = "0px 8px";
         }
     });
 
     completedHideButton.addEventListener('click', () => {
-        completedHideButton.classList.toggle('taskListHidden');
+        completedTasks.classList.toggle('taskListHidden');
         if (completedTasks.style.maxHeight === '0px') {
-            completedTasks.style.padding = "8px";
             completedTasks.style.maxHeight = '300px';
 
         } else {
             completedTasks.style.maxHeight = '0px';
-            completedTasks.style.padding = "0px 8px";
         }
     });
 

@@ -35,6 +35,25 @@ body,html{
     font-family: "Lexend", sans-serif;
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background_secondary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--background_tertiary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text_theme);
+}
+
 body{
     display: flex;
 }
@@ -62,8 +81,8 @@ body{
     justify-content: center;
     font-size: 14px;
     text-decoration: none;
+    transition: .2s ease-in-out scale, .2s ease-in-out filter;
 }
-
 .primaryButtonSmall{
     background-color: #fff;
     color: var(--background);
@@ -118,6 +137,7 @@ body{
     justify-content: center;
     text-decoration: none;
     font-size: 14px;
+    transition: .2s ease-in-out scale, .2s ease-in-out filter;
 }
 
 .secondaryButtonSmall{
@@ -489,6 +509,7 @@ main{
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    position: relative;
 }
 
 .pageTitleDiv{
@@ -710,6 +731,7 @@ main{
 }
 
 .optionContainerNavBar > a{
+    min-height: 30px;
     height:30px;
     display: flex;
     align-items: center;
@@ -723,13 +745,21 @@ main{
     box-sizing: border-box;
 }
 
+.optionContainerNavBar > :last-child{
+    margin-bottom: 8px !important;
+}
+
 .optionContainerNavBar > a > span{
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .optionContainerNavBar > a > svg{
     width: 16px;
     height: 16px;
+    min-height: 16px;
+    min-width: 16px;
 }
 
 .mainQuickCode{
@@ -788,6 +818,7 @@ main{
     box-sizing: border-box;
     background-color: var(--background_secondary);
     border-radius: 24px;
+    overflow-y: auto;
 }
 
 .instructionWindowTopBar{
@@ -1178,6 +1209,7 @@ main{
 }
 
 .messageContainer > span > p{
+    overflow-wrap: break-word;
     margin:0px;
     font-size: 12px;
     color: var(--text_secondary);
@@ -1301,10 +1333,24 @@ main{
 }
 
 .messageInputContainer > div > div{
+    width: 100%;
     display: flex;
     gap:8px;
     align-items: center;
     flex-direction: row;
+}
+
+.errorMessageForMessage{
+    background-color: var(--clear_button);
+    color: var(--on_clear_button);
+    border-radius: 20px;
+    width: 100%;
+    height: 32px;
+    padding:16px;
+    font-size: 14px;
+    box-sizing: border-box;
+    align-items: center;
+    display: none;
 }
 
 .instructionWindowContent > div{
@@ -1469,6 +1515,9 @@ main{
 }
 
 @media (max-width:500px) {
+    .noClasses{
+        width: 300px !important;
+    }
     main:not(.mainQuickCode){
         padding: 16px;
     }
@@ -2155,7 +2204,6 @@ main{
 
 
 .taskListContainerTasks{
-    padding:8px;
     box-sizing: border-box;
     background-color: var(--background_secondary);
     box-sizing: border-box;
@@ -2169,16 +2217,26 @@ main{
     gap:12px;
 }
 
+.taskListContainerTasks > :first-child{
+    margin-top:8px !important;
+}
+
+.taskListContainerTasks > :last-child{
+    margin-bottom:8px !important;
+}
+
 
 .taskListContainerTasks > a{
-    width: 100%;
+    width: calc(100% - 16px);
     display: flex;
     gap:8px;
+    box-sizing: border-box;
     align-items: center;
     box-sizing: border-box;
     color: var(--text_primary);
     text-decoration: none;
-    
+    margin-left: 8px;
+    margin-right:8px;
 }
 
 .taskDueDate{
@@ -2261,6 +2319,10 @@ main{
     flex-direction: column;
 }
 
+.taskListHidden{
+    overflow-y: hidden !important;
+}
+
 
 .taskListContainer > div:has(.taskListHidden) button > svg{
     transform: rotate(180deg);
@@ -2293,4 +2355,105 @@ main{
 
 .searchButtonNavBar > svg > path{
     fill: var(--text_secondary);
+}
+
+.markdown{
+    width: 100%;
+    height:100%;
+}
+
+.markdown{
+    overflow-y: scroll;
+}
+
+.markdownTask{
+    height: 150px;
+    padding: 16px;
+    box-sizing: border-box;
+    border-radius: 16px;
+    background-color: var(--background_secondary);
+}
+
+.peopleContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+}
+
+.peopleContainer > div{
+    width: 100%;
+    display: flex;
+    height: 44px;
+    background-color: var(--background_secondary);
+    border-radius: 16px;
+    align-items: center;
+    padding: 16px 10px 16px 16px;
+    box-sizing: border-box;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.peopleContainer > div > span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.peopleContainer > div > span > svg{
+    width: 20px;
+    height: 20px;
+}
+
+.classroomPeopleContainer{
+    width: 100% !important;
+}
+
+.personRole{
+    margin:0px;
+    margin-left:auto;
+    display: flex;
+    background-color: #263144;
+    color: #BDD8FC;
+    font-size: 12px;
+    padding: 5px 11px;
+    border-radius: 8px;
+}
+
+.personRoleTeacher{
+    background-color: #442626;
+    color: #FCBDBD;
+}
+
+.noClasses{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    max-width: 400px;
+    gap:16px;
+    display: none;
+    flex-direction: column;
+    width:400px;
+}
+
+.noClasses > h2{
+    margin:0px;
+    font-size: 32px;
+}
+
+.noClasses > p{
+    margin:0px;
+    font-size: 16px;
+    color: var(--text_secondary);
+}
+
+.noClasses > div{
+    display: flex;
+    gap:8px;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    margin-top:16px
 }
