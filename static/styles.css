@@ -749,11 +749,15 @@ main{
 
 .optionContainerNavBar > a > span{
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .optionContainerNavBar > a > svg{
     width: 16px;
     height: 16px;
+    min-height: 16px;
+    min-width: 16px;
 }
 
 .mainQuickCode{
