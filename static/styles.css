@@ -11,6 +11,8 @@
     --submit_button:#5E5C48;
     --clear_button:#4B2929;
     --on_clear_button:#F0C5C5;
+    --save_button:#293a4b;
+    --on_save_button:#c5d4f0;
     --on_submit_button:#F0ECC5;
     --primary_button_background:#CCDFFF;
     --primary_button_text:#29354B;
@@ -851,6 +853,7 @@ main{
     display: flex;
     flex-direction: row;
     gap:8px;
+    padding-bottom: 0px;
 }
 
 .codeEditorTopBar > span{
@@ -893,6 +896,16 @@ main{
 .codeEditorTopBar > button > svg{
     width: 16px;
     height: 16px;
+}
+
+.saveFeedback{
+    background-color: var(--save_button);
+    color: var(--on_save_button);
+    display: none;
+}
+
+.saveFeedback > svg > path{
+    fill: var(--on_save_button);
 }
 
 .codeEditorClear{
@@ -2499,8 +2512,9 @@ main{
 .containerWithNumber > input{
     width:64px;
     height: 40px;
+    background:none;
+    color: var(--text_primary);
     border:1px solid var(--background_tertiary) !important;
-    /* Remove spinner buttons */
     -webkit-appearance: none;
     -moz-appearance: textfield;
     appearance: textfield;
@@ -2514,6 +2528,10 @@ main{
     font-size: 16px !important;
 }
 
+.containerWithNumber > input:focus{
+    outline: none;
+}
+
 /* Hide spinner buttons in Webkit browsers specifically */
 .containerWithNumber > input::-webkit-outer-spin-button,
 .containerWithNumber > input::-webkit-inner-spin-button {
@@ -2524,6 +2542,35 @@ main{
 .feedbackWindow{
     width: 100%;
     height: 100%;
-    background-color: red;
     display: none;
+    padding:0px 8px 8px 8px;
+    box-sizing: border-box;
+    flex-direction: column;
+    gap:8px
+    
+}
+
+.feedbackWindow > textarea{
+    width: 100%;
+    height: 100%;
+    background-color: var(--background_tertiary);
+    box-sizing: border-box;
+    border-radius: 16px;
+    border:none;
+    padding: 12px;
+    color: var(--text_primary);
+    resize: none;
+    font-size: 14px;
+}
+
+.feedbackWindow > textarea:focus{
+    outline: none;
+}
+
+.feedbackWindow > .containerWithNumber{
+    background-color: var(--background_tertiary);
+}
+
+.feedbackWindow > .containerWithNumber > input{
+    border:1px solid #4d566e !important;
 }
