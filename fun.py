@@ -416,7 +416,6 @@ def task_feedback(class_id, task_id, feedback, points,userid):
             if task_data[i]["id"] == task_id:
                 task_data[i]["student_data"][userid]["feedback"] = feedback
                 task_data[i]["student_data"][userid]["points"] = points
-                task_data[i]["student_data"][userid]["status"] = "new feedback"
                 query = {"name": "classrooms"}
                 update = {"$set": {f"data.{class_id}.tasks": task_data}}
                 global_data_db.update_one(query, update)
