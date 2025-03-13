@@ -123,6 +123,7 @@
   const taskPoints = document.getElementById('taskPoints')
   const pointsContainer = document.getElementById('pointsContainer')
   const pointsText = document.getElementById('pointsText')
+  const completeButton = document.getElementById('completeButton');
   const teacher = {{teacher|tojson}};
   const classColor = {{class_color|tojson}};
   const task = {{task|tojson}};
@@ -133,6 +134,9 @@
   const studentTask = task.student_data[userid]
   if(!teacher){
     feedbackText.disabled = true;
+    if(studentTask.status == "completed"){
+      completeButton.style.display = 'none';
+    }
     if(studentTask.feedback == ""){
       feedbackText.placeholder = "No feedback yet";
     } else {
@@ -227,7 +231,6 @@
     document.getElementById('completeButton').style.display = 'none';
     instructionWindow.style.display = 'none';
   }
-  const completeButton = document.getElementById('completeButton');
 
 
   const instructionWindow = document.getElementById('instructionWindow');
