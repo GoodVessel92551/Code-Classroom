@@ -53,13 +53,11 @@
         <p id="consoleText" class="consoleText"></p>
         <input style="display: none;" id="consoleInput" type="text" placeholder="Type here and press Enter" />
       <div class="feedbackWindow" id="feedbackWindow">
-        <textarea placeholder="Your Feedback" id="feedbackText">
-
-        </textarea>
-        <div class="containerWithNumber">
+        <textarea maxlength="1000" placeholder="Your Feedback" id="feedbackText"></textarea>
+        <div class="containerWithNumber" id="pointsContainer">
           <div class="containerWithNumberTextContainer">
               <h3>Points</h3>
-              <p>Select the max amount of points that this task receives</p>
+              <p id="pointsText">Select the amount of points that this task receives</p>
           </div>
           <input type="number" id="taskPoints" name="taskPoints" min="1" max="100" value="100">
       </div>
@@ -117,37 +115,95 @@
   const consoleText = document.getElementById('consoleText');
   const feedbackWindow = document.getElementById('feedbackWindow');
   const saveFeedback = document.getElementById('saveFeedback');
-  consoleButton.addEventListener('click', () => {
+  const feedbackText = document.getElementById('feedbackText')
+  const taskPoints = document.getElementById('taskPoints')
+  const pointsContainer = document.getElementById('pointsContainer')
+  const pointsText = document.getElementById('pointsText')
+  const teacher = {{teacher|tojson}};
+  const classColor = {{class_color|tojson}};
+  const task = {{task|tojson}};
+  const classid = {{classid|tojson}};
+  const taskid = {{taskid|tojson}};
+  const loadedTaskCode = {{code|tojson}};
+  const userid = {{userid|tojson}};
+  const studentTask = task.student_data[userid]
+  if(!teacher){
+    feedbackText.disabled = true;
+    if(studentTask.feedback == ""){
+      feedbackText.placeholder = "No feedback yet";
+    } else {
+      feedbackText.value = studentTask.feedback;
+    }
+
+    if(studentTask.points){
+      taskPoints.value = studentTask.points;
+      taskPoints.disabled = true;
+      pointsText.textContent = "This is the amount of points that this task received";
+    }else{
+      pointsContainer.style.display = 'none';
+    }
+  }
+
+  const switchToConsole = () => {
     saveFeedback.style.display = 'none';
     clearConsole.style.display = 'flex';
     consoleText.style.display = 'flex';
     feedbackWindow.style.display = 'none';
     feedbackButton.classList.add('feedbackButtonNotSelected');
     consoleButton.classList.remove('feedbackButtonNotSelected');
-  });
+  }
 
-  feedbackButton.addEventListener('click', () => {
-    saveFeedback.style.display = 'flex';
+  const switchToFeedback = () => {
+    if(teacher){
+      saveFeedback.style.display = 'flex';
+    }
     clearConsole.style.display = 'none';
     consoleText.style.display = 'none';
     feedbackWindow.style.display = 'flex';
     feedbackButton.classList.remove('feedbackButtonNotSelected');
     consoleButton.classList.add('feedbackButtonNotSelected');
+  }
+
+  consoleButton.addEventListener('click', () => {
+    switchToConsole()
+  });
+
+  feedbackButton.addEventListener('click', () => {
+    switchToFeedback()
+  });
+
+  saveFeedback.addEventListener("click", () => {
+    const data = {
+      feedback: feedbackText.value,
+      points: taskPoints.value,
+      classid: classid,
+      taskid: taskid,
+      userid: userid
+    }
+    fetch(`/endpoint/task/feedback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   });
 
   
 
-  const teacher = {{teacher|tojson}};
   if (teacher) {
     document.getElementById('completeButton').style.display = 'none';
     instructionWindow.style.display = 'none';
   }
   const completeButton = document.getElementById('completeButton');
-  const classColor = {{class_color|tojson}};
-  const task = {{task|tojson}};
-  const classid = {{classid|tojson}};
-  const taskid = {{taskid|tojson}};
-  const loadedTaskCode = {{code|tojson}};
+
 
   const instructionWindow = document.getElementById('instructionWindow');
   const instructionWindowContent = document.getElementById('instructionWindowContent');

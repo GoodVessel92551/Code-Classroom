@@ -142,7 +142,7 @@ def task(classid,taskid):
                 task = i
                 break
         code = fun.get_code(classid,taskid,fun.get_id())
-        return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
+        return render_template("task.html",userid=fun.get_user_id(),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
     return redirect("/")
 
 @app.route("/view/<classid>/<taskid>/<userid>")
@@ -156,7 +156,7 @@ def view_task(classid,taskid,userid):
                     task = i
                     break
             code = fun.get_code(classid,taskid,userid)
-            return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=True)
+            return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=True,userid=userid)
             
 @app.route("/join/classroom")
 def join_classroom():
@@ -377,6 +377,17 @@ def delete_message():
         data = request.json
         message = fun.delete_message(data["classid"],data["messageid"])
         return {'status':message}
+
+@app.route("/endpoint/task/feedback",methods=["POST"])
+def task_feedback():
+    if fun.login():
+        data = request.json
+        if data["feedback"] == "":
+            return {'status':'Fill out all fields'}
+        elif len(data["feedback"]) > 100:
+            return {'status':'Feedback is too long'}
+        feedback = fun.task_feedback(data["classid"],data["taskid"],data["feedback"],data["points"],data["userid"])
+        return {'status':'complete'}
 
 @app.route("/login", methods=['GET', 'POST'])
 @limiter.limit("5 per minute")
