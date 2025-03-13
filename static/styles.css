@@ -2590,6 +2590,7 @@ main{
     align-items: center;
     color: var(--text_secondary);
     min-height:32px;
+    border-radius: 0px 0px 16px 16px;
 }
 
 .feedbackTextTaskList{
