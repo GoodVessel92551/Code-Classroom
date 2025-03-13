@@ -112,7 +112,7 @@ body{
 
 .yellow{
     background-color: var(--yellowButtonBackground);
-    color: var(--yellowButtonText);
+    color: var (--yellowButtonText);
 }
 
 .red{
@@ -379,6 +379,8 @@ body{
 .pageMenu > a > svg{
     width: 18px;
     height: 18px;
+    min-height: 18px;
+    min-width: 18px;
 }
 
 .pageMenuCurrentPage.weakTopicsPageMenu{
@@ -848,6 +850,7 @@ main{
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
+    gap:8px;
 }
 
 .codeEditorTopBar > span{
@@ -857,6 +860,13 @@ main{
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
+    transition: .2s background-color ease-in-out, .2s color ease-in-out;
+}
+
+.feedbackButtonNotSelected{
+    background-color: #2a2f3e !important;
+    color: var(--text_secondary);
 }
 
 .codeEditorTopBar > span > svg{
@@ -2456,4 +2466,64 @@ main{
     width: 100%;
     justify-content: center;
     margin-top:16px
+}
+
+.containerWithNumber{
+    background-color: var(--background_secondary);
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    padding:12px;
+    border-radius: 16px;
+}
+
+.containerWithNumberTextContainer{
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+.containerWithNumberTextContainer > h3{
+    font-size: 16px;
+    margin:0px;
+}
+
+.containerWithNumberTextContainer > p{
+    font-size: 12px;
+    color: var(--text_secondary);
+    margin:0px;
+}
+
+.containerWithNumber > input{
+    width:64px;
+    height: 40px;
+    border:1px solid var(--background_tertiary) !important;
+    /* Remove spinner buttons */
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left:auto;
+    text-align: center;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+}
+
+/* Hide spinner buttons in Webkit browsers specifically */
+.containerWithNumber > input::-webkit-outer-spin-button,
+.containerWithNumber > input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.feedbackWindow{
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    display: none;
 }

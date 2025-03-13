@@ -352,7 +352,7 @@ def check_user_in_class(class_id):
             return True
     return False
 
-def create_task(class_id, title, data,date):
+def create_task(class_id, title, data,date,points):
     if not check_teacher(class_id):
         return "You are not a teacher of this class"
     else:
@@ -362,6 +362,7 @@ def create_task(class_id, title, data,date):
             "taskName": title,
             "taskDescription": data,
             "taskDue":date,
+            "taskPoints":points,
             "taskStatus":"notcompleted",
             "student_data":{}
         }

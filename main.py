@@ -345,17 +345,19 @@ def create_class():
 def create_task_endpoint():
     if fun.login():
         data = request.json
-        if (data["name"] == "" or data["description"] == "" or data["date"] == ""):
+        if (data["name"] == "" or data["description"] == "" or data["date"] == "" or data["points"] == ""):
             return {'status':'Fill out all fields'}
         elif (len(data["name"]) > 20 or len(data["description"]) > 1000):
             return {'status':'Inputs are values are too long'}
+        elif (int(data["points"]) < 1 or int(data["points"]) > 100):
+            return {'status':'Points must be between 0 and 100'}
         try:
             task_date = datetime.strptime(data["date"], "%Y-%m-%d")
             if task_date < datetime.now():
                 return {'status':'Date cannot be in the past'}
         except ValueError:
             return {'status':'Invalid date format. Use YYYY-MM-DD'}
-        fun.create_task(data["classid"],data["name"],data["description"],data["date"])
+        fun.create_task(data["classid"],data["name"],data["description"],data["date"],data["points"])
         return {'status':'complete'}
 
 @app.route("/endpoint/class/message",methods=["POST"])
