@@ -63,7 +63,7 @@
                     <h3>Points</h3>
                     <p>Select the max amount of points that this task receives</p>
                 </div>
-                <input type="number" id="taskPoints" name="taskPoints" min="1" max="100" value="100">
+                <input type="number" id="taskPoints" name="taskPoints" value="100" min="0" max="100" oninput="this.value = Math.min(Math.max(0, this.value), 100)">
             </div>
             <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="#ffffff"/></svg>Finish</button>
         </div>

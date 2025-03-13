@@ -56,6 +56,9 @@
         <span class="taskDueDate">
             Due Date
         </span>
+        <span class="feedbackTextTaskList">
+            Feedback
+        </span>
     </a>
 </template>
 <script>
@@ -149,13 +152,19 @@
 
             console.log(status)
             console.log(thisWeek)
-            let taskElement = taskTemplate.content.cloneNode(true);
+            const taskElement = taskTemplate.content.cloneNode(true);
             taskElement.querySelector('.taskContainerLink').href = "/task/"+key+ "/" + taskInfo.id;
             taskElement.querySelector('.taskTitle').innerText = taskInfo.taskName;
             taskElement.querySelector('.taskDueDate').innerText = taskInfo.taskDue;
             taskElement.querySelector('.taskStatus').classList.add("taskColor" + classColor);
             if(status == "completed"){
+                console.log(taskElement)
                 completedTasksNum += 1;
+
+                taskElement.querySelector('.taskDueDate').style.display = "none";
+                if (studentData["{{userID}}"].feedback != ""){
+                    taskElement.querySelector('.feedbackTextTaskList').style.display = "flex";
+                }
                 completedTasks.appendChild(taskElement);
             }else if(missing){
                 missingTasksNum += 1;

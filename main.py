@@ -382,9 +382,7 @@ def delete_message():
 def task_feedback():
     if fun.login():
         data = request.json
-        if data["feedback"] == "":
-            return {'status':'Fill out all fields'}
-        elif len(data["feedback"]) > 100:
+        if len(data["feedback"]) > 1000:
             return {'status':'Feedback is too long'}
         feedback = fun.task_feedback(data["classid"],data["taskid"],data["feedback"],data["points"],data["userid"])
         return {'status':'complete'}

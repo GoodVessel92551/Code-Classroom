@@ -2163,8 +2163,10 @@ main{
     display: flex;
     flex-direction: column;
     gap: 16px;
-    width: 600px;
+    width: 700px;
     margin-top: 32px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .taskListTitleContainer{
@@ -2239,6 +2241,7 @@ main{
     display: flex;
     flex-direction: column;
     gap:12px;
+    
 }
 
 .taskListContainerTasks > :first-child{
@@ -2579,14 +2582,22 @@ main{
 .errorBarFeedback{
     background-color: var(--background_secondary);
     border-top: 1px solid var(--background_tertiary);
-    padding:8px;
     margin:0px -8px -8px -8px;
     width: calc(100% + 16px);
-    box-sizing: border-box;
     font-size: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--text_secondary);
-    height:32px;
+    min-height:32px;
+}
+
+.feedbackTextTaskList{
+    margin-left:auto;
+    display: none;
+    background-color: #263144;
+    color:#BDD8FC;
+    font-size: 12px;
+    padding:5px 11px;
+    border-radius: 8px;
 }

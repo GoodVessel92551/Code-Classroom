@@ -59,8 +59,8 @@
               <h3>Points</h3>
               <p id="pointsText">Select the score of this task. 0 - {{task["taskPoints"]}}</p>
           </div>
-          <input type="number" id="taskPoints" name="taskPoints" min="1" max="100" value="100">
-      </div>
+          <input type="number" id="taskPoints" name="taskPoints" value="100" min="0" max="{{task['taskPoints']}}" oninput="this.value = Math.min(Math.max(0, this.value), {{task['taskPoints']}})">
+            </div>
       <div id="feedbackSavedText" class="errorBarFeedback">
         Saved
       </div>
@@ -124,6 +124,10 @@
   const pointsContainer = document.getElementById('pointsContainer')
   const pointsText = document.getElementById('pointsText')
   const completeButton = document.getElementById('completeButton');
+  const instructionWindow = document.getElementById('instructionWindow');
+  const instructionWindowContent = document.getElementById('instructionWindowContent');
+  const taskDescription = document.getElementById('taskDescription');
+  const taskImage = document.getElementById('taskImage');
   const teacher = {{teacher|tojson}};
   const classColor = {{class_color|tojson}};
   const task = {{task|tojson}};
@@ -165,9 +169,6 @@
     feedbackSavedText.textContent = "Not Saved";
   });
 
-  pointsText.addEventListener('input', () => {
-    feedbackSavedText.textContent = "Not Saved";
-  });
 
 
 
@@ -218,7 +219,11 @@
     .then(response => response.json())
     .then(data => {
       console.log('Success:', data);
-      feedbackSavedText.textContent = "Saved";
+      if ( data.status == "complete"){
+        feedbackSavedText.textContent = "Saved";
+      }else{
+        feedbackSavedText.textContent = data.status;
+      }
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -227,20 +232,15 @@
 
   
 
+
   if (teacher) {
     document.getElementById('completeButton').style.display = 'none';
     instructionWindow.style.display = 'none';
-  }
-
-
-  const instructionWindow = document.getElementById('instructionWindow');
-  const instructionWindowContent = document.getElementById('instructionWindowContent');
-  const taskDescription = document.getElementById('taskDescription');
-  const taskImage = document.getElementById('taskImage');
-  instructionWindow.style.display = 'flex';
+  }else{
+    instructionWindow.style.display = 'flex';
   consoleWindow.style.minHeight = "50%";
   taskDescription.textContent = task.taskDescription;
-
+  }
   completeButton.addEventListener('click', () => {
     saveCode()
     window.location.href = `/endpoint/task/complete/${classid}/${taskid}`;
