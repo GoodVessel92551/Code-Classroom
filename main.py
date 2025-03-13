@@ -142,7 +142,7 @@ def task(classid,taskid):
                 task = i
                 break
         code = fun.get_code(classid,taskid,fun.get_id())
-        return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
+        return render_template("task.html",userid=fun.get_user_id(),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
     return redirect("/")
 
 @app.route("/view/<classid>/<taskid>/<userid>")
@@ -156,7 +156,7 @@ def view_task(classid,taskid,userid):
                     task = i
                     break
             code = fun.get_code(classid,taskid,userid)
-            return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=True)
+            return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=True,userid=userid)
             
 @app.route("/join/classroom")
 def join_classroom():
@@ -345,17 +345,19 @@ def create_class():
 def create_task_endpoint():
     if fun.login():
         data = request.json
-        if (data["name"] == "" or data["description"] == "" or data["date"] == ""):
+        if (data["name"] == "" or data["description"] == "" or data["date"] == "" or data["points"] == ""):
             return {'status':'Fill out all fields'}
         elif (len(data["name"]) > 20 or len(data["description"]) > 1000):
             return {'status':'Inputs are values are too long'}
+        elif (int(data["points"]) < 1 or int(data["points"]) > 100):
+            return {'status':'Points must be between 0 and 100'}
         try:
             task_date = datetime.strptime(data["date"], "%Y-%m-%d")
             if task_date < datetime.now():
                 return {'status':'Date cannot be in the past'}
         except ValueError:
             return {'status':'Invalid date format. Use YYYY-MM-DD'}
-        fun.create_task(data["classid"],data["name"],data["description"],data["date"])
+        fun.create_task(data["classid"],data["name"],data["description"],data["date"],data["points"])
         return {'status':'complete'}
 
 @app.route("/endpoint/class/message",methods=["POST"])
@@ -375,6 +377,15 @@ def delete_message():
         data = request.json
         message = fun.delete_message(data["classid"],data["messageid"])
         return {'status':message}
+
+@app.route("/endpoint/task/feedback",methods=["POST"])
+def task_feedback():
+    if fun.login():
+        data = request.json
+        if len(data["feedback"]) > 1000:
+            return {'status':'Feedback is too long'}
+        feedback = fun.task_feedback(data["classid"],data["taskid"],data["feedback"],data["points"],data["userid"])
+        return {'status':'complete'}
 
 @app.route("/login", methods=['GET', 'POST'])
 @limiter.limit("5 per minute")

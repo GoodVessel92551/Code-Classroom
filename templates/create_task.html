@@ -58,6 +58,13 @@
                     document.getElementById('taskDate').setAttribute('min', today);
                 </script>
             </div>
+            <div class="containerWithNumber">
+                <div class="containerWithNumberTextContainer">
+                    <h3>Points</h3>
+                    <p>Select the max amount of points that this task receives</p>
+                </div>
+                <input type="number" id="taskPoints" name="taskPoints" value="100" min="0" max="100" oninput="this.value = Math.min(Math.max(0, this.value), 100)">
+            </div>
             <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="#ffffff"/></svg>Finish</button>
         </div>
 </main>
@@ -74,6 +81,7 @@
         const taskName = document.getElementById("taskName").value;
         const taskDescription = document.getElementById("taskDescription").value;
         const taskDate = document.getElementById("taskDate").value;
+        const taskPoints = document.getElementById("taskPoints").value;
         if (taskName === "" || taskDescription === "") {
             errorMessage.style.display = "flex";
             errorMessageText.innerText = "Fill out all fields";
@@ -88,6 +96,11 @@
             errorMessageText.innerText = "Inputs are values are too long";
             return;
         }
+        if(taskPoints < 1 || taskPoints > 100){
+            errorMessage.style.display = "flex";
+            errorMessageText.innerText = "Points must be between 1 and 100";
+            return;
+        }
         const selectedDate = new Date(taskDate);
         const today = new Date();
 
@@ -100,7 +113,8 @@
             "classid": "{{classid}}",
             "name":taskName,
             "description":taskDescription,
-            "date":taskDate
+            "date":taskDate,
+            "points":taskPoints
         }
 
         fetch("/endpoint/task/create",{

@@ -11,6 +11,8 @@
     --submit_button:#5E5C48;
     --clear_button:#4B2929;
     --on_clear_button:#F0C5C5;
+    --save_button:#293a4b;
+    --on_save_button:#c5d4f0;
     --on_submit_button:#F0ECC5;
     --primary_button_background:#CCDFFF;
     --primary_button_text:#29354B;
@@ -112,7 +114,7 @@ body{
 
 .yellow{
     background-color: var(--yellowButtonBackground);
-    color: var(--yellowButtonText);
+    color: var (--yellowButtonText);
 }
 
 .red{
@@ -379,6 +381,8 @@ body{
 .pageMenu > a > svg{
     width: 18px;
     height: 18px;
+    min-height: 18px;
+    min-width: 18px;
 }
 
 .pageMenuCurrentPage.weakTopicsPageMenu{
@@ -848,6 +852,8 @@ main{
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
+    gap:8px;
+    padding-bottom: 0px;
 }
 
 .codeEditorTopBar > span{
@@ -857,6 +863,13 @@ main{
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
+    transition: .2s background-color ease-in-out, .2s color ease-in-out;
+}
+
+.feedbackButtonNotSelected{
+    background-color: #2a2f3e !important;
+    color: var(--text_secondary);
 }
 
 .codeEditorTopBar > span > svg{
@@ -885,6 +898,16 @@ main{
     height: 16px;
 }
 
+.saveFeedback{
+    background-color: var(--save_button);
+    color: var(--on_save_button);
+    display: none;
+}
+
+.saveFeedback > svg > path{
+    fill: var(--on_save_button);
+}
+
 .codeEditorClear{
     background-color: var(--clear_button);
     color: var(--on_clear_button);
@@ -906,6 +929,7 @@ main{
 #editor{
     height:100%;
     width: 100%;
+    margin-top:8px;
 }
 
 #editor .monaco-editor {
@@ -2139,8 +2163,10 @@ main{
     display: flex;
     flex-direction: column;
     gap: 16px;
-    width: 600px;
+    width: 700px;
     margin-top: 32px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .taskListTitleContainer{
@@ -2215,6 +2241,7 @@ main{
     display: flex;
     flex-direction: column;
     gap:12px;
+    
 }
 
 .taskListContainerTasks > :first-child{
@@ -2456,4 +2483,121 @@ main{
     width: 100%;
     justify-content: center;
     margin-top:16px
+}
+
+.containerWithNumber{
+    background-color: var(--background_secondary);
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    padding:12px;
+    border-radius: 16px;
+}
+
+.containerWithNumberTextContainer{
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+.containerWithNumberTextContainer > h3{
+    font-size: 16px;
+    margin:0px;
+}
+
+.containerWithNumberTextContainer > p{
+    font-size: 12px;
+    color: var(--text_secondary);
+    margin:0px;
+}
+
+.containerWithNumber > input{
+    width:64px;
+    height: 40px;
+    background:none;
+    color: var(--text_primary);
+    border:1px solid var(--background_tertiary) !important;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left:auto;
+    text-align: center;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+}
+
+.containerWithNumber > input:focus{
+    outline: none;
+}
+
+/* Hide spinner buttons in Webkit browsers specifically */
+.containerWithNumber > input::-webkit-outer-spin-button,
+.containerWithNumber > input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.feedbackWindow{
+    width: 100%;
+    height: calc(100% - 32px) !important;
+    display: none;
+    padding:0px 8px 8px 8px;
+    box-sizing: border-box;
+    flex-direction: column;
+    gap:8px
+    
+}
+
+.feedbackWindow > textarea{
+    width: 100%;
+    height: 100%;
+    background-color: var(--background_tertiary);
+    box-sizing: border-box;
+    border-radius: 16px;
+    border:none;
+    padding: 12px;
+    color: var(--text_primary);
+    resize: none;
+    font-size: 14px;
+}
+
+.feedbackWindow > textarea:focus{
+    outline: none;
+}
+
+.feedbackWindow > .containerWithNumber{
+    background-color: var(--background_tertiary);
+}
+
+.feedbackWindow > .containerWithNumber > input{
+    border:1px solid #4d566e !important;
+}
+
+.errorBarFeedback{
+    background-color: var(--background_secondary);
+    border-top: 1px solid var(--background_tertiary);
+    margin:0px -8px -8px -8px;
+    width: calc(100% + 16px);
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text_secondary);
+    min-height:32px;
+}
+
+.feedbackTextTaskList{
+    margin-left:auto;
+    display: none;
+    background-color: #263144;
+    color:#BDD8FC;
+    font-size: 12px;
+    padding:5px 11px;
+    border-radius: 8px;
 }

@@ -32,18 +32,39 @@
 <div class="leftPanelTaskPage">
     <div class="consoleWindow" id="consoleWindow">
         <div class="codeEditorTopBar">
-          <span>
+          <span id="consoleButton">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.086 18.611 5.996-14.004a1 1 0 0 1 1.878.677l-.04.11-5.996 14.004a1 1 0 0 1-1.878-.677l.04-.11 5.996-14.004L8.086 18.61Zm-5.793-7.318 4-4a1 1 0 0 1 1.497 1.32l-.083.094L4.414 12l3.293 3.293a1 1 0 0 1-1.32 1.498l-.094-.084-4-4a1 1 0 0 1-.083-1.32l.083-.094 4-4-4 4Zm14-4.001a1 1 0 0 1 1.32-.083l.093.083 4.001 4.001a1 1 0 0 1 .083 1.32l-.083.095-4.001 3.995a1 1 0 0 1-1.497-1.32l.084-.095L19.584 12l-3.293-3.294a1 1 0 0 1 0-1.414Z" fill="#ffffff"/></svg>
             Console
+          </span>
+          <span id="feedbackButton" class="feedbackButtonNotSelected">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.75 2a2.25 2.25 0 0 1 2.245 2.096L16 4.25c0-.085-.005-.168-.014-.25h1.764A2.25 2.25 0 0 1 20 6.25v13.5A2.25 2.25 0 0 1 17.75 22H6.25A2.25 2.25 0 0 1 4 19.75V6.25A2.25 2.25 0 0 1 6.25 4h1.764c-.007.058-.01.117-.013.176L8 4.25A2.25 2.25 0 0 1 10.25 2h3.5Zm0 4.5h-3.5a2.248 2.248 0 0 1-1.892-1.033l.021.033H6.25a.75.75 0 0 0-.75.75v13.5c0 .414.336.75.75.75h11.5a.75.75 0 0 0 .75-.75V6.25a.75.75 0 0 0-.75-.75h-2.129l.021-.033A2.248 2.248 0 0 1 13.75 6.5Zm0-3h-3.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5ZM8 14.5h4a.75.75 0 0 0 0-1.5H8a.75.75 0 0 0 0 1.5Zm0-4h8A.75.75 0 0 0 16 9H8a.75.75 0 0 0 0 1.5Zm0 8h6a.75.75 0 0 0 0-1.5H8a.75.75 0 0 0 0 1.5Z" fill="#fff"/></svg>
+            Feedback
           </span>
           <button class="codeEditorClear" id="clearConsole">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.5 6a1 1 0 0 1-.883.993L20.5 7h-.845l-1.231 12.52A2.75 2.75 0 0 1 15.687 22H8.313a2.75 2.75 0 0 1-2.737-2.48L4.345 7H3.5a1 1 0 0 1 0-2h5a3.5 3.5 0 1 1 7 0h5a1 1 0 0 1 1 1Zm-7.25 3.25a.75.75 0 0 0-.743.648L13.5 10v7l.007.102a.75.75 0 0 0 1.486 0L15 17v-7l-.007-.102a.75.75 0 0 0-.743-.648Zm-4.5 0a.75.75 0 0 0-.743.648L9 10v7l.007.102a.75.75 0 0 0 1.486 0L10.5 17v-7l-.007-.102a.75.75 0 0 0-.743-.648ZM12 3.5A1.5 1.5 0 0 0 10.5 5h3A1.5 1.5 0 0 0 12 3.5Z" fill="#ffffff"/></svg>
             Clear
           </button>
+          <button style="display: none;" class="saveFeedback" id="saveFeedback">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.75 3h-1A2.75 2.75 0 0 0 3 5.75v12.5A2.75 2.75 0 0 0 5.75 21H6v-6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 15v6h.25A2.75 2.75 0 0 0 21 18.25V8.286a3.25 3.25 0 0 0-.952-2.299l-2.035-2.035A3.25 3.25 0 0 0 15.75 3v4.5a2.25 2.25 0 0 1-2.25 2.25H9A2.25 2.25 0 0 1 6.75 7.5V3Z" fill="#fff"/><path d="M14.25 3v4.5a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75V3h6ZM16.5 21v-6a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0-.75.75v6h9Z" fill="#fff"/></svg>
+            Save
+          </button>
         </div>
     
         <p id="consoleText" class="consoleText"></p>
         <input style="display: none;" id="consoleInput" type="text" placeholder="Type here and press Enter" />
+      <div class="feedbackWindow" id="feedbackWindow">
+        <textarea maxlength="1000" placeholder="Your Feedback" id="feedbackText"></textarea>
+        <div class="containerWithNumber" id="pointsContainer">
+          <div class="containerWithNumberTextContainer">
+              <h3>Points</h3>
+              <p id="pointsText">Select the score of this task. 0 - {{task["taskPoints"]}}</p>
+          </div>
+          <input type="number" id="taskPoints" name="taskPoints" value="100" min="0" max="{{task['taskPoints']}}" oninput="this.value = Math.min(Math.max(0, this.value), {{task['taskPoints']}})">
+            </div>
+      <div id="feedbackSavedText" class="errorBarFeedback">
+        Saved
+      </div>
+      </div>
       </div>
       <div class="instructionWindow" id="instructionWindow">
         <div class="instructionWindowTopBar">
@@ -91,26 +112,135 @@
 </main>
 
 <script>
-  const teacher = {{teacher|tojson}};
-  if (teacher) {
-    document.getElementById('completeButton').style.display = 'none';
-  }
+  const consoleButton = document.getElementById('consoleButton');
+  const feedbackButton = document.getElementById('feedbackButton');
+  const consoleWindow = document.getElementById('consoleWindow');
+  const consoleText = document.getElementById('consoleText');
+  const feedbackWindow = document.getElementById('feedbackWindow');
+  const feedbackSavedText = document.getElementById('feedbackSavedText');
+  const saveFeedback = document.getElementById('saveFeedback');
+  const feedbackText = document.getElementById('feedbackText')
+  const taskPoints = document.getElementById('taskPoints')
+  const pointsContainer = document.getElementById('pointsContainer')
+  const pointsText = document.getElementById('pointsText')
   const completeButton = document.getElementById('completeButton');
+  const instructionWindow = document.getElementById('instructionWindow');
+  const instructionWindowContent = document.getElementById('instructionWindowContent');
+  const taskDescription = document.getElementById('taskDescription');
+  const taskImage = document.getElementById('taskImage');
+  const teacher = {{teacher|tojson}};
   const classColor = {{class_color|tojson}};
   const task = {{task|tojson}};
   const classid = {{classid|tojson}};
   const taskid = {{taskid|tojson}};
   const loadedTaskCode = {{code|tojson}};
+  const userid = {{userid|tojson}};
+  const studentTask = task.student_data[userid]
+  if(!teacher){
+    feedbackText.disabled = true;
+    if(studentTask.status == "completed"){
+      completeButton.style.display = 'none';
+    }
+    if(studentTask.feedback == ""){
+      feedbackText.placeholder = "No feedback yet";
+    } else {
+      feedbackText.value = studentTask.feedback;
+    }
 
-  const instructionWindow = document.getElementById('instructionWindow');
-  const instructionWindowContent = document.getElementById('instructionWindowContent');
-  const taskDescription = document.getElementById('taskDescription');
-  const consoleWindow = document.getElementById('consoleWindow');
-  const taskImage = document.getElementById('taskImage');
-  instructionWindow.style.display = 'flex';
+    if(studentTask.points){
+      taskPoints.value = studentTask.points;
+      taskPoints.disabled = true;
+      pointsText.textContent = "This is the amount of points that this task received";
+    }else{
+      pointsContainer.style.display = 'none';
+    }
+  }else if (teacher){
+    if(studentTask.feedback != ""){
+      feedbackText.value = studentTask.feedback;
+    }
+    if(task.taskPoints){
+      taskPoints.value = studentTask.points;
+    }else{
+      pointsContainer.style.display = 'none';
+    }
+  }
+
+  feedbackWindow.addEventListener('input', () => {
+    feedbackSavedText.textContent = "Not Saved";
+  });
+
+
+
+
+
+  const switchToConsole = () => {
+    saveFeedback.style.display = 'none';
+    clearConsole.style.display = 'flex';
+    consoleText.style.display = 'flex';
+    feedbackWindow.style.display = 'none';
+    feedbackButton.classList.add('feedbackButtonNotSelected');
+    consoleButton.classList.remove('feedbackButtonNotSelected');
+  }
+
+  const switchToFeedback = () => {
+    if(teacher){
+      saveFeedback.style.display = 'flex';
+    }
+    clearConsole.style.display = 'none';
+    consoleText.style.display = 'none';
+    feedbackWindow.style.display = 'flex';
+    feedbackButton.classList.remove('feedbackButtonNotSelected');
+    consoleButton.classList.add('feedbackButtonNotSelected');
+  }
+
+  consoleButton.addEventListener('click', () => {
+    switchToConsole()
+  });
+
+  feedbackButton.addEventListener('click', () => {
+    switchToFeedback()
+  });
+
+  saveFeedback.addEventListener("click", () => {
+    const data = {
+      feedback: feedbackText.value,
+      points: taskPoints.value,
+      classid: classid,
+      taskid: taskid,
+      userid: userid
+    }
+    fetch(`/endpoint/task/feedback`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      if ( data.status == "complete"){
+        feedbackSavedText.textContent = "Saved";
+      }else{
+        feedbackSavedText.textContent = data.status;
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  });
+
+  
+
+
+  if (teacher) {
+    document.getElementById('completeButton').style.display = 'none';
+    instructionWindow.style.display = 'none';
+  }else{
+    instructionWindow.style.display = 'flex';
   consoleWindow.style.minHeight = "50%";
   taskDescription.textContent = task.taskDescription;
-
+  }
   completeButton.addEventListener('click', () => {
     saveCode()
     window.location.href = `/endpoint/task/complete/${classid}/${taskid}`;

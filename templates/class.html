@@ -262,7 +262,7 @@
         if ({{teacher|tojson}}) {
             taskIndercater.classList.add('taskIndercater', 'complete');
         }else{
-            if (dueDate < currentDate) {
+            if (dueDate < currentDate && task.student_data[userID].status !== 'completed') {
                 taskIndercater.classList.add('taskIndercater', 'missing');
             }else if (!Object.keys(task.student_data).includes(userID))
             taskIndercater.classList.add('taskIndercater', 'notstarted');

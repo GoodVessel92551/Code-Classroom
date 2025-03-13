@@ -352,7 +352,7 @@ def check_user_in_class(class_id):
             return True
     return False
 
-def create_task(class_id, title, data,date):
+def create_task(class_id, title, data,date,points):
     if not check_teacher(class_id):
         return "You are not a teacher of this class"
     else:
@@ -362,6 +362,7 @@ def create_task(class_id, title, data,date):
             "taskName": title,
             "taskDescription": data,
             "taskDue":date,
+            "taskPoints":points,
             "taskStatus":"notcompleted",
             "student_data":{}
         }
@@ -398,13 +399,27 @@ def create_task_student(class_id, task_id):
                 "id": userid,
                 "status": "notcompleted",
                 "code": "print('Hello World')",
-                "feedback": ""
+                "feedback": "",
+                "points": 0
             }
             task_data[i]["student_data"][userid] = student_data
             query = {"name": "classrooms"}
             update = {"$set": {f"data.{class_id}.tasks": task_data}}
             global_data_db.update_one(query, update)
             return "complete"
+
+def task_feedback(class_id, task_id, feedback, points,userid):
+    if check_teacher(class_id):
+        class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+        task_data = class_data["tasks"]
+        for i in range(len(task_data)):
+            if task_data[i]["id"] == task_id:
+                task_data[i]["student_data"][userid]["feedback"] = feedback
+                task_data[i]["student_data"][userid]["points"] = points
+                query = {"name": "classrooms"}
+                update = {"$set": {f"data.{class_id}.tasks": task_data}}
+                global_data_db.update_one(query, update)
+                return "complete"
 
 def complete_task_student(class_id, task_id):
     userid = get_user_id()
