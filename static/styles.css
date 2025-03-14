@@ -2342,7 +2342,7 @@ main{
     gap:8px;
     align-items: center;
     box-sizing: border-box;
-    border-radius: 16px;
+    border-radius: 20px;
     flex-direction: column;
 }
 
@@ -2601,4 +2601,62 @@ main{
     font-size: 12px;
     padding:5px 11px;
     border-radius: 8px;
+}
+
+.taskSummaryContainerTaskList{
+    padding: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    gap:8px;    
+    background: linear-gradient(89deg, rgba(135, 59, 91, 0.50) 1.69%, rgba(71, 48, 69, 0.50) 31.68%, rgba(112, 70, 91, 0.50) 54.91%, rgba(158, 99, 100, 0.50) 99.35%);
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.animated-gradient{
+    animation: gradientAnimation 2s ease-in-out infinite;
+    background-size: 200% 200%;
+}
+
+.taskSummaryTitleTextContainer{
+    display: flex;
+    gap:8px;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+
+}
+.taskSummaryTitleTextContainer > svg{
+    width: 18px;
+    height: 18px;
+}
+
+.taskSummaryTitleTextContainer > span{
+    background: linear-gradient(90deg, #FFE0EE 0%, #CCC6E9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 500;
+}
+
+.taskSummaryContainerTaskList > p{
+    font-size: 14px;
+    color: #d5b8d9;
+    margin:0px;
+}
+
+.aiMarkdown{
+    overflow: hidden;
+    display: none;
 }

@@ -4,6 +4,56 @@
 
 <div class="pageTitleDiv"><h1>{{page.title()}}</h1></div>
 <div class="taskListContainer">
+    <div class="taskSummaryContainerTaskList" id="taskSummaryContainerTaskList">
+        <div class="taskSummaryTitleTextContainer">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.05409 9.17885C5.19701 9.27977 5.36734 9.33343 5.54176 9.33285V9.33052C5.70641 9.33079 5.86752 9.28275 6.00512 9.19233C6.14272 9.1019 6.25076 8.97309 6.31584 8.82185L6.67343 7.73452C6.75605 7.48821 6.89482 7.2645 7.07877 7.08106C7.26272 6.89761 7.48682 6.75946 7.73334 6.67752L8.77051 6.34035C8.93758 6.28165 9.08188 6.17176 9.18288 6.02631C9.28388 5.88086 9.33645 5.70726 9.33309 5.53022C9.32973 5.35317 9.27062 5.18169 9.16417 5.04018C9.05772 4.89867 8.90935 4.79433 8.74018 4.74202L7.71643 4.40952C7.46876 4.32715 7.24372 4.18814 7.05922 4.00353C6.87471 3.81892 6.73582 3.59381 6.65359 3.3461L6.31643 2.30952C6.25763 2.14442 6.14886 2.00173 6.00524 1.90129C5.86162 1.80085 5.69028 1.74764 5.51503 1.74905C5.33978 1.75046 5.16932 1.80643 5.02734 1.90917C4.88535 2.01191 4.7789 2.15633 4.72276 2.32235L4.38268 3.36768C4.30067 3.60817 4.16513 3.8269 3.98627 4.00737C3.80742 4.18784 3.58992 4.32535 3.35018 4.40952L2.31359 4.7426C2.14743 4.80029 2.0035 4.90856 1.90199 5.05221C1.80048 5.19585 1.74648 5.36767 1.74757 5.54357C1.74867 5.71946 1.8048 5.89059 1.90809 6.03297C2.01138 6.17534 2.15664 6.28181 2.32351 6.33743L3.34668 6.66935C3.59429 6.75233 3.81922 6.89176 4.00367 7.07663C4.18813 7.26149 4.32707 7.48672 4.40951 7.73452L4.74668 8.76993C4.80443 8.93502 4.91176 9.07852 5.05409 9.17885ZM9.52651 12.1229C9.41537 12.0437 9.33176 11.9317 9.28734 11.8027L9.09601 11.2153C9.0592 11.1034 8.99671 11.0017 8.91355 10.9184C8.83038 10.835 8.72886 10.7723 8.61709 10.7352L8.03901 10.5468C7.90668 10.5021 7.79162 10.4172 7.70993 10.3039C7.62824 10.1907 7.58401 10.0547 7.58343 9.91502C7.58352 9.77626 7.6269 9.641 7.70752 9.52807C7.78814 9.41514 7.90198 9.33017 8.03318 9.28502L8.62001 9.09485C8.7291 9.05612 8.82788 8.99292 8.90877 8.91011C8.98966 8.8273 9.05052 8.72707 9.08668 8.6171L9.27568 8.03843C9.32014 7.90763 9.40414 7.79386 9.51607 7.71287C9.62799 7.63188 9.76231 7.58765 9.90046 7.5863C10.0386 7.58496 10.1738 7.62656 10.2872 7.70536C10.4007 7.78416 10.4869 7.89627 10.5339 8.02618L10.7258 8.61768C10.7634 8.72856 10.8262 8.82924 10.9091 8.91182C10.9921 8.9944 11.0931 9.05665 11.2042 9.09368L11.7828 9.2821C11.9162 9.32382 12.0331 9.40647 12.1169 9.51834C12.2007 9.63021 12.2471 9.76561 12.2497 9.90535C12.2522 10.0451 12.2106 10.1821 12.1309 10.2969C12.0512 10.4117 11.9374 10.4985 11.8056 10.545L11.2141 10.7369C11.1029 10.7745 11.0019 10.8373 10.9191 10.9205C10.8363 11.0037 10.7739 11.105 10.7369 11.2164L10.5491 11.7933C10.5036 11.9275 10.4173 12.0442 10.3012 12.1258C10.1879 12.2064 10.0523 12.2494 9.91338 12.2488C9.77443 12.2483 9.63915 12.2043 9.52651 12.1229Z" fill="url(#paint0_linear_1063_265)"/>
+                <defs>
+                <linearGradient id="paint0_linear_1063_265" x1="6.99866" y1="1.74902" x2="2.5" y2="11.5" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFB4D6"/>
+                <stop offset="1" stop-color="#D1C7FF"/>
+                </linearGradient>
+                </defs>
+                </svg>
+            <span>Task Summary</span>  
+                          
+        </div>
+        <zero-md class="markdown aiMarkdown" id="aiMarkdown">
+            <template data-append>
+              <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+              <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+              <style>
+                  .markdown-body {
+                      padding: 0px !important;
+                      box-sizing: border-box !important;
+                      height: auto !important;
+                      width: auto !important;
+                      background-color: transparent  !important;
+                      border: 1px solid transparent  !important;
+                      font-family: "Lexend", sans-serif !important;
+                      background: none !important;
+                      overflow-y: hidden !important;
+                  }
+
+                  .markdown-body p{
+                    font-size: 14px !important;
+                    color: #d5b8d9 !important;
+                  }
+                  .markdown-body > pre {
+                      background-color: transparent;
+                      border-radius: 16px;
+                  }
+                  .markdown-body code:not(pre > code) {
+                      background-color: #32394b;
+                      border-radius: 16px;
+                      color:#e7b9a2;
+                  }
+              </style>
+            </template>
+            <script type="text/markdown" id="aiText">
+            </script>
+          </zero-md>
+    </div>
     <div>
         <div class="taskListTitleContainer taskListTitleContainerRed">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.478 10 10s-4.477 10-10 10S2 17.522 2 12 6.477 2 12 2Zm0 1.667c-4.595 0-8.333 3.738-8.333 8.333 0 4.595 3.738 8.333 8.333 8.333 4.595 0 8.333-3.738 8.333-8.333 0-4.595-3.738-8.333-8.333-8.333Zm-.001 10.835a.999.999 0 1 1 0 1.998.999.999 0 0 1 0-1.998ZM11.994 7a.75.75 0 0 1 .744.648l.007.101.004 4.502a.75.75 0 0 1-1.493.103l-.007-.102-.004-4.501a.75.75 0 0 1 .75-.751Z" fill="#ffffff"/></svg>
@@ -61,7 +111,9 @@
         </span>
     </a>
 </template>
+
 <script>
+    const userID = {{userID|tojson}}
     const taskTemplate = document.getElementById('taskTemplate');
     const missingTasks = document.getElementById('missingTasks');
     const thisWeekTasks = document.getElementById('thisWeekTasks');
@@ -126,7 +178,8 @@
     let laterTasksNum = 0
     let completedTasksNum = 0
     Object.keys(usersClasses).forEach(key => {
-        console.log(usersClasses[key]);
+
+
         const classColor = usersClasses[key].classInfo.coverImage;
 
         Object.keys(usersClasses[key].tasks).forEach(task => {
@@ -139,26 +192,21 @@
             
             var missing = currentDate > dueDate;
             var thisWeek = isWithinNext7Days(dueDate);
-            console.log(thisWeek)
             var later = currentDate < dueDate;
             status = "notComplete";
             var studentData = taskInfo.student_data;
-            console.log(studentData)
             if (Object.keys(studentData).includes("{{userID}}")){
                 status = studentData["{{userID}}"].status;
             }else{
                 status = "notComplete";
             }
 
-            console.log(status)
-            console.log(thisWeek)
             const taskElement = taskTemplate.content.cloneNode(true);
             taskElement.querySelector('.taskContainerLink').href = "/task/"+key+ "/" + taskInfo.id;
             taskElement.querySelector('.taskTitle').innerText = taskInfo.taskName;
             taskElement.querySelector('.taskDueDate').innerText = taskInfo.taskDue;
             taskElement.querySelector('.taskStatus').classList.add("taskColor" + classColor);
             if(status == "completed"){
-                console.log(taskElement)
                 completedTasksNum += 1;
 
                 taskElement.querySelector('.taskDueDate').style.display = "none";
@@ -181,25 +229,21 @@
 });
 
 if(missingTasksNum == 0){
-    console.log("Hide Missing")
     missingTasks.style.display = "none";
     missingHideButton.style.display = "none";
 }
 if(thisWeekTasksNum === 0){
-    console.log("Hide This Week")
     thisWeekTasks.style.display = "none";
     thisWeekHideButton.style.display = "none";
 }
 if(laterTasksNum === 0){
-    console.log("Hide Later")
     laterTasks.style.display = "none";
     laterHideButton.style.display = "none";
 }
 if(completedTasksNum === 0){
-    console.log("Hide Completed")
     completedTasks.style.display = "none";
     completedHideButton.style.display = "none";
 }
 </script>
-
+<script src="{{ url_for('static', filename='javascript/aiTools/taskSummary.js') }}"></script>
 {% endblock %}
