@@ -820,3 +820,11 @@ body,html{
     font-size: 14px;
     color: var(--text_secondary);
 }
+
+.bottomBar > a{
+    color: var(--text_theme);
+}
+
+.privacyPolicyMD{
+    padding-bottom: 32px;
+}

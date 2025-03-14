@@ -73,6 +73,10 @@ def home():
 def faq():
     return render_template("FAQ.html")
 
+@app.route("/privacyPolicy")
+def privacy_policy():
+    return render_template("Privacy Policy.html")
+
 @app.route("/notifications")
 def notifications():
     if fun.login():
