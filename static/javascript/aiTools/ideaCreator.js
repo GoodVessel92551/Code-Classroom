@@ -21,12 +21,12 @@ const create_session = async () => {
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
   try{
-      var capabilities = await ai.languageModel.capabilities();
+      var capabilities = await ai.languageModel.availability();
   }catch{
       console.error("No AI")
   }
   
-  if (capabilities.available == "no" || capabilities.available == "after-download")console.error("No AI")
+  if (!(capabilities == "available"))console.error("No AI")
   available_ai = true;
   create_session();
   
@@ -39,7 +39,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const create_idea = async () => {
     console.log("Generating result");
     if (available_ai){
-      const result = await session.prompt("Create an idea (seffse)"); 
+      const randomStr = Math.random().toString(36).substring(2, 7);
+      const result = await session.prompt(`Create a simple idea (${randomStr})`);    console.log(result);
       localStorage.setItem("codeIdea", result);
       window.location.href = "/code";
     }

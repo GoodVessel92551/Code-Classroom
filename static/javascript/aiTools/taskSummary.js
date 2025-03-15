@@ -1,4 +1,4 @@
-let masterData = {}
+let masterData = []
 const aiText = document.getElementById("aiText");
 let taskNumCount = 0
 const taskSummaryContainerTaskList = document.getElementById("taskSummaryContainerTaskList");
@@ -23,7 +23,7 @@ Object.keys(usersClasses).forEach(key => {
         let taskInfo = usersClasses[key].tasks[task];
         let taskInfoSimple = taskInfo
         let studentData = taskInfoSimple.student_data[Object.keys(taskInfo.student_data)[0]];
-        console.log(studentData)
+        console.log(taskInfo)
         if(studentData == undefined){
             taskInfoSimple.status = "Not Started";
         }else{
@@ -34,7 +34,7 @@ Object.keys(usersClasses).forEach(key => {
         delete taskInfoSimple.taskPoints;
         delete taskInfoSimple.taskDescription;
         delete taskInfoSimple.taskId;
-        masterData[taskNumCount] = taskInfoSimple;
+        masterData.push(taskInfoSimple);
         taskNumCount++;
     })
 });
@@ -42,17 +42,17 @@ Object.keys(usersClasses).forEach(key => {
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
   try{
-      var capabilities = await ai.languageModel.capabilities();
+      var capabilities = await ai.languageModel.availability()
   }catch{
       console.error("No AI")
       taskSummaryText.textContent = "AI Unavailable"
         return
   }
-  if (capabilities.available == "no" || capabilities.available == "after-download")console.error("No AI")
+  if (!(capabilities == "available"))console.error("No AI")
     taskSummaryText.textContent = "Loading AI"
   available_ai = true;
     session = await ai.languageModel.create({
-        systemPrompt: "You will be given a JSON dictionary containing a list of tasks that a student has due. Your job is to generate a concise, one-short-paragraph summary of these tasks for the student, using direct language with words like 'you.' Avoid bullet points and keep the summary brief while still conveying key details. If feedback is provided, make sure to incorporate it naturally into the summary.Check the status for the task to see if it has been completed. The current date is:" + new Date().toISOString().split('T')[0],
+        systemPrompt: "You will be given a List containing a list of tasks that a student has due it has the due date for the task, task name and the task status which you can use to know if a task is complete or not. Your job is to generate a concise, one-short-paragraph summary of these tasks for the student, using direct language with words like 'you.' Avoid bullet points and keep the summary brief while still conveying key details. If feedback is provided, make sure to incorporate it naturally into the summary.Check the status for the task to see if it has been completed. The current date is:" + new Date().toISOString().split('T')[0],
       });
       taskSummaryText.textContent = "AI Loaded"
       create_result()
