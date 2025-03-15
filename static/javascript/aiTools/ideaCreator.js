@@ -2,7 +2,8 @@ const aiMarkdown = document.getElementById("aiMarkdown")
 let session
 const params = new URLSearchParams(window.location.search);
 const topic = params.get("query");
-console.log(topic)
+const startCreating = document.getElementById("startCreating");
+const enableAIButton = document.getElementById("enableAIButton");
 
 
 
@@ -10,11 +11,17 @@ var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
   try{
       var capabilities = await ai.languageModel.availability();
-      taskSummaryText.textContent = "AI Unavailable"
   }catch{
       console.error("No AI")
+      taskSummaryText.textContent = "AI Unavailable"
+      enableAIButton.style.display = "flex";
+      return
   }
-  if (!(capabilities == "available"))console.error("No AI")
+  if (!(capabilities == "available")){
+    taskSummaryText.textContent = "AI Unavailable"
+    enableAIButton.style.display = "flex";
+    return
+  }
     taskSummaryText.textContent = "Loading AI"
   available_ai = true;
   session = await ai.languageModel.create({
@@ -64,6 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       } 
         taskSummaryContainerTaskList.classList.remove('animated-gradient');
         taskSummaryText.textContent = "Idea Created"
+        startCreating.style.display = "flex";
     }
   }
 

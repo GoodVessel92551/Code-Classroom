@@ -77,6 +77,10 @@ def faq():
 def privacy_policy():
     return render_template("Privacy Policy.html")
 
+@app.route("/enableAI")
+def enableAI():
+    return render_template("enableAI.html")
+
 @app.route("/notifications")
 def notifications():
     if fun.login():
@@ -191,6 +195,7 @@ def task_summary():
     if fun.login():
         return render_template("createIdea.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="idea creator",classes=fun.get_user_classes())
     return redirect("/")
+
 
 @app.route("/settings/ai")
 def ai_settings():

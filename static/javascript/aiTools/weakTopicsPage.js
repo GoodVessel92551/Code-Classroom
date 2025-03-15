@@ -59,16 +59,26 @@ const create_result_summary = async () => {
     }
 }
   
-  var available_ai = false;
-  document.addEventListener("DOMContentLoaded", async () => {
-    console.log("Loaded")
-    try{
-        var capabilities = await ai.languageModel.availability();
-        taskSummaryText.textContent = "AI Unavailable"
-    }catch{
-        console.error("No AI")
-    }
-    if (!(capabilities == "available"))console.error("No AI")
+const enableAIButton = document.getElementById("enableAIButton");
+
+
+
+var available_ai = false;
+document.addEventListener("DOMContentLoaded", async () => {
+  try{
+      var capabilities = await ai.languageModel.availability();
+  }catch{
+      console.error("No AI")
+      taskSummaryText.textContent = "AI Unavailable"
+      enableAIButton.style.display = "flex";
+      return
+  }
+  if (!(capabilities == "available")){
+    taskSummaryText.textContent = "AI Unavailable"
+    enableAIButton.style.display = "flex";
+    return
+  }
+  taskSummaryText.textContent = "Loading AI"
     available_ai = true;
     await create_session_summary()
     

@@ -39,16 +39,31 @@ Object.keys(usersClasses).forEach(key => {
     })
 });
 
+const enableAIButton = document.getElementById("enableAIButton");
+
+
+
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
+    if(!settings.taskSummary){
+
+        taskSummaryContainerTaskList.style.display = "none";
+        enableAIButton.style.display = "none";
+        return
+    }
   try{
-      var capabilities = await ai.languageModel.availability()
+      var capabilities = await ai.languageModel.availability();
   }catch{
       console.error("No AI")
       taskSummaryText.textContent = "AI Unavailable"
-        return
+      enableAIButton.style.display = "flex";
+      return
   }
-  if (!(capabilities == "available"))console.error("No AI")
+  if (!(capabilities == "available")){
+    taskSummaryText.textContent = "AI Unavailable"
+    enableAIButton.style.display = "flex";
+    return
+  }
     taskSummaryText.textContent = "Loading AI"
   available_ai = true;
     session = await ai.languageModel.create({
