@@ -177,7 +177,7 @@ def settings():
 @app.route("/weakTopics")
 def weak_topics_page():
     if fun.login():
-        return render_template("weakTopics.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
+        return render_template("weakTopics.html",weakTopics=fun.get_weak_topics(fun.get_user_id()),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/tasklist")
@@ -186,10 +186,10 @@ def task_list():
         return render_template("taskList.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task list",classes=fun.get_user_classes())
     return redirect("/")
 
-@app.route("/taskSummary")
+@app.route("/createIdea")
 def task_summary():
     if fun.login():
-        return render_template("taskSummary.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task summary",classes=fun.get_user_classes())
+        return render_template("createIdea.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="idea creator",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/ai")

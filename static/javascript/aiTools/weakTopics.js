@@ -4,11 +4,11 @@
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
   try{
-      var capabilities = await ai.languageModel.capabilities();
+      var capabilities = await ai.languageModel.availability()
   }catch{
       console.error("No AI")
   }
-  if (capabilities.available == "no" || capabilities.available == "after-download")console.error("No AI")
+  if (!(capabilities == "available"))console.error("No AI")
   available_ai = true;
     session = await ai.languageModel.create({
       initialPrompts: [
@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       });
   })
+
 
 
   const create_result = async (error) => {
