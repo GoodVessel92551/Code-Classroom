@@ -1,5 +1,8 @@
 const aiMarkdown = document.getElementById("aiMarkdown")
 let session
+const params = new URLSearchParams(window.location.search);
+const topic = params.get("query");
+console.log(topic)
 
 
 
@@ -18,15 +21,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     temperature: 1.5,
     topK:10,
     initialPrompts: [
-      { "role": "system", "content": "Create 1 simple and easy idea for a user to code in Python. There is only a console output. It **cannot** use external libraries (numpy, hashlib, etc.) but can use the included ones (math, random, etc.). The user does **not** have access to the file system. Do not include code examples/snippets in the idea. Make the idea summary short and simple and easy make sure there is only **one** idea. If there is complicated words explain them" },
+      { "role": "system", "content": "Create 1 simple and easy idea for a user to code in Python. There is only a console output. It **cannot** use external libraries (numpy, hashlib, etc.) but can use the included ones (math, random, etc.). The user does **not** have access to the file system. Do not include code examples/snippets in the idea. Make the idea summary short and simple and easy make sure there is only **one** idea. If there is complicated words explain them. Also ignore the seed the use does not need to see this." },
       { "role": "user", "content": "Create an idea" },
       { "role": "assistant", "content": "Create a simple text-based calculator that can perform basic arithmetic operations (+, -, *, /) based on user input." },
       { "role": "user", "content": "Create an idea" },
       { "role": "assistant", "content": "Develop a number guessing game where the program randomly selects a number between 1 and 100, and the user has to guess it with hints of 'higher' or 'lower' after each incorrect guess." },
-      { "role": "user", "content": "Create an idea that uses data types" },
+      { "role": "user", "content": "Create an idea" },
       { "role": "assistant", "content": "Design a program that takes user input for name, age, and height, then displays a formatted sentence using different data types like strings, integers, and floats." },
-      { "role": "user", "content": "Create an idea that uses variables" },
-      { "role": "assistant", "content": "Build a simple temperature converter that allows the user to input a temperature in Celsius and converts it to Fahrenheit using a stored formula in a variable." }
+      { "role": "user", "content": "Create an idea" },
+      { "role": "assistant", "content": "Build a simple temperature converter that allows the user to input a temperature in Celsius and converts it to Fahrenheit using a stored formula in a variable." },
+      { "role": "user", "content": "Create an idea" },
+      {"role":"assistant","content":'Create a game called "guess the number". The computer thinks of a secret number randomly within its range (like 0 - 5). The program asks the user to input a guess until they get the number right. It provides feedback (e.g., "Higher", "Lower", exact guess) to guide the user.'}
     ]
   });
   taskSummaryText.textContent = "AI Loaded"
@@ -45,7 +50,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       taskSummaryContainerTaskList.classList.add('animated-gradient');
       const seed = Math.random().toString(36).substring(2, 7);
       console.log(session)
-      const stream = await session.promptStreaming(`Create a simple idea (${seed})`);
+      let stream
+      console.log(seed)
+      if(topic){
+        stream = await session.promptStreaming(`Create a simple idea that users ${topic} (Ignore Seed: ${seed})`);
+      }else{
+        stream = await session.promptStreaming(`Create a simple idea (Ignore Seed: ${seed})`);
+      }
       for await (const chunk of stream) {
           aiMarkdown.style.display = "block";
           totalOutput += chunk;
@@ -56,19 +67,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  const create_idea_weak_topic = async (topic,topic2) => {
-    console.log(available_ai)
-    if (available_ai){
-      console.log("Generating result");
 
-
-      const result = await session.prompt("Create an idea that uses " + topic);
-      console.log(topic+" "+result);
-      session.destroy();
-      await create_session_idea();
-
-      const result2 = await session.prompt("Create an idea that uses " + topic2);
-      console.log(topic2+" "+result2);
-
+  const newProjectInstructions = (instructions) => {
+    let projects = localStorage.getItem('codeProjects');
+    let num_projects = localStorage.getItem('num_projects');
+    if (num_projects){
+        num_projects = parseInt(num_projects);
+    }else{
+        num_projects = 1;
     }
-  }
+    projects = JSON.parse(projects);
+    let projectKeys = Object.keys(projects);
+    if (projectKeys.length > 10){
+        alert('You can only have 10 projects');
+    }else{
+        const randomString = Math.random().toString(36).substring(2, 8);
+        let newProject = {
+            "name": "Idea #" + num_projects,
+            "code": '"""\n'+aiText.textContent+'"""',
+        }
+        projects[randomString] = newProject;
+        localStorage.setItem('codeProjects', JSON.stringify(projects));
+        localStorage.setItem('num_projects', num_projects+1);
+        window.location.href = `/quickCode?project=${randomString}`;
+    }
+}
