@@ -47,3 +47,28 @@ const newProject = () =>{
         window.location.href = `/quickCode?project=${randomString}`;
     }
 }
+
+const newProjectInstructions = (instructions) => {
+    let projects = localStorage.getItem('codeProjects');
+    let num_projects = localStorage.getItem('num_projects');
+    if (num_projects){
+        num_projects = parseInt(num_projects);
+    }else{
+        num_projects = 1;
+    }
+    projects = JSON.parse(projects);
+    let projectKeys = Object.keys(projects);
+    if (projectKeys.length > 10){
+        alert('You can only have 10 projects');
+    }else{
+        const randomString = Math.random().toString(36).substring(2, 8);
+        let newProject = {
+            "name": "Idea #" + num_projects,
+            "code": "#"+instructions
+        }
+        projects[randomString] = newProject;
+        localStorage.setItem('codeProjects', JSON.stringify(projects));
+        localStorage.setItem('num_projects', num_projects+1);
+        window.location.href = `/quickCode?project=${randomString}`;
+    }
+}

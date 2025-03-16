@@ -138,6 +138,7 @@
   const studentTask = task.student_data[userid]
   if(!teacher){
     feedbackText.disabled = true;
+    feedbackSavedText.style.display = 'none';
     if(studentTask.status == "completed"){
       completeButton.style.display = 'none';
     }

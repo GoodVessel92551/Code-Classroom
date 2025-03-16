@@ -37,7 +37,7 @@ client = WebApplicationClient(GOOGLE_CLIENT_ID)
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits=["1000 per day", "100 per hour"],
+    default_limits=["1500 per day", "100 per hour"],
     storage_uri="memory://"
 )
 
@@ -72,6 +72,14 @@ def home():
 @app.route("/faq")
 def faq():
     return render_template("FAQ.html")
+
+@app.route("/privacyPolicy")
+def privacy_policy():
+    return render_template("Privacy Policy.html")
+
+@app.route("/enableAI")
+def enableAI():
+    return render_template("enableAI.html")
 
 @app.route("/notifications")
 def notifications():
@@ -173,7 +181,7 @@ def settings():
 @app.route("/weakTopics")
 def weak_topics_page():
     if fun.login():
-        return render_template("weakTopics.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
+        return render_template("weakTopics.html",weakTopics=fun.get_weak_topics(fun.get_user_id()),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/tasklist")
@@ -182,11 +190,12 @@ def task_list():
         return render_template("taskList.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task list",classes=fun.get_user_classes())
     return redirect("/")
 
-@app.route("/taskSummary")
+@app.route("/createIdea")
 def task_summary():
     if fun.login():
-        return render_template("taskSummary.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task summary",classes=fun.get_user_classes())
+        return render_template("createIdea.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="idea creator",classes=fun.get_user_classes())
     return redirect("/")
+
 
 @app.route("/settings/ai")
 def ai_settings():
@@ -477,7 +486,7 @@ def callback():
         users_name = userinfo_response.json()["given_name"]
     else:
         return "User email not available or not verified by Google.", 400
-    fun.create_account_google(users_name,unique_id)
+    fun.create_account_google(users_name,unique_id,users_email)
     return redirect("/")
 
 
