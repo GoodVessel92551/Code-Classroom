@@ -117,6 +117,7 @@
     <script src="{{ url_for('static', filename='javascript/aiTools/weakTopics.js') }}"></script>
     <script>
         function onSubmit(token) {
+            console.log('submitting form');
             document.getElementById("signupForm").submit();
         }
         let loadedTaskCode = "";
