@@ -38,7 +38,7 @@
 
     <main class="landingPageMainContainer">
         <div class="loginContainer">
-            <form method="post" class="loginContentsContainer">
+            <form id="signupForm" method="post" class="loginContentsContainer">
                 {{ form.hidden_tag() }}
                 <div>
                     <h2>Create an account</h2>
@@ -57,7 +57,7 @@
                     {{form.password}}
                     {{form.confirmPassword}}
                 </div>
-                <button type="submit" class="loginWithGoogle">Signup</button>
+                <button class="loginWithGoogle g-recaptcha" data-sitekey="6Ldm_vUqAAAAABk9tlSg5ap9I0zh5akcFfJxibRu" data-callback='onSubmit' data-action='submit'>Signup</button>
                 <a href="/call" class="loginWithGoogleSecondary">                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14.7863 6.92125L14.7156 6.62156H8.20187V9.37844H12.0938C11.6897 11.2972 9.81469 12.3072 8.28312 12.3072C7.16875 12.3072 5.99406 11.8384 5.21656 11.085C4.80635 10.6811 4.47983 10.2003 4.25568 9.6701C4.03154 9.13987 3.91418 8.57064 3.91031 7.995C3.91031 6.83375 4.43219 5.67219 5.19156 4.90812C5.95094 4.14406 7.09781 3.71656 8.23812 3.71656C9.54406 3.71656 10.48 4.41 10.83 4.72625L12.7891 2.7775C12.2144 2.2725 10.6356 1 8.175 1C6.27656 1 4.45625 1.72719 3.12562 3.05344C1.8125 4.35938 1.13281 6.24781 1.13281 8C1.13281 9.75219 1.77594 11.5463 3.04844 12.8625C4.40812 14.2663 6.33375 15 8.31656 15C10.1206 15 11.8306 14.2931 13.0494 13.0106C14.2475 11.7481 14.8672 10.0013 14.8672 8.17C14.8672 7.39906 14.7897 6.94125 14.7863 6.92125Z" fill="#29354B"/>
                     </svg></a>
@@ -116,6 +116,9 @@
     <script src="{{ url_for('static', filename='javascript/codeEditor.js') }}"></script>
     <script src="{{ url_for('static', filename='javascript/aiTools/weakTopics.js') }}"></script>
     <script>
+        function onSubmit(token) {
+            document.getElementById("signupForm").submit();
+        }
         let loadedTaskCode = "";
         const errorMessage = document.getElementById('errorMessage');
         const errorMessageText = document.getElementById('errorMessageText');

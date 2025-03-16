@@ -486,7 +486,7 @@ def callback():
         users_name = userinfo_response.json()["given_name"]
     else:
         return "User email not available or not verified by Google.", 400
-    fun.create_account_google(users_name,unique_id)
+    fun.create_account_google(users_name,unique_id,users_email)
     return redirect("/")
 
 

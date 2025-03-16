@@ -132,13 +132,13 @@ def limit_user_tokens(username, user_type, new_token):
             global_data_db.update_one(query, update)
 
 
-def create_account_google(username,id):
+def create_account_google(username,id,users_email):
     session.permanent = True
     ids = global_data_db.find_one({"name":"usernames"})["data"]
     if str(id) in ids:
         pass
     else:
-        user_data = {"username":username,"id":id,"type":"google","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}}}}
+        user_data = {"username":username,"email":users_email,"id":id,"type":"google","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":id}}
