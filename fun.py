@@ -6,7 +6,10 @@ from pymongo import MongoClient
 import os
 from collections import Counter
 import datetime
+import json
 
+with open('plans.json', 'r') as f:
+    plans = json.load(f)
 
 client = MongoClient(os.getenv('mongo_url'))
 db = client["Booogle_Revise"]
@@ -46,7 +49,7 @@ def signup_user(username,password,confirmPassword):
     if str("UNAPW-"+username) in ids:
         return "Username already exists"
     else:
-        user_data = {"username":username,"password":password,"id":id,"type":"UNAPW","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}}}}
+        user_data = {"username":username,"password":password,"id":id,"type":"UNAPW","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":"UNAPW-"+username}}
@@ -138,7 +141,7 @@ def create_account_google(username,id,users_email):
     if str(id) in ids:
         pass
     else:
-        user_data = {"username":username,"email":users_email,"id":id,"type":"google","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}}}}
+        user_data = {"username":username,"email":users_email,"id":id,"type":"google","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":id}}
@@ -591,3 +594,50 @@ def get_class_without_users_tasks(class_id):
         "classInfo": class_data["classInfo"],
     }
     return filtered_class_data
+
+def check_users_plan():
+    user_id = get_id()
+    user_data = user_data_db.find_one({"id": user_id})
+    if "plan" in user_data:
+        return user_data["plan"]
+    else:
+        return "base"
+
+
+def check_amount_of_classes():
+    plan = check_users_plan()
+    max_amount = plans[plan]["limits"]["maxClasses"]
+    user_id = get_id()
+    user_data = user_data_db.find_one({"id": user_id})
+    classrooms = user_data["data"]["classrooms"]
+    teacher_classes = 0
+    for class_id in classrooms:
+        classes_data = global_data_db.find_one({"name": "classrooms"})["data"]
+        if class_id in classes_data:
+            class_data = classes_data[class_id]
+            members = class_data["members"]
+            for i in range(len(members)):
+                if members[i]["id"] == user_id and members[i]["role"] == "teacher":
+                    teacher_classes += 1
+    return teacher_classes >= max_amount
+
+def check_amount_of_tasks(class_id):
+    plan = check_users_plan()
+    max_amount = plans[plan]["limits"]["maxTasks"]
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    tasks = class_data["tasks"]
+    return len(tasks) >= max_amount
+
+def check_amount_of_students(class_id):
+    plan = check_users_plan()
+    max_amount = plans[plan]["limits"]["maxStudents"]
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    members = class_data["members"]
+    return len(members) >= max_amount
+
+def check_amount_of_messages(class_id):
+    plan = check_users_plan()
+    max_amount = plans[plan]["limits"]["maxMessages"]
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    messages = class_data["messages"]
+    return len(messages) >= max_amount

@@ -2727,3 +2727,164 @@ main{
     width: 20px;
     height: 20px;
 }
+
+.planOptions{
+    width: 100%;
+    display: flex;
+    gap:12px;
+    flex-direction: column;
+    background-color: var(--background_secondary);
+    padding: 16px;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.planOptions > span{
+    display: flex;
+    flex-direction: row;
+    gap:8px;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--background_tertiary);
+}
+
+.planOptions > span:last-child{
+    border-bottom:none !important;
+    padding-bottom: 0px !important;
+}
+
+.planOptions > span > div{
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+}
+
+
+.planOptions > span > div > p{
+    margin:0px;
+    font-size: 12px;
+    color: var(--text_secondary);
+}
+
+.planOptions > span > div > label{
+    margin:0px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text_primary);
+}
+
+.planOptions > span  > input[type="radio"]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid var(--background_tertiary);
+    background-color: var(--background_secondary);
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    margin-right: 8px;
+    transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
+
+    .planOptions > span > input[type="radio"]:checked {
+    border-color: #6f7b8e;
+    background-color: var(--text_theme);
+    }
+    .planOptions > span > input[type="radio"]:hover:not(:checked) {
+    border-color: #6f7b8e;
+}
+
+.saveTag{
+    display: flex;
+    background-color: #263144;
+    color: #BDD8FC;
+    font-size: 12px;
+    padding: 5px 11px;
+    border-radius: 8px;
+    margin-left: auto;
+}
+
+.upgradeForm{
+    width:calc(50% - 16px);
+}
+
+.upgradePerks{
+    width: calc(50% - 16px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.upgradePerks > div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.upgradeContainer{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 16px;
+    flex-direction: row;
+}
+
+.upgradeContainer label{
+    font-size: 14px;
+    color: var(--text_secondary);
+}
+
+.upgradePerks > div > div{
+    display: flex;
+    flex-direction: column;
+    gap:12px;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: var(--background_secondary);
+    border-radius: 16px;
+}
+
+.upgradePerks > div > div > span{
+    display: flex;
+    gap:8px;
+    align-items: center;
+}
+
+.upgradePerks > div > div > span > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.upgradePerks > div > div > span > span{
+    font-size: 14px;
+    color: var(--text_secondary);
+}
+
+.perkListTeacherFeatures{
+    background: linear-gradient(90deg, #1D2315 0%, #3C4A28 100%);
+}
+
+.perkListTeacherFeatures > span > svg > path{
+    fill: #BDFCC8;
+}
+
+.perkListStudentFeatures{
+    background: linear-gradient(90deg, #231515 0%, #4A2828 100%);
+}
+
+.perkListStudentFeatures > span > svg > path{
+    fill: #FCBDBD;
+}
+
+.perkListAdminFeatures{
+    background: linear-gradient(90deg, #151923 0%, #28324A 100%);
+}
+
+.perkListAdminFeatures > span > svg > path{
+    fill: #BDC9FC;
+}
