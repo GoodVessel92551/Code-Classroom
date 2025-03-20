@@ -14,6 +14,19 @@
     --primary_button_text:#29354B;
     --secondary_button_background:#1c202b;
     --secondary_button_text:#FFFFFF;
+
+    --buttonPrimaryBackground:#A0D9FF;
+    --buttonPrimaryText:#29354B;
+    --buttonSecondaryBackground:#141E3A;
+    --buttonSecondaryText:#FFFFFF;
+    --buttonWhiteBackground:#FFFFFF;
+    --buttonWhiteText:#525252;
+    --buttonDangerBackground:#FFA0A0;
+    --buttonDangerText:#4B2929;
+    --buttonWanningBackground:#FFEFA0;
+    --buttonWanningText:#4B4629;
+    --buttonSuccessBackground:#A0FFB0;
+    --buttonSuccessText:#294B2C;
 }
 
 /* Custom Scrollbar Styles */
@@ -44,8 +57,8 @@
 .errorMessage{
     height:40px;
     width: 100%;
-    background-color: var(--clear_button);
-    color: var(--on_clear_button);
+    background-color: var(--buttonDangerText);
+    color: var(--buttonDangerBackground);
     border-radius: 16px;
     display: none;
     align-items: center;
@@ -55,7 +68,7 @@
 }
 
 .errorMessage > p{
-    color: var(--on_clear_button) !important;
+    color: var(--buttonDangerBackground) !important;
     font-size: 12px;
 }
 
@@ -65,7 +78,7 @@
 }
 
 .errorMessage > svg > path{
-    fill: var(--on_clear_button);
+    fill: var(--buttonDangerBackground);
 }
 
 body,html{
@@ -81,8 +94,8 @@ body,html{
 }
 
 .loginWithGoogle{
-    background-color: var(--primary_button_background);
-    color: var(--primary_button_text);
+    background-color: var(--buttonPrimaryBackground);
+    color: var(--buttonPrimaryText);
     min-height: 44px;
     border-radius: 16px;
     border:none;
@@ -98,7 +111,7 @@ body,html{
     text-decoration: none;
 }
 .loginWithGoogleSecondary{
-    color: var(--primary_button_background);
+    color: var(--buttonPrimaryBackground);
     background-color: var(--background_secondary);
     min-height: 44px;
     border-radius: 16px;
@@ -116,7 +129,7 @@ body,html{
 }
 
 .loginWithGoogleSecondary > svg > path{
-    fill: var(--primary_button_background);
+    fill: var(--buttonPrimaryBackground);
 }
 .landingPageNavBarTitle{
     font-size: 14px;
@@ -127,8 +140,8 @@ body,html{
 }
 
 .primaryButton{
-    background-color: var(--primary_button_background);
-    color: var(--primary_button_text);
+    background-color: var(--buttonPrimaryBackground);
+    color: var(--buttonPrimaryText);
     height: 32px;
     border-radius: 16px;
     border:none;
@@ -151,13 +164,13 @@ body,html{
 }
 
 .primaryButton > svg > path{
-    fill: var(--primary_button_text);
+    fill: var(--buttonPrimaryText);
 }
 
 
 .secondaryButton{
-    background-color: var(--secondary_button_background);
-    color: var(--secondary_button_text);
+    background-color: var(--buttonSecondaryBackground);
+    color: var(--buttonSecondaryText);
     height: 32px;
     border-radius: 16px;
     border:none;
@@ -178,7 +191,7 @@ body,html{
 }
 
 .secondaryButton > svg > path{
-    fill: var(--secondary_button_text);
+    fill: var(--buttonSecondaryText);
 }
 
 .landingPageNavBarButtons{
@@ -282,14 +295,24 @@ body,html{
 }
 
 .codeEditorClear{
-    background-color: var(--clear_button);
-    color: var(--on_clear_button);
+    background-color: var(--buttonDangerText);
+    color: var(--buttonDangerBackground);
 }
 
 .codeEditorRunButton{
-    background-color: var(--run_button);
-    color: var(--on_run_button);
+    background-color: var(--buttonSuccessText);
+    color: var(--buttonSuccessBackground);
 }
+
+.codeEditorRunButton > svg > path{
+    fill: var(--buttonSuccessBackground);
+}
+
+.codeEditorClear > svg > path{
+    fill: var(--buttonDangerBackground);
+}
+
+
 
 .codeEditorInput{
     width: 100%;

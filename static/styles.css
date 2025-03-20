@@ -24,6 +24,19 @@
     --yellowButtonText:#4B4729;
     --redButtonBackground:#FFCCCC;
     --redButtonText:#4B2929;
+
+    --buttonPrimaryBackground:#A0D9FF;
+    --buttonPrimaryText:#29354B;
+    --buttonSecondaryBackground:#141E3A;
+    --buttonSecondaryText:#FFFFFF;
+    --buttonWhiteBackground:#FFFFFF;
+    --buttonWhiteText:#525252;
+    --buttonDangerBackground:#FFA0A0;
+    --buttonDangerText:#4B2929;
+    --buttonWanningBackground:#FFEFA0;
+    --buttonWanningText:#4B4629;
+    --buttonSuccessBackground:#A0FFB0;
+    --buttonSuccessText:#294B2C;
 }
 
 body,html{
@@ -67,9 +80,7 @@ body{
     margin-left:16px;
 }
 
-.primaryButton{
-    background-color: var(--primary_button_background);
-    color: var(--primary_button_text);
+.primaryButton, .secondaryButton, .whiteButton, .dangerButton, .wanningButton, .successButton{
     height: 36px;
     border-radius: 20px;
     border:none;
@@ -85,6 +96,39 @@ body{
     text-decoration: none;
     transition: .2s ease-in-out scale, .2s ease-in-out filter;
 }
+
+.secondaryButton{
+    background-color: var(--buttonSecondaryBackground);
+    color: var(--buttonSecondaryText);
+}
+
+.primaryButton{
+    background-color: var(--buttonPrimaryBackground);
+    color: var(--buttonPrimaryText);
+}
+
+.whiteButton{
+    background-color: var(--buttonWhiteBackground);
+    color: var(--buttonWhiteText);
+}
+
+.dangerButton{
+    background-color: var(--buttonDangerBackground);
+    color: var(--buttonDangerText);
+}
+
+.wanningButton{
+    background-color: var(--buttonWanningBackground);
+    color: var(--buttonWanningText);
+}
+
+.successButton{
+    background-color: var(--buttonSuccessBackground);
+    color: var(--buttonSuccessText);
+}
+
+
+
 .primaryButtonSmall{
     background-color: #fff;
     color: var(--background);
@@ -122,25 +166,6 @@ body{
     color: var(--redButtonText);
 }
 
-
-.secondaryButton{
-    background-color: var(--secondary_button_background);
-    color: var(--secondary_button_text);
-    height: 36px;
-    border-radius: 20px;
-    border:none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    padding:0px 12px;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    font-size: 14px;
-    transition: .2s ease-in-out scale, .2s ease-in-out filter;
-}
 
 .secondaryButtonSmall{
     background-color: var(--background_tertiary);
@@ -1882,28 +1907,7 @@ main{
     color: var(--text_primary);
 }
 
-.deleteCover > .deleteButtonContainer > button,.deleteButton,.whiteButton{
-    background-color: #fff;
-    color: var(--background);
-    height: 28px;
-    border-radius: 20px;
-    border:none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    padding:0px 11px;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    text-decoration: none;
-}
 
-.deleteCover > .deleteButtonContainer > .deleteButton,.deleteButton{
-    background-color: var(--redButtonBackground);
-    color: var(--redButtonText);
-}
 
 .classroomSettingContainer{
     width: 100%;
@@ -1939,9 +1943,9 @@ main{
 .classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription),.classroomSettingContainer > a{
     width:100%;
     background-color: var(--background_secondary);
-    border-radius: 16px;
+    border-radius: 20px;
     height:64px;
-    padding:8px 16px;
+    padding:8px 12px 8px 16px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
