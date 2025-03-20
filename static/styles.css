@@ -253,6 +253,12 @@ body{
     max-width: 0%;
 }
 
+.navbarTitle > span > img{
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
 .minimize > .navbarTitle{
     justify-content: center;
 }
