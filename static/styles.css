@@ -6,11 +6,11 @@
     --text_theme:#CCDFFF;
     --background_secondary:#1c202b;
     --background_tertiary:#32394b;
-    --run_button:#495E48;
-    --on_run_button:#C7F0C5;
+    --run_button:#294B2C;
+    --on_run_button:#A0FFB0;
     --submit_button:#5E5C48;
     --clear_button:#4B2929;
-    --on_clear_button:#F0C5C5;
+    --on_clear_button:#FFA0A0;
     --save_button:#293a4b;
     --on_save_button:#c5d4f0;
     --on_submit_button:#F0ECC5;
@@ -246,6 +246,7 @@ body{
     max-width: 100%;
     overflow: hidden;
     transition: .15s ease-in-out max-width;
+    font-size: 12px;
 }
 
 .minimize > .navbarTitle > span{
@@ -254,8 +255,8 @@ body{
 }
 
 .navbarTitle > span > img{
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 4px;
 }
 
