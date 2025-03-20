@@ -13,6 +13,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_limiter.errors import RateLimitExceeded
+import json
 
 load_dotenv(override=True, interpolate=False)
 
@@ -215,6 +216,12 @@ def account_settings():
         return render_template("settings/account.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="Account settings",classes=fun.get_user_classes())
     return redirect("/")
 
+@app.route("/upgrade/organization")
+def upgrade_organization():
+    if fun.login():
+        return render_template("upgradePages/organizationUpgrade.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="upgrade organization",classes=fun.get_user_classes())
+    return redirect("/")
+
 @app.route("/endpoint/settings/ai",methods=["POST"])
 def save_ai_settings():
     if fun.login():
@@ -346,6 +353,8 @@ def create_class():
             return {'status':'Fill out all fields'}
         elif (len(data["name"]) > 20 or len(data["subtitle"]) > 20 or len(data["description"]) > 100):
             return {'status':'Inputs are values are too long'}
+        elif fun.check_amount_of_classes():
+            return {'status':'You have reached the maximum amount of classes'}
         classID = fun.create_class(data["name"],data["subtitle"],data["description"],data["color"])
         return {'status':'complete','classId':classID}
     return {'status':'Not logged in'}
@@ -360,6 +369,8 @@ def create_task_endpoint():
             return {'status':'Inputs are values are too long'}
         elif (int(data["points"]) < 1 or int(data["points"]) > 100):
             return {'status':'Points must be between 0 and 100'}
+        elif fun.check_amount_of_tasks(data["classid"]):
+            return {'status':'You have reached the maximum amount of tasks'}
         try:
             task_date = datetime.strptime(data["date"], "%Y-%m-%d")
             if task_date < datetime.now():
@@ -377,6 +388,8 @@ def send_message():
             return {'status':'Fill out all fields'}
         elif len(data["message"]) > 100:
             return {'status':'Message is too long'}
+        elif fun.check_amount_of_messages(data["classid"]):
+            return {'status':'You have reached the maximum amount of messages'}
         message = fun.send_message(data["classid"],data["message"])
         return {'status':'complete',"userName":message["userName"],"message":message["message"],"messageId":message["messageId"],"date":message["date"]}
 

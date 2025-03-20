@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block title %}Code Classroom | Upgrade{% endblock %}
+{% block main %}
+
+<main class="createClassMain">
+    <div class="pageTitleDiv"><h1>{{page.title()}}</h1></div>
+    <div class="upgradeContainer">
+        <div class="createClassForm upgradeForm">
+            <div>
+                <label for="taskName">Organization Identifier</label>
+                <input maxlength="20" type="text" id="organizationIdentifier" name="organizationIdentifier" placeholder="Organization Identifier">
+            </div>
+            <div>
+                <label>Plan</label>
+                <div class="planOptions">
+                    <span>
+                        <input type="radio" id="small" name="plan" value="basic">
+                        <div>
+                            <label for="small">Small School</label>
+                            <p>200 Students | 5 Teachers | 2 Admins</p>
+                        </div>
+                    </span>
+                    <span>
+                        <input type="radio" id="medium" name="plan" value="medium" checked>
+                        <div>
+                            <label for="medium">Medium School</label>
+                            <p>600 Students | 10 Teachers | 4 Admins</p>
+                        </div>
+                    </span>
+                    <span>
+                        <input type="radio" id="large" name="plan" value="basic">
+                        <div>
+                            <label for="large">Large School</label>
+                            <p>1000 Students | 10 Teachers | 4 Admins</p>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div>
+                <label>Billing cycles</label>
+                <div class="planOptions">
+                    <span>
+                        <input type="radio" id="monthly" name="billing" value="monthly" checked>
+                        <div>
+                            <label for="monthly">Monthly</label>
+                            <p id="monthlyCost">Cost Here</p>
+                        </div>
+                    </span>
+                    <span>
+                        <input type="radio" id="yearly" name="billing" value="yearly" checked>
+                        <div>
+                            <label for="yearly">Yearly</label>
+                            <p id="yearlyCost"">Cost Here</p>
+                        </div>
+                        <div class="saveTag">
+                            Save 10%
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 7V5a3 3 0 0 1 5-2.236A3 3 0 0 1 17 5v2h1.5A1.5 1.5 0 0 1 20 8.5v10.005A3.495 3.495 0 0 1 16.505 22H8a4 4 0 0 1-4-4V8.5A1.5 1.5 0 0 1 5.5 7H7Zm6.635 13.5a3.479 3.479 0 0 1-.625-1.995V8.5H5.5V18A2.5 2.5 0 0 0 8 20.5h5.635ZM11.5 7V5a1.5 1.5 0 0 0-3 0v2h3ZM13 7h2.5V5a1.5 1.5 0 0 0-2.656-.956c.101.3.156.622.156.956v2Zm1.51 11.505a1.995 1.995 0 0 0 3.99 0V8.5h-3.99v10.005Z" fill="#fff"/></svg>Checkout</button>
+        </div>
+        <div class="upgradePerks">
+            <div>
+                <label>Teacher Features</label>
+                <div class="perkListTeacherFeatures">
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 13.999 13 14a2 2 0 0 1 1.995 1.85L15 16v1.5C14.999 21 11.284 22 8.5 22c-2.722 0-6.335-.956-6.495-4.27L2 17.5v-1.501c0-1.054.816-1.918 1.85-1.995L4 14ZM15.22 14H20c1.054 0 1.918.816 1.994 1.85L22 16v1c-.001 3.062-2.858 4-5 4a7.16 7.16 0 0 1-2.14-.322c.336-.386.607-.827.802-1.327A6.19 6.19 0 0 0 17 19.5l.267-.006c.985-.043 3.086-.363 3.226-2.289L20.5 17v-1a.501.501 0 0 0-.41-.492L20 15.5h-4.051a2.957 2.957 0 0 0-.595-1.34L15.22 14H20h-4.78ZM4 15.499l-.1.01a.51.51 0 0 0-.254.136.506.506 0 0 0-.136.253l-.01.101V17.5c0 1.009.45 1.722 1.417 2.242.826.445 2.003.714 3.266.753l.317.005.317-.005c1.263-.039 2.439-.308 3.266-.753.906-.488 1.359-1.145 1.412-2.057l.005-.186V16a.501.501 0 0 0-.41-.492L13 15.5l-9-.001ZM8.5 3a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm9 2a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Zm-9-.5c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3Zm9 2c-1.103 0-2 .897-2 2s.897 2 2 2 2-.897 2-2-.897-2-2-2Z" fill="#fff"/></svg>
+                        <span>100 Students Per Class</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.25 2A2.75 2.75 0 0 1 20 4.75V19.25a2.75 2.75 0 0 1-2.75 2.75H6.75A2.75 2.75 0 0 1 4 19.249V4.75c0-1.26.846-2.32 2-2.647V3.75c-.304.228-.5.59-.5 1v14.498c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25V4.75c0-.69-.56-1.25-1.25-1.25L15 3.5V2h2.25ZM14 2v8.139c0 .747-.8 1.027-1.29.764l-.082-.052-2.126-1.285-2.078 1.251c-.5.36-1.33.14-1.417-.558L7 10.14V2h7Zm-1.5 1.5h-4v5.523l1.573-.949a.923.923 0 0 1 .818-.024l1.61.974V3.5Z" fill="#fff"/></svg>
+                        <span>Create 10 Classes Per Teacher</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.75A2.75 2.75 0 0 1 5.75 3h9.964a3.25 3.25 0 0 1 2.299.952l2.035 2.035c.61.61.952 1.437.952 2.299v9.964A2.75 2.75 0 0 1 18.25 21H5.75A2.75 2.75 0 0 1 3 18.25V5.75ZM5.75 4.5c-.69 0-1.25.56-1.25 1.25v12.5c0 .69.56 1.25 1.25 1.25H6v-5.25A2.25 2.25 0 0 1 8.25 12h7.5A2.25 2.25 0 0 1 18 14.25v5.25h.25c.69 0 1.25-.56 1.25-1.25V8.286c0-.465-.184-.91-.513-1.238l-2.035-2.035a1.75 1.75 0 0 0-.952-.49V7.25a2.25 2.25 0 0 1-2.25 2.25h-4.5A2.25 2.25 0 0 1 7 7.25V4.5H5.75Zm10.75 15v-5.25a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0-.75.75v5.25h9Zm-8-15v2.75c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75V4.5h-6Z" fill="#fff"/></svg>
+                        <span>Save Quick Code In The Cloud</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.066 18.943 6.5-14.5a.75.75 0 0 1 1.404.518l-.036.096-6.5 14.5a.75.75 0 0 1-1.404-.518l.036-.096 6.5-14.5-6.5 14.5ZM2.22 11.47l4.25-4.25a.75.75 0 0 1 1.133.976l-.073.085L3.81 12l3.72 3.719a.75.75 0 0 1-.976 1.133l-.084-.073-4.25-4.25a.75.75 0 0 1-.073-.976l.073-.084 4.25-4.25-4.25 4.25Zm14.25-4.25a.75.75 0 0 1 .976-.073l.084.073 4.25 4.25a.75.75 0 0 1 .073.976l-.073.085-4.25 4.25a.75.75 0 0 1-1.133-.977l.073-.084L20.19 12l-3.72-3.72a.75.75 0 0 1 0-1.06Z" fill="#fff"/></svg>
+                        <span>10 Cloud Quick Code Projects</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 3.75a.75.75 0 0 1 1.5 0v6.258l3.65-1.922a.75.75 0 0 1 .73.018l3.82 2.246 5.6-4.2a.75.75 0 0 1 1.2.6V19.5h.75a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75v-8.986a.76.76 0 0 1 0-.027V3.75Zm1.5 7.953V19.5H18V8.25l-4.8 3.6a.75.75 0 0 1-.83.046L8.48 9.608 4.5 11.703Z" fill="#fff"/></svg>
+                        <span>Advanced Student Insights</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 12.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Zm.75 2.25a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5ZM7 18.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0Zm3.75-6.75a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5ZM10 15.25a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm8.664-9.086-5.829-5.828a.493.493 0 0 0-.049-.04.626.626 0 0 1-.036-.03 2.072 2.072 0 0 0-.219-.18.652.652 0 0 0-.08-.044l-.048-.024-.05-.029c-.054-.031-.109-.063-.166-.087a1.977 1.977 0 0 0-.624-.138c-.02-.001-.04-.004-.059-.007A.605.605 0 0 0 12.172 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9.828a2 2 0 0 0-.586-1.414ZM18.5 20a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5h6V8a2 2 0 0 0 2 2h4.5v10Zm-5-15.379L17.378 8.5H14a.5.5 0 0 1-.5-.5V4.621Z" fill="#fff"/></svg>
+                        <span>6 Tasks Per Class</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.754 15a2.249 2.249 0 0 1 2.249 2.249v.575c0 .895-.32 1.76-.901 2.439C14.532 22.096 12.145 23 9 23c-3.146 0-5.532-.905-7.098-2.74a3.75 3.75 0 0 1-.899-2.434v-.578A2.249 2.249 0 0 1 3.253 15h11.501Zm0 1.5H3.252a.749.749 0 0 0-.749.749v.578c0 .535.192 1.053.54 1.46C4.295 20.756 6.261 21.502 9 21.502s4.706-.746 5.962-2.214a2.25 2.25 0 0 0 .54-1.463v-.575a.749.749 0 0 0-.748-.749Zm4.3-15.096a.75.75 0 0 1 1.023.279A12.693 12.693 0 0 1 21.75 8c0 2.254-.586 4.424-1.684 6.336a.75.75 0 1 1-1.3-.746A11.195 11.195 0 0 0 20.25 8c0-1.983-.513-3.89-1.475-5.573a.75.75 0 0 1 .279-1.023ZM9 3.004a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm6.588.396a.75.75 0 0 1 1.023.28A8.712 8.712 0 0 1 17.75 8c0 1.538-.398 3.02-1.144 4.328a.75.75 0 1 1-1.303-.743A7.214 7.214 0 0 0 16.25 8a7.213 7.213 0 0 0-.943-3.578.75.75 0 0 1 .281-1.022ZM9 4.505a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" fill="#fff"/></svg>
+                        <span>Have 2 Teachers Per Class</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.25 16a1.25 1.25 0 1 1 0 2.499 1.25 1.25 0 0 1 0-2.499Zm3.5.5h10.5a.75.75 0 0 1 .102 1.493L21.25 18h-10.5a.75.75 0 0 1-.102-1.493l.102-.007ZM3.25 11a1.25 1.25 0 1 1 0 2.499 1.25 1.25 0 0 1 0-2.499Zm3.5.5h14.5a.75.75 0 0 1 .102 1.493L21.25 13H6.75a.75.75 0 0 1-.102-1.493l.102-.007ZM3.25 6a1.25 1.25 0 1 1 0 2.499A1.25 1.25 0 0 1 3.25 6Zm3.5.5h14.5a.75.75 0 0 1 .102 1.493L21.25 8H6.75a.75.75 0 0 1-.102-1.493L6.75 6.5Z" fill="#fff"/></svg>
+                        <span>Give feedback to students</span>
+                    </span>
+                </div>
+            </div>
+            <div>
+                <label>Student Features</label>
+                <div class="perkListStudentFeatures">
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.25 2A2.75 2.75 0 0 1 20 4.75V19.25a2.75 2.75 0 0 1-2.75 2.75H6.75A2.75 2.75 0 0 1 4 19.249V4.75c0-1.26.846-2.32 2-2.647V3.75c-.304.228-.5.59-.5 1v14.498c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25V4.75c0-.69-.56-1.25-1.25-1.25L15 3.5V2h2.25ZM14 2v8.139c0 .747-.8 1.027-1.29.764l-.082-.052-2.126-1.285-2.078 1.251c-.5.36-1.33.14-1.417-.558L7 10.14V2h7Zm-1.5 1.5h-4v5.523l1.573-.949a.923.923 0 0 1 .818-.024l1.61.974V3.5Z" fill="#fff"/></svg>
+                        <span>Join 10 Classes</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.75A2.75 2.75 0 0 1 5.75 3h9.964a3.25 3.25 0 0 1 2.299.952l2.035 2.035c.61.61.952 1.437.952 2.299v9.964A2.75 2.75 0 0 1 18.25 21H5.75A2.75 2.75 0 0 1 3 18.25V5.75ZM5.75 4.5c-.69 0-1.25.56-1.25 1.25v12.5c0 .69.56 1.25 1.25 1.25H6v-5.25A2.25 2.25 0 0 1 8.25 12h7.5A2.25 2.25 0 0 1 18 14.25v5.25h.25c.69 0 1.25-.56 1.25-1.25V8.286c0-.465-.184-.91-.513-1.238l-2.035-2.035a1.75 1.75 0 0 0-.952-.49V7.25a2.25 2.25 0 0 1-2.25 2.25h-4.5A2.25 2.25 0 0 1 7 7.25V4.5H5.75Zm10.75 15v-5.25a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0-.75.75v5.25h9Zm-8-15v2.75c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75V4.5h-6Z" fill="#fff"/></svg>
+                        <span>Save Quick Code In The Cloud</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.066 18.943 6.5-14.5a.75.75 0 0 1 1.404.518l-.036.096-6.5 14.5a.75.75 0 0 1-1.404-.518l.036-.096 6.5-14.5-6.5 14.5ZM2.22 11.47l4.25-4.25a.75.75 0 0 1 1.133.976l-.073.085L3.81 12l3.72 3.719a.75.75 0 0 1-.976 1.133l-.084-.073-4.25-4.25a.75.75 0 0 1-.073-.976l.073-.084 4.25-4.25-4.25 4.25Zm14.25-4.25a.75.75 0 0 1 .976-.073l.084.073 4.25 4.25a.75.75 0 0 1 .073.976l-.073.085-4.25 4.25a.75.75 0 0 1-1.133-.977l.073-.084L20.19 12l-3.72-3.72a.75.75 0 0 1 0-1.06Z" fill="#fff"/></svg>
+                        <span>8 Cloud Quick Code Projects</span>
+                    </span>
+                </div>
+            </div>
+            <div>
+                <label>Admin Features</label>
+                <div class="perkListAdminFeatures">
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.75 4A2.75 2.75 0 0 0 2 6.75v10.5A2.75 2.75 0 0 0 4.75 20h6.748a6.452 6.452 0 0 1-.422-1.5H4.75c-.69 0-1.25-.56-1.25-1.25V6.75c0-.69.56-1.25 1.25-1.25h14.5c.69 0 1.25.56 1.25 1.25v4.982A6.518 6.518 0 0 1 22 12.81V6.75A2.75 2.75 0 0 0 19.25 4H4.75Zm9.528 9.975a2 2 0 0 1-1.441 2.497l-.584.144a5.729 5.729 0 0 0 .006 1.807l.54.13a2 2 0 0 1 1.45 2.51l-.187.632c.44.386.94.699 1.484.921l.494-.518a2 2 0 0 1 2.899 0l.498.525a5.281 5.281 0 0 0 1.483-.913l-.198-.686a2 2 0 0 1 1.441-2.496l.584-.144a5.716 5.716 0 0 0-.006-1.808l-.54-.13a2 2 0 0 1-1.45-2.51l.187-.63a5.278 5.278 0 0 0-1.484-.923l-.493.519a2 2 0 0 1-2.9 0l-.498-.525c-.544.22-1.044.53-1.483.912l.198.686ZM17.5 19c-.8 0-1.45-.672-1.45-1.5 0-.829.65-1.5 1.45-1.5.8 0 1.45.671 1.45 1.5 0 .828-.65 1.5-1.45 1.5Z" fill="#fff"/></svg>
+                        <span>Admin Console</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm-5.478 2a6.474 6.474 0 0 0-.708 1.5h-7.06a.75.75 0 0 0-.75.75v.907c0 .656.286 1.279.783 1.706C5.545 19.945 7.44 20.501 10 20.501c.599 0 1.162-.03 1.688-.091.25.5.563.964.93 1.38-.803.141-1.676.21-2.618.21-2.89 0-5.128-.656-6.691-2a3.75 3.75 0 0 1-1.305-2.843v-.907A2.25 2.25 0 0 1 4.254 14h7.768Zm3.071.966-.07.058-.057.07a.5.5 0 0 0 0 .568l.058.069 1.77 1.77-1.768 1.766-.057.07a.5.5 0 0 0 0 .568l.058.07.069.057a.5.5 0 0 0 .568 0l.07-.058 1.766-1.767 1.77 1.77.069.058a.5.5 0 0 0 .568 0l.07-.058.058-.07a.5.5 0 0 0 0-.568l-.058-.07-1.77-1.768 1.772-1.77.058-.07a.5.5 0 0 0 0-.568l-.058-.069-.069-.058a.5.5 0 0 0-.569 0l-.069.058-1.771 1.77-1.77-1.77-.07-.058a.5.5 0 0 0-.492-.043l-.076.043ZM10 2.004a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" fill="#fff"/></svg>
+                        <span>Delete Users</span>
+                    </span>
+                    <span>
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.754 15a2.249 2.249 0 0 1 2.249 2.249v.575c0 .895-.32 1.76-.901 2.439C14.532 22.096 12.145 23 9 23c-3.146 0-5.532-.905-7.098-2.74a3.75 3.75 0 0 1-.899-2.434v-.578A2.249 2.249 0 0 1 3.253 15h11.501Zm0 1.5H3.252a.749.749 0 0 0-.749.749v.578c0 .535.192 1.053.54 1.46C4.295 20.756 6.261 21.502 9 21.502s4.706-.746 5.962-2.214a2.25 2.25 0 0 0 .54-1.463v-.575a.749.749 0 0 0-.748-.749Zm4.3-15.096a.75.75 0 0 1 1.023.279A12.693 12.693 0 0 1 21.75 8c0 2.254-.586 4.424-1.684 6.336a.75.75 0 1 1-1.3-.746A11.195 11.195 0 0 0 20.25 8c0-1.983-.513-3.89-1.475-5.573a.75.75 0 0 1 .279-1.023ZM9 3.004a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm6.588.396a.75.75 0 0 1 1.023.28A8.712 8.712 0 0 1 17.75 8c0 1.538-.398 3.02-1.144 4.328a.75.75 0 1 1-1.303-.743A7.214 7.214 0 0 0 16.25 8a7.213 7.213 0 0 0-.943-3.578.75.75 0 0 1 .281-1.022ZM9 4.505a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" fill="#fff"/></svg>
+                        <span>Set Teachers</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const monthlyCost = document.getElementById('monthlyCost');
+    const yearlyCost = document.getElementById('yearlyCost');
+    const plans = {
+        "small":{
+            "students":200,
+            "teachers":5,
+            "admins":2,
+        },
+        "medium":{
+            "students":600,
+            "teachers":10,
+            "admins":4,
+        },
+        "large":{
+            "students":1000,
+            "teachers":10,
+            "admins":4,
+        },
+    }
+
+    const getCost = (plan,billing) => {
+        const planCosts = plans[plan];
+        const studentCost = planCosts.students * 1.4;
+        const teacherCost = planCosts.teachers * 13;
+        const adminCost = planCosts.admins * 8;
+        let totalCost = studentCost + teacherCost + adminCost;
+        totalCost = totalCost/12
+        if(billing === "yearly"){
+            return Math.round(totalCost * 0.9);
+        }
+        totalCost = Math.round(totalCost);
+        return totalCost;
+    }
+
+    const updateCosts = () => {
+        const selectedPlan = document.querySelector('input[name="plan"]:checked').id
+        monthlyCost.innerText = `$${getCost(selectedPlan,"monthly")}/month`;
+        yearlyCost.innerText = `$${getCost(selectedPlan,"yearly")}/month | $${getCost(selectedPlan,"yearly")*12}/year billed yearly`;
+        console.log(selectedPlan)
+    }
+    planInputs = document.querySelectorAll('input[name="plan"]');
+
+    planInputs.forEach(input => {
+        input.addEventListener('change', updateCosts);
+    });
+
+    updateCosts();
+</script>
+
+
+
+{% endblock %}

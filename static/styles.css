@@ -6,11 +6,11 @@
     --text_theme:#CCDFFF;
     --background_secondary:#1c202b;
     --background_tertiary:#32394b;
-    --run_button:#495E48;
-    --on_run_button:#C7F0C5;
+    --run_button:#294B2C;
+    --on_run_button:#A0FFB0;
     --submit_button:#5E5C48;
     --clear_button:#4B2929;
-    --on_clear_button:#F0C5C5;
+    --on_clear_button:#FFA0A0;
     --save_button:#293a4b;
     --on_save_button:#c5d4f0;
     --on_submit_button:#F0ECC5;
@@ -18,12 +18,25 @@
     --primary_button_text:#29354B;
     --secondary_button_background:#1c202b;
     --secondary_button_text:#FFFFFF;
-    --navbar_select_background:#222e46;
-    --text_navbar_select:#87B5FF;
+    --navbar_select_background:#2E3B4D;
+    --text_navbar_select:#A0D9FF;
     --yellowButtonBackground:#FFF3CC;
     --yellowButtonText:#4B4729;
     --redButtonBackground:#FFCCCC;
     --redButtonText:#4B2929;
+
+    --buttonPrimaryBackground:#A0D9FF;
+    --buttonPrimaryText:#29354B;
+    --buttonSecondaryBackground:#141E3A;
+    --buttonSecondaryText:#FFFFFF;
+    --buttonWhiteBackground:#FFFFFF;
+    --buttonWhiteText:#525252;
+    --buttonDangerBackground:#FFA0A0;
+    --buttonDangerText:#4B2929;
+    --buttonWanningBackground:#FFEFA0;
+    --buttonWanningText:#4B4629;
+    --buttonSuccessBackground:#A0FFB0;
+    --buttonSuccessText:#294B2C;
 }
 
 body,html{
@@ -67,9 +80,7 @@ body{
     margin-left:16px;
 }
 
-.primaryButton{
-    background-color: var(--primary_button_background);
-    color: var(--primary_button_text);
+.primaryButton, .secondaryButton, .whiteButton, .dangerButton, .wanningButton, .successButton{
     height: 36px;
     border-radius: 20px;
     border:none;
@@ -85,6 +96,39 @@ body{
     text-decoration: none;
     transition: .2s ease-in-out scale, .2s ease-in-out filter;
 }
+
+.secondaryButton{
+    background-color: var(--buttonSecondaryBackground);
+    color: var(--buttonSecondaryText);
+}
+
+.primaryButton{
+    background-color: var(--buttonPrimaryBackground);
+    color: var(--buttonPrimaryText);
+}
+
+.whiteButton{
+    background-color: var(--buttonWhiteBackground);
+    color: var(--buttonWhiteText);
+}
+
+.dangerButton{
+    background-color: var(--buttonDangerBackground);
+    color: var(--buttonDangerText);
+}
+
+.wanningButton{
+    background-color: var(--buttonWanningBackground);
+    color: var(--buttonWanningText);
+}
+
+.successButton{
+    background-color: var(--buttonSuccessBackground);
+    color: var(--buttonSuccessText);
+}
+
+
+
 .primaryButtonSmall{
     background-color: #fff;
     color: var(--background);
@@ -122,25 +166,6 @@ body{
     color: var(--redButtonText);
 }
 
-
-.secondaryButton{
-    background-color: var(--secondary_button_background);
-    color: var(--secondary_button_text);
-    height: 36px;
-    border-radius: 20px;
-    border:none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    padding:0px 12px;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    font-size: 14px;
-    transition: .2s ease-in-out scale, .2s ease-in-out filter;
-}
 
 .secondaryButtonSmall{
     background-color: var(--background_tertiary);
@@ -221,11 +246,18 @@ body{
     max-width: 100%;
     overflow: hidden;
     transition: .15s ease-in-out max-width;
+    font-size: 12px;
 }
 
 .minimize > .navbarTitle > span{
     display: none;
     max-width: 0%;
+}
+
+.navbarTitle > span > img{
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
 }
 
 .minimize > .navbarTitle{
@@ -1882,28 +1914,7 @@ main{
     color: var(--text_primary);
 }
 
-.deleteCover > .deleteButtonContainer > button,.deleteButton,.whiteButton{
-    background-color: #fff;
-    color: var(--background);
-    height: 28px;
-    border-radius: 20px;
-    border:none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    padding:0px 11px;
-    box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    text-decoration: none;
-}
 
-.deleteCover > .deleteButtonContainer > .deleteButton,.deleteButton{
-    background-color: var(--redButtonBackground);
-    color: var(--redButtonText);
-}
 
 .classroomSettingContainer{
     width: 100%;
@@ -1939,9 +1950,9 @@ main{
 .classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription),.classroomSettingContainer > a{
     width:100%;
     background-color: var(--background_secondary);
-    border-radius: 16px;
+    border-radius: 20px;
     height:64px;
-    padding:8px 16px;
+    padding:8px 12px 8px 16px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
@@ -2726,4 +2737,165 @@ main{
 .weakTopicsTopicsContainer > span > img{
     width: 20px;
     height: 20px;
+}
+
+.planOptions{
+    width: 100%;
+    display: flex;
+    gap:12px;
+    flex-direction: column;
+    background-color: var(--background_secondary);
+    padding: 16px;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.planOptions > span{
+    display: flex;
+    flex-direction: row;
+    gap:8px;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--background_tertiary);
+}
+
+.planOptions > span:last-child{
+    border-bottom:none !important;
+    padding-bottom: 0px !important;
+}
+
+.planOptions > span > div{
+    display: flex;
+    flex-direction: column;
+    gap:8px;
+}
+
+
+.planOptions > span > div > p{
+    margin:0px;
+    font-size: 12px;
+    color: var(--text_secondary);
+}
+
+.planOptions > span > div > label{
+    margin:0px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text_primary);
+}
+
+.planOptions > span  > input[type="radio"]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid var(--background_tertiary);
+    background-color: var(--background_secondary);
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    margin-right: 8px;
+    transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
+
+    .planOptions > span > input[type="radio"]:checked {
+    border-color: #6f7b8e;
+    background-color: var(--text_theme);
+    }
+    .planOptions > span > input[type="radio"]:hover:not(:checked) {
+    border-color: #6f7b8e;
+}
+
+.saveTag{
+    display: flex;
+    background-color: #263144;
+    color: #BDD8FC;
+    font-size: 12px;
+    padding: 5px 11px;
+    border-radius: 8px;
+    margin-left: auto;
+}
+
+.upgradeForm{
+    width:calc(50% - 16px);
+}
+
+.upgradePerks{
+    width: calc(50% - 16px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.upgradePerks > div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.upgradeContainer{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 16px;
+    flex-direction: row;
+}
+
+.upgradeContainer label{
+    font-size: 14px;
+    color: var(--text_secondary);
+}
+
+.upgradePerks > div > div{
+    display: flex;
+    flex-direction: column;
+    gap:12px;
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: var(--background_secondary);
+    border-radius: 16px;
+}
+
+.upgradePerks > div > div > span{
+    display: flex;
+    gap:8px;
+    align-items: center;
+}
+
+.upgradePerks > div > div > span > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.upgradePerks > div > div > span > span{
+    font-size: 14px;
+    color: var(--text_secondary);
+}
+
+.perkListTeacherFeatures{
+    background: linear-gradient(90deg, #1D2315 0%, #3C4A28 100%);
+}
+
+.perkListTeacherFeatures > span > svg > path{
+    fill: #BDFCC8;
+}
+
+.perkListStudentFeatures{
+    background: linear-gradient(90deg, #231515 0%, #4A2828 100%);
+}
+
+.perkListStudentFeatures > span > svg > path{
+    fill: #FCBDBD;
+}
+
+.perkListAdminFeatures{
+    background: linear-gradient(90deg, #151923 0%, #28324A 100%);
+}
+
+.perkListAdminFeatures > span > svg > path{
+    fill: #BDC9FC;
 }

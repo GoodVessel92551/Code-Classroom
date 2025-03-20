@@ -6,6 +6,7 @@
             "maxTasks":2,
             "maxClasses":1,
             "maxStudents":10,
+            "maxMessages":20,
             "quickCodeCloud":false,
             "quickCodeCloudProjects":0,
             "aiCodingTips":false,
