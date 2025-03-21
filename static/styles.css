@@ -37,6 +37,8 @@
     --buttonWanningText:#4B4629;
     --buttonSuccessBackground:#A0FFB0;
     --buttonSuccessText:#294B2C;
+    --buttonLearningPathBackground:#FFA0FC;
+    --buttonLearningPathText:#4B2942;
 }
 
 body,html{
@@ -80,7 +82,7 @@ body{
     margin-left:16px;
 }
 
-.primaryButton, .secondaryButton, .whiteButton, .dangerButton, .wanningButton, .successButton{
+.primaryButton, .secondaryButton, .whiteButton, .dangerButton, .wanningButton, .successButton,.learningPathButton{
     height: 36px;
     border-radius: 20px;
     border:none;
@@ -125,6 +127,20 @@ body{
 .successButton{
     background-color: var(--buttonSuccessBackground);
     color: var(--buttonSuccessText);
+}
+
+.learningPathButton{
+    background-color: var(--buttonLearningPathBackground);
+    color: var(--buttonLearningPathText);
+}
+
+.learningPathButton > svg{
+    width: 18px;
+    height: 18px;
+}
+
+.learningPathButton > svg > path{
+    fill: var(--buttonLearningPathText);
 }
 
 
@@ -352,9 +368,14 @@ body{
     border:2px solid #2D4C4C;
 }
 
-.taskSummaryPageMenu{
-    background-color: #232838;
-    border:2px solid #2D2F4C;
+.learningPathPageMenu{
+    background-color: #382337;
+    border:2px solid #4C2D48;
+}
+
+
+.learningPathPageMenu:hover{
+    border-color: #873d5d;
 }
 
 .pageMenu > span{
@@ -430,6 +451,10 @@ body{
 .pageMenuCurrentPage.ideaCreatorPageMenu{
     background-color: #2d4c38;
     border-color: #3bc763;
+}
+.pageMenuCurrentPage.learningPathPageMenu{
+    background-color: #4c2d42;
+    border-color: #c73bc2;
 }
 
 .pageMenuCurrentPage:not(.pageMenuAITools > div > a,.redpageMenu,.orangepageMenu,.greenpageMenu,.bluepageMenu,.purplepageMenu,.pinkpageMenu){
@@ -2898,4 +2923,95 @@ main{
 
 .perkListAdminFeatures > span > svg > path{
     fill: #BDC9FC;
+}
+
+.learningPathContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    height: 100%;
+    flex-direction: column;
+}
+
+.learningPathContainer > p{
+    font-size: 14px;
+    max-width: 600px;
+    margin:0px;
+    text-align: center;
+    color: var(--text_secondary);
+}
+
+.learningPathContainer > h1{
+    margin:0px;
+}
+
+.aiThinkingLearningPath{
+    max-width: 700px;
+    position: absolute;
+    bottom: 32px;
+    left:50%;
+    transform: translateX(-50%);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.learningPathContainer > h1 > span{
+    background: linear-gradient(91deg, #E969CA 32.6%, #FE7B7D 50.78%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tasksLearningPath{
+    max-width: 700px;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tasksLearningPath > div{
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(135, 59, 91, 0.50) !important
+}
+
+.tasksLearningPath > div > .markdown {
+    display: none;
+    max-height: 200px;
+    overflow-y: hidden;
+    position: relative;
+    
+}
+
+.tasksLearningPath > div > .markdown::before {
+    content: '';
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, rgb(74 37 54), transparent);
+    pointer-events: none;
+    z-index: 1;
+    display: block;
+    margin-bottom: -40px; 
+}
+
+.tasksLearningPath > div > .markdown::after {
+    content: '';
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to top, rgb(74 37 54), transparent);
+    pointer-events: none;
+    z-index: 1;
+    display: block;
+    margin-top: -40px;
 }

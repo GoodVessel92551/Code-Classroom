@@ -1,0 +1,419 @@
+{% extends "base.html" %}
+{% block title %}Code Classroom  | Leaning Path{% endblock %}
+{% block main %}
+
+<div class="pageTitleDiv"><h1>{{page.title()}}</h1>
+
+</div>
+
+<div class="learningPathContainer">
+    <h1 id="learningPathH1">Create <span>Your</span> Leaning Path</h1>
+    <p id="learningPathText">
+        Your learning path will be built around you creating lesson on topics that you are currently working and around your weak topics. You will get 5 lessons and task to complete to improve your skills. You will also get feedback on you task helping you to grow your skills.
+    </p>
+    <button id="learningPathButton" onclick="create_result()" class="learningPathButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.664 15.735c.245.173.537.265.836.264v-.004a1.442 1.442 0 0 0 1.327-.872l.613-1.864a2.872 2.872 0 0 1 1.817-1.812l1.778-.578a1.443 1.443 0 0 0-.052-2.74l-1.755-.57a2.876 2.876 0 0 1-1.822-1.823l-.578-1.777a1.446 1.446 0 0 0-2.732.022l-.583 1.792a2.877 2.877 0 0 1-1.77 1.786l-1.777.571a1.444 1.444 0 0 0 .017 2.734l1.754.569a2.887 2.887 0 0 1 1.822 1.826l.578 1.775c.099.283.283.528.527.7Zm-.374-4.25a4.054 4.054 0 0 0-.363-.413h.003a4.394 4.394 0 0 0-1.72-1.063l-1.6-.508 1.611-.524a4.4 4.4 0 0 0 1.69-1.065 4.448 4.448 0 0 0 1.041-1.708l.515-1.582.516 1.587a4.374 4.374 0 0 0 2.781 2.773l1.62.522-1.59.515a4.379 4.379 0 0 0-2.774 2.775l-.515 1.582-.515-1.585a4.368 4.368 0 0 0-.7-1.306Zm8.041 9.297a1.123 1.123 0 0 1-.41-.549l-.328-1.007a1.293 1.293 0 0 0-.821-.823l-.991-.323A1.148 1.148 0 0 1 13 16.997a1.143 1.143 0 0 1 .771-1.08l1.006-.326a1.3 1.3 0 0 0 .8-.819l.324-.992a1.143 1.143 0 0 1 2.157-.021l.329 1.014a1.3 1.3 0 0 0 .82.816l.992.323a1.141 1.141 0 0 1 .039 2.165l-1.014.329a1.3 1.3 0 0 0-.818.822l-.322.989c-.078.23-.226.43-.425.57a1.14 1.14 0 0 1-1.328-.005Zm-1.03-3.783A2.789 2.789 0 0 1 17 18.708a2.794 2.794 0 0 1 1.7-1.7 2.813 2.813 0 0 1-1.718-1.708A2.806 2.806 0 0 1 15.3 17Z" fill="#fff"/></svg>Generate Learning Path</button>
+    <div class="tasksLearningPath" id="tasksLearningPath">
+        <div class="taskSummaryContainerTaskList" id="taskSummaryContainerTaskList">
+            <div class="taskSummaryTitleTextContainer">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.05409 9.17885C5.19701 9.27977 5.36734 9.33343 5.54176 9.33285V9.33052C5.70641 9.33079 5.86752 9.28275 6.00512 9.19233C6.14272 9.1019 6.25076 8.97309 6.31584 8.82185L6.67343 7.73452C6.75605 7.48821 6.89482 7.2645 7.07877 7.08106C7.26272 6.89761 7.48682 6.75946 7.73334 6.67752L8.77051 6.34035C8.93758 6.28165 9.08188 6.17176 9.18288 6.02631C9.28388 5.88086 9.33645 5.70726 9.33309 5.53022C9.32973 5.35317 9.27062 5.18169 9.16417 5.04018C9.05772 4.89867 8.90935 4.79433 8.74018 4.74202L7.71643 4.40952C7.46876 4.32715 7.24372 4.18814 7.05922 4.00353C6.87471 3.81892 6.73582 3.59381 6.65359 3.3461L6.31643 2.30952C6.25763 2.14442 6.14886 2.00173 6.00524 1.90129C5.86162 1.80085 5.69028 1.74764 5.51503 1.74905C5.33978 1.75046 5.16932 1.80643 5.02734 1.90917C4.88535 2.01191 4.7789 2.15633 4.72276 2.32235L4.38268 3.36768C4.30067 3.60817 4.16513 3.8269 3.98627 4.00737C3.80742 4.18784 3.58992 4.32535 3.35018 4.40952L2.31359 4.7426C2.14743 4.80029 2.0035 4.90856 1.90199 5.05221C1.80048 5.19585 1.74648 5.36767 1.74757 5.54357C1.74867 5.71946 1.8048 5.89059 1.90809 6.03297C2.01138 6.17534 2.15664 6.28181 2.32351 6.33743L3.34668 6.66935C3.59429 6.75233 3.81922 6.89176 4.00367 7.07663C4.18813 7.26149 4.32707 7.48672 4.40951 7.73452L4.74668 8.76993C4.80443 8.93502 4.91176 9.07852 5.05409 9.17885ZM9.52651 12.1229C9.41537 12.0437 9.33176 11.9317 9.28734 11.8027L9.09601 11.2153C9.0592 11.1034 8.99671 11.0017 8.91355 10.9184C8.83038 10.835 8.72886 10.7723 8.61709 10.7352L8.03901 10.5468C7.90668 10.5021 7.79162 10.4172 7.70993 10.3039C7.62824 10.1907 7.58401 10.0547 7.58343 9.91502C7.58352 9.77626 7.6269 9.641 7.70752 9.52807C7.78814 9.41514 7.90198 9.33017 8.03318 9.28502L8.62001 9.09485C8.7291 9.05612 8.82788 8.99292 8.90877 8.91011C8.98966 8.8273 9.05052 8.72707 9.08668 8.6171L9.27568 8.03843C9.32014 7.90763 9.40414 7.79386 9.51607 7.71287C9.62799 7.63188 9.76231 7.58765 9.90046 7.5863C10.0386 7.58496 10.1738 7.62656 10.2872 7.70536C10.4007 7.78416 10.4869 7.89627 10.5339 8.02618L10.7258 8.61768C10.7634 8.72856 10.8262 8.82924 10.9091 8.91182C10.9921 8.9944 11.0931 9.05665 11.2042 9.09368L11.7828 9.2821C11.9162 9.32382 12.0331 9.40647 12.1169 9.51834C12.2007 9.63021 12.2471 9.76561 12.2497 9.90535C12.2522 10.0451 12.2106 10.1821 12.1309 10.2969C12.0512 10.4117 11.9374 10.4985 11.8056 10.545L11.2141 10.7369C11.1029 10.7745 11.0019 10.8373 10.9191 10.9205C10.8363 11.0037 10.7739 11.105 10.7369 11.2164L10.5491 11.7933C10.5036 11.9275 10.4173 12.0442 10.3012 12.1258C10.1879 12.2064 10.0523 12.2494 9.91338 12.2488C9.77443 12.2483 9.63915 12.2043 9.52651 12.1229Z" fill="url(#paint0_linear_1063_265)"/>
+                    <defs>
+                    <linearGradient id="paint0_linear_1063_265" x1="6.99866" y1="1.74902" x2="2.5" y2="11.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#FFB4D6"/>
+                    <stop offset="1" stop-color="#D1C7FF"/>
+                    </linearGradient>
+                    </defs>
+                    </svg>
+                    
+                <span id="taskTitle1">Task Title 1</span>  
+            </div>
+            <zero-md class="markdown aiMarkdown" id="taskMarkdown1">
+                <template data-append>
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+                  <style>
+                      .markdown-body {
+                          padding: 0px !important;
+                          box-sizing: border-box !important;
+                          height: auto !important;
+                          width: auto !important;
+                          background-color: transparent  !important;
+                          border: 1px solid transparent  !important;
+                          font-family: "Lexend", sans-serif !important;
+                          background: none !important;
+                          overflow-y: hidden !important;
+                      }
+        
+                      .markdown-body p{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                      }
+                      .markdown-body > pre {
+                          background-color: transparent;
+                          border-radius: 16px;
+                      }
+                      .markdown-body code:not(pre > code) {
+                          background-color: #32394b;
+                          border-radius: 16px;
+                          color:#e7b9a2;
+                      }
+
+                      .markdown-body ul{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+                    .markdown-body ol{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+
+                    .markdown-body h1{
+                        font-size: 24px !important;
+                        color: #d5b8d9 !important;
+                    }
+                    .markdown-body h2{
+                        font-size: 20px !important;
+                        color: #d5b8d9 !important;
+                    }
+                  </style>
+                </template>
+                <script type="text/markdown" id="taskText1">
+                </script>
+              </zero-md>
+        </div>
+        <div class="taskSummaryContainerTaskList" id="taskSummaryContainerTaskList">
+            <div class="taskSummaryTitleTextContainer">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.05409 9.17885C5.19701 9.27977 5.36734 9.33343 5.54176 9.33285V9.33052C5.70641 9.33079 5.86752 9.28275 6.00512 9.19233C6.14272 9.1019 6.25076 8.97309 6.31584 8.82185L6.67343 7.73452C6.75605 7.48821 6.89482 7.2645 7.07877 7.08106C7.26272 6.89761 7.48682 6.75946 7.73334 6.67752L8.77051 6.34035C8.93758 6.28165 9.08188 6.17176 9.18288 6.02631C9.28388 5.88086 9.33645 5.70726 9.33309 5.53022C9.32973 5.35317 9.27062 5.18169 9.16417 5.04018C9.05772 4.89867 8.90935 4.79433 8.74018 4.74202L7.71643 4.40952C7.46876 4.32715 7.24372 4.18814 7.05922 4.00353C6.87471 3.81892 6.73582 3.59381 6.65359 3.3461L6.31643 2.30952C6.25763 2.14442 6.14886 2.00173 6.00524 1.90129C5.86162 1.80085 5.69028 1.74764 5.51503 1.74905C5.33978 1.75046 5.16932 1.80643 5.02734 1.90917C4.88535 2.01191 4.7789 2.15633 4.72276 2.32235L4.38268 3.36768C4.30067 3.60817 4.16513 3.8269 3.98627 4.00737C3.80742 4.18784 3.58992 4.32535 3.35018 4.40952L2.31359 4.7426C2.14743 4.80029 2.0035 4.90856 1.90199 5.05221C1.80048 5.19585 1.74648 5.36767 1.74757 5.54357C1.74867 5.71946 1.8048 5.89059 1.90809 6.03297C2.01138 6.17534 2.15664 6.28181 2.32351 6.33743L3.34668 6.66935C3.59429 6.75233 3.81922 6.89176 4.00367 7.07663C4.18813 7.26149 4.32707 7.48672 4.40951 7.73452L4.74668 8.76993C4.80443 8.93502 4.91176 9.07852 5.05409 9.17885ZM9.52651 12.1229C9.41537 12.0437 9.33176 11.9317 9.28734 11.8027L9.09601 11.2153C9.0592 11.1034 8.99671 11.0017 8.91355 10.9184C8.83038 10.835 8.72886 10.7723 8.61709 10.7352L8.03901 10.5468C7.90668 10.5021 7.79162 10.4172 7.70993 10.3039C7.62824 10.1907 7.58401 10.0547 7.58343 9.91502C7.58352 9.77626 7.6269 9.641 7.70752 9.52807C7.78814 9.41514 7.90198 9.33017 8.03318 9.28502L8.62001 9.09485C8.7291 9.05612 8.82788 8.99292 8.90877 8.91011C8.98966 8.8273 9.05052 8.72707 9.08668 8.6171L9.27568 8.03843C9.32014 7.90763 9.40414 7.79386 9.51607 7.71287C9.62799 7.63188 9.76231 7.58765 9.90046 7.5863C10.0386 7.58496 10.1738 7.62656 10.2872 7.70536C10.4007 7.78416 10.4869 7.89627 10.5339 8.02618L10.7258 8.61768C10.7634 8.72856 10.8262 8.82924 10.9091 8.91182C10.9921 8.9944 11.0931 9.05665 11.2042 9.09368L11.7828 9.2821C11.9162 9.32382 12.0331 9.40647 12.1169 9.51834C12.2007 9.63021 12.2471 9.76561 12.2497 9.90535C12.2522 10.0451 12.2106 10.1821 12.1309 10.2969C12.0512 10.4117 11.9374 10.4985 11.8056 10.545L11.2141 10.7369C11.1029 10.7745 11.0019 10.8373 10.9191 10.9205C10.8363 11.0037 10.7739 11.105 10.7369 11.2164L10.5491 11.7933C10.5036 11.9275 10.4173 12.0442 10.3012 12.1258C10.1879 12.2064 10.0523 12.2494 9.91338 12.2488C9.77443 12.2483 9.63915 12.2043 9.52651 12.1229Z" fill="url(#paint0_linear_1063_265)"/>
+                    <defs>
+                    <linearGradient id="paint0_linear_1063_265" x1="6.99866" y1="1.74902" x2="2.5" y2="11.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#FFB4D6"/>
+                    <stop offset="1" stop-color="#D1C7FF"/>
+                    </linearGradient>
+                    </defs>
+                    </svg>
+                    
+                <span id="taskTitle2">Task Title 2</span>  
+            </div>
+            <zero-md class="markdown aiMarkdown" id="taskMarkdown2">
+                <template data-append>
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+                  <style>
+                      .markdown-body {
+                          padding: 0px !important;
+                          box-sizing: border-box !important;
+                          height: auto !important;
+                          width: auto !important;
+                          background-color: transparent  !important;
+                          border: 1px solid transparent  !important;
+                          font-family: "Lexend", sans-serif !important;
+                          background: none !important;
+                          overflow-y: hidden !important;
+                      }
+        
+                      .markdown-body p{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                      }
+                      .markdown-body > pre {
+                          background-color: transparent;
+                          border-radius: 16px;
+                      }
+                      .markdown-body code:not(pre > code) {
+                          background-color: #32394b;
+                          border-radius: 16px;
+                          color:#e7b9a2;
+                      }
+
+                      .markdown-body ul{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+                    .markdown-body ol{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+
+                    .markdown-body h1{
+                        font-size: 24px !important;
+                        color: #d5b8d9 !important;
+                    }
+                    .markdown-body h2{
+                        font-size: 20px !important;
+                        color: #d5b8d9 !important;
+                    }
+                  </style>
+                </template>
+                <script type="text/markdown" id="taskText2">
+                </script>
+              </zero-md>
+        </div>
+        <div class="taskSummaryContainerTaskList" id="taskSummaryContainerTaskList">
+            <div class="taskSummaryTitleTextContainer">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.05409 9.17885C5.19701 9.27977 5.36734 9.33343 5.54176 9.33285V9.33052C5.70641 9.33079 5.86752 9.28275 6.00512 9.19233C6.14272 9.1019 6.25076 8.97309 6.31584 8.82185L6.67343 7.73452C6.75605 7.48821 6.89482 7.2645 7.07877 7.08106C7.26272 6.89761 7.48682 6.75946 7.73334 6.67752L8.77051 6.34035C8.93758 6.28165 9.08188 6.17176 9.18288 6.02631C9.28388 5.88086 9.33645 5.70726 9.33309 5.53022C9.32973 5.35317 9.27062 5.18169 9.16417 5.04018C9.05772 4.89867 8.90935 4.79433 8.74018 4.74202L7.71643 4.40952C7.46876 4.32715 7.24372 4.18814 7.05922 4.00353C6.87471 3.81892 6.73582 3.59381 6.65359 3.3461L6.31643 2.30952C6.25763 2.14442 6.14886 2.00173 6.00524 1.90129C5.86162 1.80085 5.69028 1.74764 5.51503 1.74905C5.33978 1.75046 5.16932 1.80643 5.02734 1.90917C4.88535 2.01191 4.7789 2.15633 4.72276 2.32235L4.38268 3.36768C4.30067 3.60817 4.16513 3.8269 3.98627 4.00737C3.80742 4.18784 3.58992 4.32535 3.35018 4.40952L2.31359 4.7426C2.14743 4.80029 2.0035 4.90856 1.90199 5.05221C1.80048 5.19585 1.74648 5.36767 1.74757 5.54357C1.74867 5.71946 1.8048 5.89059 1.90809 6.03297C2.01138 6.17534 2.15664 6.28181 2.32351 6.33743L3.34668 6.66935C3.59429 6.75233 3.81922 6.89176 4.00367 7.07663C4.18813 7.26149 4.32707 7.48672 4.40951 7.73452L4.74668 8.76993C4.80443 8.93502 4.91176 9.07852 5.05409 9.17885ZM9.52651 12.1229C9.41537 12.0437 9.33176 11.9317 9.28734 11.8027L9.09601 11.2153C9.0592 11.1034 8.99671 11.0017 8.91355 10.9184C8.83038 10.835 8.72886 10.7723 8.61709 10.7352L8.03901 10.5468C7.90668 10.5021 7.79162 10.4172 7.70993 10.3039C7.62824 10.1907 7.58401 10.0547 7.58343 9.91502C7.58352 9.77626 7.6269 9.641 7.70752 9.52807C7.78814 9.41514 7.90198 9.33017 8.03318 9.28502L8.62001 9.09485C8.7291 9.05612 8.82788 8.99292 8.90877 8.91011C8.98966 8.8273 9.05052 8.72707 9.08668 8.6171L9.27568 8.03843C9.32014 7.90763 9.40414 7.79386 9.51607 7.71287C9.62799 7.63188 9.76231 7.58765 9.90046 7.5863C10.0386 7.58496 10.1738 7.62656 10.2872 7.70536C10.4007 7.78416 10.4869 7.89627 10.5339 8.02618L10.7258 8.61768C10.7634 8.72856 10.8262 8.82924 10.9091 8.91182C10.9921 8.9944 11.0931 9.05665 11.2042 9.09368L11.7828 9.2821C11.9162 9.32382 12.0331 9.40647 12.1169 9.51834C12.2007 9.63021 12.2471 9.76561 12.2497 9.90535C12.2522 10.0451 12.2106 10.1821 12.1309 10.2969C12.0512 10.4117 11.9374 10.4985 11.8056 10.545L11.2141 10.7369C11.1029 10.7745 11.0019 10.8373 10.9191 10.9205C10.8363 11.0037 10.7739 11.105 10.7369 11.2164L10.5491 11.7933C10.5036 11.9275 10.4173 12.0442 10.3012 12.1258C10.1879 12.2064 10.0523 12.2494 9.91338 12.2488C9.77443 12.2483 9.63915 12.2043 9.52651 12.1229Z" fill="url(#paint0_linear_1063_265)"/>
+                    <defs>
+                    <linearGradient id="paint0_linear_1063_265" x1="6.99866" y1="1.74902" x2="2.5" y2="11.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#FFB4D6"/>
+                    <stop offset="1" stop-color="#D1C7FF"/>
+                    </linearGradient>
+                    </defs>
+                    </svg>
+                    
+                <span id="taskTitle3">Task Title 3</span>  
+            </div>
+            <zero-md class="markdown aiMarkdown" id="taskMarkdown3">
+                <template data-append>
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+                  <style>
+                      .markdown-body {
+                          padding: 0px !important;
+                          box-sizing: border-box !important;
+                          height: auto !important;
+                          width: auto !important;
+                          background-color: transparent  !important;
+                          border: 1px solid transparent  !important;
+                          font-family: "Lexend", sans-serif !important;
+                          background: none !important;
+                          overflow-y: hidden !important;
+                      }
+        
+                      .markdown-body p{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                      }
+                      .markdown-body > pre {
+                          background-color: transparent;
+                          border-radius: 16px;
+                      }
+                      .markdown-body code:not(pre > code) {
+                          background-color: #32394b;
+                          border-radius: 16px;
+                          color:#e7b9a2;
+                      }
+
+                      .markdown-body ul{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+                    .markdown-body ol{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+
+                    .markdown-body h1{
+                        font-size: 24px !important;
+                        color: #d5b8d9 !important;
+                    }
+                    .markdown-body h2{
+                        font-size: 20px !important;
+                        color: #d5b8d9 !important;
+                    }
+                  </style>
+                </template>
+                <script type="text/markdown" id="taskText3">
+                </script>
+              </zero-md>
+        </div>
+        <div class="taskSummaryContainerTaskList" id="taskSummaryContainerTaskList">
+            <div class="taskSummaryTitleTextContainer">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.05409 9.17885C5.19701 9.27977 5.36734 9.33343 5.54176 9.33285V9.33052C5.70641 9.33079 5.86752 9.28275 6.00512 9.19233C6.14272 9.1019 6.25076 8.97309 6.31584 8.82185L6.67343 7.73452C6.75605 7.48821 6.89482 7.2645 7.07877 7.08106C7.26272 6.89761 7.48682 6.75946 7.73334 6.67752L8.77051 6.34035C8.93758 6.28165 9.08188 6.17176 9.18288 6.02631C9.28388 5.88086 9.33645 5.70726 9.33309 5.53022C9.32973 5.35317 9.27062 5.18169 9.16417 5.04018C9.05772 4.89867 8.90935 4.79433 8.74018 4.74202L7.71643 4.40952C7.46876 4.32715 7.24372 4.18814 7.05922 4.00353C6.87471 3.81892 6.73582 3.59381 6.65359 3.3461L6.31643 2.30952C6.25763 2.14442 6.14886 2.00173 6.00524 1.90129C5.86162 1.80085 5.69028 1.74764 5.51503 1.74905C5.33978 1.75046 5.16932 1.80643 5.02734 1.90917C4.88535 2.01191 4.7789 2.15633 4.72276 2.32235L4.38268 3.36768C4.30067 3.60817 4.16513 3.8269 3.98627 4.00737C3.80742 4.18784 3.58992 4.32535 3.35018 4.40952L2.31359 4.7426C2.14743 4.80029 2.0035 4.90856 1.90199 5.05221C1.80048 5.19585 1.74648 5.36767 1.74757 5.54357C1.74867 5.71946 1.8048 5.89059 1.90809 6.03297C2.01138 6.17534 2.15664 6.28181 2.32351 6.33743L3.34668 6.66935C3.59429 6.75233 3.81922 6.89176 4.00367 7.07663C4.18813 7.26149 4.32707 7.48672 4.40951 7.73452L4.74668 8.76993C4.80443 8.93502 4.91176 9.07852 5.05409 9.17885ZM9.52651 12.1229C9.41537 12.0437 9.33176 11.9317 9.28734 11.8027L9.09601 11.2153C9.0592 11.1034 8.99671 11.0017 8.91355 10.9184C8.83038 10.835 8.72886 10.7723 8.61709 10.7352L8.03901 10.5468C7.90668 10.5021 7.79162 10.4172 7.70993 10.3039C7.62824 10.1907 7.58401 10.0547 7.58343 9.91502C7.58352 9.77626 7.6269 9.641 7.70752 9.52807C7.78814 9.41514 7.90198 9.33017 8.03318 9.28502L8.62001 9.09485C8.7291 9.05612 8.82788 8.99292 8.90877 8.91011C8.98966 8.8273 9.05052 8.72707 9.08668 8.6171L9.27568 8.03843C9.32014 7.90763 9.40414 7.79386 9.51607 7.71287C9.62799 7.63188 9.76231 7.58765 9.90046 7.5863C10.0386 7.58496 10.1738 7.62656 10.2872 7.70536C10.4007 7.78416 10.4869 7.89627 10.5339 8.02618L10.7258 8.61768C10.7634 8.72856 10.8262 8.82924 10.9091 8.91182C10.9921 8.9944 11.0931 9.05665 11.2042 9.09368L11.7828 9.2821C11.9162 9.32382 12.0331 9.40647 12.1169 9.51834C12.2007 9.63021 12.2471 9.76561 12.2497 9.90535C12.2522 10.0451 12.2106 10.1821 12.1309 10.2969C12.0512 10.4117 11.9374 10.4985 11.8056 10.545L11.2141 10.7369C11.1029 10.7745 11.0019 10.8373 10.9191 10.9205C10.8363 11.0037 10.7739 11.105 10.7369 11.2164L10.5491 11.7933C10.5036 11.9275 10.4173 12.0442 10.3012 12.1258C10.1879 12.2064 10.0523 12.2494 9.91338 12.2488C9.77443 12.2483 9.63915 12.2043 9.52651 12.1229Z" fill="url(#paint0_linear_1063_265)"/>
+                    <defs>
+                    <linearGradient id="paint0_linear_1063_265" x1="6.99866" y1="1.74902" x2="2.5" y2="11.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#FFB4D6"/>
+                    <stop offset="1" stop-color="#D1C7FF"/>
+                    </linearGradient>
+                    </defs>
+                    </svg>
+                    
+                <span id="taskTitle4">Task Title 4</span>  
+            </div>
+            <zero-md class="markdown aiMarkdown" id="taskMarkdown4">
+                <template data-append>
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+                  <style>
+                      .markdown-body {
+                          padding: 0px !important;
+                          box-sizing: border-box !important;
+                          height: auto !important;
+                          width: auto !important;
+                          background-color: transparent  !important;
+                          border: 1px solid transparent  !important;
+                          font-family: "Lexend", sans-serif !important;
+                          background: none !important;
+                          overflow-y: hidden !important;
+                      }
+        
+                      .markdown-body p{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                      }
+                      .markdown-body > pre {
+                          background-color: transparent;
+                          border-radius: 16px;
+                      }
+                      .markdown-body code:not(pre > code) {
+                          background-color: #32394b;
+                          border-radius: 16px;
+                          color:#e7b9a2;
+                      }
+
+                      .markdown-body ul{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+                    .markdown-body ol{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+
+                    .markdown-body h1{
+                        font-size: 24px !important;
+                        color: #d5b8d9 !important;
+                    }
+                    .markdown-body h2{
+                        font-size: 20px !important;
+                        color: #d5b8d9 !important;
+                    }
+                  </style>
+                </template>
+                <script type="text/markdown" id="taskText4">
+                </script>
+              </zero-md>
+        </div>
+        <div class="taskSummaryContainerTaskList" id="taskSummaryContainerTaskList">
+            <div class="taskSummaryTitleTextContainer">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.05409 9.17885C5.19701 9.27977 5.36734 9.33343 5.54176 9.33285V9.33052C5.70641 9.33079 5.86752 9.28275 6.00512 9.19233C6.14272 9.1019 6.25076 8.97309 6.31584 8.82185L6.67343 7.73452C6.75605 7.48821 6.89482 7.2645 7.07877 7.08106C7.26272 6.89761 7.48682 6.75946 7.73334 6.67752L8.77051 6.34035C8.93758 6.28165 9.08188 6.17176 9.18288 6.02631C9.28388 5.88086 9.33645 5.70726 9.33309 5.53022C9.32973 5.35317 9.27062 5.18169 9.16417 5.04018C9.05772 4.89867 8.90935 4.79433 8.74018 4.74202L7.71643 4.40952C7.46876 4.32715 7.24372 4.18814 7.05922 4.00353C6.87471 3.81892 6.73582 3.59381 6.65359 3.3461L6.31643 2.30952C6.25763 2.14442 6.14886 2.00173 6.00524 1.90129C5.86162 1.80085 5.69028 1.74764 5.51503 1.74905C5.33978 1.75046 5.16932 1.80643 5.02734 1.90917C4.88535 2.01191 4.7789 2.15633 4.72276 2.32235L4.38268 3.36768C4.30067 3.60817 4.16513 3.8269 3.98627 4.00737C3.80742 4.18784 3.58992 4.32535 3.35018 4.40952L2.31359 4.7426C2.14743 4.80029 2.0035 4.90856 1.90199 5.05221C1.80048 5.19585 1.74648 5.36767 1.74757 5.54357C1.74867 5.71946 1.8048 5.89059 1.90809 6.03297C2.01138 6.17534 2.15664 6.28181 2.32351 6.33743L3.34668 6.66935C3.59429 6.75233 3.81922 6.89176 4.00367 7.07663C4.18813 7.26149 4.32707 7.48672 4.40951 7.73452L4.74668 8.76993C4.80443 8.93502 4.91176 9.07852 5.05409 9.17885ZM9.52651 12.1229C9.41537 12.0437 9.33176 11.9317 9.28734 11.8027L9.09601 11.2153C9.0592 11.1034 8.99671 11.0017 8.91355 10.9184C8.83038 10.835 8.72886 10.7723 8.61709 10.7352L8.03901 10.5468C7.90668 10.5021 7.79162 10.4172 7.70993 10.3039C7.62824 10.1907 7.58401 10.0547 7.58343 9.91502C7.58352 9.77626 7.6269 9.641 7.70752 9.52807C7.78814 9.41514 7.90198 9.33017 8.03318 9.28502L8.62001 9.09485C8.7291 9.05612 8.82788 8.99292 8.90877 8.91011C8.98966 8.8273 9.05052 8.72707 9.08668 8.6171L9.27568 8.03843C9.32014 7.90763 9.40414 7.79386 9.51607 7.71287C9.62799 7.63188 9.76231 7.58765 9.90046 7.5863C10.0386 7.58496 10.1738 7.62656 10.2872 7.70536C10.4007 7.78416 10.4869 7.89627 10.5339 8.02618L10.7258 8.61768C10.7634 8.72856 10.8262 8.82924 10.9091 8.91182C10.9921 8.9944 11.0931 9.05665 11.2042 9.09368L11.7828 9.2821C11.9162 9.32382 12.0331 9.40647 12.1169 9.51834C12.2007 9.63021 12.2471 9.76561 12.2497 9.90535C12.2522 10.0451 12.2106 10.1821 12.1309 10.2969C12.0512 10.4117 11.9374 10.4985 11.8056 10.545L11.2141 10.7369C11.1029 10.7745 11.0019 10.8373 10.9191 10.9205C10.8363 11.0037 10.7739 11.105 10.7369 11.2164L10.5491 11.7933C10.5036 11.9275 10.4173 12.0442 10.3012 12.1258C10.1879 12.2064 10.0523 12.2494 9.91338 12.2488C9.77443 12.2483 9.63915 12.2043 9.52651 12.1229Z" fill="url(#paint0_linear_1063_265)"/>
+                    <defs>
+                    <linearGradient id="paint0_linear_1063_265" x1="6.99866" y1="1.74902" x2="2.5" y2="11.5" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#FFB4D6"/>
+                    <stop offset="1" stop-color="#D1C7FF"/>
+                    </linearGradient>
+                    </defs>
+                    </svg>
+                    
+                <span id="taskTitle5">Task Title 5</span>  
+            </div>
+            <zero-md class="markdown aiMarkdown" id="taskMarkdown5">
+                <template data-append>
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+                  <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+                  <style>
+                      .markdown-body {
+                          padding: 0px !important;
+                          box-sizing: border-box !important;
+                          height: auto !important;
+                          width: auto !important;
+                          background-color: transparent  !important;
+                          border: 1px solid transparent  !important;
+                          font-family: "Lexend", sans-serif !important;
+                          background: none !important;
+                          overflow-y: hidden !important;
+                      }
+        
+                      .markdown-body p{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                      }
+                      .markdown-body > pre {
+                          background-color: transparent;
+                          border-radius: 16px;
+                      }
+                      .markdown-body code:not(pre > code) {
+                          background-color: #32394b;
+                          border-radius: 16px;
+                          color:#e7b9a2;
+                      }
+
+                      .markdown-body ul{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+                    .markdown-body ol{
+                        font-size: 14px !important;
+                        color: #d5b8d9 !important;
+                    }
+
+                    .markdown-body h1{
+                        font-size: 24px !important;
+                        color: #d5b8d9 !important;
+                        margin-top:16px !important;
+                    }
+                    .markdown-body h2{
+                        font-size: 20px !important;
+                        margin-top:16px !important;
+                        color: #d5b8d9 !important;
+                    }
+                  </style>
+                </template>
+                <script type="text/markdown" id="taskText5">
+                </script>
+              </zero-md>
+        </div>
+    </div>
+</div>
+<div class="taskSummaryContainerTaskList aiThinkingLearningPath" id="learningPathThininking">
+    <div class="taskSummaryTitleTextContainer">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.91484 1.17041C6.32725 1.17041 6.56234 1.58108 6.56234 1.99349V4.52108H6.04025C5.93872 4.27009 5.75306 4.06223 5.51508 3.93311C5.27711 3.804 5.00163 3.76168 4.73587 3.81339C4.47011 3.86511 4.23061 4.00765 4.05842 4.21658C3.88622 4.42551 3.79206 4.68783 3.79206 4.95858C3.79206 5.22932 3.88622 5.49164 4.05842 5.70057C4.23061 5.9095 4.47011 6.05204 4.73587 6.10376C5.00163 6.15548 5.27711 6.11315 5.51508 5.98404C5.75306 5.85493 5.93872 5.64706 6.04025 5.39608H6.56234V11.7532C6.56234 12.1009 6.41534 12.4468 6.10559 12.6049C5.82471 12.752 5.51265 12.8296 5.19559 12.8312C4.31475 12.8312 3.65967 12.3856 3.23792 11.8582C2.94584 11.4943 2.74216 11.0676 2.64292 10.6117C2.37051 10.5313 2.11822 10.3941 1.90267 10.2092C1.4885 9.85274 1.1665 9.28108 1.1665 8.43874C1.1665 7.99833 1.198 7.61449 1.27734 7.29191H3.73317C4.12867 7.29191 4.4565 7.58358 4.51192 7.96333C4.26191 8.06676 4.05563 8.25386 3.92837 8.49262C3.80111 8.73138 3.76078 9.00694 3.8143 9.27215C3.86782 9.53736 4.01185 9.77573 4.22174 9.94645C4.43163 10.1172 4.69433 10.2096 4.96488 10.208C5.23544 10.2064 5.49701 10.1108 5.70485 9.93759C5.91269 9.76438 6.05386 9.52431 6.10421 9.25848C6.15455 8.99265 6.11094 8.71758 5.98084 8.48036C5.85073 8.24314 5.64223 8.05851 5.391 7.95808C5.36036 7.53932 5.1724 7.14766 4.86488 6.86178C4.55736 6.5759 4.15305 6.41697 3.73317 6.41691H1.77317C1.86052 6.34471 1.95776 6.28539 2.06192 6.24074C2.00179 6.0264 1.96694 5.80576 1.95809 5.58333C1.93884 5.15458 2.003 4.70833 2.13017 4.31108C2.25617 3.92024 2.45567 3.53933 2.73567 3.27624C2.91131 3.1051 3.13383 2.98998 3.375 2.94549C3.49109 2.45549 3.78684 2.05066 4.16425 1.75724C4.649 1.37924 5.28425 1.17041 5.91425 1.17041H5.91484ZM7.43734 9.91691H8.39984C8.84076 9.91691 9.26362 9.74175 9.5754 9.42997C9.88718 9.1182 10.0623 8.69533 10.0623 8.25441V7.20733C10.3133 7.1058 10.5212 6.92013 10.6503 6.68216C10.7794 6.44418 10.8217 6.1687 10.77 5.90294C10.7183 5.63718 10.5758 5.39768 10.3668 5.22549C10.1579 5.0533 9.89558 4.95913 9.62484 4.95913C9.35409 4.95913 9.09177 5.0533 8.88284 5.22549C8.67391 5.39768 8.53137 5.63718 8.47965 5.90294C8.42794 6.1687 8.47026 6.44418 8.59937 6.68216C8.72849 6.92013 8.93635 7.1058 9.18734 7.20733V8.25441C9.18734 8.46327 9.10437 8.66357 8.95668 8.81126C8.809 8.95894 8.6087 9.04191 8.39984 9.04191H7.43734V1.99349C7.43734 1.58108 7.67242 1.17041 8.08484 1.17041C8.716 1.17041 9.35067 1.37924 9.83542 1.75724C10.2128 2.05066 10.5086 2.45608 10.6247 2.94549C10.8697 2.98633 11.0878 3.11116 11.264 3.27624C11.544 3.53933 11.7435 3.91966 11.8695 4.31108C11.9967 4.70833 12.0608 5.15458 12.0416 5.58333C12.0317 5.80266 11.9996 6.02666 11.9378 6.24074L11.9763 6.25824C12.1921 6.35974 12.3671 6.51899 12.4978 6.73074C12.7457 7.13033 12.8332 7.70549 12.8332 8.43874C12.8332 9.28166 12.5112 9.85391 12.097 10.2092C11.8813 10.3942 11.6288 10.5314 11.3562 10.6117C11.2571 11.0676 11.0536 11.4943 10.7618 11.8582C10.34 12.3856 9.68492 12.8312 8.8035 12.8312C8.48649 12.8298 8.17443 12.7524 7.8935 12.6055C7.58434 12.4468 7.43734 12.1009 7.43734 11.7532V9.91691ZM4.6665 4.95858C4.6665 4.88122 4.69723 4.80704 4.75193 4.75234C4.80663 4.69764 4.88082 4.66691 4.95817 4.66691C5.03553 4.66691 5.10971 4.69764 5.16441 4.75234C5.21911 4.80704 5.24984 4.88122 5.24984 4.95858C5.24984 5.03593 5.21911 5.11012 5.16441 5.16482C5.10971 5.21951 5.03553 5.25024 4.95817 5.25024C4.88082 5.25024 4.80663 5.21951 4.75193 5.16482C4.69723 5.11012 4.6665 5.03593 4.6665 4.95858ZM4.95817 8.75024C4.88082 8.75024 4.80663 8.78097 4.75193 8.83567C4.69723 8.89037 4.6665 8.96455 4.6665 9.04191C4.6665 9.11926 4.69723 9.19345 4.75193 9.24815C4.80663 9.30285 4.88082 9.33358 4.95817 9.33358C5.03553 9.33358 5.10971 9.30285 5.16441 9.24815C5.21911 9.19345 5.24984 9.11926 5.24984 9.04191C5.24984 8.96455 5.21911 8.89037 5.16441 8.83567C5.10971 8.78097 5.03553 8.75024 4.95817 8.75024ZM9.33317 6.12524C9.33317 6.2026 9.3639 6.27678 9.4186 6.33148C9.4733 6.38618 9.54748 6.41691 9.62484 6.41691C9.70219 6.41691 9.77638 6.38618 9.83108 6.33148C9.88578 6.27678 9.9165 6.2026 9.9165 6.12524C9.9165 6.04789 9.88578 5.9737 9.83108 5.919C9.77638 5.86431 9.70219 5.83358 9.62484 5.83358C9.54748 5.83358 9.4733 5.86431 9.4186 5.919C9.3639 5.9737 9.33317 6.04789 9.33317 6.12524Z" fill="url(#paint0_linear_1143_569)"/>
+            <defs>
+            <linearGradient id="paint0_linear_1143_569" x1="6.99984" y1="1.17041" x2="6.99984" y2="12.8312" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FFB4D6"/>
+            <stop offset="1" stop-color="#D1C7FF"/>
+            </linearGradient>
+            </defs>
+            </svg>
+            
+        <span>Thoughts Process</span>  
+        <p id="taskSummaryText"></p>
+    </div>
+    <zero-md class="markdown aiMarkdown" id="aiMarkdown">
+        <template data-append>
+          <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+          <link type="stylesheet" href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+          <style>
+              .markdown-body {
+                  padding: 0px !important;
+                  box-sizing: border-box !important;
+                  height: auto !important;
+                  width: auto !important;
+                  background-color: transparent  !important;
+                  border: 1px solid transparent  !important;
+                  font-family: "Lexend", sans-serif !important;
+                  background: none !important;
+                  overflow-y: hidden !important;
+              }
+
+              .markdown-body p{
+                font-size: 14px !important;
+                color: #d5b8d9 !important;
+              }
+              .markdown-body > pre {
+                  background-color: transparent;
+                  border-radius: 16px;
+              }
+              .markdown-body code:not(pre > code) {
+                  background-color: #32394b;
+                  border-radius: 16px;
+                  color:#e7b9a2;
+              }
+          </style>
+        </template>
+        <script type="text/markdown" id="aiText">
+        </script>
+      </zero-md>
+</div>
+<script>
+    const userID = {{userID|tojson}};
+    const weakTopics = {{weak_topics|tojson}};
+
+    console.log(usersClasses);
+    console.log(weakTopics);
+</script>
+<script src="{{ url_for('static', filename='javascript/aiTools/learningPath.js') }}"></script>
+{% endblock %} 

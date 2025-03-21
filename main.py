@@ -197,6 +197,11 @@ def task_summary():
         return render_template("createIdea.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="idea creator",classes=fun.get_user_classes())
     return redirect("/")
 
+@app.route("/learningPath")
+def learning_path():
+    if fun.login():
+        return render_template("learningPath.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="learning path",classes=fun.get_user_classes(),weak_topics=fun.get_weak_topics(fun.get_user_id()))
+    return redirect("/")
 
 @app.route("/settings/ai")
 def ai_settings():

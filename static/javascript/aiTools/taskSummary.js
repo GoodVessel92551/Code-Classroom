@@ -42,7 +42,7 @@ Object.keys(usersClasses).forEach(key => {
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
   try{
-      var capabilities = await ai.languageModel.capabilities();
+      var capabilities = await ai.languageModel.availability();
   }catch{
       console.error("No AI")
       taskSummaryText.textContent = "AI Unavailable"
