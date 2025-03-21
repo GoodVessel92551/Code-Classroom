@@ -15,7 +15,7 @@ const taskText4 = document.getElementById("taskText4")
 const taskMarkdown5 = document.getElementById("taskMarkdown5")
 const taskTitle5 = document.getElementById("taskTitle5")
 const taskText5 = document.getElementById("taskText5")
-
+const createText = document.getElementById("createText")
 const tasksLearningPath = document.getElementById("tasksLearningPath")
 const learningPathText = document.getElementById("learningPathText")
 const learningPathButton = document.getElementById("learningPathButton")
@@ -75,12 +75,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 })
 
 const create_result = async () => {
+    createText.textContent = "Creating"
     console.log(available_ai);
     if (available_ai) {
         var totalOutput = "";
-        aiMarkdown.style.display = "block"
         const stream = await session.promptStreaming("Tasks: " + JSON.stringify(masterData)+ "\n\n Weak Topics: " + JSON.stringify(weakTopics[0][0]) + ", " + JSON.stringify(weakTopics[0][1]));
         for await (const chunk of stream) {
+            aiMarkdown.style.display = "block"
             console.log(chunk);
             totalOutput += chunk;
             aiText.textContent = totalOutput;
@@ -171,12 +172,12 @@ const create_result = async () => {
             var totalOutput = "";
             aiMarkdown.style.display = "block";
             const stream = await session.promptStreaming("Task Title: "+ task);
+            let currentTaskText;
+            let currentTaskMarkdown;
             for await (const chunk of stream) {
                 console.log(i);
                 totalOutput += chunk;
                 
-                let currentTaskText;
-                let currentTaskMarkdown;
                 
                 if (i == 0) {
                     taskMarkdown1.style.display = "block";
@@ -210,13 +211,10 @@ const create_result = async () => {
                     currentTaskMarkdown.scrollTop = currentTaskMarkdown.scrollHeight;
                 }
             }
-            taskMarkdown1.style.display = "none"
-            taskMarkdown2.style.display = "none"
-            taskMarkdown3.style.display = "none"
-            taskMarkdown4.style.display = "none"
-            taskMarkdown5.style.display = "none"
+            currentTaskMarkdown.classList.add("closeMarkdown")
             console.log(totalOutput);
             }
         }
+        createText.textContent = ""
     session.destroy()
 }

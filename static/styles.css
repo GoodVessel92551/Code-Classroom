@@ -2958,7 +2958,7 @@ main{
     flex-direction: column;
 }
 
-.learningPathContainer > h1 > span{
+.learningPathContainer > h1 > span:not(#createText){
     background: linear-gradient(91deg, #E969CA 32.6%, #FE7B7D 50.78%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -2985,7 +2985,6 @@ main{
     max-height: 200px;
     overflow-y: hidden;
     position: relative;
-    
 }
 
 .tasksLearningPath > div > .markdown::before {
@@ -3014,4 +3013,18 @@ main{
     z-index: 1;
     display: block;
     margin-top: -40px;
+}
+
+@keyframes closeMarkdown {
+    from {
+        max-height: 200px;
+    }
+    to {
+        max-height: 0px;
+        display: none;
+    }
+}
+
+.closeMarkdown{
+    animation: closeMarkdown 0.3s ease-in-out forwards;
 }
