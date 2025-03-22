@@ -279,6 +279,10 @@ require(["vs/editor/editor.main"], function () {
         }
       }
 
+      if(window.location.href.includes("/learningPathTask")){
+        loadedCode = loadedTaskCode;
+      }
+
       if(loadedTaskCode && (window.location.href.includes("/task/") || window.location.href.includes("/view/"))){
         console.log("Loaded task code");
         loadedCode = loadedTaskCode;
@@ -301,10 +305,19 @@ window.editor.addEventListener("keydown", (event) => {
         if (project){
           projects[topic].code = code;
           localStorage.setItem("codeProjects", JSON.stringify(projects));
-        }else{
+        }
+        
+        else{
           localStorage.setItem("code", code);
         }
-      }else{
+      }if (window.location.href.includes("/learningPathTask")){
+        console.log(learningPath)
+        var newlearningPath = learningPath;
+        newlearningPath.tasks[taskKeys[currentTask]].code = code;
+        localStorage.setItem("learningPath", JSON.stringify(newlearningPath));
+      }
+      
+      else{
           localStorage.setItem("code", code);
       }
   }
@@ -353,7 +366,6 @@ const saveCode = () => {
     return
   }
 
-// (Optional) Bind the clear button to clear the console.
 document.getElementById("clearConsole").addEventListener("click", () => {
   document.getElementById("consoleText").innerHTML = "";
 });

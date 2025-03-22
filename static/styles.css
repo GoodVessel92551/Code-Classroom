@@ -2985,6 +2985,7 @@ main{
     max-height: 200px;
     overflow-y: hidden;
     position: relative;
+    scroll-behavior: smooth;
 }
 
 .tasksLearningPath > div > .markdown::before {

@@ -74,13 +74,13 @@
     const thisClass = {{user_class|tojson}};
     const classMembers = thisClass.members;
     const deleteTask = document.getElementById('deleteTask')
-
+    const taskid = {{taskid|tojson}};
     const taskDateValue = {{task|tojson}}.taskDue;
     const taskDate = new Date(taskDateValue);
     const taskDateInput = document.getElementById('taskDate');
     taskDateInput.value = taskDate.toISOString().split('T')[0];
     deleteButton.addEventListener('click', () => {
-        if (deleteButton.textContent === 'Delete Class') {
+        if (deleteButton.textContent === 'Delete Task') {
             deleteButton.textContent = 'Confirm Delete';
             deleteButton.classList.add('deleteButtonConfirm');
             deleteCancelButton.style.display = 'inline-block';
@@ -106,7 +106,7 @@
         }
 
         deleteCancelButton.addEventListener('click', () => {
-            deleteButton.textContent = 'Delete Class';
+            deleteButton.textContent = 'Delete Task';
             deleteButton.classList.remove('deleteButtonConfirm');
             deleteCancelButton.style.display = 'none';
         });

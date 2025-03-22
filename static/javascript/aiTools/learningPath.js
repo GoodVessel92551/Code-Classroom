@@ -20,6 +20,7 @@ const tasksLearningPath = document.getElementById("tasksLearningPath")
 const learningPathText = document.getElementById("learningPathText")
 const learningPathButton = document.getElementById("learningPathButton")
 const learningPathThininking = document.getElementById("learningPathThininking")
+const learningPathButtonStart = document.getElementById("learningPathButtonStart")
 
 let masterData = {}
 let taskNumCount = 0;
@@ -165,9 +166,17 @@ const create_result = async () => {
         session = await ai.languageModel.create({
                 systemPrompt: "You will be given a title for a task that will be completed in python. You need to write the instructions for the tasks not not include the code need to complete it. Keep the instructions clear and concise and **SHORT** and make sure to include all the information needed to complete the task also teach the user what they need to know. The task should be able to be completed in Python **without any** libraries and the tasks should be simple. The task can not use any libraries apart from the random and math libraries. The tasks can also not use anything that needs access to files.",
         })
-
+        var learningPath = {
+            "info":{
+                "started": false,
+                "completed": false,
+                "currentTask": 0
+            },
+            "tasks": {}
+        }
         for (let i = 0; i < result.length; i++) {
             const task = result[i];
+            learningPath["tasks"][task] = {"task": task, "instructions": "","code": ""}
             if (available_ai) {
             var totalOutput = "";
             aiMarkdown.style.display = "block";
@@ -213,8 +222,11 @@ const create_result = async () => {
             }
             currentTaskMarkdown.classList.add("closeMarkdown")
             console.log(totalOutput);
+            learningPath["tasks"][task].instructions = totalOutput;
             }
         }
         createText.textContent = ""
     session.destroy()
+    learningPathButtonStart.style.display = "flex"
+    localStorage.setItem("learningPath", JSON.stringify(learningPath));
 }

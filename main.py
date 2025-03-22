@@ -136,6 +136,7 @@ def class_settings(classid):
 @app.route("/task/<classid>/<taskid>")
 def task(classid,taskid):
     if fun.login():
+        task = None
         if fun.check_teacher(classid):
             user_class = fun.get_user_classes_one_class(classid)
             for i in user_class["tasks"]:
@@ -203,6 +204,12 @@ def learning_path():
         return render_template("learningPath.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="learning path",classes=fun.get_user_classes(),weak_topics=fun.get_weak_topics(fun.get_user_id()))
     return redirect("/")
 
+@app.route("/learningPathTask")
+def learning_path_topic():
+    if fun.login():
+        return render_template("learningPathTask.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="learning path",classes=fun.get_user_classes())
+    return redirect("/")
+
 @app.route("/settings/ai")
 def ai_settings():
     if fun.login():
@@ -259,7 +266,7 @@ def edit_task():
             return {'status': 'Invalid date format. Use YYYY-MM-DD'}
         status = fun.edit_task(data["classid"], data["taskid"], data["name"], data["instructions"], data["date"])
         return {'status': status}
-    return {'status': 'Not logged in'}, 401
+    return  404
 
 @app.route("/endpoint/class/leave",methods=["POST"])
 def leave_class():
@@ -267,6 +274,7 @@ def leave_class():
         data = request.json
         status = fun.leave_classroom(data["classid"])
         return {'status':status}
+    return  404
 
 @app.route("/endpoint/classroom/delete",methods=["POST"])
 def delete_classroom():
@@ -274,6 +282,7 @@ def delete_classroom():
         data = request.json
         status = fun.delete_classroom(data["classid"])
         return {'status':status}
+    return  404
 
 
 @app.route("/endpoint/task/complete/<classid>/<taskid>")
@@ -281,6 +290,7 @@ def complete_task(classid,taskid):
     if fun.login():
         fun.complete_task_student(classid,taskid)
         return redirect("/classroom/"+classid)
+    return  404
 
 @app.route("/endpoint/classroom/join",methods=["POST"])
 def join_classroom_endpoint():
@@ -292,6 +302,7 @@ def join_classroom_endpoint():
             return {'status':'Code is too long'}
         status = fun.join_classroom(data["classCode"])
         return {'status':status}
+    return  404
 
 @app.route("/endpoint/classroom/save",methods=["POST"])
 def save_classroom_settings():
@@ -303,13 +314,15 @@ def save_classroom_settings():
             return {'status':'Inputs are values are too long'}
         status = fun.save_classroom_settings(data["classid"],data["name"],data["subtitle"],data["description"],data["messageLock"],data["classColor"])
         return {'status':status}
+    return  404
 
 @app.route("/endpoint/task/save",methods=["POST"])
 def save_task():
     if fun.login():
         data = request.json
         status = fun.save_code(data["classid"],data["taskid"],data["code"])
-    return "{'status':"+status+"}"
+        return "{'status':"+status+"}"
+    return  404
 
 @app.route("/endpoint/task/delete",methods=["POST"])
 def delete_task():
@@ -317,7 +330,8 @@ def delete_task():
         data = request.json
         status = fun.delete_task(data["classid"],data["taskid"])
         print(status)
-    return "{'status':"+status+"}"
+        return {'status':status}
+    return  404
 
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])
 def get_weak_topics():
@@ -326,7 +340,7 @@ def get_weak_topics():
         print("User ID",userid)
         data = fun.get_weak_topics(userid)
         return jsonify(data)
-    return "Not logged in"
+    return  404
 
 @app.route("/endpoint/ai/weaktopics",methods=["POST"])
 def weak_topics():
@@ -336,7 +350,8 @@ def weak_topics():
         data = request.json
         data = data["result"]
         fun.weak_topics(userid,data)
-    return "complete"
+        return "complete"
+    return  404
 
 @app.route("/endpoint/auth/login",methods=["POST"])
 def login_endpoint():
@@ -362,7 +377,7 @@ def create_class():
             return {'status':'You have reached the maximum amount of classes'}
         classID = fun.create_class(data["name"],data["subtitle"],data["description"],data["color"])
         return {'status':'complete','classId':classID}
-    return {'status':'Not logged in'}
+    return  404
 
 @app.route("/endpoint/task/create",methods=["POST"])
 def create_task_endpoint():
@@ -384,6 +399,7 @@ def create_task_endpoint():
             return {'status':'Invalid date format. Use YYYY-MM-DD'}
         fun.create_task(data["classid"],data["name"],data["description"],data["date"],data["points"])
         return {'status':'complete'}
+    return  404
 
 @app.route("/endpoint/class/message",methods=["POST"])
 def send_message():
@@ -397,6 +413,7 @@ def send_message():
             return {'status':'You have reached the maximum amount of messages'}
         message = fun.send_message(data["classid"],data["message"])
         return {'status':'complete',"userName":message["userName"],"message":message["message"],"messageId":message["messageId"],"date":message["date"]}
+    return  404
 
 @app.route("/endpoint/class/message/delete",methods=["POST"])
 def delete_message():
@@ -404,6 +421,7 @@ def delete_message():
         data = request.json
         message = fun.delete_message(data["classid"],data["messageid"])
         return {'status':message}
+    return  404
 
 @app.route("/endpoint/task/feedback",methods=["POST"])
 def task_feedback():
@@ -413,6 +431,7 @@ def task_feedback():
             return {'status':'Feedback is too long'}
         feedback = fun.task_feedback(data["classid"],data["taskid"],data["feedback"],data["points"],data["userid"])
         return {'status':'complete'}
+    return  404
 
 @app.route("/login", methods=['GET', 'POST'])
 @limiter.limit("5 per minute")
