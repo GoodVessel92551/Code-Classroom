@@ -70,11 +70,11 @@
                 <span>Streak Level</span>
             </div>
             <div class="navBarStreakLevelValue">
-                <span class="navBarStreakLevelValueLevel">0</span>
+                <span class="navBarStreakLevelValueLevel">{{streak["level"]}}</span>
                 <span class="navBarStreakLevelValueRange">
-                    <span class="navBarStreakLevelValueRangeCurrent"></span>
+                    <span class="navBarStreakLevelValueRangeCurrent" id="navBarStreakLevelValueRangeCurrent"></span>
                 </span>
-                <span class="navBarStreakLevelValueLevel">1</span>
+                <span class="navBarStreakLevelValueLevel">{{streak["level"] + 1}}</span>
             </div>
         </div>
     </div>
@@ -167,6 +167,10 @@
 </div>
 
 <script>
+    const streak = {{streak|tojson}};
+    var lastStreakNumber = streak.streak;
+    const navBarStreakLevelValueRangeCurrent = document.getElementById('navBarStreakLevelValueRangeCurrent');
+    navBarStreakLevelValueRangeCurrent.style.width = (lastStreakNumber*10)+"%";
 const settings = {{settings|tojson}};
 const weakTopicsContainer = document.getElementById("weak topics");
 const ideaCreatorContainer = document.getElementById("idea creator");

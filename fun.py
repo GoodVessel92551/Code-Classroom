@@ -49,7 +49,7 @@ def signup_user(username,password,confirmPassword):
     if str("UNAPW-"+username) in ids:
         return "Username already exists"
     else:
-        user_data = {"username":username,"password":password,"id":id,"type":"UNAPW","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}}}}
+        user_data = {"username":username,"password":password,"id":id,"type":"UNAPW","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"learningPath":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}},"streaks":{"level":0,"streak":0,"lastStreak":datetime.datetime.now().strftime("%Y-%m-%d")}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":"UNAPW-"+username}}
@@ -141,7 +141,7 @@ def create_account_google(username,id,users_email):
     if str(id) in ids:
         pass
     else:
-        user_data = {"username":username,"email":users_email,"id":id,"type":"google","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}}}}
+        user_data = {"username":username,"email":users_email,"id":id,"type":"google","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"learningPath":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}},"streaks":{"level":0,"streak":0,"lastStreak":datetime.datetime.now().strftime("%Y-%m-%d")}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":id}}
@@ -225,7 +225,84 @@ def get_id():
 def get_username():
     username = user_data_db.find_one({"id":str(get_id())})["username"]
     return username
+
+def get_user_streak():
+    user_id = get_id()
+    user_data = user_data_db.find_one({"id": user_id})
     
+    # Check if the streaks field exists in the user data
+    if "data" not in user_data or "streaks" not in user_data.get("data", {}):
+        # Initialize streaks if it doesn't exist
+        query = {"id": user_id}
+        update = {"$set": {"data.streaks": {"level": 0, "streak": 0,"lastStreak":datetime.datetime.now().strftime("%Y-%m-%d")}}}
+        user_data_db.update_one(query, update)
+        return {"level": 0, "streak": 0,"lastStreak":datetime.datetime.now().strftime("%Y-%m-%d")}
+    
+    return user_data["data"]["streaks"]
+
+def update_streak():
+    streak = get_user_streak()
+    last_streak = streak["lastStreak"]
+    current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+    
+    if last_streak == current_date:
+        return "complete"
+    
+    last_date = datetime.datetime.strptime(last_streak, "%Y-%m-%d")
+    current_datetime = datetime.datetime.strptime(current_date, "%Y-%m-%d")
+    
+    yesterday = current_datetime - datetime.timedelta(days=1)
+    
+    if last_date.date() == yesterday.date():
+        streak["streak"] += 1
+        set_streak_level()
+    else:
+        streak["streak"] = 0
+    
+    streak["lastStreak"] = current_date
+    
+    query = {"id": get_id()}
+    update = {"$set": {"data.streaks": streak}}
+    user_data_db.update_one(query, update)
+    
+    return "complete"
+
+def set_streak_level():
+    streak = get_user_streak()
+    streak_level = streak["level"]
+    streak_level_old = streak_level
+    streak_count = streak["streak"]
+
+    if streak_count >= 10:
+        streak_level = 1
+    elif streak_count >= 20:
+        streak_level = 2
+    elif streak_count >= 30:
+        streak_level = 3
+    elif streak_count >= 40:
+        streak_level = 4
+    elif streak_count >= 50:
+        streak_level = 5
+    elif streak_count >= 60:
+        streak_level = 6
+    elif streak_count >= 70:
+        streak_level = 7
+    elif streak_count >= 80:
+        streak_level = 8
+    elif streak_count >= 90:
+        streak_level = 9
+    elif streak_count >= 100:
+        streak_level = 10
+
+    if streak_level != streak_level_old:
+        streak_count = 0
+
+    query = {"id": get_id()}
+    update = {"$set": {"data.streaks.level": streak_level, "data.streaks.streak": streak_count}}
+    user_data_db.update_one(query, update)
+    
+    return "complete"
+
 
 def weak_topics(id,data):
     user_data = user_data_db.find_one({"id":id})

@@ -769,7 +769,7 @@ main{
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
 }
 
@@ -3048,8 +3048,8 @@ main{
 .navBarStreakLevel{
     width: 100%;
     background-color: var(--streakBackground);
-    border-radius: 8px;
-    padding:12px;
+    border-radius: 12px;
+    padding:10px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -3096,7 +3096,6 @@ main{
 .navBarStreakLevelValueRangeCurrent{
     height: 100%;
     border-radius: 6px;
-    width: 50%;
     display: block;
     background-color: var(--streakSliderPrimary);
 }
