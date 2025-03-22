@@ -249,10 +249,9 @@
         messageTitleContainer.appendChild(messageBubbleSvg);
         messageTitleContainer.appendChild(messageTitle);
         messageTitleContainer.appendChild(messageDate);
-        if (teacher || message.userName === {{ username | tojson }
-    }) {
-        messageTitleContainer.appendChild(deleteIcon);
-    }
+        if (teacher || message.userName === {{username|tojson}}) {
+            messageTitleContainer.appendChild(deleteIcon);
+        }
     container.appendChild(messageText);
 
     // Set text content for message elements
