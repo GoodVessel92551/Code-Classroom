@@ -348,7 +348,7 @@ body{
     justify-content: center;
     align-items: center;
     height:32px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     transition: .15s border-color ease-in-out;
 }
@@ -400,7 +400,7 @@ body{
     gap:8px;
     font-size: 14px;
     padding: 6px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     overflow: hidden;
     user-select: none;
@@ -808,7 +808,7 @@ main{
     height:30px;
     display: flex;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 12px;
     width: 100%;   
     gap:8px;
     padding-left:8px;
@@ -2406,7 +2406,7 @@ main{
 .searchButtonNavBar{
     display: flex;
     background-color: var(--background_tertiary);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 7px;
     gap: 8px;
     align-items: center;

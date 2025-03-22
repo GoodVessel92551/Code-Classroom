@@ -1,10 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Code Classroom  | Home{% endblock %}
+{% block title %}Code Classroom | Home{% endblock %}
 {% block main %}
 
-<div class="pageTitleDiv"><h1>{{page.title()}}</h1>
+<div class="pageTitleDiv">
+    <h1>{{page.title()}}</h1>
     <div class="pageTitleDivButtons">
-        <a href="/settings" class="secondaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.53 4.22a.75.75 0 0 1 0 1.06L8.81 12l6.72 6.72a.75.75 0 1 1-1.06 1.06l-7.25-7.25a.75.75 0 0 1 0-1.06l7.25-7.25a.75.75 0 0 1 1.06 0Z" fill="#fff"/></svg>Back</a>
+        <a href="/settings" class="secondaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M15.53 4.22a.75.75 0 0 1 0 1.06L8.81 12l6.72 6.72a.75.75 0 1 1-1.06 1.06l-7.25-7.25a.75.75 0 0 1 0-1.06l7.25-7.25a.75.75 0 0 1 1.06 0Z"
+                    fill="#fff" />
+            </svg>Back</a>
     </div>
 </div>
 <div class="classroomSettingContainer websiteSettings">
@@ -44,15 +50,15 @@
                     'Content-Type': 'application/json'
                 },
             })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === "complete") {
-                    window.location.href = "/";
-                }
-            })
-            .catch(error => {
-                console.error('Error deleting class:', error);
-            });
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "complete") {
+                        window.location.href = "/";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting class:', error);
+                });
         }
 
         deleteCancelButton.addEventListener('click', () => {
@@ -64,4 +70,4 @@
 </script>
 
 
-{% endblock %} 
+{% endblock %}

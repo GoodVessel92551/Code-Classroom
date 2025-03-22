@@ -9,24 +9,24 @@ const enableAIButton = document.getElementById("enableAIButton");
 
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
-  try{
-      var capabilities = await ai.languageModel.availability();
-  }catch{
-      console.error("No AI")
-      taskSummaryText.textContent = "AI Unavailable"
-      enableAIButton.style.display = "flex";
-      return
-  }
-  if (!(capabilities == "available")){
+  try {
+    var capabilities = await ai.languageModel.availability();
+  } catch {
+    console.error("No AI")
     taskSummaryText.textContent = "AI Unavailable"
     enableAIButton.style.display = "flex";
     return
   }
-    taskSummaryText.textContent = "Loading AI"
+  if (!(capabilities == "available")) {
+    taskSummaryText.textContent = "AI Unavailable"
+    enableAIButton.style.display = "flex";
+    return
+  }
+  taskSummaryText.textContent = "Loading AI"
   available_ai = true;
   session = await ai.languageModel.create({
     temperature: 1.5,
-    topK:10,
+    topK: 10,
     initialPrompts: [
       { "role": "system", "content": "Create 1 simple and easy idea for a user to code in Python. There is only a console output. It **cannot** use external libraries (numpy, hashlib, etc.) but can use the included ones (math, random, etc.). The user does **not** have access to the file system. Do not include code examples/snippets in the idea. Make the idea summary short and simple and easy make sure there is only **one** idea. If there is complicated words explain them. Also ignore the seed the use does not need to see this." },
       { "role": "user", "content": "Create an idea" },
@@ -38,65 +38,65 @@ document.addEventListener("DOMContentLoaded", async () => {
       { "role": "user", "content": "Create an idea" },
       { "role": "assistant", "content": "Build a simple temperature converter that allows the user to input a temperature in Celsius and converts it to Fahrenheit using a stored formula in a variable." },
       { "role": "user", "content": "Create an idea" },
-      {"role":"assistant","content":'Create a game called "guess the number". The computer thinks of a secret number randomly within its range (like 0 - 5). The program asks the user to input a guess until they get the number right. It provides feedback (e.g., "Higher", "Lower", exact guess) to guide the user.'}
+      { "role": "assistant", "content": 'Create a game called "guess the number". The computer thinks of a secret number randomly within its range (like 0 - 5). The program asks the user to input a guess until they get the number right. It provides feedback (e.g., "Higher", "Lower", exact guess) to guide the user.' }
     ]
   });
   taskSummaryText.textContent = "AI Loaded"
   create_idea()
-    
-  })
+  
+})
 
 
 
 
-  const create_idea = async () => {
-    console.log("Generating result");
-    if (available_ai){
-      taskSummaryText.textContent = "Creating Idea"
-      var totalOutput = "";
-      taskSummaryContainerTaskList.classList.add('animated-gradient');
-      const seed = Math.random().toString(36).substring(2, 7);
-      console.log(session)
-      let stream
-      console.log(seed)
-      if(topic){
-        stream = await session.promptStreaming(`Create a simple idea that users ${topic} (Ignore Seed: ${seed})`);
-      }else{
-        stream = await session.promptStreaming(`Create a simple idea (Ignore Seed: ${seed})`);
-      }
-      for await (const chunk of stream) {
-          aiMarkdown.style.display = "block";
-          totalOutput += chunk;
-          aiText.textContent = totalOutput;
-      } 
-        taskSummaryContainerTaskList.classList.remove('animated-gradient');
-        taskSummaryText.textContent = "Idea Created"
-        startCreating.style.display = "flex";
+const create_idea = async () => {
+  console.log("Generating result");
+  if (available_ai) {
+    taskSummaryText.textContent = "Creating Idea"
+    var totalOutput = "";
+    taskSummaryContainerTaskList.classList.add('animated-gradient');
+    const seed = Math.random().toString(36).substring(2, 7);
+    console.log(session)
+    let stream
+    console.log(seed)
+    if (topic) {
+      stream = await session.promptStreaming(`Create a simple idea that users ${topic} (Ignore Seed: ${seed})`);
+    } else {
+      stream = await session.promptStreaming(`Create a simple idea (Ignore Seed: ${seed})`);
     }
+    for await (const chunk of stream) {
+      aiMarkdown.style.display = "block";
+      totalOutput += chunk;
+      aiText.textContent = totalOutput;
+    }
+    taskSummaryContainerTaskList.classList.remove('animated-gradient');
+    taskSummaryText.textContent = "Idea Created"
+    startCreating.style.display = "flex";
   }
+}
 
 
-  const newProjectInstructions = (instructions) => {
-    let projects = localStorage.getItem('codeProjects');
-    let num_projects = localStorage.getItem('num_projects');
-    if (num_projects){
-        num_projects = parseInt(num_projects);
-    }else{
-        num_projects = 1;
+const newProjectInstructions = (instructions) => {
+  let projects = localStorage.getItem('codeProjects');
+  let num_projects = localStorage.getItem('num_projects');
+  if (num_projects) {
+    num_projects = parseInt(num_projects);
+  } else {
+    num_projects = 1;
+  }
+  projects = JSON.parse(projects);
+  let projectKeys = Object.keys(projects);
+  if (projectKeys.length > 10) {
+    alert('You can only have 10 projects');
+  } else {
+    const randomString = Math.random().toString(36).substring(2, 8);
+    let newProject = {
+      "name": "Idea #" + num_projects,
+      "code": '"""\n' + aiText.textContent + '"""',
     }
-    projects = JSON.parse(projects);
-    let projectKeys = Object.keys(projects);
-    if (projectKeys.length > 10){
-        alert('You can only have 10 projects');
-    }else{
-        const randomString = Math.random().toString(36).substring(2, 8);
-        let newProject = {
-            "name": "Idea #" + num_projects,
-            "code": '"""\n'+aiText.textContent+'"""',
-        }
-        projects[randomString] = newProject;
-        localStorage.setItem('codeProjects', JSON.stringify(projects));
-        localStorage.setItem('num_projects', num_projects+1);
-        window.location.href = `/quickCode?project=${randomString}`;
-    }
+    projects[randomString] = newProject;
+    localStorage.setItem('codeProjects', JSON.stringify(projects));
+    localStorage.setItem('num_projects', num_projects + 1);
+    window.location.href = `/quickCode?project=${randomString}`;
+  }
 }
