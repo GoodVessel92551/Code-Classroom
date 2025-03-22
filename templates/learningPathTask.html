@@ -108,7 +108,11 @@
   const taskImage = document.getElementById('taskImage');
 
   let learningPath = JSON.parse(localStorage.getItem('learningPath'));
+
   let learningPathInfo = learningPath.info;
+  if(learningPathInfo.completed == true){
+    window.location.href = "/learningPath";
+  }
   let currentTask = learningPathInfo.currentTask;
   let taskKeys = Object.keys(learningPath.tasks);
   let task = learningPath.tasks[taskKeys[currentTask]];
@@ -120,8 +124,16 @@
 
   completeButton.addEventListener("click", () => {
     learningPathInfo.currentTask += 1;
-    localStorage.setItem('learningPath', JSON.stringify(learningPath));
-    window.location.href = '/learningPath';
+    console.log(learningPathInfo.currentTask);
+    console.log(taskKeys.length);
+    if (learningPathInfo.currentTask >= taskKeys.length) {
+        learningPathInfo.completed = true;
+        localStorage.setItem('learningPath', JSON.stringify(learningPath));
+        window.location.href = "/learningPath";
+    }else{
+        localStorage.setItem('learningPath', JSON.stringify(learningPath));
+        window.location.reload();
+    }
   })
 </script>
 

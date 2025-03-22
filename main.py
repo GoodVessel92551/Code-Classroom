@@ -248,10 +248,7 @@ def delete_account():
         return {'status':status}
 
 @app.route("/endpoint/task/edit", methods=["POST"])
-def edit_task():
-    if not request.host.endswith('booogle.app'):
-        return {'status': 'Unauthorized'}, 403
-        
+def edit_task():    
     if fun.login():
         data = request.json
         if (data["name"] == "" or data["instructions"] == "" or data["date"] == ""):

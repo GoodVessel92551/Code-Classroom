@@ -21,7 +21,15 @@ const learningPathText = document.getElementById("learningPathText")
 const learningPathButton = document.getElementById("learningPathButton")
 const learningPathThininking = document.getElementById("learningPathThininking")
 const learningPathButtonStart = document.getElementById("learningPathButtonStart")
-
+let learningPathLocal = JSON.parse(localStorage.getItem('learningPath'));
+if(learningPathLocal == null){
+  
+}else{
+    let learningPathInfo = learningPathLocal.info;
+    if(learningPathInfo.completed == false){
+        window.location.href = "/learningPathTask";
+    }
+}
 let masterData = {}
 let taskNumCount = 0;
 Object.keys(usersClasses).forEach(key => {
