@@ -3066,6 +3066,7 @@ main{
     gap: 8px;
     align-items: center;
     color: var(--streakTextPrimary);
+    font-size: 15px;
 }
 
 .navBarStreakLevelText > i{
