@@ -122,7 +122,7 @@ def class_page(classid):
         user_class = fun.get_class_with_users_tasks(classid)
         if user_class == None:
             return redirect("/")
-        return render_template("class.html",teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+        return render_template("class.html",streak=fun.get_user_streak(),teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/classroom/<classid>/settings")
@@ -185,7 +185,7 @@ def settings():
 @app.route("/weakTopics")
 def weak_topics_page():
     if fun.login():
-        return render_template("weakTopics.html",weakTopics=fun.get_weak_topics(fun.get_user_id()),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="weak topics",classes=fun.get_user_classes())
+        return render_template("weakTopics.html",streak=fun.get_user_streak(),weakTopics=fun.get_weak_topics(fun.get_user_id()),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/tasklist")
@@ -241,7 +241,7 @@ def upgrade_organization():
 def save_ai_settings():
     if fun.login():
         data = request.json
-        status = fun.save_ai_settings(data["WeakTopics"],data["TaskSummary"],data["IdeaCreator"])
+        status = fun.save_ai_settings(data["WeakTopics"],data["TaskSummary"],data["IdeaCreator"],data["LearningPath"])
         return {'status':status}
 
 @app.route("/endpoint/account/delete",methods=["POST"])

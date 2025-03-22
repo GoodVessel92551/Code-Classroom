@@ -61,11 +61,6 @@ def signup_user(username,password,confirmPassword):
     global_data_db.update_one(query, update)
     return "Success"
 
-def get_users_settings():
-    id = get_id()
-    user_data = user_data_db.find_one({"id":id})
-    return user_data["settings"]
-
 def login_user(username,password):
     session.permanent = True
     ids = global_data_db.find_one({"name":"usernames"})["data"]
@@ -156,12 +151,16 @@ def create_account_google(username,id,users_email):
 def get_users_settings():
     id = get_id()
     user_data = user_data_db.find_one({"id":id})
+
+    if "learningPath" not in user_data["settings"]:
+        user_data_db.update_one({"id": id}, {"$set": {"settings.learningPath": True}})
+        user_data["settings"]["learningPath"] = True
     return user_data["settings"]
 
-def save_ai_settings(weakTopics,taskSummary,ideaCreator):
+def save_ai_settings(weakTopics,taskSummary,ideaCreator,learningPath):
     id = get_id()
     query = {"id":id}
-    update = {"$set":{"settings.taskSummary":taskSummary,"settings.WeakTopics":weakTopics,"settings.IdeaCreator":ideaCreator}}
+    update = {"$set":{"settings.taskSummary":taskSummary,"settings.WeakTopics":weakTopics,"settings.IdeaCreator":ideaCreator,"settings.learningPath":learningPath}}
     user_data_db.update_one(query, update)
     return "Success"
 

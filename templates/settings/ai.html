@@ -40,6 +40,14 @@
         </div>
         <input type="checkbox" id="ideaCreator" class="switch">
     </div>
+    <h3>Learning Path</h3>
+    <div>
+        <div class="classroomSettingText">
+            <h4>Disable Learning Path</h4>
+            <p>This will disable and hide Learning Path.</p>
+        </div>
+        <input type="checkbox" id="learningPath" class="switch">
+    </div>
 </div>
 
 <button id="saveButton" class="primaryButton" style="margin-top: 16px;"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.75A2.75 2.75 0 0 1 5.75 3h9.964a3.25 3.25 0 0 1 2.299.952l2.035 2.035c.61.61.952 1.437.952 2.299v9.964A2.75 2.75 0 0 1 18.25 21H5.75A2.75 2.75 0 0 1 3 18.25V5.75ZM5.75 4.5c-.69 0-1.25.56-1.25 1.25v12.5c0 .69.56 1.25 1.25 1.25H6v-5.25A2.25 2.25 0 0 1 8.25 12h7.5A2.25 2.25 0 0 1 18 14.25v5.25h.25c.69 0 1.25-.56 1.25-1.25V8.286c0-.465-.184-.91-.513-1.238l-2.035-2.035a1.75 1.75 0 0 0-.952-.49V7.25a2.25 2.25 0 0 1-2.25 2.25h-4.5A2.25 2.25 0 0 1 7 7.25V4.5H5.75Zm10.75 15v-5.25a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0-.75.75v5.25h9Zm-8-15v2.75c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75V4.5h-6Z" fill="#fff"/></svg>Save</button>
@@ -49,20 +57,23 @@
     const weakTopics = document.getElementById('weakTopics');
     const taskSummary = document.getElementById('taskSummary');
     const ideaCreator = document.getElementById('ideaCreator');
+    const learningPath = document.getElementById('learningPath');
     const saveButton = document.getElementById('saveButton');
     
-    if (!settings.WeakTopics && !settings.IdeaCreator && !settings.taskSummary) {
+    if (!settings.WeakTopics && !settings.IdeaCreator && !settings.taskSummary && !settings.LearningPath) {
         generalSettings.checked = true;
     }
 
     weakTopics.checked = !settings.WeakTopics;
     taskSummary.checked = !settings.taskSummary;
     ideaCreator.checked = !settings.IdeaCreator;
+    learningPath.checked = !settings.learningPath;
 
     generalSettings.addEventListener('change', () => {
         weakTopics.checked = generalSettings.checked;
         taskSummary.checked = generalSettings.checked;
         ideaCreator.checked = generalSettings.checked;
+        learningPath.checked = generalSettings.checked;
     });
 
     saveButton.addEventListener('click', () => {
@@ -74,7 +85,8 @@
             body: JSON.stringify({
                 WeakTopics: !weakTopics.checked,
                 TaskSummary: !taskSummary.checked,
-                IdeaCreator: !ideaCreator.checked
+                IdeaCreator: !ideaCreator.checked,
+                LearningPath: !learningPath.checked
             })
         }).then(res => {
             if (res.ok) {
