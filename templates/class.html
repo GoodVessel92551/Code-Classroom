@@ -289,8 +289,7 @@
 
         currentDate.setHours(0, 0, 0, 0);
         dueDate.setHours(0, 0, 0, 0);
-        if ({{ teacher | tojson }
-    }) {
+        if (teacher) {
         taskIndercater.classList.add('taskIndercater', 'complete');
     }else {
         if (dueDate < currentDate && task.student_data[userID].status !== 'completed') {
