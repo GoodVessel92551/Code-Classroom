@@ -3227,3 +3227,96 @@ main{
 .navBarXPLevelValueRangeCurrent{
     background-color: var(--XPSliderPrimary) !important;
 }
+
+
+.classroomCoverImages{
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.classroomCoverImages > span{
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    transition: .2s min-width ease-in-out, .2s opacity ease-in-out;
+    min-width: calc(100% / 5 - 64px);
+    cursor: pointer;
+    opacity: .5;
+    position: relative;
+}
+
+.classroomCoverImages > span > img{
+    width: 100%;
+    height: 100px;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+@media (max-width:700px) {
+    .classroomCoverImages > span:hover{
+        min-width: 60px !important;
+    }
+    .selectedCover{
+        min-width: 60px !important;
+        opacity: 1 !important;
+    }
+    .classroomCoverImages{
+        gap:4px;
+    }
+
+    .classroomCoverImages > span{
+        min-width: calc(100% / 5 - 32px);
+    }
+}
+
+@media (min-width:700px) {
+    .selectedCover{
+        min-width: 150px !important;
+        opacity: 1 !important;
+    }
+    
+}
+
+.classroomCoverImages > span:hover{
+    min-width: 150px;
+    opacity: 1;
+}
+
+@keyframes loadIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+.selectedCover::after{
+    content: '';
+    position: absolute;
+    top:8px;
+    right:8px;
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 8px;
+    mix-blend-mode: soft-light;
+    filter: brightness(150%);
+    animation: loadIn 0.3s ease-in-out;
+}

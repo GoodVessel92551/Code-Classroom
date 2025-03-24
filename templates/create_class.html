@@ -30,7 +30,7 @@
         </div>
         <div>
             <label>Class Color</label>
-            <div class="coverImageContainer">
+            <!-- <div class="coverImageContainer">
                 <div class="imagesLeft">
                     <span><img id="imagesLeft1"></span>
                     <span><img id="imagesLeft2"></span>
@@ -54,6 +54,14 @@
                     <span><img id="imagesRight1"></span>
                     <span><img id="imagesRight2"></span>
                 </div>
+            </div> -->
+            <div class="classroomCoverImages">
+                <span id="blueCover" onclick="setCover('blue')" class="selectedCover"><img src="/static/coverImages/classroomCovers/blueGradient.webp"></span>
+                <span id="greenCover" onclick="setCover('green')"><img src="/static/coverImages/classroomCovers/greenGradient.webp"></span>
+                <span id="orangeCover" onclick="setCover('orange')"><img src="/static/coverImages/classroomCovers/orangeGradient.webp"></span>
+                <span id="pinkCover" onclick="setCover('pink')"><img src="/static/coverImages/classroomCovers/pinkGradient.webp"></span>
+                <span id="purpleCover" onclick="setCover('purple')"><img src="/static/coverImages/classroomCovers/purpleGradient.webp"></span>
+                <span id="redCover" onclick="setCover('red')"><img src="/static/coverImages/classroomCovers/redGradient.webp"></span>
             </div>
         </div>
         <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"
@@ -65,6 +73,14 @@
     </div>
 </main>
 <script>
+    const setCover = (color) => {
+        selectedCover = color;
+        document.querySelectorAll(".classroomCoverImages span").forEach(span => {
+            span.classList.remove("selectedCover");
+        })
+        document.getElementById(color + "Cover").classList.add("selectedCover");
+    }
+    let selectedCover = "blue";
     let coverImages = ["blue", "green", "orange", "pink", "purple", "red"];
     const nextImageLeft = document.getElementById("nextImageLeft");
     const nextImageRight = document.getElementById("nextImageRight");

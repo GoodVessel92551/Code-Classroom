@@ -90,6 +90,7 @@
     const classMembers = thisClass.members;
     const deleteTask = document.getElementById('deleteTask')
     const taskid = {{ taskid| tojson}};
+    const taskInfo = {{ task| tojson}};
     const taskDateValue = {{ task| tojson}}.taskDue;
     const taskDate = new Date(taskDateValue);
     const taskDateInput = document.getElementById('taskDate');
@@ -139,12 +140,11 @@
         const progressTag = classMember.querySelector('#progressTag');
         const anchorElement = classMember.querySelector('#classMember');
         if (studentsDataList.includes(member.id)) {
-            if ({{ task | tojson }
-        }.student_data[member.id].status == "completed"){
+            if (taskInfo.student_data[member.id].status == "completed"){
         progressTag.innerText = "Completed";
         progressTag.classList.add('complete');
         anchorElement.href = "/view/{{classid}}/{{taskid}}/" + member.id;
-    }else if ({{ task | tojson }}.student_data[member.id].status == "notcompleted") {
+    }else if (taskInfo.student_data[member.id].status == "notcompleted") {
         progressTag.innerText = "In Progress";
         progressTag.classList.add('notComplete');
         anchorElement.href = "/view/{{classid}}/{{taskid}}/" + member.id;
