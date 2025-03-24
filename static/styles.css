@@ -3144,6 +3144,7 @@ main{
     gap: 8px;
     align-items: center;
     color: var(--streakTextPrimary);
+    user-select: none;
     font-size: 15px;
 }
 
@@ -3155,6 +3156,7 @@ main{
     align-items: center;
     justify-content: center;
     margin-left:auto;
+    user-select: none;
 }
 
 .navBarStreakLevelText > button > svg, .navBarXPLevelText > button > svg{
@@ -3181,6 +3183,7 @@ main{
     justify-content: center;
     font-size: 16px;
     color: var(--streakIcon);
+    user-select: none;
 }
 
 
@@ -3195,6 +3198,7 @@ main{
     align-items: center;
     padding:0px 4px;
     box-sizing: border-box;
+    user-select: none;
 }
 
 .navBarStreakLevelValueRange, .navBarXPLevelValueRange{
