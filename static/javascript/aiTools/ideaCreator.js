@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     temperature: 1.5,
     topK: 10,
     initialPrompts: [
-      { "role": "system", "content": "Create 1 simple and easy idea for a user to code in Python. There is only a console output. It **cannot** use external libraries (numpy, hashlib, etc.) but can use the included ones (math, random, etc.). The user does **not** have access to the file system. Do not include code examples/snippets in the idea. Make the idea summary short and simple and easy make sure there is only **one** idea. If there is complicated words explain them. Also ignore the seed the use does not need to see this." },
+      { "role": "system", "content": `Action: Create a simple small project in python. \ 
+        Rules: Be concise. Make sure the project does not use any modules. The project can't access the file system.The project must be completed in python in the terminal.` },
       { "role": "user", "content": "Create an idea" },
       { "role": "assistant", "content": "Create a simple text-based calculator that can perform basic arithmetic operations (+, -, *, /) based on user input." },
       { "role": "user", "content": "Create an idea" },
@@ -55,7 +56,7 @@ const create_idea = async () => {
     taskSummaryText.textContent = "Creating Idea"
     var totalOutput = "";
     taskSummaryContainerTaskList.classList.add('animated-gradient');
-    const seed = Math.random().toString(36).substring(2, 7);
+    const seed = Math.random().toString(36).substring(2, 9);
     console.log(session)
     let stream
     console.log(seed)

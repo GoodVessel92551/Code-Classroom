@@ -114,11 +114,14 @@
         </div>
     </div>
     <span class="navBarVerText"></span>
-    <div class="navBarStreakLevelContainer">
+    <div class="navBarStreakLevelContainer showStreak" id="navBarStreakLevelContainer">
         <div class="navBarStreakLevel">
             <div class="navBarStreakLevelText">
                 <i class="vf-ic_fluent_fire_24_filled"></i>
                 <span>Streak Level</span>
+                <button id="streakLevelButton">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.47 4.22a.75.75 0 0 0 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25a.75.75 0 0 0 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0Z" fill="#fff"/></svg>
+                </button>
             </div>
             <div class="navBarStreakLevelValue">
                 <span class="navBarStreakLevelValueLevel">{{streak["level"]}}</span>
@@ -126,6 +129,22 @@
                     <span class="navBarStreakLevelValueRangeCurrent" id="navBarStreakLevelValueRangeCurrent"></span>
                 </span>
                 <span class="navBarStreakLevelValueLevel">{{streak["level"] + 1}}</span>
+            </div>
+        </div>
+        <div class="navBarXPLevel">
+            <div class="navBarXPLevelText">
+                <i class="vf-ic_fluent_fire_24_filled"></i>
+                <span>XP Level</span>
+                <button id="xpLevelButton">
+                    <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.53 4.22a.75.75 0 0 1 0 1.06L8.81 12l6.72 6.72a.75.75 0 1 1-1.06 1.06l-7.25-7.25a.75.75 0 0 1 0-1.06l7.25-7.25a.75.75 0 0 1 1.06 0Z" fill="#fff"/></svg>
+                </button>
+            </div>
+            <div class="navBarXPLevelValue">
+                <span class="navBarXPLevelValueLevel">{{xp["level"]}}</span>
+                <span class="navBarXPLevelValueRange">
+                    <span class="navBarXPLevelValueRangeCurrent" id="navBarXPLevelValueRangeCurrent"></span>
+                </span>
+                <span class="navBarXPLevelValueLevel">{{xp["level"] + 1}}</span>
             </div>
         </div>
     </div>
@@ -281,10 +300,50 @@
 </div>
 
 <script>
+    const streakLevelButton = document.getElementById('streakLevelButton');
+    const xpLevelButton = document.getElementById('xpLevelButton');
+    const navBarStreakLevelContainer = document.getElementById('navBarStreakLevelContainer');
+    streakLevelButton.addEventListener('click', () => {
+        navBarStreakLevelContainer.classList.toggle('showXP');
+        navBarStreakLevelContainer.classList.toggle('showStreak');
+        
+        // Add animation class only when toggling
+        if (navBarStreakLevelContainer.classList.contains('showXP')) {
+            navBarStreakLevelContainer.classList.add('animate-bounceIn');
+            navBarStreakLevelContainer.classList.remove('animate-bounceInOP');
+        } else {
+            navBarStreakLevelContainer.classList.add('animate-bounceInOP');
+            navBarStreakLevelContainer.classList.remove('animate-bounceIn');
+        }
+    });
+
+    xpLevelButton.addEventListener('click', () => {
+        navBarStreakLevelContainer.classList.toggle('showXP');
+        navBarStreakLevelContainer.classList.toggle('showStreak');
+        
+        // Add animation class only when toggling
+        if (navBarStreakLevelContainer.classList.contains('showXP')) {
+            navBarStreakLevelContainer.classList.add('animate-bounceIn');
+            navBarStreakLevelContainer.classList.remove('animate-bounceInOP');
+        } else {
+            navBarStreakLevelContainer.classList.add('animate-bounceInOP');
+            navBarStreakLevelContainer.classList.remove('animate-bounceIn');
+        }
+    });
+    
+    // Remove animation classes after they complete
+    navBarStreakLevelContainer.addEventListener('animationend', function() {
+        this.classList.remove('animate-bounceIn', 'animate-bounceInOP');
+    });
+
     const streak = {{ streak| tojson}};
+    const xp = {{ xp| tojson}};
     var lastStreakNumber = streak.streak;
     const navBarStreakLevelValueRangeCurrent = document.getElementById('navBarStreakLevelValueRangeCurrent');
+    const navBarXPLevelValueRangeCurrent = document.getElementById('navBarXPLevelValueRangeCurrent');
+
     navBarStreakLevelValueRangeCurrent.style.width = (lastStreakNumber * 10) + "%";
+    navBarXPLevelValueRangeCurrent.style.width = ((xp.points) * 10) + "%";
     const settings = {{ settings| tojson}};
     const weakTopicsContainer = document.getElementById("weak topics");
     const ideaCreatorContainer = document.getElementById("idea creator");

@@ -67,7 +67,7 @@ def get_google_provider_cfg():
 @app.route("/")
 def home():
     if fun.login():
-        return render_template("index.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="home",classes=fun.get_user_classes())
+        return render_template("index.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="home",classes=fun.get_user_classes())
     return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/faq")
@@ -85,26 +85,26 @@ def enableAI():
 @app.route("/notifications")
 def notifications():
     if fun.login():
-        return render_template("notifications.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="notifications",classes=fun.get_user_classes())
+        return render_template("notifications.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="notifications",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/quickCode")
 def code_project():
     if fun.login():
         fun.update_streak()
-        return render_template("code.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="quick code",classes=fun.get_user_classes())
+        return render_template("code.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="quick code",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/code")
 def code():
     if fun.login():
-        return render_template("quickCode.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="quick code",classes=fun.get_user_classes())
+        return render_template("quickCode.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="quick code",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/create/classroom")
 def create_classroom():
     if fun.login():
-        return render_template("create_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="create classroom",classes=fun.get_user_classes())
+        return render_template("create_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="create classroom",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/create/task/<classid>") 
@@ -112,7 +112,7 @@ def create_task(classid):
     if fun.login():
         if not fun.check_teacher(classid):
             return redirect("/classroom/"+classid)
-        return render_template("create_task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="create task",classes=fun.get_user_classes(),classid=classid)
+        return render_template("create_task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="create task",classes=fun.get_user_classes(),classid=classid)
     return redirect("/")
 
 @app.route("/classroom/<classid>")
@@ -122,7 +122,7 @@ def class_page(classid):
         user_class = fun.get_class_with_users_tasks(classid)
         if user_class == None:
             return redirect("/")
-        return render_template("class.html",streak=fun.get_user_streak(),teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+        return render_template("class.html",streak=fun.get_user_streak(),xp=fun.get_user_xp(),teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/classroom/<classid>/settings")
@@ -131,7 +131,7 @@ def class_settings(classid):
         if not fun.check_teacher(classid):
             return redirect("/classroom/"+classid)
         user_class = fun.get_class_without_users_tasks(classid)
-        return render_template("class_settings.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+        return render_template("class_settings.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/task/<classid>/<taskid>")
@@ -144,7 +144,7 @@ def task(classid,taskid):
                 if i["id"] == taskid:
                     task = i
                     break
-            return render_template("viewTask.html",task=task,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
+            return render_template("viewTask.html",task=task,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
         fun.create_task_student(classid,taskid)
         user_class = fun.get_user_classes_one_class(classid)
         class_color = user_class["classInfo"]["coverImage"]
@@ -154,7 +154,7 @@ def task(classid,taskid):
                 break
         code = fun.get_code(classid,taskid,fun.get_id())
         fun.update_streak()
-        return render_template("task.html",userid=fun.get_user_id(),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
+        return render_template("task.html",userid=fun.get_user_id(),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
     return redirect("/")
 
 @app.route("/view/<classid>/<taskid>/<userid>")
@@ -168,73 +168,73 @@ def view_task(classid,taskid,userid):
                     task = i
                     break
             code = fun.get_code(classid,taskid,userid)
-            return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=True,userid=userid)
+            return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=True,userid=userid)
             
 @app.route("/join/classroom")
 def join_classroom():
     if fun.login():
-        return render_template("join_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="join classroom",classes=fun.get_user_classes())
+        return render_template("join_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings")
 def settings():
     if fun.login():
-        return render_template("settings/main.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="settings",classes=fun.get_user_classes())
+        return render_template("settings/main.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/weakTopics")
 def weak_topics_page():
     if fun.login():
-        return render_template("weakTopics.html",streak=fun.get_user_streak(),weakTopics=fun.get_weak_topics(fun.get_user_id()),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
+        return render_template("weakTopics.html",streak=fun.get_user_streak(),xp=fun.get_user_xp(),weakTopics=fun.get_weak_topics(fun.get_user_id()),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/tasklist")
 def task_list():
     if fun.login():
-        return render_template("taskList.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="task list",classes=fun.get_user_classes())
+        return render_template("taskList.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="task list",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/createIdea")
 def task_summary():
     if fun.login():
-        return render_template("createIdea.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="idea creator",classes=fun.get_user_classes())
+        return render_template("createIdea.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="idea creator",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/learningPath")
 def learning_path():
     if fun.login():
-        return render_template("learningPath.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="learning path",classes=fun.get_user_classes(),weak_topics=fun.get_weak_topics(fun.get_user_id()))
+        return render_template("learningPath.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="learning path",classes=fun.get_user_classes(),weak_topics=fun.get_weak_topics(fun.get_user_id()))
     return redirect("/")
 
 @app.route("/learningPathTask")
 def learning_path_topic():
     if fun.login():
         fun.update_streak()
-        return render_template("learningPathTask.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="learning path",classes=fun.get_user_classes())
+        return render_template("learningPathTask.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="learning path",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/ai")
 def ai_settings():
     if fun.login():
-        return render_template("settings/ai.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="AI settings",classes=fun.get_user_classes())
+        return render_template("settings/ai.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="AI settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/accessibility")
 def accessibility_settings():
     if fun.login():
-        return render_template("settings/accessibility.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="Accessibility settings",classes=fun.get_user_classes())
+        return render_template("settings/accessibility.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="Accessibility settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/account")
 def account_settings():
     if fun.login():
-        return render_template("settings/account.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="Account settings",classes=fun.get_user_classes())
+        return render_template("settings/account.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="Account settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/upgrade/organization")
 def upgrade_organization():
     if fun.login():
-        return render_template("upgradePages/organizationUpgrade.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),page="upgrade organization",classes=fun.get_user_classes())
+        return render_template("upgradePages/organizationUpgrade.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="upgrade organization",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/endpoint/settings/ai",methods=["POST"])

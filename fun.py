@@ -49,7 +49,7 @@ def signup_user(username,password,confirmPassword):
     if str("UNAPW-"+username) in ids:
         return "Username already exists"
     else:
-        user_data = {"username":username,"password":password,"id":id,"type":"UNAPW","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"learningPath":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}},"streaks":{"level":0,"streak":0,"lastStreak":datetime.datetime.now().strftime("%Y-%m-%d")}}}
+        user_data = {"username":username,"password":password,"id":id,"type":"UNAPW","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"learningPath":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}},"xp":{"level":0,"points":0},"streaks":{"level":0,"streak":0,"lastStreak":datetime.datetime.now().strftime("%Y-%m-%d")}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":"UNAPW-"+username}}
@@ -136,7 +136,7 @@ def create_account_google(username,id,users_email):
     if str(id) in ids:
         pass
     else:
-        user_data = {"username":username,"email":users_email,"id":id,"type":"google","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"learningPath":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}},"streaks":{"level":0,"streak":0,"lastStreak":datetime.datetime.now().strftime("%Y-%m-%d")}}}
+        user_data = {"username":username,"email":users_email,"id":id,"type":"google","plan":"base","settings":{"taskSummary":True,"WeakTopics":True,"IdeaCreator":True,"learningPath":True,"Font":"lexend","FontSize":"normal"},"data":{"classrooms":[],"aiTools":{"weakTopics":{"topics":[],"tasks":[]},"taskSummary":{"recommendTasks":[]}},"xp":{"level":0,"points":0},"streaks":{"level":0,"streak":0,"lastStreak":datetime.datetime.now().strftime("%Y-%m-%d")}}}
         user_data_db.insert_one(user_data)
         query = {"name":"usernames"}
         update = {"$push":{"data":id}}
@@ -239,6 +239,27 @@ def get_user_streak():
     
     return user_data["data"]["streaks"]
 
+def get_user_xp():
+    user_id = get_id()
+    user_data = user_data_db.find({"id": user_id})
+    if "xp" not in user_data:
+        user_data_db.update_one({"id": user_id}, {"$set": {"xp": {"level": 0, "points": 0}}})
+        return {"level": 0, "points": 0}
+    return user_data["xp"]
+
+def increase_xp(points):
+    user_id = get_id()
+    user_data = user_data_db.find_one({"id": user_id})
+    xp = user_data["xp"]
+    xp["points"] += points
+    if xp["points"] >= 100:
+        xp["level"] += 1
+        xp["points"] -= 100
+    query = {"id": user_id}
+    update = {"$set": {"xp": xp}}
+    user_data_db.update_one(query, update)
+    return "complete"
+
 def update_streak():
     streak = get_user_streak()
     last_streak = streak["lastStreak"]
@@ -254,6 +275,7 @@ def update_streak():
     
     if last_date.date() == yesterday.date():
         streak["streak"] += 1
+        increase_xp(2)
         set_streak_level()
     else:
         streak["streak"] = 0
@@ -274,23 +296,33 @@ def set_streak_level():
 
     if streak_count >= 10:
         streak_level = 1
+        increase_xp(10)
     elif streak_count >= 20:
         streak_level = 2
+        increase_xp(20)
     elif streak_count >= 30:
         streak_level = 3
+        increase_xp(30)
     elif streak_count >= 40:
         streak_level = 4
+        increase_xp(35)
     elif streak_count >= 50:
         streak_level = 5
+        increase_xp(40)
     elif streak_count >= 60:
         streak_level = 6
+        increase_xp(45)
     elif streak_count >= 70:
         streak_level = 7
+        increase_xp(50)
     elif streak_count >= 80:
         streak_level = 8
+        increase_xp(52)
     elif streak_count >= 90:
         streak_level = 9
+        increase_xp(55)
     elif streak_count >= 100:
+        increase_xp(57)
         streak_level = 10
 
     if streak_level != streak_level_old:

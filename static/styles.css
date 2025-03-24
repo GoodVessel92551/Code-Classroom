@@ -46,6 +46,13 @@
     --streakSliderBackground:#524A32;
     --streakSliderPrimary:#FFA844;
     --streakIcon:#FFA844;
+
+    --XPBackground:#283944;
+    --XPTextPrimary:#D3E6FF;
+    --XPTextSecondary:#A9C6D4;
+    --XPSliderBackground:#324652;
+    --XPSliderPrimary:#44B7FF;
+    --XPIcon:#44B7FF;
 }
 
 body,html{
@@ -3042,14 +3049,61 @@ main{
 }
 
 .navBarStreakLevelContainer{
-    width: 100%;
+    width: 200%;
     padding: 16px 16px 0px 16px;
     margin-bottom: -8px;
     box-sizing: border-box;
     display: flex;
+    gap:32px;
 }
 
-.navBarStreakLevel{
+.showStreak{
+    transform: translateX(0%);
+}
+
+.animate-bounceInOP {
+    animation: bounceInOP 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceInOP {
+    0% {
+        transform: translateX(calc(-50% + 5px));
+    }
+    60% {
+        transform: translateX(-5px);
+    }
+    80% {
+        transform: translateX(2px);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.showXP{
+    transform: translateX(-50%);
+}
+
+.animate-bounceIn {
+    animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: translateX(calc(0% + -5px));
+    }
+    60% {
+        transform: translateX(calc(-50% + 5px));
+    }
+    80% {
+        transform: translateX(calc(-50% + -2px));
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.navBarStreakLevel, .navBarXPLevel{
     width: 100%;
     background-color: var(--streakBackground);
     border-radius: 12px;
@@ -3060,7 +3114,12 @@ main{
     gap: 12px;
 }
 
-.navBarStreakLevelText{
+.navBarXPLevel{
+    background-color: var(--XPBackground) !important;
+}
+
+
+.navBarStreakLevelText, .navBarXPLevelText{
     display: flex;
     flex-direction: row;
     gap: 8px;
@@ -3069,7 +3128,35 @@ main{
     font-size: 15px;
 }
 
-.navBarStreakLevelText > i{
+.navBarStreakLevelText > button, .navBarXPLevelText > button{
+    background: none;
+    border:none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left:auto;
+}
+
+.navBarStreakLevelText > button > svg, .navBarXPLevelText > button > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.navBarStreakLevelText > button > svg > path{
+    fill: var(--streakTextPrimary);
+}
+
+.navBarXPLevelText > button > svg > path{
+    fill: var(--XPTextPrimary);
+}
+
+
+.navBarXPLevelText{
+    color: var(--XPTextPrimary) !important;
+}
+
+.navBarStreakLevelText > i, .navBarXPLevelText > i{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3077,7 +3164,12 @@ main{
     color: var(--streakIcon);
 }
 
-.navBarStreakLevelValue{
+
+.navBarXPLevelText > i{
+    color: var(--XPTextSecondary) !important;
+}
+
+.navBarStreakLevelValue, .navBarXPLevelValue{
     display: flex;
     flex-direction: row;
     gap: 8px;
@@ -3086,21 +3178,33 @@ main{
     box-sizing: border-box;
 }
 
-.navBarStreakLevelValueRange{
+.navBarStreakLevelValueRange, .navBarXPLevelValueRange{
     width: 100%;
     height: 6px;
     border-radius: 6px;
     background-color: var(--streakSliderBackground);
 }
 
-.navBarStreakLevelValueLevel{
+.navBarXPLevelValueRange{
+    background-color: var(--XPSliderBackground) !important;
+}
+
+.navBarStreakLevelValueLevel, .navBarXPLevelValueLevel{
     font-size: 12px;
     color: var(--streakTextSecondary);
 }
 
-.navBarStreakLevelValueRangeCurrent{
+.navBarXPLevelValueLevel{
+    color: var(--XPTextSecondary) !important;
+}
+
+.navBarStreakLevelValueRangeCurrent, .navBarXPLevelValueRangeCurrent{
     height: 100%;
     border-radius: 6px;
     display: block;
     background-color: var(--streakSliderPrimary);
+}
+
+.navBarXPLevelValueRangeCurrent{
+    background-color: var(--XPSliderPrimary) !important;
 }
