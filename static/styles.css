@@ -37,6 +37,22 @@
     --buttonWanningText:#4B4629;
     --buttonSuccessBackground:#A0FFB0;
     --buttonSuccessText:#294B2C;
+    --buttonLearningPathBackground:#FFA0FC;
+    --buttonLearningPathText:#4B2942;
+
+    --streakBackground:#443A28;
+    --streakTextPrimary:#FFEBD3;
+    --streakTextSecondary:#D4C1A9;
+    --streakSliderBackground:#524A32;
+    --streakSliderPrimary:#FFA844;
+    --streakIcon:#FFA844;
+
+    --XPBackground:#283944;
+    --XPTextPrimary:#D3E6FF;
+    --XPTextSecondary:#A9C6D4;
+    --XPSliderBackground:#324652;
+    --XPSliderPrimary:#44B7FF;
+    --XPIcon:#44B7FF;
 }
 
 body,html{
@@ -80,7 +96,7 @@ body{
     margin-left:16px;
 }
 
-.primaryButton, .secondaryButton, .whiteButton, .dangerButton, .wanningButton, .successButton{
+.primaryButton, .secondaryButton, .whiteButton, .dangerButton, .wanningButton, .successButton,.learningPathButton{
     height: 36px;
     border-radius: 20px;
     border:none;
@@ -125,6 +141,20 @@ body{
 .successButton{
     background-color: var(--buttonSuccessBackground);
     color: var(--buttonSuccessText);
+}
+
+.learningPathButton{
+    background-color: var(--buttonLearningPathBackground);
+    color: var(--buttonLearningPathText);
+}
+
+.learningPathButton > svg{
+    width: 18px;
+    height: 18px;
+}
+
+.learningPathButton > svg > path{
+    fill: var(--buttonLearningPathText);
 }
 
 
@@ -225,7 +255,7 @@ body{
     cursor: not-allowed;
 }
 
-.navSideBar{
+.navSideBar {
     min-width: 224px;
     max-width: 224px;
     height: 100dvh;
@@ -233,14 +263,16 @@ body{
     display: flex;
     flex-direction: column;
     z-index: 100;
-    transition: .1s ease-in-out min-width,max-width;
+    transition: min-width 0.1s ease-out, max-width 0.1s ease-out;
     overflow: hidden;
+    will-change: min-width, max-width;
 }
 
-.minimize{
+.minimize {
     min-width: 64px !important;
     max-width: 64px !important;
 }
+
 
 .navbarTitle > span{
     max-width: 100%;
@@ -310,6 +342,7 @@ body{
     overflow: hidden;
     width: 100%;
     padding-top: 0px !important;
+    min-height: 121.5px;
 }
 
 .pageMenuAITools > div{
@@ -325,7 +358,7 @@ body{
     justify-content: center;
     align-items: center;
     height:32px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     transition: .15s border-color ease-in-out;
 }
@@ -352,9 +385,14 @@ body{
     border:2px solid #2D4C4C;
 }
 
-.taskSummaryPageMenu{
-    background-color: #232838;
-    border:2px solid #2D2F4C;
+.learningPathPageMenu{
+    background-color: #382337;
+    border:2px solid #4C2D48;
+}
+
+
+.learningPathPageMenu:hover{
+    border-color: #873d5d;
 }
 
 .pageMenu > span{
@@ -372,10 +410,12 @@ body{
     gap:8px;
     font-size: 14px;
     padding: 6px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     overflow: hidden;
     user-select: none;
+    min-height: 30px;
+    box-sizing: border-box;
 }
 
 .pageMenu > a > span{
@@ -430,6 +470,10 @@ body{
 .pageMenuCurrentPage.ideaCreatorPageMenu{
     background-color: #2d4c38;
     border-color: #3bc763;
+}
+.pageMenuCurrentPage.learningPathPageMenu{
+    background-color: #4c2d42;
+    border-color: #c73bc2;
 }
 
 .pageMenuCurrentPage:not(.pageMenuAITools > div > a,.redpageMenu,.orangepageMenu,.greenpageMenu,.bluepageMenu,.purplepageMenu,.pinkpageMenu){
@@ -737,8 +781,10 @@ main{
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
+    height: 32px;
+    box-sizing: border-box;
 }
 
 .bottomNavButtons > a > svg{
@@ -765,6 +811,18 @@ main{
     transition: 0.3s max-height ease-out; /* Reduced from 1s to 0.3s and changed timing function */
     overflow: hidden;
     margin-bottom: -8px;
+    position: relative;
+}
+
+.optionContainerNavBar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 24px;
+    background: linear-gradient(to bottom, transparent, var(--background_secondary));
+    pointer-events: none;
 }
 
 .optionContainerNavBar:empty{
@@ -776,7 +834,7 @@ main{
     height:30px;
     display: flex;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 12px;
     width: 100%;   
     gap:8px;
     padding-left:8px;
@@ -2374,7 +2432,7 @@ main{
 .searchButtonNavBar{
     display: flex;
     background-color: var(--background_tertiary);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 7px;
     gap: 8px;
     align-items: center;
@@ -2898,4 +2956,371 @@ main{
 
 .perkListAdminFeatures > span > svg > path{
     fill: #BDC9FC;
+}
+
+.learningPathContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    height: 100%;
+    flex-direction: column;
+}
+
+.learningPathContainer > p{
+    font-size: 14px;
+    max-width: 600px;
+    margin:0px;
+    text-align: center;
+    color: var(--text_secondary);
+}
+
+.learningPathContainer > h1{
+    margin:0px;
+}
+
+.aiThinkingLearningPath{
+    max-width: 700px;
+    position: absolute;
+    bottom: 32px;
+    left:50%;
+    transform: translateX(-50%);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.learningPathContainer > h1 > span:not(#createText){
+    background: linear-gradient(91deg, #E969CA 32.6%, #FE7B7D 50.78%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.tasksLearningPath{
+    max-width: 700px;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tasksLearningPath > div{
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(135, 59, 91, 0.50) !important
+}
+
+.tasksLearningPath > div > .markdown {
+    display: none;
+    max-height: 200px;
+    overflow-y: hidden;
+    position: relative;
+    scroll-behavior: smooth;
+}
+
+.tasksLearningPath > div > .markdown::before {
+    content: '';
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, rgb(74 37 54), transparent);
+    pointer-events: none;
+    z-index: 1;
+    display: block;
+    margin-bottom: -40px; 
+}
+
+.tasksLearningPath > div > .markdown::after {
+    content: '';
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to top, rgb(74 37 54), transparent);
+    pointer-events: none;
+    z-index: 1;
+    display: block;
+    margin-top: -40px;
+}
+
+@keyframes closeMarkdown {
+    from {
+        max-height: 200px;
+    }
+    to {
+        max-height: 0px;
+        display: none;
+    }
+}
+
+.closeMarkdown{
+    animation: closeMarkdown 0.3s ease-in-out forwards;
+}
+
+.minimize .navBarStreakLevelContainer{
+    display: none;
+}
+
+.navBarStreakLevelContainer{
+    width: 200%;
+    padding: 16px 16px 0px 16px;
+    margin-bottom: -8px;
+    box-sizing: border-box;
+    display: flex;
+    gap:32px;
+}
+
+.showStreak{
+    transform: translateX(0%);
+}
+
+.animate-bounceInOP {
+    animation: bounceInOP 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceInOP {
+    0% {
+        transform: translateX(calc(-50% + 5px));
+    }
+    60% {
+        transform: translateX(-5px);
+    }
+    80% {
+        transform: translateX(2px);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.showXP{
+    transform: translateX(-50%);
+}
+
+.animate-bounceIn {
+    animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: translateX(calc(0% + -5px));
+    }
+    60% {
+        transform: translateX(calc(-50% + 5px));
+    }
+    80% {
+        transform: translateX(calc(-50% + -2px));
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.navBarStreakLevel, .navBarXPLevel{
+    width: 100%;
+    background-color: var(--streakBackground);
+    border-radius: 12px;
+    padding:10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.navBarXPLevel{
+    background-color: var(--XPBackground) !important;
+}
+
+
+.navBarStreakLevelText, .navBarXPLevelText{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    color: var(--streakTextPrimary);
+    user-select: none;
+    font-size: 15px;
+}
+
+.navBarStreakLevelText > button, .navBarXPLevelText > button{
+    background: none;
+    border:none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left:auto;
+    user-select: none;
+}
+
+.navBarStreakLevelText > button > svg, .navBarXPLevelText > button > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.navBarStreakLevelText > button > svg > path{
+    fill: var(--streakTextPrimary);
+}
+
+.navBarXPLevelText > button > svg > path{
+    fill: var(--XPTextPrimary);
+}
+
+
+.navBarXPLevelText{
+    color: var(--XPTextPrimary) !important;
+}
+
+.navBarStreakLevelText > i, .navBarXPLevelText > i{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: var(--streakIcon);
+    user-select: none;
+}
+
+
+.navBarXPLevelText > i{
+    color: var(--XPTextSecondary) !important;
+}
+
+.navBarStreakLevelValue, .navBarXPLevelValue{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    padding:0px 4px;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.navBarStreakLevelValueRange, .navBarXPLevelValueRange{
+    width: 100%;
+    height: 6px;
+    border-radius: 6px;
+    background-color: var(--streakSliderBackground);
+}
+
+.navBarXPLevelValueRange{
+    background-color: var(--XPSliderBackground) !important;
+}
+
+.navBarStreakLevelValueLevel, .navBarXPLevelValueLevel{
+    font-size: 12px;
+    color: var(--streakTextSecondary);
+}
+
+.navBarXPLevelValueLevel{
+    color: var(--XPTextSecondary) !important;
+}
+
+.navBarStreakLevelValueRangeCurrent, .navBarXPLevelValueRangeCurrent{
+    height: 100%;
+    border-radius: 6px;
+    display: block;
+    background-color: var(--streakSliderPrimary);
+}
+
+.navBarXPLevelValueRangeCurrent{
+    background-color: var(--XPSliderPrimary) !important;
+}
+
+
+.classroomCoverImages{
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.classroomCoverImages > span{
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    transition: .2s min-width ease-in-out, .2s opacity ease-in-out;
+    min-width: calc(100% / 5 - 64px);
+    cursor: pointer;
+    opacity: .5;
+    position: relative;
+}
+
+.classroomCoverImages > span > img{
+    width: 100%;
+    height: 100px;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+@media (max-width:700px) {
+    .classroomCoverImages > span:hover{
+        min-width: 60px !important;
+    }
+    .selectedCover{
+        min-width: 60px !important;
+        opacity: 1 !important;
+    }
+    .classroomCoverImages{
+        gap:4px;
+    }
+
+    .classroomCoverImages > span{
+        min-width: calc(100% / 5 - 32px);
+    }
+}
+
+@media (min-width:700px) {
+    .selectedCover{
+        min-width: 150px !important;
+        opacity: 1 !important;
+    }
+    
+}
+
+.classroomCoverImages > span:hover{
+    min-width: 150px;
+    opacity: 1;
+}
+
+@keyframes loadIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+.selectedCover::after{
+    content: '';
+    position: absolute;
+    top:8px;
+    right:8px;
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 8px;
+    mix-blend-mode: soft-light;
+    filter: brightness(150%);
+    animation: loadIn 0.3s ease-in-out;
 }

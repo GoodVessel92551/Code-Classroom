@@ -67,7 +67,7 @@ def get_google_provider_cfg():
 @app.route("/")
 def home():
     if fun.login():
-        return render_template("index.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="home",classes=fun.get_user_classes())
+        return render_template("index.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="home",classes=fun.get_user_classes())
     return render_template("landing_page.html",publicClasses=public_classes_placeholders)
 
 @app.route("/faq")
@@ -85,25 +85,26 @@ def enableAI():
 @app.route("/notifications")
 def notifications():
     if fun.login():
-        return render_template("notifications.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="notifications",classes=fun.get_user_classes())
+        return render_template("notifications.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="notifications",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/quickCode")
 def code_project():
     if fun.login():
-        return render_template("code.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="quick code",classes=fun.get_user_classes())
+        fun.update_streak()
+        return render_template("code.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="quick code",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/code")
 def code():
     if fun.login():
-        return render_template("quickCode.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="quick code",classes=fun.get_user_classes())
+        return render_template("quickCode.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="quick code",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/create/classroom")
 def create_classroom():
     if fun.login():
-        return render_template("create_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="create classroom",classes=fun.get_user_classes())
+        return render_template("create_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="create classroom",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/create/task/<classid>") 
@@ -111,7 +112,7 @@ def create_task(classid):
     if fun.login():
         if not fun.check_teacher(classid):
             return redirect("/classroom/"+classid)
-        return render_template("create_task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="create task",classes=fun.get_user_classes(),classid=classid)
+        return render_template("create_task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="create task",classes=fun.get_user_classes(),classid=classid)
     return redirect("/")
 
 @app.route("/classroom/<classid>")
@@ -121,7 +122,7 @@ def class_page(classid):
         user_class = fun.get_class_with_users_tasks(classid)
         if user_class == None:
             return redirect("/")
-        return render_template("class.html",teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+        return render_template("class.html",streak=fun.get_user_streak(),xp=fun.get_user_xp(),teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/classroom/<classid>/settings")
@@ -130,19 +131,20 @@ def class_settings(classid):
         if not fun.check_teacher(classid):
             return redirect("/classroom/"+classid)
         user_class = fun.get_class_without_users_tasks(classid)
-        return render_template("class_settings.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+        return render_template("class_settings.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/task/<classid>/<taskid>")
 def task(classid,taskid):
     if fun.login():
+        task = None
         if fun.check_teacher(classid):
             user_class = fun.get_user_classes_one_class(classid)
             for i in user_class["tasks"]:
                 if i["id"] == taskid:
                     task = i
                     break
-            return render_template("viewTask.html",task=task,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
+            return render_template("viewTask.html",task=task,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
         fun.create_task_student(classid,taskid)
         user_class = fun.get_user_classes_one_class(classid)
         class_color = user_class["classInfo"]["coverImage"]
@@ -151,7 +153,8 @@ def task(classid,taskid):
                 task = i
                 break
         code = fun.get_code(classid,taskid,fun.get_id())
-        return render_template("task.html",userid=fun.get_user_id(),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
+        fun.update_streak()
+        return render_template("task.html",userid=fun.get_user_id(),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
     return redirect("/")
 
 @app.route("/view/<classid>/<taskid>/<userid>")
@@ -165,68 +168,80 @@ def view_task(classid,taskid,userid):
                     task = i
                     break
             code = fun.get_code(classid,taskid,userid)
-            return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=True,userid=userid)
+            return render_template("task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=True,userid=userid)
             
 @app.route("/join/classroom")
 def join_classroom():
     if fun.login():
-        return render_template("join_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="join classroom",classes=fun.get_user_classes())
+        return render_template("join_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings")
 def settings():
     if fun.login():
-        return render_template("settings/main.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="settings",classes=fun.get_user_classes())
+        return render_template("settings/main.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/weakTopics")
 def weak_topics_page():
     if fun.login():
-        return render_template("weakTopics.html",weakTopics=fun.get_weak_topics(fun.get_user_id()),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
+        return render_template("weakTopics.html",streak=fun.get_user_streak(),xp=fun.get_user_xp(),weakTopics=fun.get_weak_topics(fun.get_user_id()),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/tasklist")
 def task_list():
     if fun.login():
-        return render_template("taskList.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="task list",classes=fun.get_user_classes())
+        return render_template("taskList.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="task list",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/createIdea")
 def task_summary():
     if fun.login():
-        return render_template("createIdea.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="idea creator",classes=fun.get_user_classes())
+        return render_template("createIdea.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="idea creator",classes=fun.get_user_classes())
     return redirect("/")
 
+@app.route("/learningPath")
+def learning_path():
+    if fun.login():
+        return render_template("learningPath.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="learning path",classes=fun.get_user_classes(),weak_topics=fun.get_weak_topics(fun.get_user_id()))
+    return redirect("/")
+
+@app.route("/learningPathTask")
+def learning_path_topic():
+    if fun.login():
+        fun.update_streak()
+        return render_template("learningPathTask.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="learning path",classes=fun.get_user_classes())
+    return redirect("/")
 
 @app.route("/settings/ai")
 def ai_settings():
     if fun.login():
-        return render_template("settings/ai.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="AI settings",classes=fun.get_user_classes())
+        return render_template("settings/ai.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="AI settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/accessibility")
 def accessibility_settings():
     if fun.login():
-        return render_template("settings/accessibility.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="Accessibility settings",classes=fun.get_user_classes())
+        return render_template("settings/accessibility.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="Accessibility settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/account")
 def account_settings():
     if fun.login():
-        return render_template("settings/account.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="Account settings",classes=fun.get_user_classes())
+        return render_template("settings/account.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="Account settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/upgrade/organization")
 def upgrade_organization():
     if fun.login():
-        return render_template("upgradePages/organizationUpgrade.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="upgrade organization",classes=fun.get_user_classes())
+        return render_template("upgradePages/organizationUpgrade.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),page="upgrade organization",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/endpoint/settings/ai",methods=["POST"])
 def save_ai_settings():
     if fun.login():
         data = request.json
-        status = fun.save_ai_settings(data["WeakTopics"],data["TaskSummary"],data["IdeaCreator"])
+        status = fun.save_ai_settings(data["WeakTopics"],data["TaskSummary"],data["IdeaCreator"],data["LearningPath"])
         return {'status':status}
 
 @app.route("/endpoint/account/delete",methods=["POST"])
@@ -236,10 +251,7 @@ def delete_account():
         return {'status':status}
 
 @app.route("/endpoint/task/edit", methods=["POST"])
-def edit_task():
-    if not request.host.endswith('booogle.app'):
-        return {'status': 'Unauthorized'}, 403
-        
+def edit_task():    
     if fun.login():
         data = request.json
         if (data["name"] == "" or data["instructions"] == "" or data["date"] == ""):
@@ -254,7 +266,7 @@ def edit_task():
             return {'status': 'Invalid date format. Use YYYY-MM-DD'}
         status = fun.edit_task(data["classid"], data["taskid"], data["name"], data["instructions"], data["date"])
         return {'status': status}
-    return {'status': 'Not logged in'}, 401
+    return  404
 
 @app.route("/endpoint/class/leave",methods=["POST"])
 def leave_class():
@@ -262,6 +274,7 @@ def leave_class():
         data = request.json
         status = fun.leave_classroom(data["classid"])
         return {'status':status}
+    return  404
 
 @app.route("/endpoint/classroom/delete",methods=["POST"])
 def delete_classroom():
@@ -269,6 +282,7 @@ def delete_classroom():
         data = request.json
         status = fun.delete_classroom(data["classid"])
         return {'status':status}
+    return  404
 
 
 @app.route("/endpoint/task/complete/<classid>/<taskid>")
@@ -276,6 +290,7 @@ def complete_task(classid,taskid):
     if fun.login():
         fun.complete_task_student(classid,taskid)
         return redirect("/classroom/"+classid)
+    return  404
 
 @app.route("/endpoint/classroom/join",methods=["POST"])
 def join_classroom_endpoint():
@@ -287,6 +302,7 @@ def join_classroom_endpoint():
             return {'status':'Code is too long'}
         status = fun.join_classroom(data["classCode"])
         return {'status':status}
+    return  404
 
 @app.route("/endpoint/classroom/save",methods=["POST"])
 def save_classroom_settings():
@@ -298,13 +314,15 @@ def save_classroom_settings():
             return {'status':'Inputs are values are too long'}
         status = fun.save_classroom_settings(data["classid"],data["name"],data["subtitle"],data["description"],data["messageLock"],data["classColor"])
         return {'status':status}
+    return  404
 
 @app.route("/endpoint/task/save",methods=["POST"])
 def save_task():
     if fun.login():
         data = request.json
         status = fun.save_code(data["classid"],data["taskid"],data["code"])
-    return "{'status':"+status+"}"
+        return "{'status':"+status+"}"
+    return  404
 
 @app.route("/endpoint/task/delete",methods=["POST"])
 def delete_task():
@@ -312,7 +330,8 @@ def delete_task():
         data = request.json
         status = fun.delete_task(data["classid"],data["taskid"])
         print(status)
-    return "{'status':"+status+"}"
+        return {'status':status}
+    return  404
 
 @app.route("/endpoint/ai/getweaktopics",methods=["GET"])
 def get_weak_topics():
@@ -321,7 +340,7 @@ def get_weak_topics():
         print("User ID",userid)
         data = fun.get_weak_topics(userid)
         return jsonify(data)
-    return "Not logged in"
+    return  404
 
 @app.route("/endpoint/ai/weaktopics",methods=["POST"])
 def weak_topics():
@@ -331,7 +350,8 @@ def weak_topics():
         data = request.json
         data = data["result"]
         fun.weak_topics(userid,data)
-    return "complete"
+        return "complete"
+    return  404
 
 @app.route("/endpoint/auth/login",methods=["POST"])
 def login_endpoint():
@@ -357,7 +377,7 @@ def create_class():
             return {'status':'You have reached the maximum amount of classes'}
         classID = fun.create_class(data["name"],data["subtitle"],data["description"],data["color"])
         return {'status':'complete','classId':classID}
-    return {'status':'Not logged in'}
+    return  404
 
 @app.route("/endpoint/task/create",methods=["POST"])
 def create_task_endpoint():
@@ -379,6 +399,7 @@ def create_task_endpoint():
             return {'status':'Invalid date format. Use YYYY-MM-DD'}
         fun.create_task(data["classid"],data["name"],data["description"],data["date"],data["points"])
         return {'status':'complete'}
+    return  404
 
 @app.route("/endpoint/class/message",methods=["POST"])
 def send_message():
@@ -392,6 +413,7 @@ def send_message():
             return {'status':'You have reached the maximum amount of messages'}
         message = fun.send_message(data["classid"],data["message"])
         return {'status':'complete',"userName":message["userName"],"message":message["message"],"messageId":message["messageId"],"date":message["date"]}
+    return  404
 
 @app.route("/endpoint/class/message/delete",methods=["POST"])
 def delete_message():
@@ -399,6 +421,7 @@ def delete_message():
         data = request.json
         message = fun.delete_message(data["classid"],data["messageid"])
         return {'status':message}
+    return  404
 
 @app.route("/endpoint/task/feedback",methods=["POST"])
 def task_feedback():
@@ -408,6 +431,7 @@ def task_feedback():
             return {'status':'Feedback is too long'}
         feedback = fun.task_feedback(data["classid"],data["taskid"],data["feedback"],data["points"],data["userid"])
         return {'status':'complete'}
+    return  404
 
 @app.route("/login", methods=['GET', 'POST'])
 @limiter.limit("5 per minute")

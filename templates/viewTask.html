@@ -5,7 +5,12 @@
 <main>
     <div class="classBannerContainer">
         <div class="pills">
-            <a href="/classroom/{{classid}}"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.25 2A2.75 2.75 0 0 1 20 4.75V19.25a2.75 2.75 0 0 1-2.75 2.75H6.75A2.75 2.75 0 0 1 4 19.249V4.75c0-1.26.846-2.32 2-2.647V3.75c-.304.228-.5.59-.5 1v14.498c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25V4.75c0-.69-.56-1.25-1.25-1.25L15 3.5V2h2.25ZM14 2v8.139c0 .747-.8 1.027-1.29.764l-.082-.052-2.126-1.285-2.078 1.251c-.5.36-1.33.14-1.417-.558L7 10.14V2h7Zm-1.5 1.5h-4v5.523l1.573-.949a.923.923 0 0 1 .818-.024l1.61.974V3.5Z" fill="#fff"/></svg>Back to Class</a>
+            <a href="/classroom/{{classid}}"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M17.25 2A2.75 2.75 0 0 1 20 4.75V19.25a2.75 2.75 0 0 1-2.75 2.75H6.75A2.75 2.75 0 0 1 4 19.249V4.75c0-1.26.846-2.32 2-2.647V3.75c-.304.228-.5.59-.5 1v14.498c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25V4.75c0-.69-.56-1.25-1.25-1.25L15 3.5V2h2.25ZM14 2v8.139c0 .747-.8 1.027-1.29.764l-.082-.052-2.126-1.285-2.078 1.251c-.5.36-1.33.14-1.417-.558L7 10.14V2h7Zm-1.5 1.5h-4v5.523l1.573-.949a.923.923 0 0 1 .818-.024l1.61.974V3.5Z"
+                        fill="#fff" />
+                </svg>Back to Class</a>
         </div>
         <div id="classBannerText" class="classBannerText">
             <h1 id="className">Class Name</h1>
@@ -14,55 +19,65 @@
         <h1 class="classCodeText" id="classCodeText">{{classid}}</h1>
         <img id="classBanner">
     </div>
-        <div class="classroomSettingContainer">
-            <div class="classroomSettingsTitleSubtitle">
-                <div>
-                    <div>
-                        <div class="classroomSettingText">
-                            <h4>Edit Task Title</h4>
-                            <p>Edit the title for this task</p>
-                        </div>
-                    </div>
-                    <input type="input" value="{{task['taskName']}}" placeholder="Task Title" id="taskTitle">
-                </div>
-                <div>
-                    <div>
-                        <div class="classroomSettingText">
-                            <h4>Edit Task Date</h4>
-                            <p>Edit the date for this task</p>
-                        </div>
-                    </div>
-                    <input type="date"  id="taskDate" aria-label="Task Date">
-                </div>
-            </div>
-            <div class="classroomSettingsDescription">
+    <div class="classroomSettingContainer">
+        <div class="classroomSettingsTitleSubtitle">
+            <div>
                 <div>
                     <div class="classroomSettingText">
-                        <h4>Edit Task Instructions</h4>
-                        <p>Edit the instructions for this task</p>
+                        <h4>Edit Task Title</h4>
+                        <p>Edit the title for this task</p>
                     </div>
                 </div>
-                <textarea placeholder="Task Instructions" id="taskInstructions">{{task['taskDescription']}}</textarea>
+                <input type="input" value="{{task['taskName']}}" placeholder="Task Title" id="taskTitle">
             </div>
             <div>
-                <div class="classroomSettingText">
-                    <h4>Task Class</h4>
-                    <p>This will remove all data related to this task.</p>
+                <div>
+                    <div class="classroomSettingText">
+                        <h4>Edit Task Date</h4>
+                        <p>Edit the date for this task</p>
+                    </div>
                 </div>
-                <div class="classroomSettingsButtons">
-                    <button id="deleteCancelButton" class="whiteButton" style="display: none;">Cancel</button>
-                    <button id="deleteButton" class="dangerButton">Delete Task</button>
+                <input type="date" id="taskDate" aria-label="Task Date">
+            </div>
+        </div>
+        <div class="classroomSettingsDescription">
+            <div>
+                <div class="classroomSettingText">
+                    <h4>Edit Task Instructions</h4>
+                    <p>Edit the instructions for this task</p>
                 </div>
             </div>
-            <button class="primaryButton" id="saveClassSettings"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 5.75A2.75 2.75 0 0 1 5.75 3h9.964a3.25 3.25 0 0 1 2.299.952l2.035 2.035c.61.61.952 1.437.952 2.299v9.964A2.75 2.75 0 0 1 18.25 21H5.75A2.75 2.75 0 0 1 3 18.25V5.75ZM5.75 4.5c-.69 0-1.25.56-1.25 1.25v12.5c0 .69.56 1.25 1.25 1.25H6v-5.25A2.25 2.25 0 0 1 8.25 12h7.5A2.25 2.25 0 0 1 18 14.25v5.25h.25c.69 0 1.25-.56 1.25-1.25V8.286c0-.465-.184-.91-.513-1.238l-2.035-2.035a1.75 1.75 0 0 0-.952-.49V7.25a2.25 2.25 0 0 1-2.25 2.25h-4.5A2.25 2.25 0 0 1 7 7.25V4.5H5.75Zm10.75 15v-5.25a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0-.75.75v5.25h9Zm-8-15v2.75c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75V4.5h-6Z" fill="#ffffff"/></svg>Save Changes</button>
+            <textarea placeholder="Task Instructions" id="taskInstructions">{{task['taskDescription']}}</textarea>
         </div>
-        <div class="classMembers">
+        <div>
+            <div class="classroomSettingText">
+                <h4>Task Class</h4>
+                <p>This will remove all data related to this task.</p>
+            </div>
+            <div class="classroomSettingsButtons">
+                <button id="deleteCancelButton" class="whiteButton" style="display: none;">Cancel</button>
+                <button id="deleteButton" class="dangerButton">Delete Task</button>
+            </div>
+        </div>
+        <button class="primaryButton" id="saveClassSettings"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M3 5.75A2.75 2.75 0 0 1 5.75 3h9.964a3.25 3.25 0 0 1 2.299.952l2.035 2.035c.61.61.952 1.437.952 2.299v9.964A2.75 2.75 0 0 1 18.25 21H5.75A2.75 2.75 0 0 1 3 18.25V5.75ZM5.75 4.5c-.69 0-1.25.56-1.25 1.25v12.5c0 .69.56 1.25 1.25 1.25H6v-5.25A2.25 2.25 0 0 1 8.25 12h7.5A2.25 2.25 0 0 1 18 14.25v5.25h.25c.69 0 1.25-.56 1.25-1.25V8.286c0-.465-.184-.91-.513-1.238l-2.035-2.035a1.75 1.75 0 0 0-.952-.49V7.25a2.25 2.25 0 0 1-2.25 2.25h-4.5A2.25 2.25 0 0 1 7 7.25V4.5H5.75Zm10.75 15v-5.25a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0-.75.75v5.25h9Zm-8-15v2.75c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75V4.5h-6Z"
+                    fill="#ffffff" />
+            </svg>Save Changes</button>
+    </div>
+    <div class="classMembers">
 
-        </div>
+    </div>
     </div>
     <template id="classMemberTemplate">
         <a href="" id="classMember" class="classMember">
-            <svg id="templateSVG" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.754 14a2.249 2.249 0 0 1 2.25 2.249v.575c0 .894-.32 1.76-.902 2.438-1.57 1.834-3.957 2.739-7.102 2.739-3.146 0-5.532-.905-7.098-2.74a3.75 3.75 0 0 1-.898-2.435v-.577a2.249 2.249 0 0 1 2.249-2.25h11.501Zm0 1.5H6.253a.749.749 0 0 0-.75.749v.577c0 .536.192 1.054.54 1.461 1.253 1.468 3.219 2.214 5.957 2.214s4.706-.746 5.962-2.214a2.25 2.25 0 0 0 .541-1.463v-.575a.749.749 0 0 0-.749-.75ZM12 2.004a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" fill="#fff"/></svg>
+            <svg id="templateSVG" width="24" height="24" fill="none" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M17.754 14a2.249 2.249 0 0 1 2.25 2.249v.575c0 .894-.32 1.76-.902 2.438-1.57 1.834-3.957 2.739-7.102 2.739-3.146 0-5.532-.905-7.098-2.74a3.75 3.75 0 0 1-.898-2.435v-.577a2.249 2.249 0 0 1 2.249-2.25h11.501Zm0 1.5H6.253a.749.749 0 0 0-.75.749v.577c0 .536.192 1.054.54 1.461 1.253 1.468 3.219 2.214 5.957 2.214s4.706-.746 5.962-2.214a2.25 2.25 0 0 0 .541-1.463v-.575a.749.749 0 0 0-.749-.75ZM12 2.004a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"
+                    fill="#fff" />
+            </svg>
             <p id="memberName">Member Name</p>
             <span id="progressTag">Not Started</span>
         </a>
@@ -71,16 +86,17 @@
 <script>
     const className = document.getElementById('className');
     const classSubTitle = document.getElementById('classSubTitle');
-    const thisClass = {{user_class|tojson}};
+    const thisClass = {{ user_class| tojson}};
     const classMembers = thisClass.members;
     const deleteTask = document.getElementById('deleteTask')
-
-    const taskDateValue = {{task|tojson}}.taskDue;
+    const taskid = {{ taskid| tojson}};
+    const taskInfo = {{ task| tojson}};
+    const taskDateValue = {{ task| tojson}}.taskDue;
     const taskDate = new Date(taskDateValue);
     const taskDateInput = document.getElementById('taskDate');
     taskDateInput.value = taskDate.toISOString().split('T')[0];
     deleteButton.addEventListener('click', () => {
-        if (deleteButton.textContent === 'Delete Class') {
+        if (deleteButton.textContent === 'Delete Task') {
             deleteButton.textContent = 'Confirm Delete';
             deleteButton.classList.add('deleteButtonConfirm');
             deleteCancelButton.style.display = 'inline-block';
@@ -92,21 +108,21 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"taskid":taskid,"classid":classid})
+                body: JSON.stringify({ "taskid": taskid, "classid": classid })
             })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === "complete") {
-                    window.location.href = "/";
-                }
-            })
-            .catch(error => {
-                console.error('Error deleting class:', error);
-            });
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "complete") {
+                        window.location.href = "/";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting class:', error);
+                });
         }
 
         deleteCancelButton.addEventListener('click', () => {
-            deleteButton.textContent = 'Delete Class';
+            deleteButton.textContent = 'Delete Task';
             deleteButton.classList.remove('deleteButtonConfirm');
             deleteCancelButton.style.display = 'none';
         });
@@ -114,35 +130,35 @@
     classInfo = thisClass.classInfo;
     className.innerText = classInfo.name;
     classSubTitle.innerText = classInfo.subtitle;
-    classBanner.src = "/static/coverImages/classroomBanners/"+classInfo.coverImage+"Gradient.webp"
+    classBanner.src = "/static/coverImages/classroomBanners/" + classInfo.coverImage + "Gradient.webp"
     classCodeText.innerText = classInfo.id;
-    studentsDataList = Object.keys({{task|tojson}}.student_data)
+    studentsDataList = Object.keys({{ task| tojson}}.student_data)
     classMembers.forEach(member => {
-        if(member.role == "teacher") return;
+        if (member.role == "teacher") return;
         const classMemberTemplate = document.getElementById('classMemberTemplate');
         const classMember = classMemberTemplate.content.cloneNode(true);
         const progressTag = classMember.querySelector('#progressTag');
         const anchorElement = classMember.querySelector('#classMember');
-        if(studentsDataList.includes(member.id)){
-            if({{task|tojson}}.student_data[member.id].status == "completed"){
-                progressTag.innerText = "Completed";
-                progressTag.classList.add('complete');
-                anchorElement.href = "/view/{{classid}}/{{taskid}}/"+member.id;
-            }else if({{task|tojson}}.student_data[member.id].status == "notcompleted"){
-                progressTag.innerText = "In Progress";
-                progressTag.classList.add('notComplete');
-                anchorElement.href = "/view/{{classid}}/{{taskid}}/"+member.id;
-            }else if(new Date() > taskDate){
-                progressTag.innerText = "Missing";
-                progressTag.classList.add('missing');
-                anchorElement.href = "/view/{{classid}}/{{taskid}}/"+member.id;
-            }
+        if (studentsDataList.includes(member.id)) {
+            if (taskInfo.student_data[member.id].status == "completed"){
+        progressTag.innerText = "Completed";
+        progressTag.classList.add('complete');
+        anchorElement.href = "/view/{{classid}}/{{taskid}}/" + member.id;
+    }else if (taskInfo.student_data[member.id].status == "notcompleted") {
+        progressTag.innerText = "In Progress";
+        progressTag.classList.add('notComplete');
+        anchorElement.href = "/view/{{classid}}/{{taskid}}/" + member.id;
+    }else if (new Date() > taskDate) {
+        progressTag.innerText = "Missing";
+        progressTag.classList.add('missing');
+        anchorElement.href = "/view/{{classid}}/{{taskid}}/" + member.id;
+    }
         }
-        const memberName = classMember.querySelector('#memberName');
-        const templateSVG = classMember.querySelector('#templateSVG');
-        templateSVG.classList.add('svg_'+classInfo.coverImage);
-        memberName.innerText = member.username;
-        document.querySelector('.classMembers').appendChild(classMember);
+    const memberName = classMember.querySelector('#memberName');
+    const templateSVG = classMember.querySelector('#templateSVG');
+    templateSVG.classList.add('svg_' + classInfo.coverImage);
+    memberName.innerText = member.username;
+    document.querySelector('.classMembers').appendChild(classMember);
     });
 
     if (thisClass.members.length === 1) {
@@ -161,19 +177,19 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({"taskid":"{{taskid}}","classid":"{{classid}}","name":taskTitle,"instructions":taskInstructions,"date":taskDate})
+            body: JSON.stringify({ "taskid": "{{taskid}}", "classid": "{{classid}}", "name": taskTitle, "instructions": taskInstructions, "date": taskDate })
         })
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === "complete") {
-                window.location.reload();
-            }
-        })
-        .catch(error => {
-            console.error('Error saving class:', error);
-        });
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "complete") {
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error saving class:', error);
+            });
     });
-    
+
 </script>
 
 
