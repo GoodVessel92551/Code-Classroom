@@ -185,7 +185,7 @@ def settings():
 @app.route("/weakTopics")
 def weak_topics_page():
     if fun.login():
-        if fun.get_weak_topics(fun.get_user_id()).count() == 0:
+        if fun.get_weak_topics(fun.get_user_id()) == "nwt":
             fun.send_notification("You do not have any weak topics yet.","wanning")
             return redirect("/")
         return render_template("weakTopics.html",streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),weakTopics=fun.get_weak_topics(fun.get_user_id()),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),page="weak topics",classes=fun.get_user_classes())

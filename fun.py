@@ -362,6 +362,8 @@ def weak_topics(id,data):
 def get_weak_topics(id):
     user_data = user_data_db.find_one({"id":id})
     topics = user_data["data"]["aiTools"]["weakTopics"]["topics"]
+    if len(topics) == 0:
+        return "nwt"
     counter = Counter(topics)
     return counter.most_common(2)
 
