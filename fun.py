@@ -208,6 +208,21 @@ def delete_account_info():
     
     return "complete"
 
+def send_notification(title, error_type):
+    notification = {
+        "title": title,
+        "type": error_type,
+    }
+    session["notification"].append(notification)
+
+def get_notifications():
+    if "notification" not in session:
+        session["notification"] = []
+    notifications = session.get("notification")
+    session["notification"] = []
+    return notifications
+
+
 def get_id():
     keys = global_data_db.find_one({"name":"B-KEYS"})
     token = hash_value(session.get("token"))

@@ -53,6 +53,13 @@
     --XPSliderBackground:#324652;
     --XPSliderPrimary:#44B7FF;
     --XPIcon:#44B7FF;
+
+    --notificationGreenBackground:#294B2E;
+    --notificationGreenText:#D9FFCC;
+    --notificationRedBackground:#4B2929;
+    --notificationRedText:#FFCCCC;
+    --notificationYellowBackground:#4B3A29;
+    --notificationYellowText:#FFF1CC;
 }
 
 body,html{
@@ -3323,4 +3330,81 @@ main{
     mix-blend-mode: soft-light;
     filter: brightness(150%);
     animation: loadIn 0.3s ease-in-out;
+}
+
+.notifications{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap:8px;
+}
+
+.notifications > span{
+    padding:11px 17px;
+    background-color: var(--notificationGreenBackground);
+    color: var(--notificationGreenText);
+    border-radius: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:16px;
+    animation: notificationBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: right center;
+}
+
+@keyframes notificationBounce {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    60% {
+        transform: translateX(-10px);
+        opacity: 1;
+    }
+    80% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.notifications > span > button{
+    background: none;
+    border:none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left:auto;
+}
+
+.notifications > span svg{
+    width: 18px;
+    height: 18px;
+}
+
+.notifications > span svg > path{
+    fill: var(--notificationGreenText);
+}
+
+.wanningNotification{
+    background-color: var(--notificationYellowBackground) !important;
+    color: var(--notificationYellowText) !important;
+}
+
+.wanningNotification svg > path{
+    fill: var(--notificationYellowText) !important;
+}
+
+.errorNotification{
+    background-color: var(--notificationRedBackground) !important;
+    color: var(--notificationRedText) !important;
+}
+
+.errorNotification svg > path{
+    fill: var(--notificationRedText) !important;
 }
