@@ -255,7 +255,7 @@ body{
     cursor: not-allowed;
 }
 
-.navSideBar{
+.navSideBar {
     min-width: 224px;
     max-width: 224px;
     height: 100dvh;
@@ -263,14 +263,16 @@ body{
     display: flex;
     flex-direction: column;
     z-index: 100;
-    transition: .1s ease-in-out min-width,max-width;
+    transition: min-width 0.1s ease-out, max-width 0.1s ease-out;
     overflow: hidden;
+    will-change: min-width, max-width;
 }
 
-.minimize{
+.minimize {
     min-width: 64px !important;
     max-width: 64px !important;
 }
+
 
 .navbarTitle > span{
     max-width: 100%;
@@ -340,6 +342,7 @@ body{
     overflow: hidden;
     width: 100%;
     padding-top: 0px !important;
+    min-height: 121.5px;
 }
 
 .pageMenuAITools > div{
@@ -411,6 +414,8 @@ body{
     cursor: pointer;
     overflow: hidden;
     user-select: none;
+    min-height: 30px;
+    box-sizing: border-box;
 }
 
 .pageMenu > a > span{
@@ -778,6 +783,8 @@ main{
     justify-content: center;
     border-radius: 12px;
     cursor: pointer;
+    height: 32px;
+    box-sizing: border-box;
 }
 
 .bottomNavButtons > a > svg{
@@ -804,6 +811,18 @@ main{
     transition: 0.3s max-height ease-out; /* Reduced from 1s to 0.3s and changed timing function */
     overflow: hidden;
     margin-bottom: -8px;
+    position: relative;
+}
+
+.optionContainerNavBar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 24px;
+    background: linear-gradient(to bottom, transparent, var(--background_secondary));
+    pointer-events: none;
 }
 
 .optionContainerNavBar:empty{
