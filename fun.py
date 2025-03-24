@@ -256,9 +256,11 @@ def get_user_streak():
 
 def get_user_xp():
     user_id = get_id()
-    user_data = user_data_db.find({"id": user_id})
-    if "xp" not in user_data:
-        user_data_db.update_one({"id": user_id}, {"$set": {"xp": {"level": 0, "points": 0}}})
+    user_data = user_data_db.find_one({"id": user_id})
+    print(user_data.get("data", {}))
+    if "data" not in user_data or "xp" not in user_data.get("data", {}):
+        print("XP not found")
+        user_data_db.update_one({"id": user_id}, {"$set": {"data.xp": {"level": 0, "points": 0}}})
         return {"level": 0, "points": 0}
     return user_data["xp"]
 
@@ -270,6 +272,7 @@ def increase_xp(points):
     if xp["points"] >= 100:
         xp["level"] += 1
         xp["points"] -= 100
+    print(xp)
     query = {"id": user_id}
     update = {"$set": {"xp": xp}}
     user_data_db.update_one(query, update)
