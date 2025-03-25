@@ -519,12 +519,12 @@ body{
 }
 
 .pageMenuCurrentPage.purplepageMenu{
-    background-color: #462222;
+    background-color: #382246;
     color:#fff !important;
 }
 
 .pageMenuCurrentPage.pinkpageMenu{
-    background-color: #462222;
+    background-color: #46223e;
     color:#fff !important;
 }
 
@@ -1314,18 +1314,28 @@ main{
     background-color: var(--background_secondary);
     display: flex;
     flex-direction: column;
-    padding:16px;
-    border-radius: 16px;
+    padding: 8px 6px 16px 8px;
+    border-radius: 24px;
     gap:16px;
     position: relative;
 }
+
 
 .messageContainer > span > .messageTitleContainer{
     width: 100%;
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    gap:8px
+    gap:8px;
+    height:32px;
+}
+
+.messageTitleContainer > span{
+    height: 32px;
+}
+
+.messageContainer > span > p{
+    padding-left: 8px !important;
 }
 
 .messageContainer > span > .messageTitleContainer > p{
@@ -1335,9 +1345,11 @@ main{
     margin-left: auto;
 }
 
-.messageTitleContainer > svg{
-    width: 20px;
-    height: 20px;
+.messageTitleContainer > span > svg{
+    width: 16px;
+    height: 16px;
+    padding:8px;
+    border-radius: 16px;
 }
 
 .messageContainer > span > p{
@@ -1372,28 +1384,28 @@ main{
     border-radius: 16px;
 }
 
-.taskContainer > a > svg.svg_red{
+.taskContainer > a > svg.svg_red,.messageTitleContainer > span > svg.svg_red{
     background-color: #462222;
 }
 
-.taskContainer > a > svg.svg_orange{
+.taskContainer > a > svg.svg_orange,.messageTitleContainer > span > svg.svg_orange{
     background-color: #463822;
 }
 
-.taskContainer > a > svg.svg_green{
+.taskContainer > a > svg.svg_green,.messageTitleContainer > span > svg.svg_green{
     background-color: #224622;
 }
 
-.taskContainer > a > svg.svg_blue{
+.taskContainer > a > svg.svg_blue,.messageTitleContainer > span > svg.svg_blue{
     background-color: #222c46;
 }
 
-.taskContainer > a > svg.svg_purple{
-    background-color: #462222;
+.taskContainer > a > svg.svg_purple,.messageTitleContainer > span > svg.svg_purple{
+    background-color: #382246;
 }
 
-.taskContainer > a > svg.svg_pink{
-    background-color: #462222;
+.taskContainer > a > svg.svg_pink,.messageTitleContainer > span > svg.svg_pink{
+    background-color: #46223e;
 }
 
 
