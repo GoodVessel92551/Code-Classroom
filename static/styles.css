@@ -172,6 +172,8 @@ body{
 
 
 
+
+
 .primaryButtonSmall{
     background-color: #fff;
     color: var(--background);
@@ -190,13 +192,37 @@ body{
     text-decoration: none;
 }
 
-.primaryButton > svg{
+.primaryButton > svg,.dangerButton > svg{
     width: 18px;
     height: 18px;
 }
 
+.importantMessage{
+    background-color: #5B3232 !important;
+}
+
+.importantMessage > svg{
+    width: 16px;
+    height: 16px;
+    padding: 8px;
+    border-radius: 16px;
+    background-color: #442626 !important;
+}
+
+.importantMessage > .messageTitleContainer > span > svg:not(.deleteMessageSVG){
+    background-color: #442626 !important;
+}
+
+.importantMessage > .messageTitleContainer > span > svg:not(.deleteMessageSVG) > path{
+    fill: #FFCCCC !important;
+}
+
 .primaryButton > svg > path{
     fill: var(--primary_button_text);
+}
+
+.dangerButton > svg > path{
+    fill: var(--buttonDangerText);
 }
 
 .yellow{
@@ -1384,27 +1410,27 @@ main{
     border-radius: 16px;
 }
 
-.taskContainer > a > svg.svg_red,.messageTitleContainer > span > svg.svg_red{
+.taskContainer > a > svg.svg_red,.messageTitleContainer > span > svg.svg_red,.peopleContainer > div > span > svg.svg_red{
     background-color: #462222;
 }
 
-.taskContainer > a > svg.svg_orange,.messageTitleContainer > span > svg.svg_orange{
+.taskContainer > a > svg.svg_orange,.messageTitleContainer > span > svg.svg_orange,.peopleContainer > div > span > svg.svg_orange{
     background-color: #463822;
 }
 
-.taskContainer > a > svg.svg_green,.messageTitleContainer > span > svg.svg_green{
+.taskContainer > a > svg.svg_green,.messageTitleContainer > span > svg.svg_green,.peopleContainer > div > span > svg.svg_green{
     background-color: #224622;
 }
 
-.taskContainer > a > svg.svg_blue,.messageTitleContainer > span > svg.svg_blue{
+.taskContainer > a > svg.svg_blue,.messageTitleContainer > span > svg.svg_blue,.peopleContainer > div > span > svg.svg_blue{
     background-color: #222c46;
 }
 
-.taskContainer > a > svg.svg_purple,.messageTitleContainer > span > svg.svg_purple{
+.taskContainer > a > svg.svg_purple,.messageTitleContainer > span > svg.svg_purple,.peopleContainer > div > span > svg.svg_purple{
     background-color: #382246;
 }
 
-.taskContainer > a > svg.svg_pink,.messageTitleContainer > span > svg.svg_pink{
+.taskContainer > a > svg.svg_pink,.messageTitleContainer > span > svg.svg_pink,.peopleContainer > div > span > svg.svg_pink{
     background-color: #46223e;
 }
 
@@ -1418,6 +1444,21 @@ main{
     margin: 0px;
     font-size: 16px;
     color: var(--text_primary);
+    font-weight: normal;
+}
+
+.messageTitleContainer > strong{
+    margin: 0px;
+    font-size: 16px;
+    color: var(--text_primary);
+    font-weight: normal;
+}
+
+.peopleContainer > div > strong{
+    margin: 0px;
+    font-size: 16px;
+    color: var(--text_primary);
+    font-weight: normal;
 }
 
 .taskContainer > a > p{
@@ -2533,9 +2574,9 @@ main{
     display: flex;
     height: 44px;
     background-color: var(--background_secondary);
-    border-radius: 16px;
+    border-radius: 24px;
     align-items: center;
-    padding: 16px 10px 16px 16px;
+    padding: 16px 10px 16px 6px;
     box-sizing: border-box;
     gap: 8px;
     text-decoration: none;
@@ -2548,8 +2589,10 @@ main{
 }
 
 .peopleContainer > div > span > svg{
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
+    padding: 8px;
+    border-radius: 16px;
 }
 
 .classroomPeopleContainer{
@@ -2564,7 +2607,7 @@ main{
     color: #BDD8FC;
     font-size: 12px;
     padding: 5px 11px;
-    border-radius: 8px;
+    border-radius: 16px;
 }
 
 .personRoleTeacher{

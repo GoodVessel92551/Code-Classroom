@@ -607,7 +607,7 @@ def check_message_lock(class_id):
     class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
     return class_data["classInfo"]["settings"]["messageLock"]
 
-def send_message(class_id, message):
+def send_message(class_id, message,messageImportant):
     if not check_teacher(class_id) and check_message_lock(class_id):
         return "You are not allowed to send messages in this class"
     else:
@@ -616,7 +616,8 @@ def send_message(class_id, message):
             "message": message,
             "messageId": gen_class_id(),
             "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-            "userID": get_user_id()
+            "userID": get_user_id(),
+            "messageImportant":messageImportant
         }
 
         query = {"name": "classrooms"}

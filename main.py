@@ -414,7 +414,10 @@ def send_message():
             return {'status':'Message is too long'}
         elif fun.check_amount_of_messages(data["classid"]):
             return {'status':'You have reached the maximum amount of messages'}
-        message = fun.send_message(data["classid"],data["message"])
+        elif not (data["messageImportant"] == True or data["messageImportant"] == False):
+            print(data["messageImportant"] != True)
+            return {'status':'Invalid message importance'}
+        message = fun.send_message(data["classid"],data["message"],data["messageImportant"])
         return {'status':'complete',"userName":message["userName"],"message":message["message"],"messageId":message["messageId"],"date":message["date"]}
     return  404
 
