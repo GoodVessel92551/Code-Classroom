@@ -107,12 +107,34 @@ def create_classroom():
         return render_template("create_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create classroom",classes=fun.get_user_classes())
     return redirect("/")
 
+@app.route("/create/options/<classid>")
+def create_options(classid):
+    if fun.login():
+        return render_template("createOptions/create_options.html",classid=classid,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create options",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/create/resource/<classid>")
+def create_resource(classid):
+    if fun.login():
+        if not fun.check_teacher(classid):
+            return redirect("/classroom/"+classid)
+        return render_template("createOptions/create_resource.html",classid=classid,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create resource",classes=fun.get_user_classes())
+    return redirect("/")
+
+@app.route("/create/poll/<classid>")
+def create_poll(classid):
+    if fun.login():
+        if not fun.check_teacher(classid):
+            return redirect("/classroom/"+classid)
+        return render_template("createOptions/create_poll.html",classid=classid,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create poll",classes=fun.get_user_classes())
+    return redirect("/")
+
 @app.route("/create/task/<classid>") 
 def create_task(classid):
     if fun.login():
         if not fun.check_teacher(classid):
             return redirect("/classroom/"+classid)
-        return render_template("create_task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create task",classes=fun.get_user_classes(),classid=classid)
+        return render_template("createOptions/create_task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create task",classes=fun.get_user_classes(),classid=classid)
     return redirect("/")
 
 @app.route("/classroom/<classid>")

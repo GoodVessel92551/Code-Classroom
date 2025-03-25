@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Code Classroom | Create Task{% endblock %}
+{% block main %}
+<div class="pageTitleDiv">
+    <h1>{{page.title()}}</h1>
+</div>
+<main class="createClassMain">
+    <div class="createClassForm">
+        <div class="errorMessage" id="errorMessage">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm0 1.5a8.502 8.502 0 1 0 0 17.003A8.502 8.502 0 0 0 12 3.5Zm-.004 7a.75.75 0 0 1 .744.648l.007.102.003 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.003-5.502a.75.75 0 0 1 .75-.75ZM12 7.003a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z"
+                    fill="#ffffff" />
+            </svg>
+            <p id="errorMessageText"></p>
+        </div>
+        <div>
+            <label for="taskName">Resource Title</label>
+            <input maxlength="20" type="text" id="resourceName" name="resourceName" placeholder="Resource Title">
+        </div>
+        <div>
+            <label for="taskDescription">Resource Content</label>
+            <textarea maxlength="1000" id="resourceDescription" name="resourceDescription"
+                placeholder="Resource Description"></textarea>
+        </div>
+        <div>
+            <label for="resourceContentMD">Resource Content Markdown Preview</label>
+            <zero-md class="markdown markdownTask">
+                <template data-append>
+                    <link type="stylesheet"
+                        href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
+                    <link type="stylesheet"
+                        href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
+                    <style>
+                        .markdown-body {
+                            padding: 0px !important;
+                            box-sizing: border-box !important;
+                            border-radius: 16px !important;
+                            height: auto !important;
+                            width: auto !important;
+                            background-color: transparent !important;
+                            border: 1px solid transparent !important;
+                            font-family: "Lexend", sans-serif !important;
+                            background-color: #1c202b !important;
+                        }
+
+                        .markdown-body>pre {
+                            background-color: #32394b;
+                            border-radius: 16px;
+                        }
+
+                        .markdown-body code:not(pre > code) {
+                            background-color: #32394b;
+                            border-radius: 16px;
+                            color: #e7b9a2;
+                        }
+                    </style>
+                </template>
+                <script type="text/markdown" id="resourceContentMD">
+                    </script>
+            </zero-md>
+        </div>
+        <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
+                    fill="#ffffff" />
+            </svg>Create Resource</button>
+    </div>
+</main>
+<script>
+    const finishButton = document.getElementById("finishButton");
+    const errorMessage = document.getElementById("errorMessage");
+    const errorMessageText = document.getElementById("errorMessageText");
+    const resourceContentMD = document.getElementById("resourceContentMD");
+    const resourceDescription = document.getElementById("resourceDescription");
+    resourceDescription.addEventListener("input", () => {
+        resourceContentMD.textContent = resourceDescription.value;
+    })
+    finishButton.addEventListener("click", () => {
+        const taskName = document.getElementById("resourceName").value;
+        const taskDescription = document.getElementById("resourceDescription").value;
+        if (taskName === "" || taskDescription === "") {
+            errorMessage.style.display = "flex";
+            errorMessageText.innerText = "Fill out all fields";
+            return;
+        }
+        else if (taskName.length > 20 || taskDescription.length > 1000) {
+            errorMessage.style.display = "flex";
+            errorMessageText.innerText = "Inputs are values are too long";
+            return;
+        }
+        const data = {
+            "classid": "{{classid}}",
+            "name": taskName,
+            "description": taskDescription,
+        }
+
+        fetch("/endpoint/task/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => response.json()).then(data => {
+            if (data.status === "complete") {
+                window.location.href = "/classroom/{{classid}}";
+            }
+            else {
+                errorMessage.style.display = "flex";
+                errorMessageText.innerText = data.status;
+            }
+        })
+    })
+
+</script>
+
+
+
+{% endblock %}

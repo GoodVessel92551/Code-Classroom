@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Code Classroom | Create Task{% endblock %}
 {% block main %}
-
+<div class="pageTitleDiv">
+    <h1>{{page.title()}}</h1>
+</div>
 <main class="createClassMain">
-    <div class="pageTitleDiv">
-        <h1>{{page.title()}}</h1>
-    </div>
     <div class="createClassForm">
         <div class="errorMessage" id="errorMessage">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -13,69 +12,21 @@
                     d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm0 1.5a8.502 8.502 0 1 0 0 17.003A8.502 8.502 0 0 0 12 3.5Zm-.004 7a.75.75 0 0 1 .744.648l.007.102.003 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.003-5.502a.75.75 0 0 1 .75-.75ZM12 7.003a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z"
                     fill="#ffffff" />
             </svg>
-            <p id="errorMessageText">Invalid Username or Password</p>
+            <p id="errorMessageText"></p>
         </div>
         <div>
-            <label for="taskName">Task Title</label>
-            <input maxlength="20" type="text" id="taskName" name="taskName" placeholder="Task Title">
-        </div>
-        <div>
-            <label for="taskDescription">Task Instructions</label>
-            <textarea maxlength="1000" id="taskDescription" name="taskDescription"
-                placeholder="Task Description"></textarea>
-        </div>
-        <div>
-            <label for="taskDesciptionMD">Instructions Markdown Preview</label>
-            <zero-md class="markdown markdownTask">
-                <template data-append>
-                    <link type="stylesheet"
-                        href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-dark.min.css">
-                    <link type="stylesheet"
-                        href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github-dark.min.css">
-                    <style>
-                        .markdown-body {
-                            padding: 0px !important;
-                            box-sizing: border-box !important;
-                            border-radius: 16px !important;
-                            height: auto !important;
-                            width: auto !important;
-                            background-color: transparent !important;
-                            border: 1px solid transparent !important;
-                            font-family: "Lexend", sans-serif !important;
-                            background-color: #1c202b !important;
-                        }
-
-                        .markdown-body>pre {
-                            background-color: #32394b;
-                            border-radius: 16px;
-                        }
-
-                        .markdown-body code:not(pre > code) {
-                            background-color: #32394b;
-                            border-radius: 16px;
-                            color: #e7b9a2;
-                        }
-                    </style>
-                </template>
-                <script type="text/markdown" id="taskDescriptionMD">
-                    </script>
-            </zero-md>
-        </div>
-        <div>
-            <label for="taskDate">Due Date</label>
-            <input type="date" id="taskDate" name="taskDate" min="" required>
-            <script>
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('taskDate').setAttribute('min', today);
-            </script>
+            <label for="taskName">Poll Title</label>
+            <input maxlength="20" type="text" id="pollName" name="pollName" placeholder="Poll Title">
         </div>
         <div class="containerWithNumber">
             <div class="containerWithNumberTextContainer">
-                <h3>Points</h3>
-                <p>Select the max amount of points that this task receives</p>
+                <h3>Poll Options</h3>
+                <p>Select the amount of options for the poll</p>
             </div>
-            <input type="number" id="taskPoints" name="taskPoints" value="100" min="0" max="100"
-                oninput="this.value = Math.min(Math.max(0, this.value), 100)">
+            <input type="number" id="pollOptionsAmount" name="pollOptionsAmount" value="2" min="2" max="4"
+                oninput="this.value = Math.min(Math.max(2, this.value), 4)"
+                onfocus="this.value='';"
+                onblur="if(this.value==''){this.value='2';}">
         </div>
         <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
