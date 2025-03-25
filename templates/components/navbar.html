@@ -483,9 +483,7 @@
     if (taskNum == 0) {
         optionContainerNavBarTasksButton.style.display = 'none';
     }
-
-
-    optionContainerNavBarTasksButton.addEventListener('click', () => {
+    const toggleTasks = () => {
         optionContainerNavBarTasksButton.classList.toggle('optionContainerNavBarButtonActive');
         if (optionContainerNavBarTasks.style.maxHeight === '0px') {
             optionContainerNavBarTasks.style.maxHeight = '300px';
@@ -493,6 +491,12 @@
         } else {
             optionContainerNavBarTasks.style.maxHeight = '0px';
         }
+    }
+
+    toggleTasks()
+
+    optionContainerNavBarTasksButton.addEventListener('click', () => {
+        toggleTasks()
     });
     let page = {{ page| tojson}};
     if (document.getElementById(page)) {
