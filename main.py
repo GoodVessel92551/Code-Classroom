@@ -438,6 +438,26 @@ def create_resource_endpoint():
         return {'status':'complete'}
     return  404
 
+@app.route("/endpoint/poll/create",methods=["POST"])
+def create_poll_endpoint():
+    if fun.login():
+        data = request.json
+        if (data["name"] == "" or data["options"] == ""):
+            return {'status':'Fill out all fields'}
+        elif (len(data["name"]) > 100 or len(data["options"]) > 4):
+            return {'status':'Inputs are values are too long'}
+        fun.create_poll(data["classid"],data["name"],data["options"])
+        return {'status':'complete'}
+    return  404
+
+@app.route("/endpoint/poll/vote",methods=["POST"])
+def vote_poll():
+    if fun.login():
+        data = request.json
+        fun.vote_poll(data["classid"],data["pollid"],data["option"])
+        return {'status':'complete'}
+    return  404
+
 @app.route("/endpoint/class/message",methods=["POST"])
 def send_message():
     if fun.login():

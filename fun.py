@@ -519,6 +519,41 @@ def create_resource(class_id, title, data):
         update = {"$push": {f"data.{class_id}.tasks": resource_data}}
         global_data_db.update_one(query, update)
 
+def create_poll(class_id,title,options):
+    if not check_teacher(class_id):
+        return "You are not a teacher of this class"
+    else:
+        for i in range(len(options)):
+            options[i] = {"option":options[i],"votes":0}
+        poll_id = gen_class_id()
+        poll_data = {
+            "id": poll_id,
+            "taskName": title,
+            "options": options,
+            "voters": [],
+            "type":"poll"
+        }
+
+        query = {"name": "classrooms"}
+        update = {"$push": {f"data.{class_id}.tasks": poll_data}}
+        global_data_db.update_one(query, update)
+
+def vote_poll(class_id,poll_id,vote):
+    userid = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    task_data = class_data["tasks"]
+    for i in range(len(task_data)):
+        if task_data[i]["id"] == poll_id:
+            if userid in task_data[i]["voters"]:
+                return "You have already voted"
+            task_data[i]["voters"].append(userid)
+            for j in range(len(task_data[i]["options"])):
+                if task_data[i]["options"][j]["option"] == vote:
+                    task_data[i]["options"][j]["votes"] += 1
+            query = {"name": "classrooms"}
+            update = {"$set": {f"data.{class_id}.tasks": task_data}}
+            global_data_db.update_one(query, update)
+            return "complete"
 
 def edit_task(class_id, task_id, title, data,date):
     if not check_teacher(class_id):

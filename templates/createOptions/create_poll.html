@@ -24,9 +24,25 @@
                 <p>Select the amount of options for the poll</p>
             </div>
             <input type="number" id="pollOptionsAmount" name="pollOptionsAmount" value="2" min="2" max="4"
-                oninput="this.value = Math.min(Math.max(2, this.value), 4)"
+                oninput="this.value = Math.min(Math.max(2, this.value), 4);setAmountOptions(this.value)"
                 onfocus="this.value='';"
-                onblur="if(this.value==''){this.value='2';}">
+                onblur="if(this.value==''){this.value='2';}setAmountOptions(this.value)">
+        </div>
+        <div id="pollOption1Container">
+            <label for="pollOption1">Option 1</label>
+            <input maxlength="100" type="text" id="pollOption1" name="pollOption1" placeholder="Option 1" required>
+        </div>
+        <div id="pollOption2Container">
+            <label for="pollOption2">Option 2</label>
+            <input maxlength="100" type="text" id="pollOption2" name="pollOption2" placeholder="Option 2" required>
+        </div>
+        <div id="pollOption3Container" style="display: none;">
+            <label for="pollOption3">Option 3</label>
+            <input maxlength="100" type="text" id="pollOption3" name="pollOption3" placeholder="Option 3">
+        </div>
+        <div id="pollOption4Container" style="display: none;">
+            <label for="pollOption4">Option 4</label>
+            <input maxlength="100" type="text" id="pollOption4" name="pollOption4" placeholder="Option 4">
         </div>
         <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
@@ -37,55 +53,54 @@
     </div>
 </main>
 <script>
+    const pollOption1Container = document.getElementById("pollOption1Container");
+    const pollOption2Container = document.getElementById("pollOption2Container");
+    const pollOption3Container = document.getElementById("pollOption3Container");
+    const pollOption4Container = document.getElementById("pollOption4Container");
     const finishButton = document.getElementById("finishButton");
     const errorMessage = document.getElementById("errorMessage");
     const errorMessageText = document.getElementById("errorMessageText");
-    const taskDescriptionMD = document.getElementById("taskDescriptionMD");
-    const taskDescriptionInput = document.getElementById("taskDescription");
-    taskDescriptionInput.addEventListener("input", () => {
-        taskDescriptionMD.textContent = taskDescriptionInput.value;
-    })
+    const setAmountOptions = (amount) => {
+        if (amount === "2") {
+            pollOption3Container.style.display = "none";
+            pollOption4Container.style.display = "none";
+        }
+        else if (amount === "3") {
+            pollOption3Container.style.display = "flex";
+            pollOption4Container.style.display = "none";
+        }
+        else if (amount === "4") {
+            pollOption3Container.style.display = "flex";
+            pollOption4Container.style.display = "flex";
+        }
+    }
     finishButton.addEventListener("click", () => {
-        const taskName = document.getElementById("taskName").value;
-        const taskDescription = document.getElementById("taskDescription").value;
-        const taskDate = document.getElementById("taskDate").value;
-        const taskPoints = document.getElementById("taskPoints").value;
-        if (taskName === "" || taskDescription === "") {
+        const taskName = document.getElementById("pollName").value;
+        if (taskName === "") {
             errorMessage.style.display = "flex";
             errorMessageText.innerText = "Fill out all fields";
             return;
-        } if (taskDate === "") {
-            errorMessage.style.display = "flex";
-            errorMessageText.innerText = "Invalid Date";
-            return;
         }
-        else if (taskName.length > 20 || taskDescription.length > 1000) {
+        else if (taskName.length > 20) {
             errorMessage.style.display = "flex";
             errorMessageText.innerText = "Inputs are values are too long";
-            return;
-        }
-        if (taskPoints < 1 || taskPoints > 100) {
-            errorMessage.style.display = "flex";
-            errorMessageText.innerText = "Points must be between 1 and 100";
-            return;
-        }
-        const selectedDate = new Date(taskDate);
-        const today = new Date();
-
-        if (selectedDate < today) {
-            errorMessage.style.display = "flex";
-            errorMessageText.innerText = "Due date cannot be in the past";
             return;
         }
         const data = {
             "classid": "{{classid}}",
             "name": taskName,
-            "description": taskDescription,
-            "date": taskDate,
-            "points": taskPoints
+            "options": [],
+        }
+        data.options.push(document.getElementById("pollOption1").value);
+        data.options.push(document.getElementById("pollOption2").value);
+        if (document.getElementById("pollOption3").value !== "") {
+            data.options.push(document.getElementById("pollOption3").value);
+        }
+        if (document.getElementById("pollOption4").value !== "") {
+            data.options.push(document.getElementById("pollOption4").value);
         }
 
-        fetch("/endpoint/task/create", {
+        fetch("/endpoint/poll/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

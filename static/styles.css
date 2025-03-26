@@ -1407,34 +1407,79 @@ main{
     text-decoration: none;
 }
 
-.taskContainer > a > svg{
+.pollTask{
+    height:auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start !important;
+    padding: 8px 6px 8px 8px !important;
+    cursor:default !important;
+}
+
+.pollOption{
+    background-color: var(--background_tertiary);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    border-radius: 24px;
+    gap:8px;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.pollOption > p{
+    margin:0px;
+    font-size: 14px;
+    color: var(--text_primary);
+}
+
+.taskContainer > a > svg,.pollTopBar > svg{
     width: 16px;
     height: 16px;
     padding:8px;
     border-radius: 16px;
+    overflow: clip;
 }
 
-.taskContainer > a > svg.svg_red,.messageTitleContainer > span > svg.svg_red,.peopleContainer > div > span > svg.svg_red{
+.pollTopBar{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap:8px;
+    box-sizing: border-box;
+    background-color: var(--background_secondary);
+}
+
+.pollTopBar > strong{
+    margin: 0px;
+    font-size: 16px;
+    color: var(--text_primary);
+    font-weight: normal;
+}
+
+.taskContainer > a > svg.svg_red,.messageTitleContainer > span > svg.svg_red,.peopleContainer > div > span > svg.svg_red,.pollTopBar > svg.svg_red{
     background-color: #462222;
 }
 
-.taskContainer > a > svg.svg_orange,.messageTitleContainer > span > svg.svg_orange,.peopleContainer > div > span > svg.svg_orange{
+.taskContainer > a > svg.svg_orange,.messageTitleContainer > span > svg.svg_orange,.peopleContainer > div > span > svg.svg_orange,.pollTopBar > svg.svg_orange{
     background-color: #463822;
 }
 
-.taskContainer > a > svg.svg_green,.messageTitleContainer > span > svg.svg_green,.peopleContainer > div > span > svg.svg_green{
+.taskContainer > a > svg.svg_green,.messageTitleContainer > span > svg.svg_green,.peopleContainer > div > span > svg.svg_green,.pollTopBar > svg.svg_green{
     background-color: #224622;
 }
 
-.taskContainer > a > svg.svg_blue,.messageTitleContainer > span > svg.svg_blue,.peopleContainer > div > span > svg.svg_blue{
+.taskContainer > a > svg.svg_blue,.messageTitleContainer > span > svg.svg_blue,.peopleContainer > div > span > svg.svg_blue,.pollTopBar > svg.svg_blue{
     background-color: #222c46;
 }
 
-.taskContainer > a > svg.svg_purple,.messageTitleContainer > span > svg.svg_purple,.peopleContainer > div > span > svg.svg_purple{
+.taskContainer > a > svg.svg_purple,.messageTitleContainer > span > svg.svg_purple,.peopleContainer > div > span > svg.svg_purple,.pollTopBar > svg.svg_purple{
     background-color: #382246;
 }
 
-.taskContainer > a > svg.svg_pink,.messageTitleContainer > span > svg.svg_pink,.peopleContainer > div > span > svg.svg_pink{
+.taskContainer > a > svg.svg_pink,.messageTitleContainer > span > svg.svg_pink,.peopleContainer > div > span > svg.svg_pink,.pollTopBar > svg.svg_pink{
     background-color: #46223e;
 }
 
@@ -3553,7 +3598,8 @@ main{
     background-color: #0000005d;
     backdrop-filter: blur(5px);
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
+    overflow: hidden;
 }
 
 .resourceDialog[open]::backdrop {
@@ -3563,7 +3609,7 @@ main{
 .resourceDialog[open] {
     opacity: 1;
     visibility: visible;
-    animation: dialogScaleIn 0.3s ease-in-out;
+    animation: dialogScaleIn 0.2s ease-in-out;
 }
 
 @keyframes dialogScaleIn {

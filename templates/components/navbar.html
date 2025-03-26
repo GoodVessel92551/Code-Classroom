@@ -437,7 +437,7 @@
             let taskInfo = usersClasses[key].tasks[task];
             let taskType = taskInfo.type;
             status = "notComplete";
-            if (taskType == "resource"){
+            if (taskType == "resource" || taskType == "poll") {
                 return
             }
             var studentData = taskInfo.student_data;
