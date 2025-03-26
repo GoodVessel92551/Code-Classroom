@@ -426,6 +426,18 @@ def create_task_endpoint():
         return {'status':'complete'}
     return  404
 
+@app.route("/endpoint/resource/create",methods=["POST"])
+def create_resource_endpoint():
+    if fun.login():
+        data = request.json
+        if (data["name"] == "" or data["content"] == ""):
+            return {'status':'Fill out all fields'}
+        elif (len(data["name"]) > 20 or len(data["content"]) > 2000):
+            return {'status':'Inputs are values are too long'}
+        fun.create_resource(data["classid"],data["name"],data["content"])
+        return {'status':'complete'}
+    return  404
+
 @app.route("/endpoint/class/message",methods=["POST"])
 def send_message():
     if fun.login():

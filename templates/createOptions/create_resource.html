@@ -20,7 +20,7 @@
         </div>
         <div>
             <label for="taskDescription">Resource Content</label>
-            <textarea maxlength="1000" id="resourceDescription" name="resourceDescription"
+            <textarea maxlength="2000" id="resourceDescription" name="resourceDescription"
                 placeholder="Resource Description"></textarea>
         </div>
         <div>
@@ -85,7 +85,7 @@
             errorMessageText.innerText = "Fill out all fields";
             return;
         }
-        else if (taskName.length > 20 || taskDescription.length > 1000) {
+        else if (taskName.length > 20 || taskDescription.length > 2000) {
             errorMessage.style.display = "flex";
             errorMessageText.innerText = "Inputs are values are too long";
             return;
@@ -93,10 +93,10 @@
         const data = {
             "classid": "{{classid}}",
             "name": taskName,
-            "description": taskDescription,
+            "content": taskDescription,
         }
 
-        fetch("/endpoint/task/create", {
+        fetch("/endpoint/resource/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

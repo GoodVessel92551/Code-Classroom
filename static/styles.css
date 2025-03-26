@@ -126,6 +126,10 @@ body{
     padding: 0px;
 }
 
+.iconButton:focus{
+    outline: none;
+}
+
 .secondaryButton{
     background-color: var(--buttonSecondaryBackground);
     color: var(--buttonSecondaryText);
@@ -3543,4 +3547,82 @@ main{
     margin:0px;
     font-size: 14px;
     color: var(--text_secondary);
+}
+
+.resourceDialog::backdrop{
+    background-color: #0000005d;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.resourceDialog[open]::backdrop {
+    opacity: 1;
+}
+
+.resourceDialog[open] {
+    opacity: 1;
+    visibility: visible;
+    animation: dialogScaleIn 0.3s ease-in-out;
+}
+
+@keyframes dialogScaleIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0%) scale(1);
+    }
+}
+
+.resourceDialog {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    height: 90%;
+    bottom: 0px;
+    left: 50%;
+    width: 80%;
+    background: none;
+    transform: translate(-50%, 0%);
+    z-index: 100;
+    margin: 0px;
+    border: none;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-top: auto;
+    max-width: 900px;
+}
+
+.resourceDialogButtons{
+    display: flex;
+    gap:8px;
+    flex-direction: column;
+}
+
+.resourceDialogPage{
+    border-radius: 24px 24px 0px 0px;
+    height:100%;
+    width: 100%;
+    background-color: var(--background_secondary);
+    padding:32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap:16px;
+}
+
+.resourceDialogPage > h1{
+    margin:0px;
+    font-size: 24px;
+    color: var(--text_primary);
+}
+
+.resourceDialogPageMD{
+    width: 100%;
+    height: auto;
 }

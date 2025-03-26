@@ -495,12 +495,30 @@ def create_task(class_id, title, data,date,points):
             "taskDue":date,
             "taskPoints":points,
             "taskStatus":"notcompleted",
-            "student_data":{}
+            "student_data":{},
+            "type":"task"
         }
 
         query = {"name": "classrooms"}
         update = {"$push": {f"data.{class_id}.tasks": task_data}}
         global_data_db.update_one(query, update)
+
+def create_resource(class_id, title, data):
+    if not check_teacher(class_id):
+        return "You are not a teacher of this class"
+    else:
+        resource_id = gen_class_id()
+        resource_data = {
+            "id": resource_id,
+            "taskName": title,
+            "taskDescription": data,
+            "type":"resource"
+        }
+
+        query = {"name": "classrooms"}
+        update = {"$push": {f"data.{class_id}.tasks": resource_data}}
+        global_data_db.update_one(query, update)
+
 
 def edit_task(class_id, task_id, title, data,date):
     if not check_teacher(class_id):
