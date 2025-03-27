@@ -759,14 +759,14 @@ def get_class_with_users_tasks(class_id):
     # Include all tasks, but filter student_data to only include current user
     for task in class_data["tasks"]:
         task_copy = task.copy()
-        if userid in task_copy["student_data"]:
-            task_copy["student_data"] = {userid: task_copy["student_data"][userid]}
-        else:
-            task_copy["student_data"] = {}
         if task_copy["type"]:
             if task_copy["type"] == "task":
                 filtered_class_data["tasks"].append(task_copy)
             else:
+                if userid in task_copy["student_data"]:
+                    task_copy["student_data"] = {userid: task_copy["student_data"][userid]}
+                else:
+                    task_copy["student_data"] = {}
                 filtered_class_data["tasks"].append(task)
         
     return filtered_class_data
