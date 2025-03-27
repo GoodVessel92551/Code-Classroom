@@ -65,13 +65,27 @@
         <div class="classroomTasksContainer" id="classroomTasksContainer">
             <span class="classroomTitleContainer">
                 <strong>Tasks</strong>
-                <a id="createTaskButton" href="/create/options/{{classid}}"><svg width="24" height="24" fill="none"
+                <a id="createTaskButton" class="createTaskButton"><svg width="24" height="24" fill="none"
                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M11.75 3a.75.75 0 0 1 .743.648l.007.102.001 7.25h7.253a.75.75 0 0 1 .102 1.493l-.102.007h-7.253l.002 7.25a.75.75 0 0 1-1.493.101l-.007-.102-.002-7.249H3.752a.75.75 0 0 1-.102-1.493L3.752 11h7.25L11 3.75a.75.75 0 0 1 .75-.75Z"
                             fill="#ffffff" />
                     </svg></a>
             </span>
+            <div class="createOption" id="createOption">
+                <a>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE --><path fill="currentColor" d="M5 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V5.414a1.5 1.5 0 0 0-.44-1.06L9.647 1.439A1.5 1.5 0 0 0 8.586 1zM4 3a1 1 0 0 1 1-1h3v2.5A1.5 1.5 0 0 0 9.5 6H12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zm7.793 2H9.5a.5.5 0 0 1-.5-.5V2.207zM7 7.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M7.5 9a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zM7 11.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5M5.5 8a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1M6 9.5a.5.5 0 1 1-1 0a.5.5 0 0 1 1 0M5.5 12a.5.5 0 1 0 0-1a.5.5 0 0 0 0 1"/></svg>
+                    <span>Task</span>
+                </a>
+                <a>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE --><path fill="currentColor" d="M6 3a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zm0 1h4v1H6zm5-3H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7.5a.5.5 0 0 0 0-1H5a1 1 0 0 1-1-1v-.003h8.5a.5.5 0 0 0 .5-.5V3a2 2 0 0 0-2-2M4 11.997V3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v8.997z"/></svg>
+                    <span>Resource</span>
+                </a>
+                <a>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE --><path fill="currentColor" d="M15 8a2 2 0 0 0-2-2H3a2 2 0 1 0 0 4h10a2 2 0 0 0 2-2m-2 1H3a1 1 0 1 1 0-2h10a1 1 0 1 1 0 2M9 3a2 2 0 0 0-2-2H3a2 2 0 1 0 0 4h4a2 2 0 0 0 2-2M3 4a1 1 0 0 1 0-2h4a1 1 0 0 1 0 2zm6 7a2 2 0 1 1 0 4H3a2 2 0 1 1 0-4zm0 3a1 1 0 1 0 0-2H3a1 1 0 1 0 0 2z"/></svg>
+                    <span>Poll</span>
+                </a>
+            </div>
             <div class="taskContainer">
             </div>
         </div>
@@ -175,6 +189,11 @@
     }
 
     const createTaskButton = document.getElementById('createTaskButton');
+    const createOption = document.getElementById('createOption');
+    createTaskButton.addEventListener('click', () => {
+        createOption.classList.toggle('showCreateOptions');
+        createTaskButton.classList.toggle('createTaskButtonSVGRotate');
+    });
     const sendMessageButton = document.getElementById('sendMessageButton');
     const messageInputContainer = document.getElementById('messageInputContainer');
     const messageButton = document.getElementById('messageButton');
@@ -184,6 +203,7 @@
 
 
     messageButton.addEventListener('click', () => {
+        messageButton.classList.toggle('createTaskButtonSVGRotate');
         messageInputContainer.classList.toggle('messageInputContainerExpand');
     });
 
