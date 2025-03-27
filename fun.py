@@ -816,7 +816,14 @@ def check_amount_of_tasks(class_id):
     max_amount = plans[plan]["limits"]["maxTasks"]
     class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
     tasks = class_data["tasks"]
-    return len(tasks) >= max_amount
+    tasksNum = 0
+    for i in range(len(tasks)):
+        if "type" in tasks[i]:
+            if tasks[i]["type"] == "task":
+                tasksNum += 1
+        else:
+            tasksNum += 1
+    return tasksNum >= max_amount
 
 def check_amount_of_students(class_id):
     plan = check_users_plan()
@@ -831,3 +838,27 @@ def check_amount_of_messages(class_id):
     class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
     messages = class_data["messages"]
     return len(messages) >= max_amount
+
+def check_amount_of_polls(classid):
+    plan = check_users_plan()
+    max_amount = plans[plan]["limits"]["maxPolls"]
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][classid]
+    tasks = class_data["tasks"]
+    polls = 0
+    for i in range(len(tasks)):
+        if "type" in tasks[i]:
+            if tasks[i]["type"] == "poll":
+                polls += 1
+    return polls >= max_amount
+
+def check_amount_of_resources(classid):
+    plan = check_users_plan()
+    max_amount = plans[plan]["limits"]["maxResources"]
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][classid]
+    tasks = class_data["tasks"]
+    resources = 0
+    for i in range(len(tasks)):
+        if "type" in tasks[i]:
+            if tasks[i]["type"] == "resource":
+                resources += 1
+    return resources >= max_amount

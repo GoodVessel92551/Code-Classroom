@@ -434,6 +434,8 @@ def create_resource_endpoint():
             return {'status':'Fill out all fields'}
         elif (len(data["name"]) > 20 or len(data["content"]) > 2000):
             return {'status':'Inputs are values are too long'}
+        elif fun.check_amount_of_resources(data["classid"]):
+            return {'status':'You have reached the maximum amount of resources'}
         fun.create_resource(data["classid"],data["name"],data["content"])
         return {'status':'complete'}
     return  404
@@ -446,6 +448,8 @@ def create_poll_endpoint():
             return {'status':'Fill out all fields'}
         elif (len(data["name"]) > 100 or len(data["options"]) > 4):
             return {'status':'Inputs are values are too long'}
+        elif fun.check_amount_of_polls(data["classid"]):
+            return {'status':'You have reached the maximum amount of polls'}
         fun.create_poll(data["classid"],data["name"],data["options"])
         return {'status':'complete'}
     return  404
