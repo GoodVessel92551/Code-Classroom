@@ -468,7 +468,7 @@ body{
 
 .pageMenu > a > i{
     margin-left: auto;
-    transform: rotate(0deg);
+    transform: rotate(180deg);
     transition: .15s ease-in-out transform;
     display: flex;
     flex-direction: row;
@@ -486,7 +486,7 @@ body{
 }
 
 .optionContainerNavBarButtonActive  > i{
-    transform: rotate(180deg) !important;
+    transform: rotate(0deg) !important;
 }
 
 /* .pageMenu > a > span:not(.minimize > .pageMenu > a > span){
@@ -3624,7 +3624,7 @@ main{
 .resourceDialog[open] {
     opacity: 1;
     visibility: visible;
-    animation: dialogScaleIn 0.2s ease-in-out;
+    animation: dialogScaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes dialogScaleIn {
