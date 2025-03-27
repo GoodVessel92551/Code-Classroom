@@ -82,30 +82,30 @@
     }
     let selectedCover = "blue";
     let coverImages = ["blue", "green", "orange", "pink", "purple", "red"];
-    const nextImageLeft = document.getElementById("nextImageLeft");
-    const nextImageRight = document.getElementById("nextImageRight");
-    const mainImage = document.getElementById("mainImage");
-    const imagesLeft1 = document.getElementById("imagesLeft1");
-    const imagesLeft2 = document.getElementById("imagesLeft2");
-    const imagesRight1 = document.getElementById("imagesRight1");
-    const imagesRight2 = document.getElementById("imagesRight2");
+    // const nextImageLeft = document.getElementById("nextImageLeft");
+    // const nextImageRight = document.getElementById("nextImageRight");
+    // const mainImage = document.getElementById("mainImage");
+    // const imagesLeft1 = document.getElementById("imagesLeft1");
+    // const imagesLeft2 = document.getElementById("imagesLeft2");
+    // const imagesRight1 = document.getElementById("imagesRight1");
+    // const imagesRight2 = document.getElementById("imagesRight2");
     const finishButton = document.getElementById("finishButton");
     const errorMessage = document.getElementById("errorMessage");
     const errorMessageText = document.getElementById("errorMessageText");
 
-    nextImageLeft.addEventListener("click", () => {
-        const lastElement = coverImages[coverImages.length - 1];
-        coverImages.unshift(lastElement);
-        coverImages.pop();
-        setImages()
-    });
+    // nextImageLeft.addEventListener("click", () => {
+    //     const lastElement = coverImages[coverImages.length - 1];
+    //     coverImages.unshift(lastElement);
+    //     coverImages.pop();
+    //     setImages()
+    // });
 
-    nextImageRight.addEventListener("click", () => {
-        const firstElement = coverImages[0];
-        coverImages.push(firstElement);
-        coverImages.shift();
-        setImages()
-    });
+    // nextImageRight.addEventListener("click", () => {
+    //     const firstElement = coverImages[0];
+    //     coverImages.push(firstElement);
+    //     coverImages.shift();
+    //     setImages()
+    // });
 
     const setImages = () => {
         [imagesLeft1, imagesLeft2, mainImage, imagesRight1, imagesRight2].forEach(img => {
@@ -122,7 +122,7 @@
         imagesRight2.src = '/static/coverImages/classroomCovers/' + coverImages[4] + 'Gradient.webp';
     }
 
-    setImages()
+    //setImages()
 
     finishButton.addEventListener("click", () => {
         const className = document.getElementById("className").value;
