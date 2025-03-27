@@ -1405,6 +1405,7 @@ main{
     gap:8px;
     cursor: pointer;
     text-decoration: none;
+    position: relative;
 }
 
 .pollTask{
@@ -1435,7 +1436,7 @@ main{
     color: var(--text_primary);
 }
 
-.taskContainer > a > svg,.pollTopBar > svg{
+.taskContainer > a > svg,.pollTitleContainer > svg{
     width: 16px;
     height: 16px;
     padding:8px;
@@ -1452,6 +1453,20 @@ main{
     background-color: var(--background_secondary);
 }
 
+.pollTitleContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap:8px;
+}
+
+.deleteMessageSVG{
+    width: 16px;
+    height: 16px;
+    padding: 8px;
+    border-radius: 16px;
+}
+
 .pollTopBar > strong{
     margin: 0px;
     font-size: 16px;
@@ -1459,27 +1474,27 @@ main{
     font-weight: normal;
 }
 
-.taskContainer > a > svg.svg_red,.messageTitleContainer > span > svg.svg_red,.peopleContainer > div > span > svg.svg_red,.pollTopBar > svg.svg_red{
+.taskContainer > a > svg.svg_red,.messageTitleContainer > span > svg.svg_red,.peopleContainer > div > span > svg.svg_red,.pollTitleContainer > svg.svg_red{
     background-color: #462222;
 }
 
-.taskContainer > a > svg.svg_orange,.messageTitleContainer > span > svg.svg_orange,.peopleContainer > div > span > svg.svg_orange,.pollTopBar > svg.svg_orange{
+.taskContainer > a > svg.svg_orange,.messageTitleContainer > span > svg.svg_orange,.peopleContainer > div > span > svg.svg_orange,.pollTitleContainer > svg.svg_orange{
     background-color: #463822;
 }
 
-.taskContainer > a > svg.svg_green,.messageTitleContainer > span > svg.svg_green,.peopleContainer > div > span > svg.svg_green,.pollTopBar > svg.svg_green{
+.taskContainer > a > svg.svg_green,.messageTitleContainer > span > svg.svg_green,.peopleContainer > div > span > svg.svg_green,.pollTitleContainer > svg.svg_green{
     background-color: #224622;
 }
 
-.taskContainer > a > svg.svg_blue,.messageTitleContainer > span > svg.svg_blue,.peopleContainer > div > span > svg.svg_blue,.pollTopBar > svg.svg_blue{
+.taskContainer > a > svg.svg_blue,.messageTitleContainer > span > svg.svg_blue,.peopleContainer > div > span > svg.svg_blue,.pollTitleContainer > svg.svg_blue{
     background-color: #222c46;
 }
 
-.taskContainer > a > svg.svg_purple,.messageTitleContainer > span > svg.svg_purple,.peopleContainer > div > span > svg.svg_purple,.pollTopBar > svg.svg_purple{
+.taskContainer > a > svg.svg_purple,.messageTitleContainer > span > svg.svg_purple,.peopleContainer > div > span > svg.svg_purple,.pollTitleContainer > svg.svg_purple{
     background-color: #382246;
 }
 
-.taskContainer > a > svg.svg_pink,.messageTitleContainer > span > svg.svg_pink,.peopleContainer > div > span > svg.svg_pink,.pollTopBar > svg.svg_pink{
+.taskContainer > a > svg.svg_pink,.messageTitleContainer > span > svg.svg_pink,.peopleContainer > div > span > svg.svg_pink,.pollTitleContainer > svg.svg_pink{
     background-color: #46223e;
 }
 
@@ -3671,4 +3686,14 @@ main{
 .resourceDialogPageMD{
     width: 100%;
     height: auto;
+}
+
+.pollOptionCount{
+    color:#9AB7FF !important;
+}
+
+#resourceDeleteCover{
+    margin-left:48px !important;
+    width: calc(100% - 48px) !important;
+    border-radius: 24px;
 }
