@@ -343,7 +343,7 @@
     const navBarXPLevelValueRangeCurrent = document.getElementById('navBarXPLevelValueRangeCurrent');
 
     navBarStreakLevelValueRangeCurrent.style.width = (lastStreakNumber * 10) + "%";
-    navBarXPLevelValueRangeCurrent.style.width = ((xp.points) * 10) + "%";
+    navBarXPLevelValueRangeCurrent.style.width = ((xp.points)) + "%";
     const settings = {{ settings| tojson}};
     const weakTopicsContainer = document.getElementById("weak topics");
     const ideaCreatorContainer = document.getElementById("idea creator");
@@ -435,7 +435,11 @@
 
         Object.keys(usersClasses[key].tasks).forEach(task => {
             let taskInfo = usersClasses[key].tasks[task];
+            let taskType = taskInfo.type;
             status = "notComplete";
+            if (taskType == "resource" || taskType == "poll") {
+                return
+            }
             var studentData = taskInfo.student_data;
             if (Object.keys(studentData).includes("{{userID}}")) {
                 status = studentData["{{userID}}"].status;
@@ -483,9 +487,7 @@
     if (taskNum == 0) {
         optionContainerNavBarTasksButton.style.display = 'none';
     }
-
-
-    optionContainerNavBarTasksButton.addEventListener('click', () => {
+    const toggleTasks = () => {
         optionContainerNavBarTasksButton.classList.toggle('optionContainerNavBarButtonActive');
         if (optionContainerNavBarTasks.style.maxHeight === '0px') {
             optionContainerNavBarTasks.style.maxHeight = '300px';
@@ -493,6 +495,12 @@
         } else {
             optionContainerNavBarTasks.style.maxHeight = '0px';
         }
+    }
+
+    toggleTasks()
+
+    optionContainerNavBarTasksButton.addEventListener('click', () => {
+        toggleTasks()
     });
     let page = {{ page| tojson}};
     if (document.getElementById(page)) {

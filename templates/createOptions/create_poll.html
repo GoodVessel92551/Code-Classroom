@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Code Classroom | Create Task{% endblock %}
+{% block main %}
+<div class="pageTitleDiv">
+    <h1>{{page.title()}}</h1>
+</div>
+<main class="createClassMain">
+    <div class="createClassForm">
+        <div class="errorMessage" id="errorMessage">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999Zm0 1.5a8.502 8.502 0 1 0 0 17.003A8.502 8.502 0 0 0 12 3.5Zm-.004 7a.75.75 0 0 1 .744.648l.007.102.003 5.502a.75.75 0 0 1-1.493.102l-.007-.101-.003-5.502a.75.75 0 0 1 .75-.75ZM12 7.003a.999.999 0 1 1 0 1.997.999.999 0 0 1 0-1.997Z"
+                    fill="#ffffff" />
+            </svg>
+            <p id="errorMessageText"></p>
+        </div>
+        <div>
+            <label for="taskName">Poll Title</label>
+            <input maxlength="20" type="text" id="pollName" name="pollName" placeholder="Poll Title">
+        </div>
+        <div class="containerWithNumber">
+            <div class="containerWithNumberTextContainer">
+                <h3>Poll Options</h3>
+                <p>Select the amount of options for the poll</p>
+            </div>
+            <input type="number" id="pollOptionsAmount" name="pollOptionsAmount" value="2" min="2" max="4"
+                oninput="this.value = Math.min(Math.max(2, this.value), 4);setAmountOptions(this.value)"
+                onfocus="this.value='';"
+                onblur="if(this.value==''){this.value='2';}setAmountOptions(this.value)">
+        </div>
+        <div id="pollOption1Container">
+            <label for="pollOption1">Option 1</label>
+            <input maxlength="100" type="text" id="pollOption1" name="pollOption1" placeholder="Option 1" required>
+        </div>
+        <div id="pollOption2Container">
+            <label for="pollOption2">Option 2</label>
+            <input maxlength="100" type="text" id="pollOption2" name="pollOption2" placeholder="Option 2" required>
+        </div>
+        <div id="pollOption3Container" style="display: none;">
+            <label for="pollOption3">Option 3</label>
+            <input maxlength="100" type="text" id="pollOption3" name="pollOption3" placeholder="Option 3">
+        </div>
+        <div id="pollOption4Container" style="display: none;">
+            <label for="pollOption4">Option 4</label>
+            <input maxlength="100" type="text" id="pollOption4" name="pollOption4" placeholder="Option 4">
+        </div>
+        <button id="finishButton" class="primaryButton"><svg width="24" height="24" fill="none" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z"
+                    fill="#ffffff" />
+            </svg>Finish</button>
+    </div>
+</main>
+<script>
+    const pollOption1Container = document.getElementById("pollOption1Container");
+    const pollOption2Container = document.getElementById("pollOption2Container");
+    const pollOption3Container = document.getElementById("pollOption3Container");
+    const pollOption4Container = document.getElementById("pollOption4Container");
+    const finishButton = document.getElementById("finishButton");
+    const errorMessage = document.getElementById("errorMessage");
+    const errorMessageText = document.getElementById("errorMessageText");
+    const setAmountOptions = (amount) => {
+        if (amount === "2") {
+            pollOption3Container.style.display = "none";
+            pollOption4Container.style.display = "none";
+        }
+        else if (amount === "3") {
+            pollOption3Container.style.display = "flex";
+            pollOption4Container.style.display = "none";
+        }
+        else if (amount === "4") {
+            pollOption3Container.style.display = "flex";
+            pollOption4Container.style.display = "flex";
+        }
+    }
+    finishButton.addEventListener("click", () => {
+        const taskName = document.getElementById("pollName").value;
+        if (taskName === "") {
+            errorMessage.style.display = "flex";
+            errorMessageText.innerText = "Fill out all fields";
+            return;
+        }
+        else if (taskName.length > 20) {
+            errorMessage.style.display = "flex";
+            errorMessageText.innerText = "Inputs are values are too long";
+            return;
+        }
+        const data = {
+            "classid": "{{classid}}",
+            "name": taskName,
+            "options": [],
+        }
+        data.options.push(document.getElementById("pollOption1").value);
+        data.options.push(document.getElementById("pollOption2").value);
+        if (document.getElementById("pollOption3").value !== "") {
+            data.options.push(document.getElementById("pollOption3").value);
+        }
+        if (document.getElementById("pollOption4").value !== "") {
+            data.options.push(document.getElementById("pollOption4").value);
+        }
+
+        fetch("/endpoint/poll/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(response => response.json()).then(data => {
+            if (data.status === "complete") {
+                window.location.href = "/classroom/{{classid}}";
+            }
+            else {
+                errorMessage.style.display = "flex";
+                errorMessageText.innerText = data.status;
+            }
+        })
+    })
+
+</script>
+
+
+
+{% endblock %}

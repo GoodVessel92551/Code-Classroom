@@ -4,6 +4,8 @@
         "price":0,
         "limits":{
             "maxTasks":2,
+            "maxPolls":10,
+            "maxResources":8,
             "maxClasses":1,
             "maxStudents":10,
             "maxMessages":20,

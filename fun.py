@@ -208,6 +208,21 @@ def delete_account_info():
     
     return "complete"
 
+def send_notification(title, error_type):
+    notification = {
+        "title": title,
+        "type": error_type,
+    }
+    session["notification"].append(notification)
+
+def get_notifications():
+    if "notification" not in session:
+        session["notification"] = []
+    notifications = session.get("notification")
+    session["notification"] = []
+    return notifications
+
+
 def get_id():
     keys = global_data_db.find_one({"name":"B-KEYS"})
     token = hash_value(session.get("token"))
@@ -241,20 +256,23 @@ def get_user_streak():
 
 def get_user_xp():
     user_id = get_id()
-    user_data = user_data_db.find({"id": user_id})
-    if "xp" not in user_data:
-        user_data_db.update_one({"id": user_id}, {"$set": {"xp": {"level": 0, "points": 0}}})
+    user_data = user_data_db.find_one({"id": user_id})
+    print(user_data.get("data", {}))
+    if "data" not in user_data or "xp" not in user_data.get("data", {}):
+        print("XP not found")
+        user_data_db.update_one({"id": user_id}, {"$set": {"data.xp": {"level": 0, "points": 0}}})
         return {"level": 0, "points": 0}
-    return user_data["xp"]
+    return user_data["data"]["xp"]
 
 def increase_xp(points):
     user_id = get_id()
     user_data = user_data_db.find_one({"id": user_id})
-    xp = user_data["xp"]
+    xp = user_data["data"]["xp"]
     xp["points"] += points
     if xp["points"] >= 100:
         xp["level"] += 1
         xp["points"] -= 100
+    print(xp)
     query = {"id": user_id}
     update = {"$set": {"xp": xp}}
     user_data_db.update_one(query, update)
@@ -347,6 +365,8 @@ def weak_topics(id,data):
 def get_weak_topics(id):
     user_data = user_data_db.find_one({"id":id})
     topics = user_data["data"]["aiTools"]["weakTopics"]["topics"]
+    if len(topics) == 0:
+        return "nwt"
     counter = Counter(topics)
     return counter.most_common(2)
 
@@ -475,12 +495,65 @@ def create_task(class_id, title, data,date,points):
             "taskDue":date,
             "taskPoints":points,
             "taskStatus":"notcompleted",
-            "student_data":{}
+            "student_data":{},
+            "type":"task"
         }
 
         query = {"name": "classrooms"}
         update = {"$push": {f"data.{class_id}.tasks": task_data}}
         global_data_db.update_one(query, update)
+
+def create_resource(class_id, title, data):
+    if not check_teacher(class_id):
+        return "You are not a teacher of this class"
+    else:
+        resource_id = gen_class_id()
+        resource_data = {
+            "id": resource_id,
+            "taskName": title,
+            "taskDescription": data,
+            "type":"resource"
+        }
+
+        query = {"name": "classrooms"}
+        update = {"$push": {f"data.{class_id}.tasks": resource_data}}
+        global_data_db.update_one(query, update)
+
+def create_poll(class_id,title,options):
+    if not check_teacher(class_id):
+        return "You are not a teacher of this class"
+    else:
+        for i in range(len(options)):
+            options[i] = {"option":options[i],"votes":0}
+        poll_id = gen_class_id()
+        poll_data = {
+            "id": poll_id,
+            "taskName": title,
+            "options": options,
+            "voters": [],
+            "type":"poll"
+        }
+
+        query = {"name": "classrooms"}
+        update = {"$push": {f"data.{class_id}.tasks": poll_data}}
+        global_data_db.update_one(query, update)
+
+def vote_poll(class_id,poll_id,vote):
+    userid = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
+    task_data = class_data["tasks"]
+    for i in range(len(task_data)):
+        if task_data[i]["id"] == poll_id:
+            if userid in task_data[i]["voters"]:
+                return "You have already voted"
+            task_data[i]["voters"].append(userid)
+            for j in range(len(task_data[i]["options"])):
+                if task_data[i]["options"][j]["option"] == vote:
+                    task_data[i]["options"][j]["votes"] += 1
+            query = {"name": "classrooms"}
+            update = {"$set": {f"data.{class_id}.tasks": task_data}}
+            global_data_db.update_one(query, update)
+            return task_data[i]
 
 def edit_task(class_id, task_id, title, data,date):
     if not check_teacher(class_id):
@@ -587,7 +660,7 @@ def check_message_lock(class_id):
     class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
     return class_data["classInfo"]["settings"]["messageLock"]
 
-def send_message(class_id, message):
+def send_message(class_id, message,messageImportant):
     if not check_teacher(class_id) and check_message_lock(class_id):
         return "You are not allowed to send messages in this class"
     else:
@@ -596,7 +669,8 @@ def send_message(class_id, message):
             "message": message,
             "messageId": gen_class_id(),
             "date": datetime.datetime.now().strftime("%Y-%m-%d"),
-            "userID": get_user_id()
+            "userID": get_user_id(),
+            "messageImportant":messageImportant
         }
 
         query = {"name": "classrooms"}
@@ -682,15 +756,23 @@ def get_class_with_users_tasks(class_id):
         "members": class_data["members"]
     }
 
-    # Include all tasks, but filter student_data to only include current user
     for task in class_data["tasks"]:
         task_copy = task.copy()
-        if userid in task_copy["student_data"]:
-            task_copy["student_data"] = {userid: task_copy["student_data"][userid]}
+        if "type" in task_copy:
+            if task_copy["type"] != "task":
+                filtered_class_data["tasks"].append(task_copy)
+            else:
+                if userid in task_copy["student_data"]:
+                    task_copy["student_data"] = {userid: task_copy["student_data"][userid]}
+                else:
+                    task_copy["student_data"] = {}
+                filtered_class_data["tasks"].append(task)
         else:
-            task_copy["student_data"] = {}
-        filtered_class_data["tasks"].append(task_copy)
-        
+            if userid in task_copy["student_data"]:
+                task_copy["student_data"] = {userid: task_copy["student_data"][userid]}
+            else:
+                task_copy["student_data"] = {}
+            filtered_class_data["tasks"].append(task)
     return filtered_class_data
 
 def get_class_without_users_tasks(class_id):
@@ -734,7 +816,14 @@ def check_amount_of_tasks(class_id):
     max_amount = plans[plan]["limits"]["maxTasks"]
     class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
     tasks = class_data["tasks"]
-    return len(tasks) >= max_amount
+    tasksNum = 0
+    for i in range(len(tasks)):
+        if "type" in tasks[i]:
+            if tasks[i]["type"] == "task":
+                tasksNum += 1
+        else:
+            tasksNum += 1
+    return tasksNum >= max_amount
 
 def check_amount_of_students(class_id):
     plan = check_users_plan()
@@ -749,3 +838,36 @@ def check_amount_of_messages(class_id):
     class_data = global_data_db.find_one({"name": "classrooms"})["data"][class_id]
     messages = class_data["messages"]
     return len(messages) >= max_amount
+
+def check_amount_of_polls(classid):
+    plan = check_users_plan()
+    max_amount = plans[plan]["limits"]["maxPolls"]
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][classid]
+    tasks = class_data["tasks"]
+    polls = 0
+    for i in range(len(tasks)):
+        if "type" in tasks[i]:
+            if tasks[i]["type"] == "poll":
+                polls += 1
+    return polls >= max_amount
+
+def check_amount_of_resources(classid):
+    plan = check_users_plan()
+    max_amount = plans[plan]["limits"]["maxResources"]
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][classid]
+    tasks = class_data["tasks"]
+    resources = 0
+    for i in range(len(tasks)):
+        if "type" in tasks[i]:
+            if tasks[i]["type"] == "resource":
+                resources += 1
+    return resources >= max_amount
+
+def check_user_in_class(classid):
+    user_id = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][classid]
+    members = class_data["members"]
+    for i in range(len(members)):
+        if members[i]["id"] == user_id:
+            return True
+    return False
