@@ -512,7 +512,8 @@ def create_resource(class_id, title, data):
             "id": resource_id,
             "taskName": title,
             "taskDescription": data,
-            "type":"resource"
+            "type":"resource",
+            "tags":[]
         }
 
         query = {"name": "classrooms"}
