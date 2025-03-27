@@ -763,11 +763,11 @@ def get_class_with_users_tasks(class_id):
             task_copy["student_data"] = {userid: task_copy["student_data"][userid]}
         else:
             task_copy["student_data"] = {}
-        
-        if task_copy["type"] == "task":
-            filtered_class_data["tasks"].append(task_copy)
-        else:
-            filtered_class_data["tasks"].append(task)
+        if task_copy["type"]:
+            if task_copy["type"] == "task":
+                filtered_class_data["tasks"].append(task_copy)
+            else:
+                filtered_class_data["tasks"].append(task)
         
     return filtered_class_data
 
