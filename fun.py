@@ -553,7 +553,7 @@ def vote_poll(class_id,poll_id,vote):
             query = {"name": "classrooms"}
             update = {"$set": {f"data.{class_id}.tasks": task_data}}
             global_data_db.update_one(query, update)
-            return "complete"
+            return task_data[i]
 
 def edit_task(class_id, task_id, title, data,date):
     if not check_teacher(class_id):

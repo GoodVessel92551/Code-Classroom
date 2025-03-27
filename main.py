@@ -454,8 +454,8 @@ def create_poll_endpoint():
 def vote_poll():
     if fun.login():
         data = request.json
-        fun.vote_poll(data["classid"],data["pollid"],data["option"])
-        return {'status':'complete'}
+        poll_data = fun.vote_poll(data["classid"],data["pollid"],data["option"])
+        return {'status':'complete',"poll_data":poll_data}
     return  404
 
 @app.route("/endpoint/class/message",methods=["POST"])

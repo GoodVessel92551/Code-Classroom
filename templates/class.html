@@ -536,32 +536,31 @@
                             .then(response => response.json())
                             .then(data => {
                                 if (data.status === 'complete') {
-                                    // Update poll options with new vote counts
-                                    pollOptionsKeys.forEach(optionKey => {
-                                        const option = pollOptions[optionKey];
-                                        let votePercentage = (option.votes / (totalVotes + 1) * 100).toFixed(0);
+                                    const new_poll_data = data.poll_data;
+                                    // Update the poll UI with new data
+                                    pollOptionsKeys.forEach((option, index) => {
+                                        const newTotalVotes = new_poll_data.voters.length;
+                                        const newVoteCount = new_poll_data.options[option].votes;
+                                        const newVotePercentage = newTotalVotes > 0 ? (newVoteCount / newTotalVotes * 100).toFixed(0) : 0;
                                         
-                                        // If this is the option that was voted on
-                                        if (option.option === pollOptions[option]["option"]) {
-                                            option.votes++;
+                                        // Find all poll options and update them
+                                        const pollOptions = container.querySelectorAll('.pollOption');
+                                        if (pollOptions[index]) {
+                                            // Update the text and percentage
+                                            const percentageEl = pollOptions[index].querySelector('p:last-child');
+                                            percentageEl.innerText = newVotePercentage + "%";
+                                            
+                                            // Update the gradient background
+                                            pollOptions[index].style.backgroundImage = `linear-gradient(to right, #30384E ${newVotePercentage}%, #242B3E ${newVotePercentage}%)`;
                                         }
-                                        
-                                        // Update all options UI
-                                        const allOptions = container.querySelectorAll('.pollOption');
-                                        allOptions.forEach((pollOptionEl, index) => {
-                                            const optKey = pollOptionsKeys[index];
-                                            const opt = pollOptions[optKey];
-                                            const newPercentage = (opt.votes / (totalVotes + 1) * 100).toFixed(0);
-                                            
-                                            // Update percentage text
-                                            pollOptionEl.querySelector('p:last-child').innerText = newPercentage + "%";
-                                            
-                                            // Update background gradient
-                                            pollOptionEl.style.backgroundImage = 
-                                                `linear-gradient(to right, #30384E ${newPercentage}%, #242B3E ${newPercentage}%)`;
-                                        });
                                     });
-                                    voters.push(userID);
+
+                                    // Disable further voting
+                                    const pollOptions = container.querySelectorAll('.pollOption');
+                                    pollOptions.forEach(option => {
+                                        option.style.pointerEvents = 'none';
+                                        option.classList.add('voted');
+                                    });
                                 }
                             })
                         });
