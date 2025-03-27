@@ -1550,7 +1550,6 @@ main{
 
 .taskIndercater.notstarted{
     background-color: #88cfff;
-    border:4px solid #2c3750;
 }
 
 .taskIndercater.missing{
