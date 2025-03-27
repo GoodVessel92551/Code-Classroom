@@ -262,12 +262,12 @@ def get_user_xp():
         print("XP not found")
         user_data_db.update_one({"id": user_id}, {"$set": {"data.xp": {"level": 0, "points": 0}}})
         return {"level": 0, "points": 0}
-    return user_data["xp"]
+    return user_data["data"]["xp"]
 
 def increase_xp(points):
     user_id = get_id()
     user_data = user_data_db.find_one({"id": user_id})
-    xp = user_data["xp"]
+    xp = user_data["data"]["xp"]
     xp["points"] += points
     if xp["points"] >= 100:
         xp["level"] += 1
@@ -862,3 +862,12 @@ def check_amount_of_resources(classid):
             if tasks[i]["type"] == "resource":
                 resources += 1
     return resources >= max_amount
+
+def check_user_in_class(classid):
+    user_id = get_user_id()
+    class_data = global_data_db.find_one({"name": "classrooms"})["data"][classid]
+    members = class_data["members"]
+    for i in range(len(members)):
+        if members[i]["id"] == user_id:
+            return True
+    return False

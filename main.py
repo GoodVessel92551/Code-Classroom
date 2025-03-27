@@ -142,8 +142,14 @@ def class_page(classid):
     print(classid)
     if fun.login():
         user_class = fun.get_class_with_users_tasks(classid)
+        user_in_class = fun.check_user_in_class(classid)
         if user_class == None:
+            fun.send_notification("Classroom does not exist","warning")
             return redirect("/")
+        if user_in_class == False:
+            fun.send_notification("You are not in this classroom","warning")
+            return redirect("/join/classroom")
+
         return render_template("class.html",streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
