@@ -13,6 +13,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_limiter.errors import RateLimitExceeded
+from flask_socketio import SocketIO, emit, join_room, leave_room
 import json
 
 load_dotenv(override=True, interpolate=False)
@@ -32,6 +33,7 @@ app.secret_key = os.getenv("SECRET_KEY")
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=30)
 app.config['SESSION_COOKIE_HTTPONLY'] = True 
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 client = WebApplicationClient(GOOGLE_CLIENT_ID)
 
@@ -482,6 +484,14 @@ def send_message():
             print(data["messageImportant"] != True)
             return {'status':'Invalid message importance'}
         message = fun.send_message(data["classid"],data["message"],data["messageImportant"])
+        # Emit the new message to all clients in the classroom
+        socketio.emit('new_message', {
+            "userName": message["userName"],
+            "message": message["message"],
+            "messageId": message["messageId"],
+            "date": message["date"],
+            "important": data["messageImportant"]
+        }, room=data["classid"])
         return {'status':'complete',"userName":message["userName"],"message":message["message"],"messageId":message["messageId"],"date":message["date"]}
     return  404
 
@@ -490,6 +500,11 @@ def delete_message():
     if fun.login():
         data = request.json
         message = fun.delete_message(data["classid"],data["messageid"])
+        if message == "complete":
+            # Notify all clients in the classroom that a message was deleted
+            socketio.emit('delete_message', {
+                "messageId": data["messageid"]
+            }, room=data["classid"])
         return {'status':message}
     return  404
 
@@ -546,9 +561,9 @@ def call():
     session.permanent = True
     host = request.host
     subdomain = host.split('.')[0]
-    if subdomain == "devcode":
+    if (subdomain == "devcode"):
         redirect_url = "https://devcode.booogle.app/login/callback"
-    elif subdomain == "code-dev":
+    elif (subdomain == "code-dev"):
         redirect_url = "https://code-dev.booogle.app/login/callback"
     else:
         redirect_url = "https://code.booogle.app/login/callback"
@@ -611,8 +626,35 @@ def ratelimit_handler(e):
         error="Too many login attempts.",form=form
     ), 429
 
+# SocketIO event handlers
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
+
+@socketio.on('join')
+def handle_join(data):
+    if fun.login() and 'room' in data:
+        room = data['room']
+        # Verify the user is in this classroom
+        if fun.check_user_in_class(room):
+            join_room(room)
+            emit('status', {'msg': f"{fun.get_username()} has joined the room."}, room=room)
+            print(f"User {fun.get_username()} joined room {room}")
+
+@socketio.on('leave')
+def handle_leave(data):
+    if 'room' in data:
+        room = data['room']
+        leave_room(room)
+        emit('status', {'msg': f"{fun.get_username()} has left the room."}, room=room)
+        print(f"User {fun.get_username()} left room {room}")
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app, debug=True)
 
 
 
