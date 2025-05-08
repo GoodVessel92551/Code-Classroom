@@ -317,19 +317,24 @@ body{
 }
 
 
-.navbarTitle > span{
+.navbarTitle > a{
     max-width: 100%;
     overflow: hidden;
     transition: .15s ease-in-out max-width;
     font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap:8px;
+    text-decoration: none;
+    color: var(--text_primary);
 }
 
-.minimize > .navbarTitle > span{
+.minimize > .navbarTitle > a{
     display: none;
     max-width: 0%;
 }
 
-.navbarTitle > span > img{
+.navbarTitle > a > img{
     width: 16px;
     height: 16px;
     border-radius: 4px;
@@ -2156,7 +2161,20 @@ main{
     transition: .2s transform ease;
 }
 
-.classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription),.classroomSettingContainer > a{
+.classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription),.classroomSettingContainer > div::not(.errorMessage){
+    width:100%;
+    background-color: var(--background_secondary);
+    border-radius: 20px;
+    height:64px;
+    padding:8px 12px 8px 16px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+}
+
+.classroomSettingsContainerDelete{
     width:100%;
     background-color: var(--background_secondary);
     border-radius: 20px;
