@@ -3785,3 +3785,11 @@ main{
         margin-left:60px
     }
 }
+
+@media (min-width:1200px) {
+    main{
+        max-width: 1200px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+}
