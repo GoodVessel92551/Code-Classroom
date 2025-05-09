@@ -287,7 +287,7 @@ def edit_task():
         data = request.json
         if (data["name"] == "" or data["instructions"] == "" or data["date"] == ""):
             return {'status': 'Fill out all fields'}
-        elif (len(data["name"]) > 20 or len(data["instructions"]) > 1000):
+        elif (len(data["name"]) > 50 or len(data["instructions"]) > 2000):
             return {'status': 'Inputs are values are too long'}
         try:
             task_date = datetime.strptime(data["date"], "%Y-%m-%d")
@@ -474,7 +474,7 @@ def send_message():
         data = request.json
         if data["message"] == "":
             return {'status':'Fill out all fields'}
-        elif len(data["message"]) > 100:
+        elif len(data["message"]) > 500:
             return {'status':'Message is too long'}
         elif fun.check_amount_of_messages(data["classid"]):
             return {'status':'You have reached the maximum amount of messages'}
