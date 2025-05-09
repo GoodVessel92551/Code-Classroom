@@ -2130,7 +2130,7 @@ main{
 
 
 
-.classroomSettingContainer{
+.classroomSettingContainer, .classroomSettingContainerPage{
     width: 100%;
     height: auto;
     margin-top:8px;
@@ -2162,6 +2162,19 @@ main{
 }
 
 .classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription),.classroomSettingContainer > div::not(.errorMessage){
+    width:100%;
+    background-color: var(--background_secondary);
+    border-radius: 20px;
+    height:64px;
+    padding:8px 12px 8px 16px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+}
+
+.websiteSettings > div,.websiteSettings > a,.classroomSettingContainerPage > a,.classroomSettingContainerPage > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription){
     width:100%;
     background-color: var(--background_secondary);
     border-radius: 20px;
@@ -3758,4 +3771,17 @@ main{
 
 .createTaskButtonSVGRotate > svg{
     transform: rotate(45deg);
+}
+
+@media (max-width:700px) {
+    .navSideBar{
+        position: fixed;
+    }
+    .navSideBar:not(.minimize){
+        position: fixed;
+        box-shadow: 4px 0px 10px #00000060;
+    }
+    main{
+        margin-left:60px
+    }
 }
