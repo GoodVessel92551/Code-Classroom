@@ -1377,8 +1377,14 @@ main{
 .messageContainer > span > .messageTitleContainer > p{
     margin: 0px;
     font-size: 14px;
-    color: var(--text_secondary);
+    color: var(--text_primary);
     margin-left: auto;
+    height:32px;
+    background-color: #303644;
+    padding: 0px 16px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
 }
 
 .messageTitleContainer > span > svg{
@@ -3792,4 +3798,44 @@ main{
         margin-left:auto;
         margin-right:auto;
     }
+}
+
+.deleteContainer{
+    display: flex;
+    background-color: #FA8282;
+    padding:0px;
+    justify-content: end;
+    align-items: center;
+    border-radius: 16px;
+    color:#3B0000;
+    font-size: 14px;
+    transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    width: 32px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.deleteContainerExpand{
+    width: 95px;
+}
+.deleteContainer > .deleteTextConfirm{
+    display: none;
+    margin-left:8px;
+    color: #FA8282;
+    transition: .2s;
+}
+
+.deleteContainerExpand > .deleteTextConfirm{
+    display: block;
+    margin-left:4px;
+    color: #3B0000;
+}
+
+.deleteContainer > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.deleteMessageSVG > path{
+    fill: #3B0000 !important;
 }
