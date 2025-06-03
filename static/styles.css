@@ -1371,7 +1371,7 @@ main{
 }
 
 .messageContainer > span > p{
-    padding-left: 8px !important;
+    padding-left: 40px !important;
 }
 
 .messageContainer > span > .messageTitleContainer > p{
@@ -2249,7 +2249,7 @@ main{
     height: 14px;
     background: #687698;
     border-radius: 50%;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.3s  cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .switch:checked {
@@ -3818,12 +3818,6 @@ main{
 .deleteContainerExpand{
     width: 95px;
 }
-.deleteContainer > .deleteTextConfirm{
-    display: none;
-    margin-left:8px;
-    color: #FA8282;
-    transition: .2s;
-}
 
 .deleteContainerExpand > .deleteTextConfirm{
     display: block;
@@ -3838,4 +3832,8 @@ main{
 
 .deleteMessageSVG > path{
     fill: #3B0000 !important;
+}
+
+.deleteContainer:active{
+    scale: 0.9;
 }
