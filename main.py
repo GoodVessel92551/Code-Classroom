@@ -139,7 +139,6 @@ def create_task(classid):
 
 @app.route("/classroom/<classid>")
 def class_page(classid):
-    print(classid)
     if fun.login():
         user_class = fun.get_class_with_users_tasks(classid)
         user_in_class = fun.check_user_in_class(classid)
@@ -352,7 +351,7 @@ def save_task():
     if fun.login():
         data = request.json
         status = fun.save_code(data["classid"],data["taskid"],data["code"])
-        return "{'status':"+status+"}"
+        return jsonify({'status': status})
     return  404
 
 @app.route("/endpoint/task/delete",methods=["POST"])

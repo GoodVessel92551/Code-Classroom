@@ -133,11 +133,14 @@
                 <path fill="currentColor"
                     d="m2.589 2.716l.057-.07a.5.5 0 0 1 .638-.057l.07.057L8 7.293l4.646-4.647a.5.5 0 0 1 .708.708L8.707 8l4.647 4.646a.5.5 0 0 1 .057.638l-.057.07a.5.5 0 0 1-.638.057l-.07-.057L8 8.707l-4.646 4.647a.5.5 0 0 1-.708-.708L7.293 8L2.646 3.354a.5.5 0 0 1-.057-.638l.057-.07z" />
             </svg></button>
-        <button id="deleteResource" class="dangerButton iconButton"><svg xmlns="http://www.w3.org/2000/svg" width="32"
-                height="32" viewBox="0 0 16 16">
-                <path fill="currentColor"
+        <button id="deleteResource" class="dangerButton iconButton deleteContainer">
+                <span class="deleteTextConfirm">Confirm</span>
+                <span class="deleteMessage">
+               <svg class="deleteMessageSVG" xmlns="http://www.w3.org/2000/svg" width="32"
+                height="32" viewBox="0 0 16 16"> <path fill="currentColor"
                     d="M7 3h2a1 1 0 0 0-2 0M6 3a2 2 0 1 1 4 0h4a.5.5 0 0 1 0 1h-.564l-1.205 8.838A2.5 2.5 0 0 1 9.754 15H6.246a2.5 2.5 0 0 1-2.477-2.162L2.564 4H2a.5.5 0 0 1 0-1zm1 3.5a.5.5 0 0 0-1 0v5a.5.5 0 0 0 1 0zM9.5 6a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0v-5a.5.5 0 0 1 .5-.5m-4.74 6.703A1.5 1.5 0 0 0 6.246 14h3.508a1.5 1.5 0 0 0 1.487-1.297L12.427 4H3.573z" />
-            </svg></button>
+            </svg>
+                </span></button>
         <div id="resourceDeleteCover" class="deleteCover" style="display: none;">
             <span>Are you sure?</span>
             <div class="deleteButtonContainer">
@@ -758,17 +761,12 @@
                 }
             })
     });
-    deleteResource.addEventListener('click', () => {
-        document.getElementById('resourceDeleteCover').style.display = 'flex';
-    });
 
-    document.getElementById('cancelDeleteResource').addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        document.getElementById('resourceDeleteCover').style.display = 'none';
-    });
-
-    document.getElementById('confirmDeleteResource').addEventListener('click', () => {
+        deleteResource.addEventListener('click', () => {
+        console.log(deleteResource.classList)
+        if (deleteResource.classList.contains('deleteContainerExpand') === false) {
+            return;
+        }
         fetch("/endpoint/task/delete", {
             method: 'POST',
             headers: {
@@ -788,6 +786,19 @@
                 }
             })
     });
+    deleteResource.addEventListener('click', () => {
+        deleteResource.classList.toggle('deleteContainerExpand');
+    });
+    deleteResource.addEventListener('mouseleave', () => {
+        deleteResource.classList.remove('deleteContainerExpand');
+    });
+
+    document.getElementById('cancelDeleteResource').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        document.getElementById('resourceDeleteCover').style.display = 'none';
+    });
+
 </script>
 
 

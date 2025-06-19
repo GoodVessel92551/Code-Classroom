@@ -122,8 +122,9 @@ body{
 }
 
 .iconButton{
-    width: 36px;
+    width: 32px;
     padding: 0px;
+    height:32px;
 }
 
 .iconButton:focus{
@@ -197,8 +198,8 @@ body{
 }
 
 .primaryButton > svg,.dangerButton > svg{
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .importantMessage{
@@ -1380,7 +1381,7 @@ main{
     color: var(--text_primary);
     margin-left: auto;
     height:32px;
-    background-color: #303644;
+    background-color: #ffffff24;
     padding: 0px 16px;
     border-radius: 16px;
     display: flex;
@@ -3801,6 +3802,7 @@ main{
 }
 
 .deleteContainer{
+    gap:0px !important;
     display: flex;
     background-color: #FA8282;
     padding:0px;
@@ -3813,6 +3815,11 @@ main{
     width: 32px;
     overflow: hidden;
     cursor: pointer;
+}
+
+#deleteResource{
+    position: absolute;
+    top: 40px;
 }
 
 .deleteContainerExpand{
