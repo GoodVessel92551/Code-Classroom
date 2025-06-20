@@ -757,6 +757,7 @@ main{
     opacity: 0.5;
     filter: blur(2px);
     scale: 0.95;
+    animation-delay: .2s;
 }
 
 .openClassroom{

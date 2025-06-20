@@ -304,6 +304,14 @@
 </div>
 
 <script>
+    document.querySelectorAll('.pageMenu a, .pageMenuAITools a').forEach(link => {
+        link.addEventListener('click', function() {
+            document.querySelectorAll('.pageMenuCurrentPage').forEach(active => {
+                active.classList.remove('pageMenuCurrentPage');
+            });
+            this.classList.add('pageMenuCurrentPage');
+        });
+    });
     const streakLevelButton = document.getElementById('streakLevelButton');
     const xpLevelButton = document.getElementById('xpLevelButton');
     const navBarStreakLevelContainer = document.getElementById('navBarStreakLevelContainer');
