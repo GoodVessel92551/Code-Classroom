@@ -729,19 +729,35 @@ main{
 
 .classesContainer > a > spinner{
     position: absolute;
-    top:16px;
-    right:16px;
+    top:24px;
+    right:24px;
     width: 0px;
     height: 0px;
-    transform: translate(-50%, -50%);
-    background-color:  transparent;
-    border: 3px solid transparent;
-    border-radius: 50%;
-    border-top-color: var(--text_primary);
-    animation: spin 1s linear infinite;
+    transform: translate(50%, -50%);
+    border-radius: 50px;
+    padding: 4px;
+    background-color: #0000005d;
+    backdrop-filter: blur(5px);
     transition: width .4s cubic-bezier(0.68, -0.55, 0.27, 1.55), height .4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity .2s ease-in-out;
-
+    box-sizing: border-box;
     opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.classesContainer > a > spinner > wheel{
+    background-color:  transparent;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 1s linear infinite;
+    max-width:  12px;
+    max-height: 12px;
+    min-width: 12px;
+    min-height: 12px;
+    animation: spin 1s linear infinite;
+
 }
 
 @keyframes spin {
@@ -765,8 +781,8 @@ main{
 }
 
 .openClassroom > spinner{
-    height: 16px !important;
-    width: 16px !important;
+    height: 24px !important;
+    width: 24px !important;
     opacity: 1 !important;
     
 }
