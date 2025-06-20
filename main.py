@@ -139,7 +139,6 @@ def create_task(classid):
 
 @app.route("/classroom/<classid>")
 def class_page(classid):
-    print(classid)
     if fun.login():
         user_class = fun.get_class_with_users_tasks(classid)
         user_in_class = fun.check_user_in_class(classid)
@@ -287,7 +286,7 @@ def edit_task():
         data = request.json
         if (data["name"] == "" or data["instructions"] == "" or data["date"] == ""):
             return {'status': 'Fill out all fields'}
-        elif (len(data["name"]) > 20 or len(data["instructions"]) > 1000):
+        elif (len(data["name"]) > 50 or len(data["instructions"]) > 2000):
             return {'status': 'Inputs are values are too long'}
         try:
             task_date = datetime.strptime(data["date"], "%Y-%m-%d")
@@ -352,7 +351,7 @@ def save_task():
     if fun.login():
         data = request.json
         status = fun.save_code(data["classid"],data["taskid"],data["code"])
-        return "{'status':"+status+"}"
+        return jsonify({'status': status})
     return  404
 
 @app.route("/endpoint/task/delete",methods=["POST"])
@@ -418,7 +417,7 @@ def create_task_endpoint():
             return {'status':'Fill out all fields'}
         elif (len(data["name"]) > 20 or len(data["description"]) > 1000):
             return {'status':'Inputs are values are too long'}
-        elif (int(data["points"]) < 1 or int(data["points"]) > 100):
+        elif (int(data["points"]) < 0 or int(data["points"]) > 100):
             return {'status':'Points must be between 0 and 100'}
         elif fun.check_amount_of_tasks(data["classid"]):
             return {'status':'You have reached the maximum amount of tasks'}
@@ -474,7 +473,7 @@ def send_message():
         data = request.json
         if data["message"] == "":
             return {'status':'Fill out all fields'}
-        elif len(data["message"]) > 100:
+        elif len(data["message"]) > 500:
             return {'status':'Message is too long'}
         elif fun.check_amount_of_messages(data["classid"]):
             return {'status':'You have reached the maximum amount of messages'}
@@ -613,9 +612,3 @@ def ratelimit_handler(e):
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
-
-

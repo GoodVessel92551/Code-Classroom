@@ -4,20 +4,14 @@ const params = new URLSearchParams(window.location.search);
 const topic = params.get("query");
 const startCreating = document.getElementById("startCreating");
 const enableAIButton = document.getElementById("enableAIButton");
+const {available, defaultTemperature, defaultTopK, maxTopK } = await LanguageModel.params();
 
 
 
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    var capabilities = await ai.languageModel.availability();
-  } catch {
-    console.error("No AI")
-    taskSummaryText.textContent = "AI Unavailable"
-    enableAIButton.style.display = "flex";
-    return
-  }
-  if (!(capabilities == "available")) {
+
+  if ((available !== "no")) {
     taskSummaryText.textContent = "AI Unavailable"
     enableAIButton.style.display = "flex";
     return

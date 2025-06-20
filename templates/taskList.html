@@ -241,7 +241,9 @@
             let taskInfo = usersClasses[key].tasks[task];
             const dueDate = new Date(taskInfo.taskDue);
             const currentDate = new Date();
-
+            if (taskInfo.type == "resource", "poll") {
+                return;
+            }
             currentDate.setHours(0, 0, 0, 0);
             dueDate.setHours(0, 0, 0, 0);
 

@@ -16,11 +16,11 @@
         </div>
         <div>
             <label for="taskName">Task Title</label>
-            <input maxlength="20" type="text" id="taskName" name="taskName" placeholder="Task Title">
+            <input maxlength="50" type="text" id="taskName" name="taskName" placeholder="Task Title">
         </div>
         <div>
             <label for="taskDescription">Task Instructions</label>
-            <textarea maxlength="1000" id="taskDescription" name="taskDescription"
+            <textarea maxlength="2000" id="taskDescription" name="taskDescription"
                 placeholder="Task Description"></textarea>
         </div>
         <div>
@@ -107,14 +107,14 @@
             errorMessageText.innerText = "Invalid Date";
             return;
         }
-        else if (taskName.length > 20 || taskDescription.length > 1000) {
+        else if (taskName.length > 50 || taskDescription.length > 2000) {
             errorMessage.style.display = "flex";
             errorMessageText.innerText = "Inputs are values are too long";
             return;
         }
-        if (taskPoints < 1 || taskPoints > 100) {
+        if (taskPoints < 0 || taskPoints > 100) {
             errorMessage.style.display = "flex";
-            errorMessageText.innerText = "Points must be between 1 and 100";
+            errorMessageText.innerText = "Points must be between 0 and 100";
             return;
         }
         const selectedDate = new Date(taskDate);

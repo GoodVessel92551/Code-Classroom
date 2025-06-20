@@ -122,8 +122,9 @@ body{
 }
 
 .iconButton{
-    width: 36px;
+    width: 32px;
     padding: 0px;
+    height:32px;
 }
 
 .iconButton:focus{
@@ -197,8 +198,8 @@ body{
 }
 
 .primaryButton > svg,.dangerButton > svg{
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .importantMessage{
@@ -317,19 +318,24 @@ body{
 }
 
 
-.navbarTitle > span{
+.navbarTitle > a{
     max-width: 100%;
     overflow: hidden;
     transition: .15s ease-in-out max-width;
     font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap:8px;
+    text-decoration: none;
+    color: var(--text_primary);
 }
 
-.minimize > .navbarTitle > span{
+.minimize > .navbarTitle > a{
     display: none;
     max-width: 0%;
 }
 
-.navbarTitle > span > img{
+.navbarTitle > a > img{
     width: 16px;
     height: 16px;
     border-radius: 4px;
@@ -717,6 +723,68 @@ main{
     background-color: var(--background_secondary);
     position: relative;
     text-decoration: none;
+    height:203px;
+    transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.classesContainer > a > spinner{
+    position: absolute;
+    top:24px;
+    right:24px;
+    width: 0px;
+    height: 0px;
+    transform: translate(50%, -50%);
+    border-radius: 50px;
+    padding: 4px;
+    background-color: #0000005d;
+    backdrop-filter: blur(5px);
+    transition: width .4s cubic-bezier(0.68, -0.55, 0.27, 1.55), height .4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity .2s ease-in-out;
+    box-sizing: border-box;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.classesContainer > a > spinner > wheel{
+    background-color:  transparent;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 1s linear infinite;
+    max-width:  12px;
+    max-height: 12px;
+    min-width: 12px;
+    min-height: 12px;
+    animation: spin 1s linear infinite;
+
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.classesContainer:has(.openClassroom) > a:not(.openClassroom){
+    opacity: 0.5;
+    filter: blur(2px);
+    scale: 0.95;
+    animation-delay: .2s;
+}
+
+.openClassroom{
+    scale:  1.05;
+}
+
+.openClassroom > spinner{
+    height: 24px !important;
+    width: 24px !important;
+    opacity: 1 !important;
+    
 }
 
 .classesContainer > a > img{
@@ -1366,14 +1434,20 @@ main{
 }
 
 .messageContainer > span > p{
-    padding-left: 8px !important;
+    padding-left: 40px !important;
 }
 
 .messageContainer > span > .messageTitleContainer > p{
     margin: 0px;
     font-size: 14px;
-    color: var(--text_secondary);
+    color: var(--text_primary);
     margin-left: auto;
+    height:32px;
+    background-color: #ffffff24;
+    padding: 0px 16px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
 }
 
 .messageTitleContainer > span > svg{
@@ -2125,7 +2199,7 @@ main{
 
 
 
-.classroomSettingContainer{
+.classroomSettingContainer, .classroomSettingContainerPage{
     width: 100%;
     height: auto;
     margin-top:8px;
@@ -2156,7 +2230,33 @@ main{
     transition: .2s transform ease;
 }
 
-.classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription),.classroomSettingContainer > a{
+.classroomSettingContainer > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription),.classroomSettingContainer > div::not(.errorMessage){
+    width:100%;
+    background-color: var(--background_secondary);
+    border-radius: 20px;
+    height:64px;
+    padding:8px 12px 8px 16px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+}
+
+.websiteSettings > div,.websiteSettings > a,.classroomSettingContainerPage > a,.classroomSettingContainerPage > div:not(.classroomSettingsTitleSubtitle, .classroomSettingsDescription){
+    width:100%;
+    background-color: var(--background_secondary);
+    border-radius: 20px;
+    height:64px;
+    padding:8px 12px 8px 16px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+}
+
+.classroomSettingsContainerDelete{
     width:100%;
     background-color: var(--background_secondary);
     border-radius: 20px;
@@ -2212,7 +2312,7 @@ main{
     height: 14px;
     background: #687698;
     border-radius: 50%;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.3s  cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .switch:checked {
@@ -3740,4 +3840,69 @@ main{
 
 .createTaskButtonSVGRotate > svg{
     transform: rotate(45deg);
+}
+
+@media (max-width:700px) {
+    .navSideBar{
+        position: fixed;
+    }
+    .navSideBar:not(.minimize){
+        position: fixed;
+        box-shadow: 4px 0px 10px #00000060;
+    }
+    main{
+        margin-left:60px
+    }
+}
+
+@media (min-width:1200px) {
+    main{
+        max-width: 1200px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+}
+
+.deleteContainer{
+    gap:0px !important;
+    display: flex;
+    background-color: #FA8282;
+    padding:0px;
+    justify-content: end;
+    align-items: center;
+    border-radius: 16px;
+    color:#3B0000;
+    font-size: 14px;
+    transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    width: 32px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#deleteResource{
+    position: absolute;
+    top: 40px;
+}
+
+.deleteContainerExpand{
+    width: 95px;
+}
+
+.deleteContainerExpand > .deleteTextConfirm{
+    display: block;
+    margin-left:4px;
+    color: #3B0000;
+}
+
+.deleteContainer > svg{
+    width: 16px;
+    height: 16px;
+}
+
+.deleteMessageSVG > path{
+    fill: #3B0000 !important;
+}
+
+.deleteContainer:active{
+    scale: 0.9;
 }

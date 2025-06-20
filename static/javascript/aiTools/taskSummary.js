@@ -4,6 +4,7 @@ let taskNumCount = 0
 const taskSummaryContainerTaskList = document.getElementById("taskSummaryContainerTaskList");
 const aiMarkdown = document.getElementById("aiMarkdown");
 const taskSummaryText = document.getElementById("taskSummaryText");
+const {available, defaultTemperature, defaultTopK, maxTopK } = await LanguageModel.params();
 
 let classRole = "student";
 Object.keys(usersClasses).forEach(key => {
@@ -41,14 +42,11 @@ Object.keys(usersClasses).forEach(key => {
 
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        var capabilities = await ai.languageModel.availability();
-    } catch {
-        console.error("No AI")
+    if ((available !== "no")) {
         taskSummaryText.textContent = "AI Unavailable"
+        enableAIButton.style.display = "flex";
         return
-    }
-    if (capabilities.available == "no" || capabilities.available == "after-download") console.error("No AI")
+      }
     taskSummaryText.textContent = "Loading AI"
     available_ai = true;
     session = await ai.languageModel.create({
