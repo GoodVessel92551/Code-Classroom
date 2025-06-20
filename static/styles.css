@@ -723,6 +723,51 @@ main{
     background-color: var(--background_secondary);
     position: relative;
     text-decoration: none;
+    height:203px;
+    transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.classesContainer > a > spinner{
+    position: absolute;
+    top:16px;
+    right:16px;
+    width: 0px;
+    height: 0px;
+    transform: translate(-50%, -50%);
+    background-color:  transparent;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    border-top-color: var(--text_primary);
+    animation: spin 1s linear infinite;
+    transition: width .4s cubic-bezier(0.68, -0.55, 0.27, 1.55), height .4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity .2s ease-in-out;
+
+    opacity: 0;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.classesContainer:has(.openClassroom) > a:not(.openClassroom){
+    opacity: 0.5;
+    filter: blur(2px);
+    scale: 0.95;
+}
+
+.openClassroom{
+    scale:  1.05;
+}
+
+.openClassroom > spinner{
+    height: 16px !important;
+    width: 16px !important;
+    opacity: 1 !important;
+    
 }
 
 .classesContainer > a > img{

@@ -22,6 +22,7 @@ const learningPathButton = document.getElementById("learningPathButton")
 const learningPathThininking = document.getElementById("learningPathThininking")
 const learningPathButtonStart = document.getElementById("learningPathButtonStart")
 let learningPathLocal = JSON.parse(localStorage.getItem('learningPath'));
+
 if (learningPathLocal == null) {
 
 } else {
@@ -47,6 +48,9 @@ Object.keys(usersClasses).forEach(key => {
     }
     Object.keys(usersClasses[key].tasks).forEach(task => {
         let taskInfo = usersClasses[key].tasks[task];
+        if (taskInfo.type == "resource", "poll") {
+            return;
+        }
         let taskInfoSimple = taskInfo
         let studentData = taskInfoSimple.student_data[Object.keys(taskInfo.student_data)[0]];
         console.log(studentData)
@@ -69,14 +73,11 @@ Object.keys(usersClasses).forEach(key => {
 
 var available_ai = false;
 document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        var capabilities = await ai.languageModel.availability();
-    } catch {
-        console.log(capabilities)
-        console.error("No AI")
+    const {available, defaultTemperature, defaultTopK, maxTopK } = await LanguageModel.params();
+    if ((available !== "no")) {
+        taskSummaryText.textContent = "AI Unavailable"
         return
-    }
-    if (capabilities.available == "no" || capabilities.available == "after-download") console.error("No AI")
+      }
     available_ai = true;
     session = await ai.languageModel.create({
         systemPrompt: "You will have to summarize what topics in python the user is currently doing. To do this you will be given two things the first the 2 two weak topics and then you will get a json object of the task that the students is doing currently. Try to keep it concise and to the point and do not name tasks only comment on the topics and skills that they currently doing. Also output like you are think about this. Do **NOT** name any task just say the topics/areas that the student is currently working on.",
@@ -97,8 +98,7 @@ const create_result = async () => {
         }
         console.log(totalOutput);
     }
-    session.destroy()
-    session = await ai.languageModel.create({
+    session = await LanguageModel.create({
         initialPrompts: [
             { "role": "system", "content": "You will receive details about a student's coding strengths and weaknesses. Generate 5 relevant task titles in the **JSON** list format to help them improve make the titles as concise as possible and make sure not use any task in the input prompt. The task should be able to be completed in Python **without any** libraries and the tasks should be simple. The task can not use any libraries apart from the random and math libraries. The tasks can also not use anything that needs access to files. The first task should be the easiest and the task can build on each other." },
 
@@ -134,6 +134,7 @@ const create_result = async () => {
             console.log(`Attempt ${attempts + 1}: Result is not an array, retrying...`);
         } catch (e) {
             console.log(`Attempt ${attempts + 1}: Invalid JSON, retrying...`);
+            console.error(result);
         }
         attempts++;
     }
