@@ -1,17 +1,36 @@
+// Parse URL params to determine which project (if any) we're editing.
+// Example: /quickCode?project=myProject
 const params = new URLSearchParams(window.location.search);
 const topic = params.get("project");
+// Load saved projects from localStorage (may be null if nothing saved yet).
 const projects = JSON.parse(localStorage.getItem("codeProjects"));
 
-if (window.location.href.includes("/quickCode") && (topic == null || topic == "" || !(Object.keys(projects).includes(topic)))) {
+// If we're on the quickCode page but no valid project is specified, redirect
+// back to the main code listing page so the user picks a project first.
+if (window.location.href.includes("/quickCode") && (topic == null || topic == "" || !(projects && Object.keys(projects).includes(topic)))) {
   window.location.href = "/code";
 }
 
+/**
+ * Output function used by Skulpt to write text to the in-page console.
+ * Appends text to the `#consoleText` element.
+ *
+ * @param {string} text Text to append to the console output area.
+ */
 function outf(text) {
   const consoleText = document.getElementById("consoleText");
   consoleText.innerText += text;
 }
 
 // Skulpt uses builtinRead to load its standard library modules.
+/**
+ * builtinRead is required by Skulpt. It provides access to built-in files
+ * (the Skulpt standard library) when Python code running in the browser
+ * does an import. If a file can't be found, it throws so Skulpt reports an error.
+ *
+ * @param {string} x Module/file path requested by Skulpt.
+ * @returns {string} Contents of the requested builtin file.
+ */
 function builtinRead(x) {
   if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined) {
     throw "File not found: '" + x + "'";
@@ -21,20 +40,36 @@ function builtinRead(x) {
 var received_input = false
 let currentHandler = null;
 
+/**
+ * inputFunction is an async bridge between Skulpt's input() and the DOM.
+ * It shows a text input element, waits for the user to press Enter, then
+ * resolves the returned Promise with the provided string.
+ *
+ * Behavior notes:
+ *  - Ensures only one handler is active at a time using `currentHandler`.
+ *  - Hides the input element after submission and restores a default placeholder.
+ *
+ * @param {string} promptText Optional prompt to show as the input placeholder.
+ * @returns {Promise<string>} Resolves to the user's input string.
+ */
 function inputFunction(promptText) {
   received_input = false
   return new Promise((resolve) => {
     const inputElem = document.getElementById("consoleInput");
+    // Make the input visible and ready for typing.
     inputElem.style.display = "block";
     inputElem.focus();
     inputElem.placeholder = promptText || "";
     inputElem.value = "";
 
+    // Remove any previously attached handler to avoid double resolution.
     if (currentHandler) {
       inputElem.removeEventListener("keydown", currentHandler);
     }
 
     function handler(event) {
+      // Resolve when the user presses Enter. Guard with `received_input`
+      // so rapid double events can't resolve twice.
       if (event.key === "Enter" && !received_input) {
         received_input = true;
         event.preventDefault();
@@ -62,23 +97,30 @@ Sk.configure({
 
 
 function runPython(code) {
+  // If the code does not use input(), apply an execution limit to avoid
+  // runaway scripts. When input() is present we can't reliably apply the
+  // same exec limit because the runtime will wait for user input.
   if (!code.includes("input")) {
     Sk.execLimit = 5000;
     Sk.timeoutMsg = function () { return "Execution timed out."; };
   }
+
+  // Prepare the console output area and reset styles for a new run.
   const consoleText = document.getElementById("consoleText");
   consoleText.innerHTML = "";
   consoleText.style.color = "white";
-  // Configure Skulpt to use our output and input functions.
 
-
+  // Run the code using Skulpt's async helper. Errors are caught and
+  // displayed to the user (colored red-ish) and also passed to `create_result`.
   Sk.misceval.asyncToPromise(function () {
     return Sk.importMainWithBody("<stdin>", false, code, true);
   }).then(
     function (mod) {
+      // Successful execution: nothing further to do here.
     },
     function (err) {
       consoleText.style.color = "#ff8f8f";
+      // create_result appears to present error info elsewhere in the UI.
       create_result(err.toString());
       outf(err.toString());
     }
@@ -100,6 +142,8 @@ require(["vs/editor/editor.main"], function () {
     }
   });
   monaco.editor.setTheme('myDarkTheme');
+  // Register a small set of completion snippets for the embedded Python
+  // Monaco editor. These are lightweight helpers for beginners.
   monaco.languages.registerCompletionItemProvider('python', {
     provideCompletionItems: function () {
       return {
@@ -259,11 +303,16 @@ require(["vs/editor/editor.main"], function () {
       };
     }
   });
+  // Determine the initial editor contents:
+  // 1) If a `projects` object exists and a project for `topic` exists, load
+  //    that project's code and update UI pieces (title, name).
+  // 2) Otherwise fall back to the single `code` value in localStorage.
   if (projects) {
     const project = projects[topic];
     console.log(project);
     if (project) {
       loadedCode = project.code;
+      // Show project-specific controls when editing a named project.
       pageTitleDivButtons.style.display = "flex";
       projectName.value = project.name;
     } else {
@@ -297,20 +346,27 @@ require(["vs/editor/editor.main"], function () {
   });
 });
 
+// Listen for key events in the editor to autosave and run the code when
+// Ctrl+Enter is pressed.
 window.editor.addEventListener("keydown", (event) => {
   const code = window.editor.getValue();
+  // Don't save when viewing code in read-only `view` mode.
   if (!window.location.href.includes("/view/")) {
     if (projects) {
       const project = projects[topic];
       if (project) {
+        // Save into the named projects map.
         projects[topic].code = code;
         localStorage.setItem("codeProjects", JSON.stringify(projects));
       }
 
       else {
+        // No projects map — save to the simple `code` key.
         localStorage.setItem("code", code);
       }
     } if (window.location.href.includes("/learningPathTask")) {
+      // If this is a learning path task, update the in-memory structure
+      // and persist it.
       console.log(learningPath)
       var newlearningPath = learningPath;
       newlearningPath.tasks[taskKeys[currentTask]].code = code;
@@ -321,6 +377,8 @@ window.editor.addEventListener("keydown", (event) => {
       localStorage.setItem("code", code);
     }
   }
+
+  // Ctrl+Enter -> execute the code in the embedded Python runtime.
   if (event.key === "Enter" && event.ctrlKey) {
     event.preventDefault();
     const code = window.editor.getValue();
@@ -365,6 +423,12 @@ const saveCode = () => {
     });
   return
 }
+
+/**
+ * Save code for the current task by POSTing to the server endpoint.
+ * On success, updates the UI to indicate the save succeeded.
+ * On failure, shows an error label and logs the problem.
+ */
 
 document.getElementById("clearConsole").addEventListener("click", () => {
   document.getElementById("consoleText").innerHTML = "";

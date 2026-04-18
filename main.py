@@ -62,34 +62,48 @@ class loginForm(FlaskForm):
 
 
 def get_google_provider_cfg():
+    """Fetch Google OpenID discovery configuration."""
+    # Retrieve the discovery document for dynamic endpoints.
     return requests.get(GOOGLE_DISCOVERY_URL).json()
 
 @app.route("/")
 def home():
+    """Render home or landing page based on login state."""
+    # Redirect authenticated users to their dashboard.
     if fun.login():
         return render_template("index.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="home",classes=fun.get_user_classes())
-    return render_template("landing_page.html",publicClasses=public_classes_placeholders)
+    return render_template("landing_page.html", publicClasses=public_classes_placeholders)
 
 @app.route("/faq")
 def faq():
+    """Render the FAQ page."""
+    # Serve static FAQ content.
     return render_template("FAQ.html")
 
 @app.route("/privacyPolicy")
 def privacy_policy():
+    """Render the privacy policy page."""
+    # Serve static privacy policy document.
     return render_template("Privacy Policy.html")
 
 @app.route("/enableAI")
 def enableAI():
+    """Render the AI enablement information page."""
+    # Provide AI onboarding details.
     return render_template("enableAI.html")
 
 @app.route("/notifications")
 def notifications():
+    """Render notifications for the logged-in user."""
+    # Require authentication to view notifications.
     if fun.login():
         return render_template("notifications.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="notifications",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/quickCode")
 def code_project():
+    """Render the code project page and update streak."""
+    # Update streak to reward engagement.
     if fun.login():
         fun.update_streak()
         return render_template("code.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="quick code",classes=fun.get_user_classes())
@@ -97,48 +111,68 @@ def code_project():
 
 @app.route("/code")
 def code():
+    """Render the quick code interface."""
+    # Ensure only authenticated users access coding tools.
     if fun.login():
         return render_template("quickCode.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="quick code",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/create/classroom")
 def create_classroom():
+    """Render classroom creation page."""
+    # Limit access to logged-in users.
     if fun.login():
-        return render_template("create_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create classroom",classes=fun.get_user_classes())
+        return render_template("create_class.html",username=fun.get_username(),
+                               userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),
+                               xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create classroom",
+                               classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/create/options/<classid>")
 def create_options(classid):
+    """Render creation options for a classroom."""
+    # Display classroom creation shortcuts.
     if fun.login():
         return render_template("createOptions/create_options.html",classid=classid,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create options",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/create/resource/<classid>")
 def create_resource(classid):
+    """Render resource creation page for teachers."""
+    # Block students from accessing teacher tools.
     if fun.login():
         if not fun.check_teacher(classid):
-            return redirect("/classroom/"+classid)
+            return redirect("/classroom/" + classid)
         return render_template("createOptions/create_resource.html",classid=classid,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create resource",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/create/poll/<classid>")
 def create_poll(classid):
+    """Render poll creation page for teachers."""
+    # Secure poll creation to teachers only.
     if fun.login():
         if not fun.check_teacher(classid):
-            return redirect("/classroom/"+classid)
+            return redirect("/classroom/" + classid)
         return render_template("createOptions/create_poll.html",classid=classid,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create poll",classes=fun.get_user_classes())
     return redirect("/")
 
-@app.route("/create/task/<classid>") 
+@app.route("/create/task/<classid>")
 def create_task(classid):
+    """Render task creation page for teachers."""
+    # Prevent students from creating tasks.
     if fun.login():
         if not fun.check_teacher(classid):
-            return redirect("/classroom/"+classid)
-        return render_template("createOptions/create_task.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create task",classes=fun.get_user_classes(),classid=classid)
+            return redirect("/classroom/" + classid)
+        return render_template("createOptions/create_task.html",username=fun.get_username(),
+                               userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),
+                               xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="create task",classes=fun.get_user_classes(),
+                               classid=classid)
     return redirect("/")
 
 @app.route("/classroom/<classid>")
 def class_page(classid):
+    """Render a classroom page for members."""
+    # Guard against non-members and missing classrooms.
     if fun.login():
         user_class = fun.get_class_with_users_tasks(classid)
         user_in_class = fun.check_user_in_class(classid)
@@ -149,20 +183,27 @@ def class_page(classid):
             fun.send_notification("You are not in this classroom","warning")
             return redirect("/join/classroom")
 
-        return render_template("class.html",streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
+        return render_template("class.html",streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),
+                               teacher=fun.check_teacher(classid),userID=fun.get_user_id(),username=fun.get_username(),settings=fun.get_users_settings(),
+                               page="class"+classid,classes=fun.get_user_classes(),
+                               user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/classroom/<classid>/settings")
 def class_settings(classid):
+    """Render classroom settings for teachers."""
+    # Restrict settings management to teachers.
     if fun.login():
         if not fun.check_teacher(classid):
-            return redirect("/classroom/"+classid)
+            return redirect("/classroom/" + classid)
         user_class = fun.get_class_without_users_tasks(classid)
         return render_template("class_settings.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="class"+classid,classes=fun.get_user_classes(),user_class=user_class,classid=classid)
     return redirect("/")
 
 @app.route("/task/<classid>/<taskid>")
-def task(classid,taskid):
+def task(classid, taskid):
+    """Render a task view for teachers or students."""
+    # Branch logic based on teacher/student role.
     if fun.login():
         task = None
         if fun.check_teacher(classid):
@@ -171,7 +212,10 @@ def task(classid,taskid):
                 if i["id"] == taskid:
                     task = i
                     break
-            return render_template("viewTask.html",task=task,username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="task"+taskid,classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
+            return render_template("viewTask.html",task=task,username=fun.get_username(),
+                                   userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),
+                                   xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="task"+taskid,
+                                   classes=fun.get_user_classes(),user_class=user_class,classid=classid,taskid=taskid)
         fun.create_task_student(classid,taskid)
         user_class = fun.get_user_classes_one_class(classid)
         class_color = user_class["classInfo"]["coverImage"]
@@ -181,11 +225,16 @@ def task(classid,taskid):
                 break
         code = fun.get_code(classid,taskid,fun.get_id())
         fun.update_streak()
-        return render_template("task.html",userid=fun.get_user_id(),username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="task"+taskid,classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
+        return render_template("task.html",userid=fun.get_user_id(),username=fun.get_username(),
+                               userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),
+                               xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="task"+taskid,
+                               classes=fun.get_user_classes(),class_color=class_color,task=task,classid=classid,taskid=taskid,code=code,teacher=False)
     return redirect("/")
 
 @app.route("/view/<classid>/<taskid>/<userid>")
-def view_task(classid,taskid,userid):
+def view_task(classid, taskid, userid):
+    """Allow teachers to view a specific student's task."""
+    # Ensure only classroom teachers can inspect student work.
     if fun.login():
         if fun.check_teacher(classid):
             user_class = fun.get_user_classes_one_class(classid)
@@ -199,18 +248,29 @@ def view_task(classid,taskid,userid):
             
 @app.route("/join/classroom")
 def join_classroom():
+    """Render the join classroom page."""
+    # Only show join form to authenticated users.
     if fun.login():
-        return render_template("join_class.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="join classroom",classes=fun.get_user_classes())
+        return render_template("join_class.html",username=fun.get_username(),userID=fun.get_user_id(),
+                               settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),
+                               page="join classroom",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings")
 def settings():
+    """Render the main settings hub."""
+    # Require login before exposing personal settings.
     if fun.login():
-        return render_template("settings/main.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="settings",classes=fun.get_user_classes())
+        return render_template("settings/main.html",username=fun.get_username(),
+                               userID=fun.get_user_id(),settings=fun.get_users_settings(),
+                               streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),
+                               page="settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/weakTopics")
 def weak_topics_page():
+    """Render weak topics page if data exists."""
+    # Redirect if user lacks recorded weak topics.
     if fun.login():
         if fun.get_weak_topics(fun.get_user_id()) == "nwt":
             fun.send_notification("You do not have any weak topics yet. Enable AI to start recording","wanning")
@@ -220,24 +280,32 @@ def weak_topics_page():
 
 @app.route("/tasklist")
 def task_list():
+    """Render the personal task list page."""
+    # Display aggregated tasks for the user.
     if fun.login():
         return render_template("taskList.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="task list",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/createIdea")
 def task_summary():
+    """Render the idea creation tool."""
+    # Provide brainstorming utilities to logged-in users.
     if fun.login():
         return render_template("createIdea.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="idea creator",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/learningPath")
 def learning_path():
+    """Render the learning path overview."""
+    # Surface tailored learning recommendations.
     if fun.login():
         return render_template("learningPath.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="learning path",classes=fun.get_user_classes(),weak_topics=fun.get_weak_topics(fun.get_user_id()))
     return redirect("/")
 
 @app.route("/learningPathTask")
 def learning_path_topic():
+    """Render a specific learning path task view."""
+    # Update streak when users engage with learning path tasks.
     if fun.login():
         fun.update_streak()
         return render_template("learningPathTask.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="learning path",classes=fun.get_user_classes())
@@ -245,43 +313,63 @@ def learning_path_topic():
 
 @app.route("/settings/ai")
 def ai_settings():
+    """Render AI settings page."""
+    # Allow customization of AI-powered features.
     if fun.login():
-        return render_template("settings/ai.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="AI settings",classes=fun.get_user_classes())
+        return render_template("settings/ai.html",username=fun.get_username(),userID=fun.get_user_id(),
+                               settings=fun.get_users_settings(),streak=fun.get_user_streak(),
+                               xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="AI settings",
+                               classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/accessibility")
 def accessibility_settings():
+    """Render accessibility settings page."""
+    # Expose accessibility preferences to users.
     if fun.login():
         return render_template("settings/accessibility.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="Accessibility settings",classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/settings/account")
 def account_settings():
+    """Render account settings page."""
+    # Provide controls for account management.
     if fun.login():
-        return render_template("settings/account.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="Account settings",classes=fun.get_user_classes())
+        return render_template("settings/account.html",username=fun.get_username(),userID=fun.get_user_id(),
+                               settings=fun.get_users_settings(),streak=fun.get_user_streak(),
+                               xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="Account settings",
+                               classes=fun.get_user_classes())
     return redirect("/")
 
 @app.route("/upgrade/organization")
 def upgrade_organization():
+    """Render organization upgrade page."""
+    # Show upgrade options to eligible users.
     if fun.login():
         return render_template("upgradePages/organizationUpgrade.html",username=fun.get_username(),userID=fun.get_user_id(),settings=fun.get_users_settings(),streak=fun.get_user_streak(),xp=fun.get_user_xp(),notifications=fun.get_notifications(),page="upgrade organization",classes=fun.get_user_classes())
     return redirect("/")
 
-@app.route("/endpoint/settings/ai",methods=["POST"])
+@app.route("/endpoint/settings/ai", methods=["POST"])
 def save_ai_settings():
+    """Persist AI settings for the logged-in user."""
+    # Read boolean toggles from the JSON payload.
     if fun.login():
         data = request.json
         status = fun.save_ai_settings(data["WeakTopics"],data["TaskSummary"],data["IdeaCreator"],data["LearningPath"])
         return {'status':status}
 
-@app.route("/endpoint/account/delete",methods=["POST"])
+@app.route("/endpoint/account/delete", methods=["POST"])
 def delete_account():
+    """Delete the current user's account data."""
+    # Invoke account removal and return status.
     if fun.login():
         status = fun.delete_account_info()
         return {'status':status}
 
 @app.route("/endpoint/task/edit", methods=["POST"])
-def edit_task():    
+def edit_task():
+    """Validate and update an existing task."""
+    # Reject invalid payloads before updating.
     if fun.login():
         data = request.json
         if (data["name"] == "" or data["instructions"] == "" or data["date"] == ""):
@@ -298,16 +386,20 @@ def edit_task():
         return {'status': status}
     return  404
 
-@app.route("/endpoint/class/leave",methods=["POST"])
+@app.route("/endpoint/class/leave", methods=["POST"])
 def leave_class():
+    """Remove the user from a classroom."""
+    # Process leave request for non-teachers.
     if fun.login():
         data = request.json
         status = fun.leave_classroom(data["classid"])
         return {'status':status}
     return  404
 
-@app.route("/endpoint/classroom/delete",methods=["POST"])
+@app.route("/endpoint/classroom/delete", methods=["POST"])
 def delete_classroom():
+    """Delete a classroom owned by the user."""
+    # Only teachers may delete their classrooms.
     if fun.login():
         data = request.json
         status = fun.delete_classroom(data["classid"])
@@ -316,14 +408,18 @@ def delete_classroom():
 
 
 @app.route("/endpoint/task/complete/<classid>/<taskid>")
-def complete_task(classid,taskid):
+def complete_task(classid, taskid):
+    """Mark a student task as complete and redirect."""
+    # Update task status before returning to classroom.
     if fun.login():
         fun.complete_task_student(classid,taskid)
         return redirect("/classroom/"+classid)
     return  404
 
-@app.route("/endpoint/classroom/join",methods=["POST"])
+@app.route("/endpoint/classroom/join", methods=["POST"])
 def join_classroom_endpoint():
+    """Join a classroom using the provided code."""
+    # Validate the supplied class code.
     if fun.login():
         data = request.json
         if data["classCode"] == "":
@@ -334,8 +430,10 @@ def join_classroom_endpoint():
         return {'status':status}
     return  404
 
-@app.route("/endpoint/classroom/save",methods=["POST"])
+@app.route("/endpoint/classroom/save", methods=["POST"])
 def save_classroom_settings():
+    """Persist classroom settings changes."""
+    # Enforce field length limits prior to saving.
     if fun.login():
         data = request.json
         if (data["name"] == "" or data["subtitle"] == "" or data["description"] == ""):
@@ -346,16 +444,20 @@ def save_classroom_settings():
         return {'status':status}
     return  404
 
-@app.route("/endpoint/task/save",methods=["POST"])
+@app.route("/endpoint/task/save", methods=["POST"])
 def save_task():
+    """Save user code for a task."""
+    # Store submitted code via helper.
     if fun.login():
         data = request.json
         status = fun.save_code(data["classid"],data["taskid"],data["code"])
         return jsonify({'status': status})
     return  404
 
-@app.route("/endpoint/task/delete",methods=["POST"])
+@app.route("/endpoint/task/delete", methods=["POST"])
 def delete_task():
+    """Delete a task from the classroom."""
+    # Allow teachers to remove tasks.
     if fun.login():
         data = request.json
         status = fun.delete_task(data["classid"],data["taskid"])
@@ -363,8 +465,10 @@ def delete_task():
         return {'status':status}
     return  404
 
-@app.route("/endpoint/ai/getweaktopics",methods=["GET"])
+@app.route("/endpoint/ai/getweaktopics", methods=["GET"])
 def get_weak_topics():
+    """Return weak topics for the current user."""
+    # Fetch weak topics summary from persistence.
     if fun.login():
         userid = fun.get_id()
         print("User ID",userid)
@@ -372,8 +476,10 @@ def get_weak_topics():
         return jsonify(data)
     return  404
 
-@app.route("/endpoint/ai/weaktopics",methods=["POST"])
+@app.route("/endpoint/ai/weaktopics", methods=["POST"])
 def weak_topics():
+    """Record a weak topic result."""
+    # Append the new topic to the user's history.
     if fun.login():
         userid = fun.get_id()
         print("User ID",userid)
@@ -383,8 +489,10 @@ def weak_topics():
         return "complete"
     return  404
 
-@app.route("/endpoint/auth/login",methods=["POST"])
+@app.route("/endpoint/auth/login", methods=["POST"])
 def login_endpoint():
+    """Process traditional username/password login."""
+    # Delegate authentication to fun.login_user.
     form = loginForm()
     session.permanent = True
     form_data = request.form
@@ -395,8 +503,10 @@ def login_endpoint():
         return render_template("auth/login.html",error=error,form=form)
     return redirect("/")
 
-@app.route("/endpoint/class/create",methods=["POST"])
+@app.route("/endpoint/class/create", methods=["POST"])
 def create_class():
+    """Create a new classroom for the user."""
+    # Validate limits before creating classroom.
     if fun.login():
         data = request.json
         if (data["name"] == "" or data["subtitle"] == "" or data["description"] == "" or data["color"] == ""):
@@ -409,8 +519,10 @@ def create_class():
         return {'status':'complete','classId':classID}
     return  404
 
-@app.route("/endpoint/task/create",methods=["POST"])
+@app.route("/endpoint/task/create", methods=["POST"])
 def create_task_endpoint():
+    """Create a new task inside a classroom."""
+    # Ensure payload meets validation constraints.
     if fun.login():
         data = request.json
         if (data["name"] == "" or data["description"] == "" or data["date"] == "" or data["points"] == ""):
@@ -431,8 +543,10 @@ def create_task_endpoint():
         return {'status':'complete'}
     return  404
 
-@app.route("/endpoint/resource/create",methods=["POST"])
+@app.route("/endpoint/resource/create", methods=["POST"])
 def create_resource_endpoint():
+    """Create a new resource for a classroom."""
+    # Enforce length limits on resource fields.
     if fun.login():
         data = request.json
         if (data["name"] == "" or data["content"] == ""):
@@ -445,8 +559,10 @@ def create_resource_endpoint():
         return {'status':'complete'}
     return  404
 
-@app.route("/endpoint/poll/create",methods=["POST"])
+@app.route("/endpoint/poll/create", methods=["POST"])
 def create_poll_endpoint():
+    """Create a new poll in a classroom."""
+    # Limit number of poll options and enforce quotas.
     if fun.login():
         data = request.json
         if (data["name"] == "" or data["options"] == ""):
@@ -459,16 +575,20 @@ def create_poll_endpoint():
         return {'status':'complete'}
     return  404
 
-@app.route("/endpoint/poll/vote",methods=["POST"])
+@app.route("/endpoint/poll/vote", methods=["POST"])
 def vote_poll():
+    """Register a user vote on a poll."""
+    # Persist the vote and return updated poll data.
     if fun.login():
         data = request.json
         poll_data = fun.vote_poll(data["classid"],data["pollid"],data["option"])
         return {'status':'complete',"poll_data":poll_data}
     return  404
 
-@app.route("/endpoint/class/message",methods=["POST"])
+@app.route("/endpoint/class/message", methods=["POST"])
 def send_message():
+    """Send a message to the classroom feed."""
+    # Validate message length and importance flag.
     if fun.login():
         data = request.json
         if data["message"] == "":
@@ -484,16 +604,20 @@ def send_message():
         return {'status':'complete',"userName":message["userName"],"message":message["message"],"messageId":message["messageId"],"date":message["date"]}
     return  404
 
-@app.route("/endpoint/class/message/delete",methods=["POST"])
+@app.route("/endpoint/class/message/delete", methods=["POST"])
 def delete_message():
+    """Delete a classroom message."""
+    # Remove the message if the user has permission.
     if fun.login():
         data = request.json
         message = fun.delete_message(data["classid"],data["messageid"])
         return {'status':message}
     return  404
 
-@app.route("/endpoint/task/feedback",methods=["POST"])
+@app.route("/endpoint/task/feedback", methods=["POST"])
 def task_feedback():
+    """Submit feedback for a student's task."""
+    # Enforce feedback length before saving.
     if fun.login():
         data = request.json
         if len(data["feedback"]) > 1000:
@@ -505,6 +629,8 @@ def task_feedback():
 @app.route("/login", methods=['GET', 'POST'])
 @limiter.limit("5 per minute")
 def login_page():
+    """Render and process the login page."""
+    # Handle both GET rendering and POST validation.
     form = loginForm()
     if request.method == "POST":
         if form.validate_on_submit():
@@ -520,6 +646,8 @@ def login_page():
 
 @app.route("/signup", methods=['GET', 'POST'])
 def signup_page():
+    """Render and process the signup page."""
+    # Validate signup inputs before creating account.
     form = signupForm()
     if request.method == "POST":
         if form.validate_on_submit():
@@ -537,11 +665,15 @@ def signup_page():
 
 @app.route("/signout")
 def signout():
+    """Clear the session and sign out the user."""
+    # Reset session data then redirect home.
     session.clear()
     return redirect("/")
 
 @app.route("/call")
 def call():
+    """Kick off Google OAuth flow."""
+    # Construct redirect URL based on environment subdomain.
     session.permanent = True
     host = request.host
     subdomain = host.split('.')[0]
@@ -560,8 +692,10 @@ def call():
     )
     return redirect(request_uri)
 
-@app.route("/login/callback",methods=["POST","GET"])
+@app.route("/login/callback", methods=["POST", "GET"])
 def callback():
+    """Handle Google OAuth callback."""
+    # Exchange auth code for tokens and create account.
     session.permanent = True
     code = request.args.get("code")
     google_provider_cfg = get_google_provider_cfg()
@@ -598,12 +732,16 @@ def callback():
 
 @app.errorhandler(404)
 def page_not_found(error):
+    """Render custom 404 page."""
+    # Show personalized 404 for logged-in users.
     if fun.login():
         return render_template('404.html', username=fun.get_username(),settings=fun.get_users_settings(), classes=fun.get_user_classes(),page="404"), 404
     return render_template('404.html'), 404
 
 @app.errorhandler(RateLimitExceeded)
 def ratelimit_handler(e):
+    """Render rate limit error page."""
+    # Present login form with throttling message.
     form = loginForm()
     return render_template(
         "auth/login.html",
@@ -611,4 +749,6 @@ def ratelimit_handler(e):
     ), 429
 
 if __name__ == "__main__":
+    """Start the Flask development server."""
+    # Run in debug mode for local development.
     app.run(debug=True)
