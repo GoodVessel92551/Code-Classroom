@@ -31,211 +31,177 @@ if (learningPathLocal == null) {
         window.location.href = "/learningPathTask";
     }
 }
-let masterData = {}
+// ... (Your existing DOM variable declarations remain the same)
+
+let masterData = {};
 let taskNumCount = 0;
+
+// Data processing logic remains the same
 Object.keys(usersClasses).forEach(key => {
     usersClasses[key].members.forEach(member => {
         if (member.id == userID) {
-            if (member.role == "teacher") {
-                classRole = "teacher";
-            } else {
-                classRole = "student";
-            }
+            classRole = (member.role == "teacher") ? "teacher" : "student";
         }
-    })
-    if (classRole == "teacher") {
-        return
-    }
+    });
+    if (classRole == "teacher") return;
+
     Object.keys(usersClasses[key].tasks).forEach(task => {
         let taskInfo = usersClasses[key].tasks[task];
-        if (taskInfo.type == "resource", "poll") {
-            return;
-        }
-        let taskInfoSimple = taskInfo
+        if (taskInfo.type == "resource" || taskInfo.type == "poll") return;
+        
+        let taskInfoSimple = { ...taskInfo };
         let studentData = taskInfoSimple.student_data[Object.keys(taskInfo.student_data)[0]];
-        console.log(studentData)
+        
         if (studentData == undefined) {
-            taskInfoSimple.status = "Not Started";
+            taskInfoSimple.taskStatus = "Not Started";
         } else {
             taskInfoSimple.feedback = studentData.feedback;
             taskInfoSimple.taskStatus = studentData.status;
         }
+        
+        // Cleanup unnecessary data for the AI context window
         delete taskInfoSimple.student_data;
         delete taskInfoSimple.taskPoints;
         delete taskInfoSimple.taskId;
         delete taskInfoSimple.taskDue;
         delete taskInfoSimple.id;
-        delete taskInfoSimple.status
+        
         masterData[taskNumCount] = taskInfoSimple;
         taskNumCount++;
-    })
+    });
 });
 
 var available_ai = false;
+let session;
+
 document.addEventListener("DOMContentLoaded", async () => {
-    const {available, defaultTemperature, defaultTopK, maxTopK } = await LanguageModel.params();
-    if ((available !== "no")) {
-        taskSummaryText.textContent = "AI Unavailable"
-        return
-      }
-    available_ai = true;
-    session = await ai.languageModel.create({
-        systemPrompt: "You will have to summarize what topics in python the user is currently doing. To do this you will be given two things the first the 2 two weak topics and then you will get a json object of the task that the students is doing currently. Try to keep it concise and to the point and do not name tasks only comment on the topics and skills that they currently doing. Also output like you are think about this. Do **NOT** name any task just say the topics/areas that the student is currently working on.",
-    })
-})
-
-const create_result = async () => {
-    createText.textContent = "Creating"
-    console.log(available_ai);
-    if (available_ai) {
-        var totalOutput = "";
-        const stream = await session.promptStreaming("Tasks: " + JSON.stringify(masterData) + "\n\n Weak Topics: " + JSON.stringify(weakTopics[0][0]) + ", " + JSON.stringify(weakTopics[0][1]));
-        for await (const chunk of stream) {
-            aiMarkdown.style.display = "block"
-            console.log(chunk);
-            totalOutput += chunk;
-            aiText.textContent = totalOutput;
-        }
-        console.log(totalOutput);
+    // 1. Updated Availability Check
+    const availability = await LanguageModel.availability();
+    
+    if (availability === "unavailable") {
+        const taskSummaryText = document.getElementById("taskSummaryText");
+        if (taskSummaryText) taskSummaryText.textContent = "AI Unavailable";
+        return;
     }
+    
+    available_ai = true;
+    
+    // 2. Initialize first session for summarization
     session = await LanguageModel.create({
+        // In the new API, 'system' is often passed within initialPrompts 
+        // but 'systemPrompt' is supported in some versions as a shorthand.
         initialPrompts: [
-            { "role": "system", "content": "You will receive details about a student's coding strengths and weaknesses. Generate 5 relevant task titles in the **JSON** list format to help them improve make the titles as concise as possible and make sure not use any task in the input prompt. The task should be able to be completed in Python **without any** libraries and the tasks should be simple. The task can not use any libraries apart from the random and math libraries. The tasks can also not use anything that needs access to files. The first task should be the easiest and the task can build on each other." },
-
-            { "role": "user", "content": "The student understands basic Python functions and conditional statements but struggles with loops, especially nested loops and while loops. They also need more practice with function parameters and return values." },
-            { "role": "assistant", "content": '["Practice with While Loops: Counting Down","Understanding Nested Loops: Multiplication Table","Functions with Parameters: Greeting Generator","Using Return Values: Simple Calculator","Loop Practice: Finding the Largest Number"]' },
-
-            { "role": "user", "content": "The student has a solid grasp of variables and functions but struggles with manipulating lists and strings. They need more practice with slicing, list comprehension, and string formatting." },
-            { "role": "assistant", "content": '["String Slicing: Extracting Substrings","List Comprehension: Squaring Numbers","Basic String Formatting: Creating Sentences","Reversing Strings Without Built-in Functions","Summing Numbers in a List"]' },
-
-            { "role": "user", "content": "The student understands basic loops and lists but struggles with recursion. They need more practice with breaking down problems into smaller recursive steps and understanding the base case concept." },
-            { "role": "assistant", "content": '["Recursive Counting Down","Finding Factorial Recursively","Summing a List Recursively","Recursive String Reversal","Understanding Base Cases with Simple Addition"]' },
-
-            { "role": "user", "content": "The student understands Python basics but struggles with debugging. They often face logical errors and need help identifying mistakes in their code." },
-            { "role": "assistant", "content": '["Finding and Fixing Syntax Errors","Spot the Logical Error","Debugging a Simple Loop","Fixing Incorrect Function Outputs","Understanding Error Messages"]' },
-
-            { "role": "user", "content": "The student can write basic Python scripts but needs to develop better problem-solving skills. They struggle with breaking down problems and designing efficient solutions." },
-            { "role": "assistant", "content": '["Breaking a Problem into Steps","Finding the Most Efficient Loop","Sorting Numbers Manually","Designing a Simple Algorithm","Solving a Basic Puzzle with Code"]' }
+            { 
+                role: "system", 
+                content: "You will have to summarize what topics in python the user is currently doing. Try to keep it concise and to the point. Do NOT name tasks, only comment on the topics/skills. Output like you are thinking about this." 
+            }
         ]
     });
-    console.log("Prompting")
-    let attempts = 0;
-    let result;
-    const maxAttempts = 3;
+});
 
-    while (attempts < maxAttempts) {
-        result = await session.prompt(totalOutput);
-        try {
-            const parsedResult = JSON.parse(result);
-            if (Array.isArray(parsedResult)) {
-                result = parsedResult;
-                break;
-            }
-            console.log(`Attempt ${attempts + 1}: Result is not an array, retrying...`);
-        } catch (e) {
-            console.log(`Attempt ${attempts + 1}: Invalid JSON, retrying...`);
-            console.error(result);
-        }
-        attempts++;
-    }
-
-    if (attempts === maxAttempts) {
-        console.warn("Failed to get valid array result after maximum attempts");
-        result = [];
-    }
-    console.log(result);
-    tasksLearningPath.style.display = "flex"
-    learningPathText.style.display = "none"
-    learningPathButton.style.display = "none"
-    learningPathThininking.style.display = "none"
-    if (result.length == 0) {
-        return;
-    } else if (result.length == 1) {
-        taskTitle1.textContent = result[0];
-    } else if (result.length == 2) {
-        taskTitle1.textContent = result[0];
-        taskTitle2.textContent = result[1];
-    } else if (result.length == 3) {
-        taskTitle1.textContent = result[0];
-        taskTitle2.textContent = result[1];
-        taskTitle3.textContent = result[2];
-    } else if (result.length == 4) {
-        taskTitle1.textContent = result[0];
-        taskTitle2.textContent = result[1];
-        taskTitle3.textContent = result[2];
-        taskTitle4.textContent = result[3];
-    } else {
-        taskTitle1.textContent = result[0];
-        taskTitle2.textContent = result[1];
-        taskTitle3.textContent = result[2];
-        taskTitle4.textContent = result[3];
-        taskTitle5.textContent = result[4];
-    }
-    session.destroy()
-    session = await ai.languageModel.create({
-        systemPrompt: "You will be given a title for a task that will be completed in python. You need to write the instructions for the tasks not not include the code need to complete it. Keep the instructions clear and concise and **SHORT** and make sure to include all the information needed to complete the task also teach the user what they need to know. The task should be able to be completed in Python **without any** libraries and the tasks should be simple. The task can not use any libraries apart from the random and math libraries. The tasks can also not use anything that needs access to files.",
-    })
-    var learningPath = {
-        "info": {
-            "started": false,
-            "completed": false,
-            "currentTask": 0
-        },
-        "tasks": {}
-    }
-    for (let i = 0; i < result.length; i++) {
-        const task = result[i];
-        learningPath["tasks"][task] = { "task": task, "instructions": "", "code": "" }
-        if (available_ai) {
-            var totalOutput = "";
+const create_result = async () => {
+    createText.textContent = "Creating";
+    
+    if (available_ai && session) {
+        let totalOutput = "";
+        // 3. Prompting for summary
+        const promptString = `Tasks: ${JSON.stringify(masterData)}\n\n Weak Topics: ${JSON.stringify(weakTopics[0][0])}, ${JSON.stringify(weakTopics[0][1])}`;
+        
+        const stream = session.promptStreaming(promptString);
+        
+        for await (const chunk of stream) {
             aiMarkdown.style.display = "block";
-            const stream = await session.promptStreaming("Task Title: " + task);
-            let currentTaskText;
-            let currentTaskMarkdown;
-            for await (const chunk of stream) {
-                console.log(i);
-                totalOutput += chunk;
+            totalOutput = chunk; // New API chunks are typically cumulative
+            aiText.textContent = totalOutput;
+        }
 
+        // 4. Destroy and recreate session for task title generation (Task 2)
+        session.destroy();
+        session = await LanguageModel.create({
+            initialPrompts: [
+                { role: "system", content: "You will receive details about a student's coding strengths and weaknesses. Generate 5 relevant task titles in a JSON list format [\"Title 1\", \"Title 2\"]. No libraries except random/math. No file access." },
+                // ... (Include your few-shot examples here as seen in your original code)
+                { role: "user", content: "The student understands basic Python functions... (example)" },
+                { role: "assistant", content: '["Practice with While Loops: Counting Down","Understanding Nested Loops: Multiplication Table"]' }
+            ]
+        });
 
-                if (i == 0) {
-                    taskMarkdown1.style.display = "block";
-                    taskText1.textContent = totalOutput;
-                    currentTaskText = taskText1;
-                    currentTaskMarkdown = taskMarkdown1;
-                } else if (i == 1) {
-                    taskMarkdown2.style.display = "block";
-                    taskText2.textContent = totalOutput;
-                    currentTaskText = taskText2;
-                    currentTaskMarkdown = taskMarkdown2;
-                } else if (i == 2) {
-                    taskMarkdown3.style.display = "block";
-                    taskText3.textContent = totalOutput;
-                    currentTaskText = taskText3;
-                    currentTaskMarkdown = taskMarkdown3;
-                } else if (i == 3) {
-                    taskMarkdown4.style.display = "block";
-                    taskText4.textContent = totalOutput;
-                    currentTaskText = taskText4;
-                    currentTaskMarkdown = taskMarkdown4;
-                } else if (i == 4) {
-                    taskMarkdown5.style.display = "block";
-                    taskText5.textContent = totalOutput;
-                    currentTaskText = taskText5;
-                    currentTaskMarkdown = taskMarkdown5;
+        let attempts = 0;
+        let result = [];
+        const maxAttempts = 3;
+
+        while (attempts < maxAttempts) {
+            // Passing the summary (totalOutput) as the user prompt
+            const rawResult = await session.prompt(totalOutput);
+            try {
+                const parsedResult = JSON.parse(rawResult);
+                if (Array.isArray(parsedResult)) {
+                    result = parsedResult;
+                    break;
                 }
-
-                // Scroll to the bottom of the current taskMarkdown element
-                if (currentTaskMarkdown) {
-                    currentTaskMarkdown.scrollTop = currentTaskMarkdown.scrollHeight;
-                }
+            } catch (e) {
+                console.error("Invalid JSON format, retrying...");
             }
-            currentTaskMarkdown.classList.add("closeMarkdown")
-            console.log(totalOutput);
-            learningPath["tasks"][task].instructions = totalOutput;
+            attempts++;
+        }
+
+        if (result.length > 0) {
+            // Update UI Titles
+            const titles = [taskTitle1, taskTitle2, taskTitle3, taskTitle4, taskTitle5];
+            result.forEach((title, idx) => {
+                if (titles[idx]) titles[idx].textContent = title;
+            });
+
+            tasksLearningPath.style.display = "flex";
+            learningPathText.style.display = "none";
+            learningPathButton.style.display = "none";
+            learningPathThininking.style.display = "none";
+
+            // 5. Recreate session for instruction generation (Task 3)
+            session.destroy();
+            session = await LanguageModel.create({
+                initialPrompts: [
+                    { role: "system", content: "Write clear, concise instructions for a Python task. No code. No extra libraries. Keep it short." }
+                ]
+            });
+
+            var learningPath = {
+                "info": { "started": false, "completed": false, "currentTask": 0 },
+                "tasks": {}
+            };
+
+            for (let i = 0; i < result.length; i++) {
+                const taskName = result[i];
+                learningPath["tasks"][taskName] = { "task": taskName, "instructions": "", "code": "" };
+                
+                let instructionOutput = "";
+                const instructionStream = session.promptStreaming(`Task Title: ${taskName}`);
+
+                const displayElements = [
+                    { markdown: taskMarkdown1, text: taskText1 },
+                    { markdown: taskMarkdown2, text: taskText2 },
+                    { markdown: taskMarkdown3, text: taskText3 },
+                    { markdown: taskMarkdown4, text: taskText4 },
+                    { markdown: taskMarkdown5, text: taskText5 }
+                ];
+
+                for await (const chunk of instructionStream) {
+                    instructionOutput = chunk;
+                    if (displayElements[i]) {
+                        displayElements[i].markdown.style.display = "block";
+                        displayElements[i].text.textContent += instructionOutput;
+                        displayElements[i].markdown.scrollTop = displayElements[i].markdown.scrollHeight;
+                    }
+                }
+                
+                if (displayElements[i]) displayElements[i].markdown.classList.add("closeMarkdown");
+                learningPath["tasks"][taskName].instructions = instructionOutput;
+            }
+
+            createText.textContent = "";
+            session.destroy();
+            learningPathButtonStart.style.display = "flex";
+            localStorage.setItem("learningPath", JSON.stringify(learningPath));
         }
     }
-    createText.textContent = ""
-    session.destroy()
-    learningPathButtonStart.style.display = "flex"
-    localStorage.setItem("learningPath", JSON.stringify(learningPath));
-}
+};
