@@ -171,31 +171,32 @@ const create_result = async () => {
             };
 
             for (let i = 0; i < result.length; i++) {
-                const taskName = result[i];
-                learningPath["tasks"][taskName] = { "task": taskName, "instructions": "", "code": "" };
+                const task = result[i];
+                const instructionStream = session.promptStreaming("Task Title: " + task);
                 
-                let instructionOutput = "";
-                const instructionStream = session.promptStreaming(`Task Title: ${taskName}`);
-
-                const displayElements = [
-                    { markdown: taskMarkdown1, text: taskText1 },
-                    { markdown: taskMarkdown2, text: taskText2 },
-                    { markdown: taskMarkdown3, text: taskText3 },
-                    { markdown: taskMarkdown4, text: taskText4 },
-                    { markdown: taskMarkdown5, text: taskText5 }
+                // Map index to your specific UI elements
+                const displayTargets = [
+                    { text: taskText1, md: taskMarkdown1 },
+                    { text: taskText2, md: taskMarkdown2 },
+                    { text: taskText3, md: taskMarkdown3 },
+                    { text: taskText4, md: taskMarkdown4 },
+                    { text: taskText5, md: taskMarkdown5 }
                 ];
 
+                let finalInstruction = "";
                 for await (const chunk of instructionStream) {
-                    instructionOutput = chunk;
-                    if (displayElements[i]) {
-                        displayElements[i].markdown.style.display = "block";
-                        displayElements[i].text.textContent += instructionOutput;
-                        displayElements[i].markdown.scrollTop = displayElements[i].markdown.scrollHeight;
+                    // Set the output to the chunk (don't use +=)
+                    finalInstruction = chunk; 
+                    
+                    if (displayTargets[i]) {
+                        displayTargets[i].md.style.display = "block";
+                        displayTargets[i].text.textContent = finalInstruction;
+                        // Keep the view scrolled to the bottom as it types
+                        displayTargets[i].md.scrollTop = displayTargets[i].md.scrollHeight;
                     }
                 }
-                
-                if (displayElements[i]) displayElements[i].markdown.classList.add("closeMarkdown");
-                learningPath["tasks"][taskName].instructions = instructionOutput;
+                // Save the final result to your object
+                learningPath["tasks"][task].instructions = finalInstruction;
             }
 
             createText.textContent = "";

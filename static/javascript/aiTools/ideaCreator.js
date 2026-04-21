@@ -64,7 +64,7 @@ const create_idea = async () => {
         totalOutput = chunk; // In the new API, chunks are often cumulative or replaced
         // Use aiMarkdown or aiText (ensure these exist in your HTML)
         const aiDisplay = document.getElementById("aiText");
-        if (aiDisplay) aiDisplay.textContent = totalOutput;
+        if (aiDisplay) aiDisplay.textContent += totalOutput;
       }
 
       if (container) container.classList.remove('animated-gradient');
